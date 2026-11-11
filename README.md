@@ -98,7 +98,7 @@ The prototype is built on the Mockups page and has 19 flows. In the prototype vi
 | # | Deliverable | Where |
 | --- | --- | --- |
 | 1 | Design justification (PDF) | [docs/Design_Justification.pdf](docs/Design_Justification.pdf) |
-| 2 | User flow diagram (PDF) | [docs/User_Diagram.pdf](docs/User_Diagram.pdf) |
+| 2 | User flow diagram (PDF) | [docs/User_Diagram.pdf](docs/User_%20Diagram.pdf) |
 | 3 | Wireframes | [Figma · Wireframes page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=0-1) |
 | 4 | Mockups | [Figma · Mockups page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3356-127) |
 | 5 | Prototype | [Figma · Prototype](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-3680&starting-point-node-id=3393%3A3680) |
@@ -108,11 +108,11 @@ The prototype is built on the Mockups page and has 19 flows. In the prototype vi
 
 | # | Name | Module | Screens | GitHub |
 | --- | --- | --- | --- | --- |
-| 1 | Eda Hacıoğlu | Sign in, sign up and settings | 1.01–1.21 | [@edahacioglu](https://github.com/edahacioglu) |
-| 2 | Emine Nur Baldık | Home and favorites | 2.01–2.36 | [@eminenurbaldik](https://github.com/eminenurbaldik) |
-| 3 | Reşide Sena Gül | Creating requests and offers | 3.01–3.18 | [@rsenagul](https://github.com/rsenagul) |
-| 4 | Elif Yanar | Messaging and notifications | 4.01–4.09 | [@ElifYanarr](https://github.com/ElifYanarr) |
-| 5 | Sudem Yıldırım | Profile and transaction management | 5.01–5.23 | [@B-S-Y](https://github.com/B-S-Y) |
+| 1 | Eda | Sign in, sign up and settings | 1.01–1.21 | [@edahacioglu](https://github.com/edahacioglu) |
+| 2 | Emine | Home and favorites | 2.01–2.36 | [@eminenurbaldik](https://github.com/eminenurbaldik) |
+| 3 | Sena | Creating requests and offers | 3.01–3.18 | [@rsenagul](https://github.com/rsenagul) |
+| 4 | Elif | Messaging and notifications | 4.01–4.09 | [@ElifYanarr](https://github.com/ElifYanarr) |
+| 5 | Sudem | Profile and transaction management | 5.01–5.23 | [@B-S-Y](https://github.com/B-S-Y) |
 
 ## Technology and architecture
 

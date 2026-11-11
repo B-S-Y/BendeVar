@@ -97,12 +97,12 @@ The prototype is built on the Mockups page and has 19 flows. In the prototype vi
 
 | # | Deliverable | Where |
 | --- | --- | --- |
-| 1 | Design justification (PDF) | [docs/Design_Justification_Team2.pdf](docs/Design_Justification_Team2.pdf) |
-| 2 | User flow diagram (PDF) | [docs/User Diagram.pdf](docs/User%20Diagram.pdf) |
+| 1 | Design justification (PDF) | [docs/Design_Justification.pdf](docs/Design_Justification.pdf) |
+| 2 | User flow diagram (PDF) | [docs/User_Diagram.pdf](docs/User_Diagram.pdf) |
 | 3 | Wireframes | [Figma · Wireframes page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=0-1) |
 | 4 | Mockups | [Figma · Mockups page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3356-127) |
 | 5 | Prototype | [Figma · Prototype](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-3680&starting-point-node-id=3393%3A3680) |
-| 6 | Architecture and protocols (PDF) | [docs/Team2_Architecture_and_Protocols.pdf](docs/Team2_Architecture_and_Protocols.pdf) |
+| 6 | Architecture and protocols (PDF) | [docs/Architecture_and_Protocols.pdf](docs/Architecture_and_Protocols.pdf) |
 
 ## Team
 
@@ -155,7 +155,7 @@ Every module in the Team table uses the same structure:
 
 **Transaction flow.** A user answers a listing with "Bende Var" (or "İhtiyacım Var" on an offer) and a chat opens. When the owner accepts, a transaction is created and moves through these states: **Awaiting handover → On loan → Completed.** If the return date passes, the loan is marked **Overdue**. For a purchase, the transaction is completed at the handover. Handover and return are confirmed in person: one phone shows a QR code and the other scans it; if the camera does not work, the code can be typed in manually. After the return both sides rate each other.
 
-**Scope that may change.** We start on Firebase's free Spark plan. Push notifications sent from the server (FCM) and Cloud Storage for photos need the paid Blaze plan, so if we stay on Spark, notifications are shown inside the app and photos go to a free image host (for example Cloudinary). Because Views and ViewModels only depend on repository interfaces, such a change only affects one Repository or Service. Details are in [architecture and protocols](docs/Team2_Architecture_and_Protocols.pdf).
+**Scope that may change.** We start on Firebase's free Spark plan. Push notifications sent from the server (FCM) and Cloud Storage for photos need the paid Blaze plan, so if we stay on Spark, notifications are shown inside the app and photos go to a free image host (for example Cloudinary). Because Views and ViewModels only depend on repository interfaces, such a change only affects one Repository or Service. Details are in [architecture and protocols](docs/Architecture_and_Protocols.pdf).
 
 ## Repository structure
 
@@ -163,8 +163,8 @@ Every module in the Team table uses the same structure:
 BendeVar/
 ├── README.md
 └── docs/
-    ├── Design_Justification_Team2.pdf
-    ├── User Diagram.pdf
-    ├── Team2_Architecture_and_Protocols.pdf
+    ├── Design_Justification.pdf
+    ├── User_Diagram.pdf
+    ├── Architecture_and_Protocols.pdf
     └── screens/           # screen images used in this README
 ```

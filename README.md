@@ -71,3 +71,100 @@ On campus you suddenly need a calculator; in the dorm, an extension cord; for a 
     <td align="center"><img src="docs/screens/15-qr-code.png" width="140"><br><sub>5.21 · QR handover code</sub></td>
   </tr>
 </table>
+
+## Figma: wireframes, mockups and prototype
+
+All design work is in one shared Figma file. Both pages have one section per team member, and screens are numbered by module (1.xx to 5.xx) so the same number points to the same screen in the wireframes, the mockups, the prototype and the [user flow](docs/User%20Diagram.pdf).
+
+| Content | Link |
+| --- | --- |
+| Figma file | [Bende Var · team file](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library) |
+| Wireframes | [Wireframes page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=0-1) |
+| Mockups | [Mockups page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3356-127) |
+| Prototype | [Open the prototype](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-3680&starting-point-node-id=3393%3A3680) (starts at 1.01 Welcome) |
+
+The prototype is built on the Mockups page and has 19 flows. In the prototype view, open the flow list in the left panel to switch between them.
+
+| Module | Prototype flows |
+| --- | --- |
+| 1 · Sign in, sign up and settings | [Sign in and sign up](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-3680&starting-point-node-id=3393%3A3680) · [Settings](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-5042&starting-point-node-id=3537%3A88) |
+| 2 · Home and favorites | [Home](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-4020&starting-point-node-id=3543%3A4020) · [Search](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-4743&starting-point-node-id=3543%3A4743) · [Add to favorites](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-5296&starting-point-node-id=3543%3A5296) · [My favorites and details](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-5734&starting-point-node-id=3543%3A5734) · [Bulk remove](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-6366&starting-point-node-id=3543%3A6366) · [Filter favorites](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-6621&starting-point-node-id=3543%3A6621) · [Empty favorites](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3543-6953&starting-point-node-id=3543%3A6953) |
+| 3 · Creating requests and offers | [Post an offer](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3481-11138&starting-point-node-id=3481%3A11138) · [Post a request](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3481-11925&starting-point-node-id=3481%3A11925) · [My offer listing](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3481-12621&starting-point-node-id=3481%3A12621) · [My request listing](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3481-12962&starting-point-node-id=3481%3A12962) |
+| 4 · Messaging and notifications | [Messages](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3509-2448&starting-point-node-id=3509%3A2448) · [Chat](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3509-2966&starting-point-node-id=3509%3A2966) · [Notifications](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3509-3964&starting-point-node-id=3509%3A3964) · [Notification permission and push](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3509-4470&starting-point-node-id=3509%3A4470) |
+| 5 · Profile and transactions | [Profile](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3537-88&starting-point-node-id=3537%3A88) · [Accepting an offer and handover](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3537-1120&starting-point-node-id=3537%3A1120) · [Return and rating](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3537-590&starting-point-node-id=3537%3A590) |
+
+## Milestone 1 deliverables
+
+| # | Deliverable | Where |
+| --- | --- | --- |
+| 1 | Design justification (PDF) | [docs/Design_Justification_Team2.pdf](docs/Design_Justification_Team2.pdf) |
+| 2 | User flow diagram (PDF) | [docs/User Diagram.pdf](docs/User%20Diagram.pdf) |
+| 3 | Wireframes | [Figma · Wireframes page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=0-1) |
+| 4 | Mockups | [Figma · Mockups page](https://www.figma.com/design/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3356-127) |
+| 5 | Prototype | [Figma · Prototype](https://www.figma.com/proto/FBDlETZZpiFWFZb31av49Z/Elif-YANAR-s-team-library?node-id=3393-3680&starting-point-node-id=3393%3A3680) |
+| 6 | Architecture and protocols (PDF) | [docs/Team2_Architecture_and_Protocols.pdf](docs/Team2_Architecture_and_Protocols.pdf) |
+
+## Team
+
+| # | Name | Module | Screens | GitHub |
+| --- | --- | --- | --- | --- |
+| 1 | Eda Hacıoğlu | Sign in, sign up and settings | 1.01–1.21 | [@edahacioglu](https://github.com/edahacioglu) |
+| 2 | Emine Nur Baldık | Home and favorites | 2.01–2.36 | [@eminenurbaldik](https://github.com/eminenurbaldik) |
+| 3 | Reşide Sena Gül | Creating requests and offers | 3.01–3.18 | [@rsenagul](https://github.com/rsenagul) |
+| 4 | Elif Yanar | Messaging and notifications | 4.01–4.09 | [@ElifYanarr](https://github.com/ElifYanarr) |
+| 5 | Sudem Yıldırım | Profile and transaction management | 5.01–5.23 | [@B-S-Y](https://github.com/B-S-Y) |
+
+## Technology and architecture
+
+| Layer | Used |
+| --- | --- |
+| App | Flutter (Dart), Android |
+| Design pattern | MVVM: View (widgets) → ViewModel → Repository → Service |
+| State management | Provider (`ChangeNotifier` ViewModels) |
+| Authentication | Firebase Authentication (institutional email, verification link, password reset) |
+| Data | Cloud Firestore (real-time listeners, offline persistence, security rules) |
+| Notifications | Firebase Cloud Messaging for new responses and messages; `flutter_local_notifications` for return reminders |
+| Photos | `image_picker`; photos are uploaded and only their URLs are stored in Firestore |
+| QR handover and return | `qr_flutter` (show code) and `mobile_scanner` (scan code) |
+| Local settings | `shared_preferences` (theme and language) |
+
+**MVVM.** We follow the [Flutter app architecture guide](https://docs.flutter.dev/app-architecture/guide). Each layer only talks to the one next to it, so screens never call Firebase directly:
+
+```
+View  →  ViewModel  →  Repository  →  Service (Firebase / device API)
+      ←  data comes back as a Future or a Stream  ←
+```
+
+| Part | Role in Bende Var |
+| --- | --- |
+| View | The screens from Figma. Shows the current state (data, loading, empty, error) and sends user actions to its ViewModel. No business logic. |
+| ViewModel | A `ChangeNotifier` that holds the state of one screen or flow and exposes commands such as `publishListing`, `sendMessage` and `acceptOffer`. |
+| Repository | The single source of truth for one type of data (listings, responses, messages, transactions). Turns raw data into models and handles errors. |
+| Service | A thin, stateless wrapper around Firebase or a device API. |
+| Model | Plain Dart classes: `User`, `Community`, `Listing`, `Response`, `Message`, `Transaction`, `Review`. |
+
+Every module in the Team table uses the same structure:
+
+| Module | Main ViewModels | Main Repositories |
+| --- | --- | --- |
+| 1 · Sign in and settings | AuthViewModel, SettingsViewModel | AuthRepository, UserRepository, CommunityRepository |
+| 2 · Home and favorites | HomeViewModel, FavoritesViewModel | ListingRepository, FavoriteRepository |
+| 3 · Requests and offers | CreateListingViewModel, MyListingViewModel | ListingRepository, ImageRepository |
+| 4 · Messaging and notifications | ChatViewModel, NotificationsViewModel | ChatRepository, NotificationRepository |
+| 5 · Profile and transactions | ProfileViewModel, TransactionViewModel | ResponseRepository, TransactionRepository |
+
+**Transaction flow.** A user answers a listing with "Bende Var" (or "İhtiyacım Var" on an offer) and a chat opens. When the owner accepts, a transaction is created and moves through these states: **Awaiting handover → On loan → Completed.** If the return date passes, the loan is marked **Overdue**. For a purchase, the transaction is completed at the handover. Handover and return are confirmed in person: one phone shows a QR code and the other scans it; if the camera does not work, the code can be typed in manually. After the return both sides rate each other.
+
+**Scope that may change.** We start on Firebase's free Spark plan. Push notifications sent from the server (FCM) and Cloud Storage for photos need the paid Blaze plan, so if we stay on Spark, notifications are shown inside the app and photos go to a free image host (for example Cloudinary). Because Views and ViewModels only depend on repository interfaces, such a change only affects one Repository or Service. Details are in [architecture and protocols](docs/Team2_Architecture_and_Protocols.pdf).
+
+## Repository structure
+
+```
+BendeVar/
+├── README.md
+└── docs/
+    ├── Design_Justification_Team2.pdf
+    ├── User Diagram.pdf
+    ├── Team2_Architecture_and_Protocols.pdf
+    └── screens/           # screen images used in this README
+```

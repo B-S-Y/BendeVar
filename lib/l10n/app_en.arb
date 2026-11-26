@@ -1,0 +1,290 @@
+{
+  "@@locale": "en",
+  "brandName": "Bende Var",
+  "slogan": "Your need, in your community.",
+  "welcomeTitle": "Those who have, share.\nThose in need, find.",
+  "welcomeSubtitle": "Sign in with your school email, your campus is waiting.",
+  "login": "Sign in",
+  "signup": "Sign up",
+  "loginTitle": "Welcome back",
+  "loginSubtitle": "Continue with your institutional email and password.",
+  "emailLabel": "Institutional email",
+  "emailHint": "name.surname@school.edu.tr",
+  "passwordLabel": "Password",
+  "passwordHint": "Enter your password",
+  "forgotPassword": "Forgot my password",
+  "noAccount": "Don't have an account?",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "back": "Back",
+  "close": "Close",
+  "cancel": "Cancel",
+  "more": "More",
+  "errorEmailEmpty": "Enter your email address.",
+  "errorEmailNotEdu": "Sign in with your institutional email (an address ending in .edu.tr).",
+  "errorPasswordEmpty": "Enter your password.",
+  "navHome": "Home",
+  "navMessages": "Messages",
+  "navCreate": "Create a listing or need",
+  "navNotifications": "Notifications",
+  "navProfile": "Profile",
+  "communityLabel": "Community",
+  "searchHint": "What are you looking for? Item or product...",
+  "voiceSearch": "Voice search",
+  "filters": "Filters",
+  "tabListings": "Listings · {n}",
+  "@tabListings": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tabNeeds": "Needs · {n}",
+  "@tabNeeds": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "countListings": "{n} listings",
+  "@countListings": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "countNeeds": "{n} needs",
+  "@countNeeds": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sortNewest": "Newest",
+  "sortOldest": "Oldest",
+  "emptyResults": "No results found.",
+  "emptyFavorites": "You have no favorites yet.",
+  "showFavorites": "Show favorites",
+  "showAll": "Show all",
+  "favoriteAdd": "Add to favorites",
+  "favoriteRemove": "Remove from favorites",
+  "respondHaveIt": "I have it",
+  "comingSoonTitle": "Coming soon",
+  "comingSoonBody": "This feature isn't ready yet.",
+  "comingSoonSnack": "This feature is coming soon.",
+  "categoryBook": "Textbook",
+  "categoryElectronics": "Electronics",
+  "categoryDorm": "Dorm items",
+  "categorySports": "Sports",
+  "conditionNew": "New",
+  "conditionLightlyUsed": "Lightly used",
+  "conditionUsed": "Used",
+  "modeLend": "Loan",
+  "modeSell": "For sale",
+  "priceFree": "Free",
+  "pricePaid": "Paid",
+  "priceDaily": "Daily",
+  "priceTotal": "Total",
+  "priceHint": "Amount (₺)",
+  "urgencyUrgent": "Urgent",
+  "urgencyThisWeek": "This week",
+  "urgencyFlexible": "Flexible",
+  "detailTitleListing": "Listing details",
+  "detailTitleNeed": "Need details",
+  "badgeIlan": "LISTING",
+  "badgeNeed": "NEED",
+  "badgeIlanLarge": "LISTING · I HAVE IT",
+  "badgeNeedLarge": "NEED · I NEED IT",
+  "statusPublished": "LIVE",
+  "statusPublishedShort": "Live",
+  "rowCategory": "Category",
+  "rowCondition": "Condition",
+  "rowMode": "Type",
+  "rowPrice": "Price",
+  "rowAvailable": "Available",
+  "rowNeededWhen": "Needed",
+  "rowUrgency": "Urgency",
+  "rowCommunity": "Community",
+  "favorite": "Favorite",
+  "favorited": "In favorites",
+  "actionBorrow": "Request loan",
+  "actionBuy": "Buy",
+  "share": "Share",
+  "createIlanTitle": "I have it",
+  "createIlanSubtitle": "Lend an item you have",
+  "createNeedTitle": "I need it",
+  "createNeedSubtitle": "Borrow an item you're looking for",
+  "newListingTitle": "New listing",
+  "newNeedTitle": "New need",
+  "sectionItem": "Item details",
+  "sectionTerms": "Loan terms",
+  "fieldPhotos": "Photos *",
+  "photoAdd": "Add",
+  "fieldTitle": "Item name *",
+  "fieldCategory": "Category *",
+  "fieldCondition": "Condition *",
+  "fieldDescription": "Description",
+  "fieldAvailability": "Availability dates *",
+  "fieldNeededWhen": "When do you need it? *",
+  "fieldMode": "Type",
+  "fieldUrgency": "Urgency *",
+  "fieldPrice": "Price *",
+  "datePick": "Pick a date",
+  "errorRequired": "This field can't be empty.",
+  "errorChoose": "Choose an option.",
+  "errorDates": "Pick a start and an end date; the end can't be before the start.",
+  "errorPrice": "Enter a valid amount.",
+  "publish": "Publish",
+  "publishedTitleListing": "Your listing is live",
+  "publishedBodyListing": "Your listing appears in the Listings tab of the selected communities. You'll get a notification when someone says \"I need it\".",
+  "publishedTitleNeed": "Your need is live",
+  "publishedBodyNeed": "Your need appears in the Needs tab of your community. You'll get a notification when someone says \"I have it\".",
+  "view": "View",
+  "backToHome": "Back to home",
+  "messagesTitle": "Messages",
+  "filterAll": "All",
+  "filterUnread": "Unread",
+  "filterActive": "Active",
+  "filterPast": "Past",
+  "emptyMessages": "You have no messages yet.",
+  "respondedNeedIt": "said “I need it”",
+  "respondedHaveIt": "said “I have it”",
+  "bubbleNeedIt": "I need it",
+  "bubbleHaveIt": "I have it",
+  "accepted": "Accepted",
+  "agreementSummary": "Agreement summary",
+  "agreementDetail": "Agreement details",
+  "messageHint": "Write a message",
+  "send": "Send",
+  "sendMessage": "Send message",
+  "notificationsTitle": "Notifications",
+  "markAllRead": "Mark all as read",
+  "sectionUpcomingReturns": "Upcoming returns",
+  "sectionToday": "Today",
+  "sectionThisWeek": "This week",
+  "daysLate": "{n, plural, =1{1 day late} other{{n} days late}}",
+  "@daysLate": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tomorrow": "Tomorrow",
+  "notifOverdueBody": "You were supposed to return it to {name}.",
+  "@notifOverdueBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDueSoonBody": "{name} will return it to you.",
+  "@notifDueSoonBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "actionReturned": "I returned it",
+  "actionMessage": "Send a message",
+  "notifResponseRest": "said “I need it” on your listing “{item}”",
+  "@notifResponseRest": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMessageRest": "sent a message: “{text}”",
+  "@notifMessageRest": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "notifAcceptedRest": "accepted your need for “{item}”",
+  "@notifAcceptedRest": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyNotifications": "You have no new notifications.",
+  "profileTitle": "Profile",
+  "settings": "Settings",
+  "edit": "Edit",
+  "statRating": "Rating",
+  "statTransactions": "Deals",
+  "statOnTime": "On time",
+  "sectionPending": "Pending",
+  "pendingNewResponses": "{n, plural, =1{1 new response} other{{n} new responses}}",
+  "@pendingNewResponses": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pendingHandover": "Pick up",
+  "loansTitle": "My loans",
+  "borrowed": "Borrowed",
+  "lent": "Lent",
+  "myListingsAndNeeds": "My needs and listings",
+  "themeAndLanguage": "Theme and language",
+  "logout": "Sign out",
+  "logoutTitle": "Do you want to sign out?",
+  "logoutLine1": "Your session on this phone will end.",
+  "logoutLine2": "You'll need your institutional email and password to sign in again.",
+  "logoutLine3": "This phone won't get notifications, and return reminders will stop too.",
+  "statusOnLoan": "On loan",
+  "statusAwaiting": "Awaiting handover",
+  "statusReturned": "Returned",
+  "actionReturn": "Return",
+  "actionEarlyReturn": "Return early",
+  "actionScanQr": "Scan QR",
+  "actionShowQr": "Show QR",
+  "qrScan": "Scan QR code",
+  "sheetTitle": "Appearance and language",
+  "themeHeading": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "languageHeading": "Language",
+  "languageSystem": "System",
+  "languageTr": "Türkçe",
+  "languageEn": "English",
+  "timeNow": "Just now",
+  "timeMinutesAgo": "{n} min ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{n} h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{n} days ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeYesterday": "Yesterday"
+}

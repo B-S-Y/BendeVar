@@ -1,0 +1,290 @@
+{
+  "@@locale": "tr",
+  "brandName": "Bende Var",
+  "slogan": "İhtiyacın topluluğunda.",
+  "welcomeTitle": "Elinde olan paylaşır,\nihtiyacı olan bulur.",
+  "welcomeSubtitle": "Okul mailinle giriş yap, kampüsün seni bekliyor.",
+  "login": "Giriş yap",
+  "signup": "Kayıt ol",
+  "loginTitle": "Tekrar hoş geldin",
+  "loginSubtitle": "Kurum e-postan ve şifrenle devam et.",
+  "emailLabel": "Kurum e-postası",
+  "emailHint": "ad.soyad@okul.edu.tr",
+  "passwordLabel": "Şifre",
+  "passwordHint": "Şifreni gir",
+  "forgotPassword": "Şifremi unuttum",
+  "noAccount": "Hesabın yok mu?",
+  "showPassword": "Şifreyi göster",
+  "hidePassword": "Şifreyi gizle",
+  "back": "Geri",
+  "close": "Kapat",
+  "cancel": "Vazgeç",
+  "more": "Diğer",
+  "errorEmailEmpty": "E-posta adresini gir.",
+  "errorEmailNotEdu": "Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.",
+  "errorPasswordEmpty": "Şifreni gir.",
+  "navHome": "Ana sayfa",
+  "navMessages": "Mesajlar",
+  "navCreate": "İlan veya ihtiyaç oluştur",
+  "navNotifications": "Bildirimler",
+  "navProfile": "Profil",
+  "communityLabel": "Topluluk",
+  "searchHint": "Ne arıyorsun? Ürün veya eşya...",
+  "voiceSearch": "Sesli arama",
+  "filters": "Filtreler",
+  "tabListings": "İlanlar · {n}",
+  "@tabListings": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tabNeeds": "İhtiyaçlar · {n}",
+  "@tabNeeds": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "countListings": "{n} ilan",
+  "@countListings": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "countNeeds": "{n} ihtiyaç",
+  "@countNeeds": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "sortNewest": "En yeni",
+  "sortOldest": "En eski",
+  "emptyResults": "Sonuç bulunamadı.",
+  "emptyFavorites": "Henüz favorin yok.",
+  "showFavorites": "Favorileri göster",
+  "showAll": "Tümünü göster",
+  "favoriteAdd": "Favorilere ekle",
+  "favoriteRemove": "Favorilerden çıkar",
+  "respondHaveIt": "Bende Var",
+  "comingSoonTitle": "Yakında",
+  "comingSoonBody": "Bu özellik henüz hazır değil.",
+  "comingSoonSnack": "Bu özellik yakında geliyor.",
+  "categoryBook": "Ders kitabı",
+  "categoryElectronics": "Elektronik",
+  "categoryDorm": "Yurt eşyası",
+  "categorySports": "Spor",
+  "conditionNew": "Yeni",
+  "conditionLightlyUsed": "Az kullanılmış",
+  "conditionUsed": "Kullanılmış",
+  "modeLend": "Ödünç",
+  "modeSell": "Satılık",
+  "priceFree": "Ücretsiz",
+  "pricePaid": "Ücretli",
+  "priceDaily": "Günlük",
+  "priceTotal": "Toplam",
+  "priceHint": "Tutar (₺)",
+  "urgencyUrgent": "Acil",
+  "urgencyThisWeek": "Bu hafta",
+  "urgencyFlexible": "Esnek",
+  "detailTitleListing": "İlan detayı",
+  "detailTitleNeed": "İhtiyaç detayı",
+  "badgeIlan": "İLAN",
+  "badgeNeed": "İHTİYAÇ",
+  "badgeIlanLarge": "İLAN · VERİYORUM",
+  "badgeNeedLarge": "İHTİYAÇ · ARIYORUM",
+  "statusPublished": "YAYINDA",
+  "statusPublishedShort": "Yayında",
+  "rowCategory": "Kategori",
+  "rowCondition": "Ürün durumu",
+  "rowMode": "Veriliş şekli",
+  "rowPrice": "Ücret",
+  "rowAvailable": "Müsait",
+  "rowNeededWhen": "Ne zaman lazım",
+  "rowUrgency": "Aciliyet",
+  "rowCommunity": "Topluluk",
+  "favorite": "Favorile",
+  "favorited": "Favorilerde",
+  "actionBorrow": "Ödünç iste",
+  "actionBuy": "Satın al",
+  "share": "Paylaş",
+  "createIlanTitle": "Bende var",
+  "createIlanSubtitle": "Elindeki eşyayı ödünç ver",
+  "createNeedTitle": "İhtiyacım var",
+  "createNeedSubtitle": "Aradığın eşyayı ödünç al",
+  "newListingTitle": "Yeni ilan",
+  "newNeedTitle": "Yeni ihtiyaç",
+  "sectionItem": "Eşya bilgileri",
+  "sectionTerms": "Ödünç koşulları",
+  "fieldPhotos": "Fotoğraflar *",
+  "photoAdd": "Ekle",
+  "fieldTitle": "Eşya adı *",
+  "fieldCategory": "Kategori *",
+  "fieldCondition": "Ürün durumu *",
+  "fieldDescription": "Açıklama",
+  "fieldAvailability": "Müsaitlik tarihleri *",
+  "fieldNeededWhen": "Ne zaman lazım? *",
+  "fieldMode": "Veriliş şekli",
+  "fieldUrgency": "Aciliyet *",
+  "fieldPrice": "Ücret *",
+  "datePick": "Tarih seç",
+  "errorRequired": "Bu alan boş bırakılamaz.",
+  "errorChoose": "Bir seçenek seç.",
+  "errorDates": "Başlangıç ve bitiş tarihini seç; bitiş başlangıçtan önce olamaz.",
+  "errorPrice": "Geçerli bir tutar gir.",
+  "publish": "Yayınla",
+  "publishedTitleListing": "İlanın yayınlandı",
+  "publishedBodyListing": "İlanın, seçilen toplulukların İlanlar sekmesinde görünür. Biri \"İhtiyacım Var\" dediğinde bildirim alırsın.",
+  "publishedTitleNeed": "İhtiyacın yayınlandı",
+  "publishedBodyNeed": "İhtiyacın, topluluğunun İhtiyaçlar sekmesinde görünür. Biri \"Bende Var\" dediğinde bildirim alırsın.",
+  "view": "Görüntüle",
+  "backToHome": "Ana sayfaya dön",
+  "messagesTitle": "Mesajlar",
+  "filterAll": "Tümü",
+  "filterUnread": "Okunmamış",
+  "filterActive": "Aktif",
+  "filterPast": "Geçmiş",
+  "emptyMessages": "Henüz mesajın yok.",
+  "respondedNeedIt": "“İhtiyacım Var” dedi",
+  "respondedHaveIt": "“Bende Var” dedi",
+  "bubbleNeedIt": "İhtiyacım Var",
+  "bubbleHaveIt": "Bende Var",
+  "accepted": "Kabul edildi",
+  "agreementSummary": "Anlaşma özeti",
+  "agreementDetail": "Anlaşma detayı",
+  "messageHint": "Mesaj yaz",
+  "send": "Gönder",
+  "sendMessage": "Mesaj gönder",
+  "notificationsTitle": "Bildirimler",
+  "markAllRead": "Tümünü oku",
+  "sectionUpcomingReturns": "Yaklaşan iadeler",
+  "sectionToday": "Bugün",
+  "sectionThisWeek": "Bu hafta",
+  "daysLate": "{n} gün gecikti",
+  "@daysLate": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tomorrow": "Yarın",
+  "notifOverdueBody": "{name} adlı kişiye iade etmen gerekiyordu.",
+  "@notifOverdueBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDueSoonBody": "{name} sana iade edecek.",
+  "@notifDueSoonBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "actionReturned": "İade ettim",
+  "actionMessage": "Mesaj at",
+  "notifResponseRest": "“{item}” ilanına “İhtiyacım Var” dedi",
+  "@notifResponseRest": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMessageRest": "mesaj gönderdi: “{text}”",
+  "@notifMessageRest": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "notifAcceptedRest": "“{item}” için ihtiyacını kabul etti",
+  "@notifAcceptedRest": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyNotifications": "Yeni bildirimin yok.",
+  "profileTitle": "Profil",
+  "settings": "Ayarlar",
+  "edit": "Düzenle",
+  "statRating": "Puan",
+  "statTransactions": "İşlem",
+  "statOnTime": "Zamanında",
+  "sectionPending": "Bekleyenler",
+  "pendingNewResponses": "{n} yeni karşılık",
+  "@pendingNewResponses": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pendingHandover": "Teslim al",
+  "loansTitle": "Ödünçlerim",
+  "borrowed": "Aldıklarım",
+  "lent": "Verdiklerim",
+  "myListingsAndNeeds": "İhtiyaçlarım ve ilanlarım",
+  "themeAndLanguage": "Tema ve dil",
+  "logout": "Çıkış yap",
+  "logoutTitle": "Çıkış yapmak istiyor musun?",
+  "logoutLine1": "Bu telefondaki oturumun kapanır.",
+  "logoutLine2": "Tekrar girmek için kurum e-postan ve şifren gerekir.",
+  "logoutLine3": "Bu telefona bildirim gelmez; iade hatırlatmaları da durur.",
+  "statusOnLoan": "Ödünçte",
+  "statusAwaiting": "Teslim bekleniyor",
+  "statusReturned": "İade edildi",
+  "actionReturn": "İade et",
+  "actionEarlyReturn": "Erken iade",
+  "actionScanQr": "QR okut",
+  "actionShowQr": "QR göster",
+  "qrScan": "QR tara",
+  "sheetTitle": "Görünüm ve dil",
+  "themeHeading": "Tema",
+  "themeSystem": "Sistem",
+  "themeLight": "Açık",
+  "themeDark": "Koyu",
+  "languageHeading": "Dil",
+  "languageSystem": "Sistem",
+  "languageTr": "Türkçe",
+  "languageEn": "English",
+  "timeNow": "Şimdi",
+  "timeMinutesAgo": "{n} dk önce",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{n} sa önce",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{n} gün önce",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "timeYesterday": "Dün"
+}

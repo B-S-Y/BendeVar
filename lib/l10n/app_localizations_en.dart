@@ -1,0 +1,626 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get brandName => 'Bende Var';
+
+  @override
+  String get slogan => 'Your need, in your community.';
+
+  @override
+  String get welcomeTitle => 'Those who have, share.\nThose in need, find.';
+
+  @override
+  String get welcomeSubtitle =>
+      'Sign in with your school email, your campus is waiting.';
+
+  @override
+  String get login => 'Sign in';
+
+  @override
+  String get signup => 'Sign up';
+
+  @override
+  String get loginTitle => 'Welcome back';
+
+  @override
+  String get loginSubtitle =>
+      'Continue with your institutional email and password.';
+
+  @override
+  String get emailLabel => 'Institutional email';
+
+  @override
+  String get emailHint => 'name.surname@school.edu.tr';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get forgotPassword => 'Forgot my password';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get errorEmailEmpty => 'Enter your email address.';
+
+  @override
+  String get errorEmailNotEdu =>
+      'Sign in with your institutional email (an address ending in .edu.tr).';
+
+  @override
+  String get errorPasswordEmpty => 'Enter your password.';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navMessages => 'Messages';
+
+  @override
+  String get navCreate => 'Create a listing or need';
+
+  @override
+  String get navNotifications => 'Notifications';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get communityLabel => 'Community';
+
+  @override
+  String get searchHint => 'What are you looking for? Item or product...';
+
+  @override
+  String get voiceSearch => 'Voice search';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String tabListings(int n) {
+    return 'Listings · $n';
+  }
+
+  @override
+  String tabNeeds(int n) {
+    return 'Needs · $n';
+  }
+
+  @override
+  String countListings(int n) {
+    return '$n listings';
+  }
+
+  @override
+  String countNeeds(int n) {
+    return '$n needs';
+  }
+
+  @override
+  String get sortNewest => 'Newest';
+
+  @override
+  String get sortOldest => 'Oldest';
+
+  @override
+  String get emptyResults => 'No results found.';
+
+  @override
+  String get emptyFavorites => 'You have no favorites yet.';
+
+  @override
+  String get showFavorites => 'Show favorites';
+
+  @override
+  String get showAll => 'Show all';
+
+  @override
+  String get favoriteAdd => 'Add to favorites';
+
+  @override
+  String get favoriteRemove => 'Remove from favorites';
+
+  @override
+  String get respondHaveIt => 'I have it';
+
+  @override
+  String get comingSoonTitle => 'Coming soon';
+
+  @override
+  String get comingSoonBody => 'This feature isn\'t ready yet.';
+
+  @override
+  String get comingSoonSnack => 'This feature is coming soon.';
+
+  @override
+  String get categoryBook => 'Textbook';
+
+  @override
+  String get categoryElectronics => 'Electronics';
+
+  @override
+  String get categoryDorm => 'Dorm items';
+
+  @override
+  String get categorySports => 'Sports';
+
+  @override
+  String get conditionNew => 'New';
+
+  @override
+  String get conditionLightlyUsed => 'Lightly used';
+
+  @override
+  String get conditionUsed => 'Used';
+
+  @override
+  String get modeLend => 'Loan';
+
+  @override
+  String get modeSell => 'For sale';
+
+  @override
+  String get priceFree => 'Free';
+
+  @override
+  String get pricePaid => 'Paid';
+
+  @override
+  String get priceDaily => 'Daily';
+
+  @override
+  String get priceTotal => 'Total';
+
+  @override
+  String get priceHint => 'Amount (₺)';
+
+  @override
+  String get urgencyUrgent => 'Urgent';
+
+  @override
+  String get urgencyThisWeek => 'This week';
+
+  @override
+  String get urgencyFlexible => 'Flexible';
+
+  @override
+  String get detailTitleListing => 'Listing details';
+
+  @override
+  String get detailTitleNeed => 'Need details';
+
+  @override
+  String get badgeIlan => 'LISTING';
+
+  @override
+  String get badgeNeed => 'NEED';
+
+  @override
+  String get badgeIlanLarge => 'LISTING · I HAVE IT';
+
+  @override
+  String get badgeNeedLarge => 'NEED · I NEED IT';
+
+  @override
+  String get statusPublished => 'LIVE';
+
+  @override
+  String get statusPublishedShort => 'Live';
+
+  @override
+  String get rowCategory => 'Category';
+
+  @override
+  String get rowCondition => 'Condition';
+
+  @override
+  String get rowMode => 'Type';
+
+  @override
+  String get rowPrice => 'Price';
+
+  @override
+  String get rowAvailable => 'Available';
+
+  @override
+  String get rowNeededWhen => 'Needed';
+
+  @override
+  String get rowUrgency => 'Urgency';
+
+  @override
+  String get rowCommunity => 'Community';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get favorited => 'In favorites';
+
+  @override
+  String get actionBorrow => 'Request loan';
+
+  @override
+  String get actionBuy => 'Buy';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get createIlanTitle => 'I have it';
+
+  @override
+  String get createIlanSubtitle => 'Lend an item you have';
+
+  @override
+  String get createNeedTitle => 'I need it';
+
+  @override
+  String get createNeedSubtitle => 'Borrow an item you\'re looking for';
+
+  @override
+  String get newListingTitle => 'New listing';
+
+  @override
+  String get newNeedTitle => 'New need';
+
+  @override
+  String get sectionItem => 'Item details';
+
+  @override
+  String get sectionTerms => 'Loan terms';
+
+  @override
+  String get fieldPhotos => 'Photos *';
+
+  @override
+  String get photoAdd => 'Add';
+
+  @override
+  String get fieldTitle => 'Item name *';
+
+  @override
+  String get fieldCategory => 'Category *';
+
+  @override
+  String get fieldCondition => 'Condition *';
+
+  @override
+  String get fieldDescription => 'Description';
+
+  @override
+  String get fieldAvailability => 'Availability dates *';
+
+  @override
+  String get fieldNeededWhen => 'When do you need it? *';
+
+  @override
+  String get fieldMode => 'Type';
+
+  @override
+  String get fieldUrgency => 'Urgency *';
+
+  @override
+  String get fieldPrice => 'Price *';
+
+  @override
+  String get datePick => 'Pick a date';
+
+  @override
+  String get errorRequired => 'This field can\'t be empty.';
+
+  @override
+  String get errorChoose => 'Choose an option.';
+
+  @override
+  String get errorDates =>
+      'Pick a start and an end date; the end can\'t be before the start.';
+
+  @override
+  String get errorPrice => 'Enter a valid amount.';
+
+  @override
+  String get publish => 'Publish';
+
+  @override
+  String get publishedTitleListing => 'Your listing is live';
+
+  @override
+  String get publishedBodyListing =>
+      'Your listing appears in the Listings tab of the selected communities. You\'ll get a notification when someone says \"I need it\".';
+
+  @override
+  String get publishedTitleNeed => 'Your need is live';
+
+  @override
+  String get publishedBodyNeed =>
+      'Your need appears in the Needs tab of your community. You\'ll get a notification when someone says \"I have it\".';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get backToHome => 'Back to home';
+
+  @override
+  String get messagesTitle => 'Messages';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterUnread => 'Unread';
+
+  @override
+  String get filterActive => 'Active';
+
+  @override
+  String get filterPast => 'Past';
+
+  @override
+  String get emptyMessages => 'You have no messages yet.';
+
+  @override
+  String get respondedNeedIt => 'said “I need it”';
+
+  @override
+  String get respondedHaveIt => 'said “I have it”';
+
+  @override
+  String get bubbleNeedIt => 'I need it';
+
+  @override
+  String get bubbleHaveIt => 'I have it';
+
+  @override
+  String get accepted => 'Accepted';
+
+  @override
+  String get agreementSummary => 'Agreement summary';
+
+  @override
+  String get agreementDetail => 'Agreement details';
+
+  @override
+  String get messageHint => 'Write a message';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get sendMessage => 'Send message';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get markAllRead => 'Mark all as read';
+
+  @override
+  String get sectionUpcomingReturns => 'Upcoming returns';
+
+  @override
+  String get sectionToday => 'Today';
+
+  @override
+  String get sectionThisWeek => 'This week';
+
+  @override
+  String daysLate(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days late',
+      one: '1 day late',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String notifOverdueBody(String name) {
+    return 'You were supposed to return it to $name.';
+  }
+
+  @override
+  String notifDueSoonBody(String name) {
+    return '$name will return it to you.';
+  }
+
+  @override
+  String get actionReturned => 'I returned it';
+
+  @override
+  String get actionMessage => 'Send a message';
+
+  @override
+  String notifResponseRest(String item) {
+    return 'said “I need it” on your listing “$item”';
+  }
+
+  @override
+  String notifMessageRest(String text) {
+    return 'sent a message: “$text”';
+  }
+
+  @override
+  String notifAcceptedRest(String item) {
+    return 'accepted your need for “$item”';
+  }
+
+  @override
+  String get emptyNotifications => 'You have no new notifications.';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get statRating => 'Rating';
+
+  @override
+  String get statTransactions => 'Deals';
+
+  @override
+  String get statOnTime => 'On time';
+
+  @override
+  String get sectionPending => 'Pending';
+
+  @override
+  String pendingNewResponses(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n new responses',
+      one: '1 new response',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingHandover => 'Pick up';
+
+  @override
+  String get loansTitle => 'My loans';
+
+  @override
+  String get borrowed => 'Borrowed';
+
+  @override
+  String get lent => 'Lent';
+
+  @override
+  String get myListingsAndNeeds => 'My needs and listings';
+
+  @override
+  String get themeAndLanguage => 'Theme and language';
+
+  @override
+  String get logout => 'Sign out';
+
+  @override
+  String get logoutTitle => 'Do you want to sign out?';
+
+  @override
+  String get logoutLine1 => 'Your session on this phone will end.';
+
+  @override
+  String get logoutLine2 =>
+      'You\'ll need your institutional email and password to sign in again.';
+
+  @override
+  String get logoutLine3 =>
+      'This phone won\'t get notifications, and return reminders will stop too.';
+
+  @override
+  String get statusOnLoan => 'On loan';
+
+  @override
+  String get statusAwaiting => 'Awaiting handover';
+
+  @override
+  String get statusReturned => 'Returned';
+
+  @override
+  String get actionReturn => 'Return';
+
+  @override
+  String get actionEarlyReturn => 'Return early';
+
+  @override
+  String get actionScanQr => 'Scan QR';
+
+  @override
+  String get actionShowQr => 'Show QR';
+
+  @override
+  String get qrScan => 'Scan QR code';
+
+  @override
+  String get sheetTitle => 'Appearance and language';
+
+  @override
+  String get themeHeading => 'Theme';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get languageHeading => 'Language';
+
+  @override
+  String get languageSystem => 'System';
+
+  @override
+  String get languageTr => 'Türkçe';
+
+  @override
+  String get languageEn => 'English';
+
+  @override
+  String get timeNow => 'Just now';
+
+  @override
+  String timeMinutesAgo(int n) {
+    return '$n min ago';
+  }
+
+  @override
+  String timeHoursAgo(int n) {
+    return '$n h ago';
+  }
+
+  @override
+  String timeDaysAgo(int n) {
+    return '$n days ago';
+  }
+
+  @override
+  String get timeYesterday => 'Yesterday';
+}

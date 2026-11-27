@@ -146,9 +146,10 @@ abstract class UserRepository {
 }
 
 /// Ayarlar: bildirim tercihleri ve engellenen hesaplar.
+/// Her kullanıcının kendi tercihleri ve engel listesi vardır ([userId]).
 abstract class SettingsRepository {
-  Future<NotificationPrefs> notificationPrefs();
-  Future<void> saveNotificationPrefs(NotificationPrefs prefs);
-  Future<List<BlockedUser>> blockedUsers();
-  Future<void> unblock(String id);
+  Future<NotificationPrefs> notificationPrefs(String userId);
+  Future<void> saveNotificationPrefs(String userId, NotificationPrefs prefs);
+  Future<List<BlockedUser>> blockedUsers(String userId);
+  Future<void> unblock(String userId, String id);
 }

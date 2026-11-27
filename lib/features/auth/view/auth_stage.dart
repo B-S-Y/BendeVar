@@ -399,17 +399,13 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
     final content =
         AuthMotion.homePadTop +
         measure(l.welcomeTitle, AppTypography.welcomeHeading) +
-        _headingGap +
-        measure(l.welcomeSubtitle, AppTypography.bodySmall) +
-        AppSpacing.xl +
+        AuthMotion.sloganButtonGap +
         AppSizes.buttonHeight +
         AppSpacing.md +
         AppSizes.buttonHeight +
         AuthMotion.homePadBottom;
     return math.max(AuthMotion.panelHome, content) + bottomInset;
   }
-
-  static const double _headingGap = AppSpacing.sm - AppSpacing.xs / 2;
 
   /// Panelin ilk içeriği: başlık, açıklama, 2 düğme.
   Widget _homeContent(
@@ -451,14 +447,8 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
                     color: c.primary,
                   ),
                 ),
-                const SizedBox(height: _headingGap),
-                Text(
-                  l.welcomeSubtitle,
-                  style: AppTypography.bodySmall.copyWith(
-                    color: c.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xl),
+                // Slogan → düğmeler (alt satır kaldırıldı; boşluk dengelendi).
+                const SizedBox(height: AuthMotion.sloganButtonGap),
                 PrimaryButton(
                   label: l.login,
                   onPressed: () => _openForm(AuthMode.login),

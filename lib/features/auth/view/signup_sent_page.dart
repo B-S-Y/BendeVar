@@ -153,12 +153,6 @@ class _SignupSentPageState extends State<SignupSentPage>
               ),
               const SizedBox(height: AppSpacing.sentGap),
               Text(
-                l.sentSubtitle,
-                textAlign: TextAlign.center,
-                style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
-              ),
-              const SizedBox(height: AppSpacing.sentGap),
-              Text(
                 vm.signupEmail,
                 textAlign: TextAlign.center,
                 style: AppTypography.bodyStrong.copyWith(

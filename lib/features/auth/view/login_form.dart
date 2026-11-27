@@ -130,11 +130,6 @@ class _LoginBodyState extends State<LoginBody> {
             l.loginTitle,
             style: AppTypography.title1.copyWith(color: c.textPrimary),
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            l.loginSubtitle,
-            style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
-          ),
           const SizedBox(height: AppSpacing.xl),
           InstitutionEmailField(
             fieldKey: const Key('email-field'),

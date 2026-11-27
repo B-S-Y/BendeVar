@@ -142,4 +142,67 @@ void main() {
     expect(communities.loaded, isFalse);
     expect(communities.mine, isEmpty);
   });
+
+  group('Ayarlar kullanıcıya göre ayrı', () {
+    test(
+      'birinde engel kaldırılınca diğeri etkilenmez; tercihler ayrı',
+      () async {
+        final repo = MockSettingsRepository();
+        final a = SettingsViewModel(repo)..setUser('u-a@yildiz.edu.tr');
+        final b = SettingsViewModel(repo)..setUser('u-b@marmara.edu.tr');
+
+        await a.loadBlocked();
+        await a.unblock('u-mert');
+        expect(a.blocked.map((u) => u.name), ['Kaan D.']);
+
+        await b.loadBlocked();
+        expect(b.blocked.map((u) => u.name), ['Mert Y.', 'Kaan D.']);
+
+        await a.loadPrefs();
+        await a.setPrefs(a.prefs.copyWith(messages: false));
+        await b.loadPrefs();
+        expect(b.prefs.messages, isTrue);
+
+        // A'ya geri dönünce kendi verisi yerinde.
+        final again = SettingsViewModel(repo)..setUser('u-a@yildiz.edu.tr');
+        await again.loadBlocked();
+        await again.loadPrefs();
+        expect(again.blocked.map((u) => u.name), ['Kaan D.']);
+        expect(again.prefs.messages, isFalse);
+      },
+    );
+
+    test('setUser kullanıcı değişince veriyi bırakır', () async {
+      final vm = SettingsViewModel(MockSettingsRepository())..setUser('x');
+      await vm.loadBlocked();
+      expect(vm.loadedBlocked, isTrue);
+      vm.setUser('y');
+      expect(vm.loadedBlocked, isFalse);
+      expect(vm.blocked, isEmpty);
+      vm.setUser('y'); // aynı kullanıcı: değişiklik yok
+      expect(vm.userId, 'y');
+    });
+  });
+
+  testWidgets('Uygulamada hesap değişince engel listesi kişiye özel', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+    await signIn(tester);
+    final ctx = tester.element(find.byType(Scaffold).first);
+    final settings = Provider.of<SettingsViewModel>(ctx, listen: false);
+    expect(settings.userId, isNotEmpty); // oturumdaki kullanıcıya bağlı
+    settings.loadBlocked();
+    await tester.pump(const Duration(seconds: 1));
+    settings.unblock('u-mert');
+    await tester.pump(const Duration(seconds: 1));
+    expect(settings.blocked.map((u) => u.name), ['Kaan D.']);
+    final elif = settings.userId;
+
+    Provider.of<AuthViewModel>(ctx, listen: false).signOut();
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(settings.userId, isNot(elif));
+    expect(settings.blocked, isEmpty);
+  });
 }

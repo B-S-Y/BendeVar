@@ -1,148 +1,262 @@
 import 'package:bende_var/core/theme/app_colors.dart';
+import 'package:bende_var/core/theme/app_motion.dart';
 import 'package:bende_var/core/widgets/envelope_animation.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'test_helpers.dart';
 
-double _badgeScale(WidgetTester tester) {
-  final t = tester.widget<Transform>(
-    find
-        .ancestor(
-          of: find.byIcon(LucideIcons.check),
-          matching: find.byType(Transform),
-        )
-        .first,
+Finder get _rings => find.byKey(const Key('envelope-rings'));
+Finder get _body => find.byKey(const Key('envelope-body'));
+
+double _pulse(WidgetTester tester) => tester
+    .widget<Transform>(find.byKey(const Key('envelope-pulse')))
+    .transform
+    .getMaxScaleOnAxis();
+
+Future<void> _pumpAnimated(WidgetTester tester, {ThemeMode? theme}) async {
+  useAndroidScreen(tester);
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures();
+  // Test başarısız olsa da ayar her durumda geri alınır.
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+  await tester.pumpWidget(
+    wrap(
+      const Center(child: EnvelopeAnimation()),
+      theme: theme ?? ThemeMode.light,
+    ),
   );
-  return t.transform.storage[0];
 }
 
 void main() {
   setUpAll(initTestEnv);
 
-  testWidgets('Zarf: bir kez oynar, açık zarf ve tikle durur', (tester) async {
-    useAndroidScreen(tester);
-    tester.platformDispatcher.accessibilityFeaturesTestValue =
-        const FakeAccessibilityFeatures();
-    await tester.pumpWidget(wrap(const Center(child: EnvelopeAnimation())));
-    // Başta tik yok (ölçek 0).
-    expect(_badgeScale(tester), 0);
-    await tester.pump(const Duration(milliseconds: 1000));
-    expect(_badgeScale(tester), 0);
-    await tester.pump(const Duration(milliseconds: 1000));
-    expect(_badgeScale(tester), greaterThan(0));
-    // Süre dolunca durur; tik 1,0'da kalır, animasyon sürmez.
-    await tester.pumpAndSettle();
-    expect(_badgeScale(tester), closeTo(1, 1e-6));
-    expect(tester.takeException(), isNull);
+  test('Oranlar referans çizimden, ~160 dp', () {
+    expect(EnvelopeAnimation.size, 160);
+    expect(
+      EnvelopeAnimation.refBodyWidth / EnvelopeAnimation.refBodyHeight,
+      closeTo(3 / 2, .1),
+    );
+    expect(EnvelopeAnimation.refRingInner, 72);
+    expect(EnvelopeAnimation.refRingOuter, 92);
+    // Çizgi kalınlıkları sabit dp (ölçeklenmez).
+    expect(EnvelopeAnimation.lineStroke, 3);
+    expect(EnvelopeAnimation.ringStroke, 1.5);
+    expect(EnvelopeAnimation.flapDepth, .5);
+    expect(AppMotion.envelopeSeconds, inInclusiveRange(1.2, 1.5));
   });
 
-  testWidgets('Zarf: animasyonları azalt açıkken doğrudan son kare', (
-    tester,
-  ) async {
-    useAndroidScreen(tester); // animasyonlar kapalı
-    await tester.pumpWidget(wrap(const Center(child: EnvelopeAnimation())));
-    expect(_badgeScale(tester), closeTo(1, 1e-6));
-    expect(tester.takeException(), isNull);
-  });
-
-  test('Zarf renkleri (tasarım B): belgedeki rollerle', () {
+  test('Renkler belgedeki rollerle; halkalar yaklaşık istenen tonlar', () {
     const l = AppColors.light;
     const d = AppColors.dark;
-    // Açık: çizgi = alt menü aktif ikon, dolgu = yüzey.
     expect(l.envelopeLine, l.navPillIcon);
     expect(l.envelopeSurface, l.card);
-    // Koyu: çizgi = açık mavi vurgu, dolgu = panel/yüzey.
     expect(d.envelopeLine, d.navLogoBg);
     expect(d.envelopeSurface, d.card);
-    // Koyuda iç halka dıştan açık, ikisi de çizgiden farklı.
+    expect(l.envelopeRingInner, const Color(0xFFB8C6DE));
+    expect(l.envelopeRingOuter, const Color(0xFFD5DEEE));
+    expect(d.envelopeRingInner, const Color(0xFF3A4A85));
+    expect(d.envelopeRingOuter, const Color(0xFF2A3560));
+    // Açıkta dış halka daha açık, koyuda dış halka daha koyu.
     expect(
-      d.envelopeRingInner.computeLuminance(),
-      greaterThan(d.envelopeRingOuter.computeLuminance()),
+      l.envelopeRingOuter.computeLuminance(),
+      greaterThan(l.envelopeRingInner.computeLuminance()),
     );
-    expect(d.envelopeRingInner, isNot(d.envelopeLine));
-    // Zarf koyu zeminden ayırt edilir: çizgi zeminden farklı.
-    expect(d.envelopeLine, isNot(d.background));
+    expect(
+      d.envelopeRingOuter.computeLuminance(),
+      lessThan(d.envelopeRingInner.computeLuminance()),
+    );
   });
 
   for (final mode in [ThemeMode.light, ThemeMode.dark]) {
-    testWidgets('Zarf: iki ince halka, dolgulu daire yok (${mode.name})', (
-      tester,
-    ) async {
-      useAndroidScreen(tester); // azaltılmış: son kare, halkalar statik
+    testWidgets('Son hâl: iki ince halka, kapalı zarf, tik ve mektup yok '
+        '(${mode.name})', (tester) async {
+      useAndroidScreen(tester); // azaltılmış: son hâl, statik
       await tester.pumpWidget(
         wrap(const Center(child: EnvelopeAnimation()), theme: mode),
       );
       final colors = mode == ThemeMode.dark ? AppColors.dark : AppColors.light;
-      final rings = find
-          .descendant(
-            of: find.byType(EnvelopeAnimation),
-            matching: find.byType(CustomPaint),
-          )
-          .first;
       expect(
-        tester.renderObject(rings),
+        tester.renderObject(_rings),
         paints
-          ..circle(color: colors.envelopeRingInner, style: PaintingStyle.stroke)
+          ..circle(
+            color: colors.envelopeRingInner,
+            style: PaintingStyle.stroke,
+            strokeWidth: EnvelopeAnimation.ringStroke,
+          )
           ..circle(
             color: colors.envelopeRingOuter,
             style: PaintingStyle.stroke,
+            strokeWidth: EnvelopeAnimation.ringStroke,
           ),
       );
-      // Gövde: yüzey dolgulu, 2,5 dp çizgili.
-      final body = tester.widget<DecoratedBox>(
-        find.byKey(const Key('envelope-body')),
+      // Gövde: yüzey dolgu + çizgi; kapak V'si aynı çizgi.
+      expect(
+        tester.renderObject(_body),
+        paints
+          ..path(color: colors.envelopeSurface, style: PaintingStyle.fill)
+          ..path(
+            color: colors.envelopeLine,
+            style: PaintingStyle.stroke,
+            strokeWidth: EnvelopeAnimation.lineStroke,
+          )
+          ..path(
+            color: colors.envelopeLine,
+            style: PaintingStyle.stroke,
+            strokeWidth: EnvelopeAnimation.lineStroke,
+          ),
       );
-      final deco = body.decoration as BoxDecoration;
-      expect(deco.color, colors.envelopeSurface);
-      expect(deco.border!.top.color, colors.envelopeLine);
-      expect(deco.border!.top.width, EnvelopeAnimation.lineStroke);
-      expect(EnvelopeAnimation.lineStroke, 2.5);
+      expect(find.byIcon(LucideIcons.check), findsNothing);
+      expect(_pulse(tester), closeTo(1, 1e-9));
+      // Amblem ~160 dp; yerleşim kutusu önceki gibi 184 dp (dikey yer aynı).
+      expect(tester.getSize(_rings), const Size.square(EnvelopeAnimation.size));
       expect(
         tester.getSize(find.byType(EnvelopeAnimation)),
-        const Size(
-          EnvelopeAnimation.ringOuterDiameter,
-          EnvelopeAnimation.ringOuterDiameter,
-        ),
+        const Size.square(EnvelopeAnimation.slot),
       );
+      expect(EnvelopeAnimation.slot, 184);
     });
   }
 
-  testWidgets('Halkalar içeriden dışarı sırayla belirir', (tester) async {
-    useAndroidScreen(tester);
-    tester.platformDispatcher.accessibilityFeaturesTestValue =
-        const FakeAccessibilityFeatures();
-    await tester.pumpWidget(wrap(const Center(child: EnvelopeAnimation())));
-    final rings = find
-        .descendant(
-          of: find.byType(EnvelopeAnimation),
-          matching: find.byType(CustomPaint),
-        )
-        .first;
-    // 0,1 sn: yalnızca iç halka.
+  testWidgets('Akış: halkalar içten dışa, gövde, sonra kapak; vurgu ve durur', (
+    tester,
+  ) async {
+    await _pumpAnimated(tester);
+    // 0,1 sn: yalnızca iç halka, zarf henüz çizilmedi.
     await tester.pump(const Duration(milliseconds: 100));
+    expect(tester.renderObject(_rings), paints..circle());
     expect(
-      tester.renderObject(rings),
-      paints..circle(style: PaintingStyle.stroke),
-    );
-    expect(
-      tester.renderObject(rings),
+      tester.renderObject(_rings),
       isNot(
         paints
           ..circle()
           ..circle(),
       ),
     );
-    // 0,5 sn: iki halka da.
+    expect(tester.renderObject(_body), isNot(paints..path()));
+
+    // 0,5 sn: iki halka; gövde çiziliyor (dolgu + kısmi çizgi), kapak yok.
     await tester.pump(const Duration(milliseconds: 400));
     expect(
-      tester.renderObject(rings),
+      tester.renderObject(_rings),
       paints
         ..circle()
         ..circle(),
     );
-    await tester.pumpAndSettle();
-    tester.platformDispatcher.clearAccessibilityFeaturesTestValue();
+    expect(
+      tester.renderObject(_body),
+      paints
+        ..path()
+        ..path(),
+    );
+    expect(
+      tester.renderObject(_body),
+      isNot(
+        paints
+          ..path()
+          ..path()
+          ..path(),
+      ),
+    );
+
+    // 0,95 sn: kapak V'si de çiziliyor.
+    await tester.pump(const Duration(milliseconds: 450));
+    expect(
+      tester.renderObject(_body),
+      paints
+        ..path()
+        ..path()
+        ..path(),
+    );
+
+    // ~1,22 sn: hafif ölçek vurgusu (1 < s ≤ 1,04).
+    await tester.pump(const Duration(milliseconds: 270));
+    expect(_pulse(tester), greaterThan(1));
+    expect(_pulse(tester), lessThanOrEqualTo(AppMotion.envelopePulseScale));
+
+    // Giriş bitince zarf 1'e döner ve sabit kalır.
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_pulse(tester), closeTo(1, 1e-9));
+    expect(tester.takeException(), isNull);
+    // Halkalar nefes almaya devam ettiği için sayfayı kapat (dispose).
+    await tester.pumpWidget(const SizedBox());
   });
+
+  testWidgets('Giriş bitince halkalar sürekli nefes alır, zarf sabit; '
+      'kapanınca durur', (tester) async {
+    await _pumpAnimated(tester);
+    await tester.pump(const Duration(milliseconds: 1500)); // giriş bitti
+    expect(tester.binding.transientCallbackCount, greaterThan(0));
+
+    List<double> radii() {
+      final rec = _CircleRecorder();
+      tester
+          .renderObject<RenderCustomPaint>(_rings)
+          .painter!
+          .paint(rec, const Size.square(EnvelopeAnimation.size));
+      return rec.radii;
+    }
+
+    double alpha0() {
+      final rec = _CircleRecorder();
+      tester
+          .renderObject<RenderCustomPaint>(_rings)
+          .painter!
+          .paint(rec, const Size.square(EnvelopeAnimation.size));
+      return rec.alphas.first;
+    }
+
+    final r0 = radii();
+    final a0 = alpha0();
+    await tester.pump(AppMotion.envelopeBreath * .25);
+    final r1 = radii();
+    final a1 = alpha0();
+    // İç halka büyüdü ve soldu; dış halka (faz farkı) ters yönde.
+    expect(r1[0], greaterThan(r0[0]));
+    expect(a1, lessThan(a0));
+    expect(r1[1], lessThan(r0[1]));
+    // Ölçek sınırı: en fazla %4.
+    const innerMax =
+        (EnvelopeAnimation.refRingInner * EnvelopeAnimation.scale -
+            EnvelopeAnimation.ringStroke) /
+        2 *
+        AppMotion.envelopeBreathScale;
+    await tester.pump(AppMotion.envelopeBreath * .25);
+    expect(radii()[0], lessThanOrEqualTo(innerMax + 1e-6));
+    // Zarf sabit.
+    expect(_pulse(tester), closeTo(1, 1e-9));
+
+    // Sayfa kapanınca sürekli animasyon durur (sızıntı yok).
+    await tester.pumpWidget(const SizedBox());
+    expect(tester.binding.transientCallbackCount, 0);
+  });
+
+  testWidgets('Animasyonları azalt: sürekli animasyon yok, halkalar statik', (
+    tester,
+  ) async {
+    useAndroidScreen(tester); // azaltılmış
+    await tester.pumpWidget(wrap(const Center(child: EnvelopeAnimation())));
+    await tester.pump();
+    expect(tester.binding.transientCallbackCount, 0);
+    expect(tester.binding.hasScheduledFrame, isFalse);
+    await tester.pump(const Duration(seconds: 3));
+    expect(tester.binding.transientCallbackCount, 0);
+  });
+}
+
+/// drawCircle çağrılarını (yarıçap, opaklık) kaydeden basit tuval.
+class _CircleRecorder implements Canvas {
+  final radii = <double>[];
+  final alphas = <double>[];
+
+  @override
+  void drawCircle(Offset c, double radius, Paint paint) {
+    radii.add(radius);
+    alphas.add(paint.color.a);
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => null;
 }

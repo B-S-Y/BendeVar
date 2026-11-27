@@ -244,6 +244,9 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
             hint: l.communitiesSearchHint,
             prefixIcon: LucideIcons.search,
             textInputAction: TextInputAction.search,
+            // Liste yüklenene kadar arama pasif: önceki kullanıcının bağlamıyla
+            // aranmasın (hesap değişiminden hemen sonra).
+            enabled: vm.loaded,
             onChanged: vm.setQuery,
           ),
           const SizedBox(height: AppSpacing.xl),

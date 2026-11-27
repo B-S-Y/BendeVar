@@ -94,9 +94,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color heroBlue; // halka 1, parçacık, leke
   final Color heroSilver; // halka 2, parçacık
   final Color heroDeep; // parçacık
-  final Color envelopeLine; // 1.09 zarf/kapak/mektup çizgisi
-  final Color envelopeSurface; // zarf ve mektup dolgusu
-  final Color envelopeRingInner; // iç ince halka (+ mektup satırları)
+  final Color envelopeLine; // 1.09 zarf ve kapak çizgisi
+  final Color envelopeSurface; // zarf gövdesi dolgusu
+  final Color envelopeRingInner; // iç ince halka
   final Color envelopeRingOuter; // dış ince halka
 
   // Üst bar
@@ -166,8 +166,8 @@ class AppColors extends ThemeExtension<AppColors> {
     envelopeLine: Color(0xFF0B1D45),
     envelopeSurface: _white,
     // Belgede yok, geçici: açık gri-mavi halkalar (dış daha açık).
-    envelopeRingInner: Color(0xFFC8D3E4),
-    envelopeRingOuter: Color(0xFFDCE3EE),
+    envelopeRingInner: Color(0xFFB8C6DE),
+    envelopeRingOuter: Color(0xFFD5DEEE),
     appBar: Color(0xFF0B1D45),
     onAppBar: _white,
     appBarFieldFill: Color(0x1AFFFFFF),
@@ -229,10 +229,10 @@ class AppColors extends ThemeExtension<AppColors> {
     // dolgu = panel/yüzey (card).
     envelopeLine: Color(0xFF8FB0F0),
     envelopeSurface: Color(0xFF141D35),
-    // TODO(koyu-tema): belgede yok, geçici (iç halka: açık mavi-gri)
-    envelopeRingInner: Color(0xFF4A6290),
-    // TODO(koyu-tema): belgede yok, geçici (dış halka: koyu mavi)
-    envelopeRingOuter: Color(0xFF22345A),
+    // TODO(koyu-tema): belgede yok, geçici (iç halka: orta mavi)
+    envelopeRingInner: Color(0xFF3A4A85),
+    // TODO(koyu-tema): belgede yok, geçici (dış halka: daha koyu mavi)
+    envelopeRingOuter: Color(0xFF2A3560),
     appBar: Color(0xFF141D35),
     onAppBar: Color(0xFFE8ECF4),
     // TODO(koyu-tema): belgede yok, geçici (üst bar içi alan)

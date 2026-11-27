@@ -32,6 +32,7 @@ class AppTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.focusNode,
+    this.enabled = true,
   });
 
   final String? label;
@@ -60,6 +61,9 @@ class AppTextField extends StatelessWidget {
 
   /// Odak denetimi (kayıp/kazanç dinlemek için); verilmezse alan kendi odağını yönetir.
   final FocusNode? focusNode;
+
+  /// false: alan pasif (yazılamaz).
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) => ShakeOnError(
@@ -90,6 +94,7 @@ class AppTextField extends StatelessWidget {
           key: fieldKey,
           controller: controller,
           focusNode: focusNode,
+          enabled: enabled,
           initialValue: controller == null ? initialValue : null,
           onChanged: onChanged,
           onFieldSubmitted: onSubmitted,

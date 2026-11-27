@@ -67,3 +67,15 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Revize2 5: kısa açılış 2,4 sn, karşılama logo akışı, ilk kareden sonra; azaltılmışta 600 ms statik.
 - Revize2 4: zarf amblemi tasarım B (çizgili zarf, iki ince halka).
 - Revize2 7: Ayarlar görsel denetimi (settings_audit_test), Engellenenler satırı büyük yazıda düzeltildi.
+- Zarf amblemi sadeleşti: kapalı çizgili zarf + iki halka, mektup/rozet yok.
+- Giriş/kayıt metinleri kısaltıldı (DEVIATIONS tablosu); test/short_copy_test.dart.
+- Zarf çizgileri sabit 3 / 1,5 dp.
+- Zarf halkaları nefes alır (ayrı sürekli controller).
+- Kurum dışı e-posta metni edu.tr biçiminde.
+- Kayıt/Yeni şifre hataları yalnızca gönderimde; test/submit_errors_test.dart.
+- Karşılama alt satırı kaldırıldı, boşluk token'la dengelendi; test/welcome_layout_test.dart.
+- communityMembers ICU çoğulu (EN 1 member).
+- Ayarlar (engellenenler, bildirim) kullanıcıya göre ayrı.
+- Topluluk araması yükleme bitene kadar pasif.
+- schoolLookupDelay AppMotion token'ında.
+- Büyük yazı denetimleri 2,0× ile (taşma yok).

@@ -28,10 +28,7 @@ void main() {
     expect(ctrl.text, 'elif');
     expect(find.byKey(hint), findsOneWidget);
     expect(
-      find.text(
-        'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, '
-        'otomatik düzelttik.',
-      ),
+      find.text('Türkçe karakter ve büyük harfi düzelttik.'),
       findsOneWidget,
     );
 
@@ -74,7 +71,7 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       await tester.pumpAndSettle();
     }
-    expect(find.textContaining('Çok fazla hatalı deneme'), findsOneWidget);
+    expect(find.textContaining('Çok fazla deneme'), findsOneWidget);
     final viewport = tester.getRect(find.byType(SingleChildScrollView).first);
     expect(tester.getTopLeft(title).dy, greaterThanOrEqualTo(viewport.top));
   });

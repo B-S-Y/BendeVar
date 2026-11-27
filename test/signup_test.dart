@@ -172,10 +172,7 @@ void main() {
     );
     await tester.tap(find.widgetWithText(ElevatedButton, 'Kayıt ol'));
     await tester.pumpAndSettle();
-    expect(
-      find.text('Devam etmek için şartları kabul etmelisin.'),
-      findsOneWidget,
-    );
+    expect(find.text('Şartları kabul et.'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('terms-checkbox')));
     await tester.pump();

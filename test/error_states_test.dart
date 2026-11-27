@@ -28,25 +28,28 @@ class _FlakySettings extends MockSettingsRepository {
   }
 
   @override
-  Future<List<BlockedUser>> blockedUsers() async {
+  Future<List<BlockedUser>> blockedUsers(String userId) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     _maybeFail();
-    return super.blockedUsers();
+    return super.blockedUsers(userId);
   }
 
   @override
-  Future<NotificationPrefs> notificationPrefs() async {
+  Future<NotificationPrefs> notificationPrefs(String userId) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     _maybeFail();
-    return super.notificationPrefs();
+    return super.notificationPrefs(userId);
   }
 
   bool failSave = false;
 
   @override
-  Future<void> saveNotificationPrefs(NotificationPrefs prefs) async {
+  Future<void> saveNotificationPrefs(
+    String userId,
+    NotificationPrefs prefs,
+  ) async {
     if (failSave) throw StateError('ağ');
-    return super.saveNotificationPrefs(prefs);
+    return super.saveNotificationPrefs(userId, prefs);
   }
 }
 
@@ -166,6 +169,39 @@ void main() {
       expect(vm.codeFailure, CommunityFailure.unknown);
     },
   );
+
+  testWidgets('Topluluklarım: arama kutusu liste yüklenene kadar pasif', (
+    tester,
+  ) async {
+    useAndroidScreen(tester);
+    final vm = CommunityViewModel(MockCommunityRepository());
+    await tester.pumpWidget(_host(const CommunitiesPage(), communities: vm));
+    await tester.pump();
+    TextField field() => tester.widget<TextField>(
+      find.descendant(
+        of: find.byKey(const Key('community-search')),
+        matching: find.byType(TextField),
+      ),
+    );
+    expect(vm.loaded, isFalse);
+    expect(field().enabled, isFalse);
+    // Pasif alana dokunmak odak/klavye açmaz.
+    await tester.tap(
+      find.byKey(const Key('community-search')),
+      warnIfMissed: false,
+    );
+    await tester.pump();
+    expect(tester.testTextInput.isVisible, isFalse);
+    expect(vm.query, isEmpty);
+
+    vm.load(mockUser);
+    await tester.pump(const Duration(seconds: 1));
+    expect(field().enabled, isTrue);
+    await tester.enterText(find.byKey(const Key('community-search')), 'kamp');
+    await tester.pump(const Duration(seconds: 1));
+    expect(vm.query, 'kamp');
+    expect(find.byKey(const Key('result-kamp')), findsOneWidget);
+  });
 
   testWidgets('Topluluklarım: yüklenirken gösterge, hata olunca Tekrar dene', (
     tester,

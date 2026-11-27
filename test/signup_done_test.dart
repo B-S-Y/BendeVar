@@ -33,9 +33,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text(
-        'İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.',
-      ),
+      find.text('Elinde olanı paylaş, ihtiyacın olanı bul.'),
       findsOneWidget,
     );
     expect(find.byType(SuccessCheck), findsOneWidget);

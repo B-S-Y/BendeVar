@@ -1,95 +1,120 @@
+import 'dart:math' as math;
+import 'dart:ui' show PathMetric;
+
 import 'package:material_ui/material_ui.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_motion.dart';
 
-/// 1.09 / 1.06 "Bağlantı gönderildi" amblemi (tasarım "B": çizgili zarf,
-/// halkalı). Arkada iki ince eş merkezli halka (dolgu yok), önde yüzey dolgulu
-/// ve çizgili zarf. Akış: halkalar içeriden dışarı belirir, kapak açılır,
-/// mektup çıkar, onay rozeti belirir. Bir kez oynar, son karede durur.
-/// "Animasyonları azalt" açıksa doğrudan son kare (halkalar statik).
-/// Kaynak: design/ANIMASYON_1.01.md (1.09 akışı).
+/// 1.09 / 1.06 "Bağlantıyı gönderdik" amblemi: sade, çizgili, kapalı zarf ve
+/// arkasında iki ince eş merkezli halka (dolgu yok). Mektup ve onay tiki yok.
+///
+/// Akış ([AppMotion] `envelope*`): halkalar içeriden dışarı belirir (opaklık +
+/// ölçek 0,9 → 1), zarf gövdesi çizilir gibi belirir, ardından kapak V'si
+/// çizilir, sonda çok hafif ölçek vurgusu (1 → 1,04 → 1) ve durur.
+/// Giriş bitince iki halka ayrı bir sürekli controller ile hafifçe "nefes
+/// alır" (ölçek + opaklık, faz farklı); zarf sabit kalır.
+/// "Animasyonları azalt" açıksa doğrudan son hâl, halkalar statik.
+///
+/// Oranlar referans çizimden (birim): gövde 52×36, köşe 6; kapak V'si gövde
+/// yüksekliğinin %50'sine iner; iç halka 72, dış halka 92. Boyutlar [size]'a
+/// orantılı ölçeklenir; çizgi kalınlıkları sabit dp ([lineStroke],
+/// [ringStroke]).
 class EnvelopeAnimation extends StatefulWidget {
   const EnvelopeAnimation({super.key});
 
-  // Ölçüler (dp), mockup: .env 150×120 (zarfın kendi kutusu).
-  static const double width = 150;
-  static const double height = 120;
+  /// Amblem boyutu (dış halka çapı), dp.
+  static const double size = 160;
 
-  // Halkalar (yalnızca çizgi).
-  static const double ringInnerDiameter = 152;
-  static const double ringOuterDiameter = 184;
+  /// Ekrandaki yer: önceki amblemin kutusu (184 dp). Amblem bunun ortasında
+  /// durur; böylece sayfadaki dikey yerleşim değişmez.
+  static const double slot = 184;
+
+  // Referans çizim birimleri.
+  static const double refRingOuter = 92;
+  static const double refRingInner = 72;
+  static const double refBodyWidth = 52;
+  static const double refBodyHeight = 36;
+  static const double refBodyRadius = 6;
+
+  /// Çizgi kalınlıkları sabit dp (ölçeklenmez): zarf gövdesi ve kapak V'si.
+  static const double lineStroke = 3;
+
+  /// Halka çizgisi, dp.
   static const double ringStroke = 1.5;
-  static const double ringScaleFrom = .9;
 
-  /// Zarf, kapak ve mektup çizgi kalınlığı.
-  static const double lineStroke = 2.5;
-  static const double bodyLeft = 15;
-  static const double bodyTop = 50;
-  static const double bodyWidth = 120;
-  static const double bodyHeight = 70;
-  static const double bodyRadius = 10;
-  static const double flapHeight = 46;
-  static const double letterLeft = 30;
-  static const double letterTop = 34;
-  static const double letterWidth = 90;
-  static const double letterHeight = 70;
-  static const double letterRadius = 8;
-  static const double letterStart = 16; // aşağıda başlar
-  static const double letterEnd = -26; // yukarıda kalır
-  static const double badgeSize = 22;
-  static const double badgeRight = 12;
-  static const double badgeTop = 10;
-  static const double badgeIcon = 12;
-  static const double lineLeft = 14;
-  static const double lineHeight = 6;
+  /// Kapak V'sinin alt ucu: gövde yüksekliğinin bu oranı.
+  static const double flapDepth = .5;
 
-  /// Mektup satırları: (üst, genişlik).
-  static const List<(double, double)> lines = [(14, 40), (28, 56), (42, 48)];
+  /// Referans birimden dp'ye çarpan.
+  static const double scale = size / refRingOuter;
 
-  // Zaman çizelgesi (sn). Zarf akışı önceki tasarımla aynı.
-  static const double totalSeconds = 2.08;
-  static const (double, double) ringInnerIn = (0, .30);
-  static const (double, double) ringOuterIn = (.15, .45);
-  static const (double, double) flap = (.32, .88);
-  static const double flapBehindAt = .62; // katman sırası ~0,6 sn'de değişir
-  static const (double, double) letter = (.8, 1.52);
-  static const (double, double) badgePop = (1.52, 1.84);
-  static const (double, double) badgeSettle = (1.84, 2.08);
-  static const double badgeOvershoot = 1.2;
-  static const Curve letterCurve = Cubic(.3, .8, .3, 1);
-
-  /// Zaman çizelgesinde [range] (sn) aralığının 0..1 ilerlemesi.
+  /// [range] (sn) aralığının zaman çizelgesindeki 0..1 ilerlemesi.
   static double progressOf(
     double t,
     (double, double) range, [
     Curve curve = Curves.linear,
   ]) => Interval(
-    range.$1 / totalSeconds,
-    range.$2 / totalSeconds,
+    range.$1 / AppMotion.envelopeSeconds,
+    range.$2 / AppMotion.envelopeSeconds,
     curve: curve,
   ).transform(t);
+
+  /// Sondaki ölçek vurgusu: 1 → [AppMotion.envelopePulseScale] → 1.
+  static double pulseAt(double t) {
+    final p = progressOf(t, AppMotion.envelopePulse);
+    final up = p < .5 ? p * 2 : (1 - p) * 2;
+    return 1 +
+        (AppMotion.envelopePulseScale - 1) *
+            Curves.easeInOut.transform(up.clamp(0.0, 1.0));
+  }
 
   @override
   State<EnvelopeAnimation> createState() => _EnvelopeAnimationState();
 }
 
 class _EnvelopeAnimationState extends State<EnvelopeAnimation>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
+  /// Giriş animasyonu (tek controller + Interval'lar).
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
     duration: Duration(
-      milliseconds: (EnvelopeAnimation.totalSeconds * 1000).round(),
+      milliseconds: (AppMotion.envelopeSeconds * 1000).round(),
     ),
+  );
+
+  /// Giriş bittikten sonra halkaların sürekli nefes alması (ayrı controller).
+  late final AnimationController _breath = AnimationController(
+    vsync: this,
+    duration: AppMotion.envelopeBreath,
   );
   bool _started = false;
 
   @override
+  void initState() {
+    super.initState();
+    _ctrl.addStatusListener((s) {
+      if (s == AnimationStatus.completed && mounted && !_reduce) {
+        _breath.repeat();
+      }
+    });
+  }
+
+  bool _reduce = false;
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _reduce = AppMotion.reduce(context);
+    // Ayar sonradan açılırsa nefes durur (halkalar statik).
+    if (_reduce && _breath.isAnimating) {
+      _breath
+        ..stop()
+        ..value = 0;
+    }
     if (_started) return;
     _started = true;
-    if (MediaQuery.disableAnimationsOf(context)) {
+    if (_reduce) {
       _ctrl.value = 1;
     } else {
       _ctrl.forward();
@@ -98,242 +123,90 @@ class _EnvelopeAnimationState extends State<EnvelopeAnimation>
 
   @override
   void dispose() {
+    _breath.dispose();
     _ctrl.dispose();
     super.dispose();
   }
 
-  static double _lerp(double a, double b, double t) => a + (b - a) * t;
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    // Zarf kutusu, gövde merkezi halkaların merkezine gelecek şekilde oturur.
-    const box = EnvelopeAnimation.ringOuterDiameter;
-    const left =
-        box / 2 -
-        (EnvelopeAnimation.bodyLeft + EnvelopeAnimation.bodyWidth / 2);
-    const top =
-        box / 2 -
-        (EnvelopeAnimation.bodyTop + EnvelopeAnimation.bodyHeight / 2);
     return ExcludeSemantics(
-      child: SizedBox(
-        width: box,
-        height: box,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned.fill(
-              child: CustomPaint(
-                painter: _RingsPainter(
-                  progress: _ctrl,
-                  inner: c.envelopeRingInner,
-                  outer: c.envelopeRingOuter,
-                ),
-              ),
-            ),
-            Positioned(
-              left: left,
-              top: top,
-              width: EnvelopeAnimation.width,
-              height: EnvelopeAnimation.height,
-              child: _envelope(context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Zarf (gövde, kapak, mektup, ön yüz); animasyon akışı değişmedi.
-  Widget _envelope(BuildContext context) {
-    final c = context.colors;
-    final surface = c.envelopeSurface;
-    final line = c.envelopeLine;
-    return AnimatedBuilder(
-      animation: _ctrl,
-      builder: (context, _) {
-        final t = _ctrl.value;
-        final seconds = t * EnvelopeAnimation.totalSeconds;
-        final flapP = EnvelopeAnimation.progressOf(
-          t,
-          EnvelopeAnimation.flap,
-          Curves.ease,
-        );
-        final letterP = EnvelopeAnimation.progressOf(
-          t,
-          EnvelopeAnimation.letter,
-          EnvelopeAnimation.letterCurve,
-        );
-        final badgeScale = seconds < EnvelopeAnimation.badgePop.$2
-            ? _lerp(
-                0,
-                EnvelopeAnimation.badgeOvershoot,
-                EnvelopeAnimation.progressOf(
-                  t,
-                  EnvelopeAnimation.badgePop,
-                  Curves.ease,
-                ),
-              )
-            : _lerp(
-                EnvelopeAnimation.badgeOvershoot,
-                1,
-                EnvelopeAnimation.progressOf(
-                  t,
-                  EnvelopeAnimation.badgeSettle,
-                  Curves.ease,
-                ),
-              );
-
-        final flapWidget = Positioned(
-          left: EnvelopeAnimation.bodyLeft,
-          top: EnvelopeAnimation.bodyTop,
-          width: EnvelopeAnimation.bodyWidth,
-          height: EnvelopeAnimation.flapHeight,
-          child: Transform(
-            alignment: Alignment.topCenter,
-            // Dikey ölçek 1 → −1 (menteşe: zarfın üst kenarı).
-            transform: Matrix4.diagonal3Values(1, 1 - 2 * flapP, 1),
-            child: CustomPaint(painter: _FlapPainter(surface, line)),
-          ),
-        );
-        // Açılırken (≈0,6 sn'den sonra) kapak mektubun arkasına geçer.
-        final flapBehind = seconds >= EnvelopeAnimation.flapBehindAt;
-
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-              left: EnvelopeAnimation.bodyLeft,
-              top: EnvelopeAnimation.bodyTop,
-              width: EnvelopeAnimation.bodyWidth,
-              height: EnvelopeAnimation.bodyHeight,
-              child: DecoratedBox(
-                key: const Key('envelope-body'),
-                decoration: BoxDecoration(
-                  color: surface,
-                  borderRadius: BorderRadius.circular(
-                    EnvelopeAnimation.bodyRadius,
-                  ),
-                  border: Border.all(
-                    color: line,
-                    width: EnvelopeAnimation.lineStroke,
+      child: SizedBox.square(
+        dimension: EnvelopeAnimation.slot,
+        child: Center(
+          child: SizedBox.square(
+            dimension: EnvelopeAnimation.size,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: CustomPaint(
+                    key: const Key('envelope-rings'),
+                    painter: _RingsPainter(
+                      progress: _ctrl,
+                      breath: _breath,
+                      inner: c.envelopeRingInner,
+                      outer: c.envelopeRingOuter,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            if (flapBehind) flapWidget,
-            Positioned(
-              left: EnvelopeAnimation.letterLeft,
-              top: EnvelopeAnimation.letterTop,
-              width: EnvelopeAnimation.letterWidth,
-              height: EnvelopeAnimation.letterHeight,
-              child: Transform.translate(
-                offset: Offset(
-                  0,
-                  _lerp(
-                    EnvelopeAnimation.letterStart,
-                    EnvelopeAnimation.letterEnd,
-                    letterP,
+                Positioned.fill(
+                  child: AnimatedBuilder(
+                    animation: _ctrl,
+                    builder: (context, child) => Transform.scale(
+                      key: const Key('envelope-pulse'),
+                      scale: EnvelopeAnimation.pulseAt(_ctrl.value),
+                      child: child,
+                    ),
+                    child: CustomPaint(
+                      key: const Key('envelope-body'),
+                      painter: _EnvelopePainter(
+                        progress: _ctrl,
+                        line: c.envelopeLine,
+                        surface: c.envelopeSurface,
+                      ),
+                    ),
                   ),
                 ),
-                child: _Letter(badgeScale: badgeScale),
-              ),
-            ),
-            Positioned(
-              left: EnvelopeAnimation.bodyLeft,
-              top: EnvelopeAnimation.bodyTop,
-              width: EnvelopeAnimation.bodyWidth,
-              height: EnvelopeAnimation.bodyHeight,
-              child: CustomPaint(painter: _FrontPainter(surface, line)),
-            ),
-            if (!flapBehind) flapWidget,
-          ],
-        );
-      },
-    );
-  }
-}
-
-/// Mektup: yüzey dolgulu, çizgili; satırlar ince; köşede onay rozeti.
-class _Letter extends StatelessWidget {
-  const _Letter({required this.badgeScale});
-
-  final double badgeScale;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: c.envelopeSurface,
-        borderRadius: BorderRadius.circular(EnvelopeAnimation.letterRadius),
-        border: Border.all(
-          color: c.envelopeLine,
-          width: EnvelopeAnimation.lineStroke,
-        ),
-      ),
-      child: Stack(
-        children: [
-          for (final (top, width) in EnvelopeAnimation.lines)
-            Positioned(
-              left: EnvelopeAnimation.lineLeft,
-              top: top,
-              width: width,
-              height: EnvelopeAnimation.lineHeight,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: c.envelopeRingInner,
-                  borderRadius: BorderRadius.circular(
-                    EnvelopeAnimation.lineHeight / 2,
-                  ),
-                ),
-              ),
-            ),
-          Positioned(
-            right: EnvelopeAnimation.badgeRight,
-            top: EnvelopeAnimation.badgeTop,
-            width: EnvelopeAnimation.badgeSize,
-            height: EnvelopeAnimation.badgeSize,
-            child: Transform.scale(
-              scale: badgeScale,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: c.accent,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  LucideIcons.check,
-                  size: EnvelopeAnimation.badgeIcon,
-                  color: c.onBadge,
-                ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-/// İki ince eş merkezli halka (dolgu yok); içeriden dışarı sırayla belirir
-/// (opaklık + hafif ölçek).
+/// İki ince eş merkezli halka; içeriden dışarı sırayla belirir.
 class _RingsPainter extends CustomPainter {
   _RingsPainter({
     required this.progress,
+    required this.breath,
     required this.inner,
     required this.outer,
-  }) : super(repaint: progress);
+  }) : super(repaint: Listenable.merge([progress, breath]));
 
   final Animation<double> progress;
+
+  /// Sürekli nefes döngüsü (0..1, tekrar eder); durmuşsa 0 → etkisiz.
+  final Animation<double> breath;
+
+  /// Nefes dalgası 0..1 (yumuşak: kosinüs), [phase] döngü kesri kadar kaydırılmış.
+  double _wave(double phase) {
+    if (breath.value == 0 && !breath.isAnimating) return 0;
+    return (1 - math.cos(2 * math.pi * (breath.value + phase))) / 2;
+  }
+
   final Color inner;
   final Color outer;
 
   void _ring(
     Canvas canvas,
     Offset center,
-    double diameter,
+    double refDiameter,
     Color color,
     (double, double) range,
+    double wave,
   ) {
     final p = EnvelopeAnimation.progressOf(
       progress.value,
@@ -341,16 +214,19 @@ class _RingsPainter extends CustomPainter {
       Curves.easeOut,
     );
     if (p <= 0) return;
-    final scale =
-        EnvelopeAnimation.ringScaleFrom +
-        (1 - EnvelopeAnimation.ringScaleFrom) * p;
+    const stroke = EnvelopeAnimation.ringStroke;
+    final k =
+        (AppMotion.envelopeRingScaleFrom +
+            (1 - AppMotion.envelopeRingScaleFrom) * p) *
+        (1 + (AppMotion.envelopeBreathScale - 1) * wave);
+    final fade = 1 - AppMotion.envelopeBreathFade * wave;
     canvas.drawCircle(
       center,
-      (diameter - EnvelopeAnimation.ringStroke) / 2 * scale,
+      (refDiameter * EnvelopeAnimation.scale - stroke) / 2 * k,
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = EnvelopeAnimation.ringStroke
-        ..color = color.withValues(alpha: color.a * p),
+        ..strokeWidth = stroke
+        ..color = color.withValues(alpha: color.a * p * fade),
     );
   }
 
@@ -360,87 +236,108 @@ class _RingsPainter extends CustomPainter {
     _ring(
       canvas,
       center,
-      EnvelopeAnimation.ringInnerDiameter,
+      EnvelopeAnimation.refRingInner,
       inner,
-      EnvelopeAnimation.ringInnerIn,
+      AppMotion.envelopeRingInner,
+      _wave(0),
     );
     _ring(
       canvas,
       center,
-      EnvelopeAnimation.ringOuterDiameter,
+      EnvelopeAnimation.refRingOuter,
       outer,
-      EnvelopeAnimation.ringOuterIn,
+      AppMotion.envelopeRingOuter,
+      _wave(AppMotion.envelopeBreathPhase),
     );
   }
 
   @override
   bool shouldRepaint(_RingsPainter old) =>
-      old.inner != inner || old.outer != outer || old.progress != progress;
+      old.inner != inner ||
+      old.outer != outer ||
+      old.progress != progress ||
+      old.breath != breath;
 }
 
-/// Ön yüz (120×70 uzayı): M0 22 L60 50 L120 22 L120 60 Q120 70 110 70
-/// L10 70 Q0 70 0 60 Z. Yüzey dolgulu; kenarı ve cep V'si zarf çizgisiyle.
-class _FrontPainter extends CustomPainter {
-  _FrontPainter(this.fill, this.line);
-  final Color fill;
-  final Color line;
+/// Kapalı zarf: yuvarlatılmış gövde (yüzey dolgulu) ve üst köşelerden
+/// ortaya inen kapak V'si; ikisi de çizilir gibi belirir.
+class _EnvelopePainter extends CustomPainter {
+  _EnvelopePainter({
+    required this.progress,
+    required this.line,
+    required this.surface,
+  }) : super(repaint: progress);
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final sx = size.width / 120;
-    final sy = size.height / 70;
-    final path = Path()
-      ..moveTo(0, 22 * sy)
-      ..lineTo(60 * sx, 50 * sy)
-      ..lineTo(120 * sx, 22 * sy)
-      ..lineTo(120 * sx, 60 * sy)
-      ..quadraticBezierTo(120 * sx, 70 * sy, 110 * sx, 70 * sy)
-      ..lineTo(10 * sx, 70 * sy)
-      ..quadraticBezierTo(0, 70 * sy, 0, 60 * sy)
-      ..close();
-    canvas.drawPath(path, Paint()..color = fill);
-    canvas.drawPath(
-      path,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = EnvelopeAnimation.lineStroke
-        ..strokeJoin = StrokeJoin.round
-        ..strokeCap = StrokeCap.round
-        ..color = line,
-    );
+  final Animation<double> progress;
+  final Color line;
+  final Color surface;
+
+  /// [path]'in baştan [fraction] kadarını döndürür (çizilir gibi belirme).
+  static Path _partial(Path path, double fraction) {
+    if (fraction >= 1) return path;
+    final out = Path();
+    if (fraction <= 0) return out;
+    for (final PathMetric m in path.computeMetrics()) {
+      out.addPath(m.extractPath(0, m.length * fraction), Offset.zero);
+    }
+    return out;
   }
 
   @override
-  bool shouldRepaint(_FrontPainter old) => old.fill != fill || old.line != line;
-}
-
-/// Kapak (120×46 uzayı): üst kenardan ortaya inen V. Yüzey dolgulu, çizgili.
-class _FlapPainter extends CustomPainter {
-  _FlapPainter(this.fill, this.line);
-  final Color fill;
-  final Color line;
-
-  @override
   void paint(Canvas canvas, Size size) {
-    final sx = size.width / 120;
-    final sy = size.height / 46;
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(120 * sx, 0)
-      ..lineTo(60 * sx, 46 * sy)
-      ..close();
-    canvas.drawPath(path, Paint()..color = fill);
-    canvas.drawPath(
-      path,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = EnvelopeAnimation.lineStroke
-        ..strokeJoin = StrokeJoin.round
-        ..strokeCap = StrokeCap.round
-        ..color = line,
+    const k = EnvelopeAnimation.scale;
+    const w = EnvelopeAnimation.refBodyWidth * k;
+    const h = EnvelopeAnimation.refBodyHeight * k;
+    final rect = Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: w,
+      height: h,
     );
+    final t = progress.value;
+    final bodyP = EnvelopeAnimation.progressOf(
+      t,
+      AppMotion.envelopeBodyDraw,
+      Curves.easeInOut,
+    );
+    final flapP = EnvelopeAnimation.progressOf(
+      t,
+      AppMotion.envelopeFlapDraw,
+      Curves.easeInOut,
+    );
+    final stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = EnvelopeAnimation.lineStroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..color = line;
+
+    final body = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          rect,
+          const Radius.circular(EnvelopeAnimation.refBodyRadius * k),
+        ),
+      );
+    if (bodyP > 0) {
+      // Dolgu, gövde çizildikçe belirir.
+      canvas.drawPath(
+        body,
+        Paint()..color = surface.withValues(alpha: surface.a * bodyP),
+      );
+      canvas.drawPath(_partial(body, bodyP), stroke);
+    }
+    if (flapP > 0) {
+      // Uçlar yuvarlak köşe yayının üzerinde (45°): köşeden dışarı taşmaz.
+      const inset = EnvelopeAnimation.refBodyRadius * k * (1 - math.sqrt1_2);
+      final flap = Path()
+        ..moveTo(rect.left + inset, rect.top + inset)
+        ..lineTo(rect.center.dx, rect.top + h * EnvelopeAnimation.flapDepth)
+        ..lineTo(rect.right - inset, rect.top + inset);
+      canvas.drawPath(_partial(flap, flapP), stroke);
+    }
   }
 
   @override
-  bool shouldRepaint(_FlapPainter old) => old.fill != fill || old.line != line;
+  bool shouldRepaint(_EnvelopePainter old) =>
+      old.line != line || old.surface != surface || old.progress != progress;
 }

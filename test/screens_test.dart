@@ -140,7 +140,7 @@ void main() {
     await tester.tap(find.widgetWithText(ElevatedButton, 'Giriş yap'));
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
-    expect(find.text('Şifre yanlış. Tekrar dene.'), findsOneWidget);
+    expect(find.text('Şifre yanlış.'), findsOneWidget);
 
     await tester.enterText(
       find.byKey(const Key('email-field')),
@@ -181,7 +181,7 @@ void main() {
     expect(tester.widget<ElevatedButton>(btn).onPressed, isNotNull);
     await tester.tap(btn);
     await tester.pumpAndSettle();
-    expect(find.textContaining('.edu.tr'), findsWidgets);
+    expect(find.text('Okul e-postanı kullan (edu.tr).'), findsOneWidget);
   });
 
   testWidgets('Tam akış: giriş → ana sayfa → ilan ver → ana sayfanın en üstü', (

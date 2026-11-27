@@ -9,6 +9,18 @@ class SettingsViewModel extends ChangeNotifier {
 
   final SettingsRepository _repo;
 
+  /// Verileri yüklenen kullanıcı (app.dart, oturum değişince günceller).
+  String _userId = '';
+  String get userId => _userId;
+
+  /// Kullanıcı değişince önceki kullanıcının verisi bırakılır.
+  void setUser(String? id) {
+    final next = id ?? '';
+    if (next == _userId) return;
+    _userId = next;
+    reset();
+  }
+
   NotificationPrefs _prefs = const NotificationPrefs();
   List<BlockedUser> _blocked = const [];
   bool _loadedPrefs = false;
@@ -51,7 +63,7 @@ class SettingsViewModel extends ChangeNotifier {
   Future<void> loadPrefs() async {
     _prefsFailed = false;
     try {
-      _prefs = await _repo.notificationPrefs();
+      _prefs = await _repo.notificationPrefs(_userId);
       _loadedPrefs = true;
     } catch (_) {
       _prefsFailed = true;
@@ -63,7 +75,7 @@ class SettingsViewModel extends ChangeNotifier {
   Future<void> loadBlocked() async {
     _blockedFailed = false;
     try {
-      _blocked = await _repo.blockedUsers();
+      _blocked = await _repo.blockedUsers(_userId);
       _loadedBlocked = true;
     } catch (_) {
       _blockedFailed = true;
@@ -78,7 +90,7 @@ class SettingsViewModel extends ChangeNotifier {
     _prefs = next;
     notifyListeners();
     try {
-      await _repo.saveNotificationPrefs(next);
+      await _repo.saveNotificationPrefs(_userId, next);
       return true;
     } catch (_) {
       _prefs = before;
@@ -90,7 +102,7 @@ class SettingsViewModel extends ChangeNotifier {
   /// Başarılıysa true.
   Future<bool> unblock(String id) async {
     try {
-      await _repo.unblock(id);
+      await _repo.unblock(_userId, id);
       _blocked = _blocked.where((b) => b.id != id).toList();
       notifyListeners();
       return true;

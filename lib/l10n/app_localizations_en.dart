@@ -19,10 +19,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Those who have, share.\nThose in need, find.';
 
   @override
-  String get welcomeSubtitle =>
-      'Sign in with your school email, your campus is waiting.';
-
-  @override
   String get login => 'Sign in';
 
   @override
@@ -30,10 +26,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginTitle => 'Welcome back';
-
-  @override
-  String get loginSubtitle =>
-      'Continue with your institutional email and password.';
 
   @override
   String get emailLabel => 'Institutional email';
@@ -72,8 +64,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorEmailEmpty => 'Enter your email address.';
 
   @override
-  String get errorEmailNotEdu =>
-      'Sign in with your institutional email (an address ending in .edu.tr).';
+  String get errorEmailNotEdu => 'Use your school email (edu.tr).';
 
   @override
   String get errorPasswordEmpty => 'Enter your password.';
@@ -82,19 +73,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailHintShort => 'name.surname@school';
 
   @override
-  String get errorAccountNotFound =>
-      'We couldn\'t find an account with this email. Check it or sign up.';
+  String get errorAccountNotFound => 'No account with this email.';
 
   @override
-  String get errorPasswordWrong => 'Wrong password. Try again.';
+  String get errorPasswordWrong => 'Wrong password.';
 
   @override
-  String get errorTooManyAttempts =>
-      'Too many failed attempts. Wait a bit and try again.';
+  String get errorTooManyAttempts => 'Too many attempts; try again shortly.';
 
   @override
   String get errorNotVerified =>
-      'Your account isn\'t verified yet. Tap the link we emailed you.';
+      'Your account isn\'t verified. Tap the link in your email.';
 
   @override
   String get resendVerification => 'Resend the link';
@@ -641,10 +630,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signupTitle => 'Start with your school email';
 
   @override
-  String get signupSubtitle =>
-      'We find your community from your email domain. We\'ll send you a verification link.';
-
-  @override
   String get signupExit => 'Leave sign-up';
 
   @override
@@ -660,38 +645,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signupJoinCommunity => 'You\'ll join your school community';
 
   @override
-  String get signupNewCommunity =>
-      'Your community will be opened with this first sign-up';
+  String get signupNewCommunity => 'Your community opens with this sign-up';
 
   @override
   String get signupPasswordHint => 'Create a password';
 
   @override
   String get signupPasswordRule =>
-      'At least 8 characters, with at least one letter and one digit.';
+      'At least 8 characters, a letter and a digit.';
 
   @override
   String get errorPasswordWeak =>
-      'Your password needs at least 8 characters, one letter and one digit.';
+      'At least 8 characters, a letter and a digit.';
 
   @override
-  String get errorTermsRequired => 'Accept the terms to continue.';
+  String get errorTermsRequired => 'Accept the terms.';
 
   @override
-  String get errorEmailInUse =>
-      'This email is already registered. Try signing in.';
+  String get errorEmailInUse => 'This email is already registered.';
 
   @override
-  String get termsLead => 'I have read and accept the ';
+  String get termsLead => 'I accept the ';
 
   @override
-  String get termsLink => 'Terms of Use';
+  String get termsLink => 'Terms';
 
   @override
   String get termsMid => ' and ';
 
   @override
-  String get privacyLink => 'Privacy Policy';
+  String get privacyLink => 'Privacy';
 
   @override
   String get termsTail => '.';
@@ -703,11 +686,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sentTitle => 'We sent the link';
 
   @override
-  String get sentSubtitle => 'We sent the verification link to this address:';
-
-  @override
-  String get sentInstruction =>
-      'Tap the link in your school email, then come back and press \"I tapped the link\". The link is valid for 24 hours.';
+  String get sentInstruction => 'Tap the link, then come back here.';
 
   @override
   String get sentWaiting => 'Waiting for verification';
@@ -730,8 +709,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fixEmail => 'Fix the email';
 
   @override
-  String get notVerifiedYet =>
-      'Your email isn\'t verified yet. Make sure you tapped the link.';
+  String get notVerifiedYet => 'Your email isn\'t verified yet.';
 
   @override
   String get linkResent => 'Link sent again.';
@@ -740,8 +718,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nameTitle => 'What\'s your name?';
 
   @override
-  String get nameSubtitle =>
-      'Other users will see you with this name. You can edit it.';
+  String get nameSubtitle => 'Others will see you by this name.';
 
   @override
   String get nameLabel => 'Full name';
@@ -757,10 +734,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expiredTitle => 'The link has expired';
-
-  @override
-  String get expiredBody =>
-      'The verification link was valid for 24 hours. We can send you a new one.';
 
   @override
   String get sendNewLink => 'Send a new link';
@@ -792,7 +765,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetSentInstruction => 'Tap the link, then come back here.';
 
   @override
-  String get resetExpired => 'The link has expired. Request a new one.';
+  String get resetExpired => 'The link expired, request a new one.';
 
   @override
   String get newPasswordTitle => 'Set a new password';
@@ -816,8 +789,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savePassword => 'Save password';
 
   @override
-  String get passwordUpdated =>
-      'Your password is updated. You can sign in with it.';
+  String get passwordUpdated => 'Your password is updated.';
 
   @override
   String get myCommunities => 'My communities';
@@ -895,7 +867,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String communityMembers(int count) {
-    return '$count members';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1029,8 +1007,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityLeft => 'You left the community.';
 
   @override
-  String get emailAsciiHint =>
-      'Email addresses don\'t use Turkish characters or capital letters, so we fixed it automatically.';
+  String get emailAsciiHint => 'We fixed Turkish characters and capitals.';
 
   @override
   String doneTitle(String name) {
@@ -1043,8 +1020,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get doneSlogan =>
-      'Whatever you need, in your community. Share what you have, find what you need.';
+  String get doneSlogan => 'Share what you have, find what you need.';
 
   @override
   String get doneStart => 'Get started';

@@ -19,10 +19,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get welcomeTitle => 'Elinde olan paylaşır,\nihtiyacı olan bulur.';
 
   @override
-  String get welcomeSubtitle =>
-      'Okul mailinle giriş yap, kampüsün seni bekliyor.';
-
-  @override
   String get login => 'Giriş yap';
 
   @override
@@ -30,9 +26,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loginTitle => 'Tekrar hoş geldin';
-
-  @override
-  String get loginSubtitle => 'Kurum e-postan ve şifrenle devam et.';
 
   @override
   String get emailLabel => 'Kurum e-postası';
@@ -71,8 +64,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get errorEmailEmpty => 'E-posta adresini gir.';
 
   @override
-  String get errorEmailNotEdu =>
-      'Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.';
+  String get errorEmailNotEdu => 'Okul e-postanı kullan (edu.tr).';
 
   @override
   String get errorPasswordEmpty => 'Şifreni gir.';
@@ -81,19 +73,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get emailHintShort => 'ad.soyad@okul';
 
   @override
-  String get errorAccountNotFound =>
-      'Bu e-postayla kayıtlı bir hesap bulamadık. E-postanı kontrol et ya da kayıt ol.';
+  String get errorAccountNotFound => 'Bu e-postayla hesap bulunamadı.';
 
   @override
-  String get errorPasswordWrong => 'Şifre yanlış. Tekrar dene.';
+  String get errorPasswordWrong => 'Şifre yanlış.';
 
   @override
   String get errorTooManyAttempts =>
-      'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene.';
+      'Çok fazla deneme; biraz sonra tekrar dene.';
 
   @override
   String get errorNotVerified =>
-      'Hesabın henüz doğrulanmamış. E-postana gönderdiğimiz bağlantıya tıkla.';
+      'Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla.';
 
   @override
   String get resendVerification => 'Bağlantıyı tekrar gönder';
@@ -628,10 +619,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signupTitle => 'Okul e-postanla başla';
 
   @override
-  String get signupSubtitle =>
-      'Topluluğun e-posta uzantısından bulunur. Sana bir doğrulama bağlantısı göndereceğiz.';
-
-  @override
   String get signupExit => 'Kayıttan çık';
 
   @override
@@ -653,33 +640,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signupPasswordHint => 'Şifre belirle';
 
   @override
-  String get signupPasswordRule =>
-      'En az 8 karakter, en az bir harf ve bir rakam.';
+  String get signupPasswordRule => 'En az 8 karakter, bir harf ve bir rakam.';
 
   @override
-  String get errorPasswordWeak =>
-      'Şifren en az 8 karakter olmalı, en az bir harf ve bir rakam içermeli.';
+  String get errorPasswordWeak => 'En az 8 karakter, bir harf ve bir rakam.';
 
   @override
-  String get errorTermsRequired => 'Devam etmek için şartları kabul etmelisin.';
+  String get errorTermsRequired => 'Şartları kabul et.';
 
   @override
-  String get errorEmailInUse => 'Bu e-posta zaten kayıtlı. Giriş yapmayı dene.';
+  String get errorEmailInUse => 'Bu e-posta zaten kayıtlı.';
 
   @override
   String get termsLead => '';
 
   @override
-  String get termsLink => 'Kullanım şartlarını';
+  String get termsLink => 'Şartları';
 
   @override
   String get termsMid => ' ve ';
 
   @override
-  String get privacyLink => 'gizlilik politikasını';
+  String get privacyLink => 'gizliliği';
 
   @override
-  String get termsTail => ' okudum, kabul ediyorum.';
+  String get termsTail => ' kabul ediyorum.';
 
   @override
   String get haveAccount => 'Hesabın var mı?';
@@ -688,11 +673,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sentTitle => 'Bağlantıyı gönderdik';
 
   @override
-  String get sentSubtitle => 'Doğrulama bağlantısını şu adrese gönderdik:';
-
-  @override
-  String get sentInstruction =>
-      'Okul e-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.';
+  String get sentInstruction => 'Bağlantıya tıkla, sonra buraya dön.';
 
   @override
   String get sentWaiting => 'Doğrulama bekleniyor';
@@ -715,8 +696,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get fixEmail => 'E-postayı düzelt';
 
   @override
-  String get notVerifiedYet =>
-      'E-postan henüz doğrulanmadı. Bağlantıya tıkladığından emin ol.';
+  String get notVerifiedYet => 'E-postan henüz doğrulanmadı.';
 
   @override
   String get linkResent => 'Bağlantı tekrar gönderildi.';
@@ -725,8 +705,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get nameTitle => 'Adın ne?';
 
   @override
-  String get nameSubtitle =>
-      'Diğer kullanıcılar seni bu adla görecek. Gerekirse düzenleyebilirsin.';
+  String get nameSubtitle => 'Diğer kullanıcılar seni bu adla görecek.';
 
   @override
   String get nameLabel => 'Ad Soyad';
@@ -742,10 +721,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get expiredTitle => 'Bağlantının süresi doldu';
-
-  @override
-  String get expiredBody =>
-      'Doğrulama bağlantısı 24 saat geçerliydi. Sana yeni bir bağlantı gönderebiliriz.';
 
   @override
   String get sendNewLink => 'Yeni bağlantı gönder';
@@ -777,8 +752,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get resetSentInstruction => 'Bağlantıya tıkla, sonra buraya dön.';
 
   @override
-  String get resetExpired =>
-      'Bağlantının süresi doldu. Yeni bir bağlantı iste.';
+  String get resetExpired => 'Bağlantının süresi doldu, yenisini iste.';
 
   @override
   String get newPasswordTitle => 'Yeni şifre belirle';
@@ -802,8 +776,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get savePassword => 'Şifreyi kaydet';
 
   @override
-  String get passwordUpdated =>
-      'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.';
+  String get passwordUpdated => 'Şifren güncellendi.';
 
   @override
   String get myCommunities => 'Topluluklarım';
@@ -882,7 +855,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String communityMembers(int count) {
-    return '$count üye';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count üye',
+      one: '1 üye',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1015,8 +994,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityLeft => 'Topluluktan ayrıldın.';
 
   @override
-  String get emailAsciiHint =>
-      'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.';
+  String get emailAsciiHint => 'Türkçe karakter ve büyük harfi düzelttik.';
 
   @override
   String doneTitle(String name) {
@@ -1029,8 +1007,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get doneSlogan =>
-      'İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.';
+  String get doneSlogan => 'Elinde olanı paylaş, ihtiyacın olanı bul.';
 
   @override
   String get doneStart => 'Başla';

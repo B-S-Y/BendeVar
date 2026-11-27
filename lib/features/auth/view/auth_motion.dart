@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../../core/theme/app_spacing.dart';
+
 /// 1.01 açılış animasyonu ve giriş/kayıt geçişi sabitleri.
 /// Kaynak: design/ANIMASYON_1.01.md (mockup 8 sn döngüsünün saniyeye çevrilmiş hâli).
 class AuthMotion {
@@ -66,6 +68,10 @@ class AuthMotion {
   static const double panelRadius = 28;
   static const double logoSize = 104;
   static const double nameGap = 14;
+
+  /// Karşılama paneli: slogan ile düğmeler arası (eski alt satır + iki boşluk
+  /// yerine tek boşluk, 4'lük ızgara).
+  static const double sloganButtonGap = AppSpacing.xxxl;
   static const double sloganGap = 8;
   static const double miniScale = .5;
   static const double homePadTop = 30;

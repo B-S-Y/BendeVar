@@ -56,6 +56,7 @@ class _BendeVarAppState extends State<BendeVarApp> {
     // Oturum kontrolü açılış kapısında (SplashPage) beklenir.
     _auth.restore();
     _lastUserId = _auth.user?.id;
+    _settings.setUser(_lastUserId);
     _auth.addListener(_onAuthChanged);
   }
 
@@ -67,7 +68,7 @@ class _BendeVarAppState extends State<BendeVarApp> {
     final id = _auth.user?.id;
     if (id == _lastUserId) return;
     _lastUserId = id;
-    _settings.reset();
+    _settings.setUser(id);
     _communities.reset();
   }
 

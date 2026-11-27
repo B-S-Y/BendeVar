@@ -27,7 +27,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 | scrim | siyah %70 | Alt sayfa arka perdesi |
 | unreadTint | #18233F | Okunmamış satır zemini |
 | heroTop | #050A18 | Karşılama/giriş zemini gradyanının üstü (1.01; açıkta #06112B) |
-| envelopeRingInner / envelopeRingOuter | #4A6290 / #22345A | 1.09/1.06 amblem halkaları (tasarım B). Açık temadaki #C8D3E4 / #DCE3EE de belgede yok (geçici). `envelopeDisc/Body/Ring` kaldırıldı |
+| envelopeRingInner / envelopeRingOuter | #3A4A85 / #2A3560 | 1.09/1.06 zarf amblemi halkaları. Açık temadaki #B8C6DE / #D5DEEE de belgede yok (geçici) |
 
 ## 1.01 Karşılama animasyonu (ANIMASYON_1.01.md)
 - Toplam süre 3,52 sn: belge "≈3,5 sn" diyor ama son öğe (panel içeriği) 3,52'de bitiyor; Interval 1'i aşmasın diye controller 3,52 sn.
@@ -80,7 +80,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 
 ## Görev 5 · Ayarlar (1.15 – 1.21)
 - PNG yalnızca 1.15b için var (çıkış onayı: mevcut `showConfirmSheet`, PNG'ye uygun, aynen kullanıldı). 1.15, 1.18, 1.19, 1.19a/b, 1.20, 1.21 için PNG yok; en yakın örnek: 5.07 üst barı (koyu `appBar` + geri + başlık) ve Profil'deki menü satırı kartı. Metinler tahmini (ARB).
-- 1.15 satırları: Tema ve dil (bottom sheet), Bildirim ayarları, Topluluklarım (şimdilik ComingSoon, Görev 6'da 1.16), Gizlilik ve destek, Çıkış yap. 1.19: Engellenen hesaplar, Kullanım şartları (1.19a), Gizlilik politikası (1.19b), Yardım ve destek (ComingSoon SnackBar).
+- 1.15 satırları: Tema ve dil (bottom sheet), Bildirim ayarları, Topluluklarım (1.16), Engellenenler (1.20), Gizlilik ve destek, Çıkış yap. 1.19: Kullanım şartları (1.19a), Gizlilik politikası (1.19b), Yardım ve destek (sayfa).
 - 1.19a/b, kayıttaki 1.10a/b ile aynı metni (`LegalPage`, `inSettings: true`) Ayarlar iskeletiyle gösterir; metinler örnek içeriktir.
 - 1.18'de 4 anahtar: Mesajlar, Karşılıklar, İade hatırlatmaları, Topluluk duyuruları (hepsi varsayılan açık; mock'ta bellekte tutulur, gerçek bildirim gönderimi yok).
 - 1.20/1.21: engellenenler mock (Mert Y., Kaan D.); "Engeli kaldır" 1.21 onay sheet'ini açar, onaylanınca listeden çıkar ve SnackBar gösterir. "Engelle" eylemi bu görevde yok (sohbet/profil ekranlarında, başka modül).
@@ -89,7 +89,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 ## Görev 6 · Topluluklar (1.16 – 1.17)
 - PNG yok; düzen için Ayarlar ailesi (`SettingsScaffold`, `SettingsRow`) ve Mesajlar/Profil'deki satır örnekleri kullanıldı. Metinler tahmini (ARB).
 - 1.16 Topluluklarım: üstte arama kutusu, altında üyesi olunan topluluklar, "Davet koduyla katıl" ve "Topluluk oluştur" düğmeleri. Arama yazılınca liste 1.16g sonuçlarına döner (Katıl / Üyesin).
-- Okul topluluğu kayıtta otomatik katılınan topluluktur: listenin başında "Okulun" etiketiyle durur, ayrılma düğmesi yoktur (ayrılınamaz). Figma'da farklıysa bu bilinçli sapmadır.
+- Okul topluluğu kayıtta otomatik katılınan topluluktur: listenin başında koyu çerçeveyle durur, ayrılma düğmesi yoktur (ayrılınamaz). Figma'da farklıysa bu bilinçli sapmadır.
 - Görünürlük: Açık (aramada çıkar, herkes katılır), Okula özel (aramada yalnızca aynı okulun üyelerine çıkar), Gizli (aramada çıkmaz, yalnızca davet koduyla).
 - 1.16b/1.16c davet kodu ayrı sayfa değil alt sayfa (bottom sheet): hata kodun altında, başarıda aynı sheet "Topluluğa katıldın" özetine döner. Mock kod: `482913` (Gizli "Proje Ekibi"; eski `PROJE-24` geçersiz, bkz. Revize 8); büyük/küçük harf ve boşluk önemsiz. Zaten üye olunan topluluğun kodu ayrı bir mesaj verir.
 - 1.16e kurucu işlemleri: kurucu olunan satırda "⋯" düğmesi → sheet (Davet kodunu kopyala, Topluluğu sil). 1.16f silme onayı ve 1.17 ayrılma onayı mevcut `showConfirmSheet` ile.
@@ -103,7 +103,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - A5: e-postada ilk Türkçe karakter/büyük harf dönüşümünde alanın altında 4 sn süren ipucu (`emailAsciiHint`); ortak `InstitutionEmailField` içinde, giriş ve kayıtta aynı; alan başına yalnızca bir kez. Süreler `AppMotion` token'larında (`lib/core/theme/app_motion.dart`).
 
 ## Düzeltme turu · B (Ayarlar ve Profil)
-- B1: Profil'deki dişli ikonu zaten `/settings`'e bağlıydı (commit 648deda; `profile_page.dart` tek satır). Ayarlar'da ComingSoon'a/yakında mesajına giden tek satır: "Yardım ve destek" (Figma'da hedef ekran yok, SnackBar). "Topluluklarım" Görev 6'da 1.16'ya bağlandı.
+- B1: Profil'deki dişli ikonu zaten `/settings`'e bağlıydı (commit 648deda; `profile_page.dart` tek satır).
 - B2: Tema ve dil sheet'i zaten tek ortak widget'tı (`showThemeLanguageSheet`, `lib/core/widgets/sheets.dart`); Profil ve Ayarlar ikisi de onu çağırıyor, kopya yok. Kod değişmedi.
 
 ## Düzeltme turu · C (Topluluklar)
@@ -123,7 +123,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 
 ## Kayıt tamamlandı ekranı (1.10 sonrası)
 - Figma'da bu ekran için PNG yok; en yakın örnek 1.09 düzeni (koyu yıldızlı zemin + alt açık panel, `AuthBackdrop`, `c.sheet` panel, ortak `PrimaryButton`). Rota: `/signup/done`; 1.10 "Bitir"den sonra açılır, "Başla" `go('/home')` ile yığını temizleyerek Ana Sayfa'ya gider.
-- Tik: yeni bir animasyon yazılmadı; 1.09 zarfındaki rozetle aynı zamanlama/eğri/aşım (`EnvelopeAnimation.badgePop/badgeSettle/badgeOvershoot`, 0 → 1,2 → 1) yeniden kullanıldı. Zarftaki rozet zarfın içinde özel olduğu için bağımsız `SuccessCheck` widget'ı (96 dp mavi `accent` daire, beyaz tik) aynı sabitlerle yazıldı.
+- Tik: `SuccessCheck` (96 dp mavi `accent` daire, beyaz tik), ölçek 0 → 1,2 → 1; zamanlama `AppMotion.successPopSeconds` (0,32) + `successSettleSeconds` (0,24), aşım `successOvershoot` (1,2).
 - Sıra: tik (~0,56 sn) → başlık (0,5 sn) → 0,2 sn sonra alt metin (0,5 sn); ikisi yukarı kayarak ve solarak gelir (`AppMotion.listSlide`). "Animasyonları azalt" açıksa son kare doğrudan, yıldızlar durağan.
 - "Hoş geldin, {ad}!" için ad: girilen Ad Soyad'ın ilk kelimesi (ör. "Elif Yıldırım" → "Elif"). Topluluk adı kullanıcının topluluğundan gelir.
 - Alt panel metni "İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul." (EN: "Whatever you need, in your community. Share what you have, find what you need.").
@@ -172,7 +172,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - `lib/core/utils/text_search.dart` (`TextSearch.normalize/matches`): `İ→i`, `I→ı`, sonra `ı ç ğ ö ş ü → i c g o s u`; aranan ve hedef metin aynı fonksiyondan geçer. Topluluk araması bunu kullanır ("T", "t", "AÇIK", "acik", "İstanbul"). Mock'a "İstanbul Gezginleri" ve "Açık Hava Sporları" açık toplulukları eklendi.
 
 ## Revize turu · 6 (okul topluluğu satırı)
-- Otomatik katılınan okul topluluğu satırında "Okulun" ve "Okula özel" etiketleri yok; satır, ikincil düğme kenarıyla aynı daha koyu çerçeveyle (`secondaryBorder`, `AppSizes.borderStrong`, köşe `cardLarge`) ayrılır. Belgede ayrı bir "border-strong" rolü olmadığı için bu mevcut token kullanıldı (iki temada da belgede var). Diğer topluluklarda tür etiketi (Açık / Okula özel / Gizli) kalır. (Önceki "Okulun" etiketi notu geçersiz.)
+- Otomatik katılınan okul topluluğu satırında "Okulun" ve "Okula özel" etiketleri yok; satır, ikincil düğme kenarıyla aynı daha koyu çerçeveyle (`secondaryBorder`, `AppSizes.borderStrong`, köşe `cardLarge`) ayrılır. Belgede ayrı bir "border-strong" rolü olmadığı için bu mevcut token kullanıldı (iki temada da belgede var). Diğer topluluklarda tür etiketi (Açık / Okula özel / Gizli) kalır.
 
 ## Revize turu · 8 (davet kodu)
 - Kod 6 haneli, yalnızca rakam, ön ek yok (`kInviteCodeLength`). Seed: Proje Ekibi `482913`; yeni Gizli topluluğa üretilen kod da 6 haneli rakam, mevcutlarla çakışmaz. Kurucu sheet'inde ve kopyalamada ön ek yok.
@@ -180,7 +180,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Akış: kod → Devam → topluluk önizlemesi (ad, baş harf avatarı, üye sayısı · tür; henüz üye değil) → "Katıl" (üye olur, 1.16b) ya da "Vazgeç". Yanlış kodda mevcut hata durumu (1.16c); zaten üyeyse "Bu topluluğun zaten üyesisin." (`CommunityRepository.previewByCode`).
 
 ## Revize turu · 3 (okul kartı ve kişisel e-posta)
-- Okul kartı yazarken çıkmaz: yazma durduktan `AuthViewModel.schoolLookupDelay` (500 ms) sonra aranır. (Revize 2. tur · 6: 3 harf kuralı kaldırıldı, aşağıya bak.) Bilinen okulda (mock `mockKnownSchools`: yildiz → Yıldız Teknik, marmara, boun/bogazici → Boğaziçi, itu, msgsu, odtu/metu) okulun adı + "Okul topluluğuna katılacaksın". Bilinmeyen okulda "Topluluğun ilk kayıtla açılacak" notu yalnızca e-posta alanı odağı kaybedince ya da Kayıt ol'a basılınca gelir (`SignupBody` odak dinleyicisi).
+- Okul kartı yazarken çıkmaz: yazma durduktan `AppMotion.schoolLookupDelay` (500 ms) sonra aranır. (Revize 2. tur · 6: 3 harf kuralı kaldırıldı, aşağıya bak.) Bilinen okulda (mock `mockKnownSchools`: yildiz → Yıldız Teknik, marmara, boun/bogazici → Boğaziçi, itu, msgsu, odtu/metu) okulun adı + "Okul topluluğuna katılacaksın". Bilinmeyen okulda "Topluluğun ilk kayıtla açılacak" notu yalnızca e-posta alanı odağı kaybedince ya da Kayıt ol'a basılınca gelir (`SignupBody` odak dinleyicisi).
 - Kişisel e-posta engeli: okul kimliği gmail, hotmail, outlook, yahoo, icloud, yandex, proton, protonmail, live, msn ise (`Validators.personalProviders`) `Validators.email` mevcut "kurum dışı e-posta" hatasını (`EmailError.notEdu`, 1.03a/1.08a) döndürür; kayıt ve giriş reddedilir. Kayıtta alandan çıkınca da hata görünür; kişisel e-postada okul kartı çıkmaz. Yalnızca tam ad eşleşir (`gmailx.edu.tr` geçerli).
 - `AppTextField` ve `InstitutionEmailField`'a `focusNode` eklendi (odak kaybını dinlemek için).
 
@@ -229,3 +229,61 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Ayarlar, Bildirim ayarları, Gizlilik ve destek, Engellenenler, Yardım, Topluluklarım, Topluluk oluştur, Kullanım şartları ve Tema/dil sheet'i; 360×800 ve 412×917, 1,3× ve 1,5× yazı, açık ve koyu temada (üst 32 dp, alt 48 dp sistem çubuğu) tarandı. Taşma, başlık kesilmesi ve alt güvenli alan sorunu bulunmadı (otomatik denetim: `test/settings_audit_test.dart`).
 - Bulunan tek görsel sorun: Engellenenler satırında büyük yazıda okul adı "Engeli kaldır" düğmesinin yanında 3 satıra bölünüyordu; ad tek satır, okul en fazla 2 satır (üç nokta) yapıldı.
 - Ayarlar'da ayrı bir "Şifre" ya da "Dil/Tema" sayfası yok: şifre değiştirme Ayarlar'da bulunmuyor (şifre sıfırlama giriş akışında, 1.05–1.07); Dil/Tema bir sheet (ortak `ThemeLanguageSheet`), o da tarandı.
+
+## Zarf amblemi sadeleştirildi (geçerli tasarım; önceki "C" ve "B" notlarının yerine geçer)
+- Mektup ve onay rozeti kaldırıldı; amblem yalnızca kapalı, çizgili zarf + arkasında iki ince eş merkezli halka (dolgu yok). Onay tiki hiçbir yerde yok.
+- Oranlar (referans birim, ~160 dp'ye orantılı: çarpan 160/92): gövde 52×36 (≈3:2), köşe 6; kapak V'si üst köşelerden gövde yüksekliğinin %50'sine iner (yuvarlak uç/birleşim; uçlar köşe yayının üzerinde, köşeden taşmaz); alt köşelerden çizgi yok; iç halka 72, dış halka 92. Çizgi kalınlıkları ölçeklenmez, sabit: zarf gövdesi ve kapak 3 dp, halkalar 1,5 dp (`EnvelopeAnimation.lineStroke/ringStroke`; ölçekli hâli ≈4,3 / 2,6 dp kalın duruyordu). Amblem 160 dp; ekrandaki dikey yer aynı kalsın diye yerleşim kutusu önceki 184 dp (`EnvelopeAnimation.slot`).
+- Renkler: `envelopeLine` (açık #0B1D45 = alt menü aktif ikon; koyu #8FB0F0 = açık mavi vurgu), `envelopeSurface` (açık #FFFFFF, koyu #141D35 = card), `envelopeRingInner` / `envelopeRingOuter` (açık #B8C6DE / #D5DEEE, koyu #3A4A85 / #2A3560; belgede yok, geçici, koyular `TODO(koyu-tema)`).
+- Animasyon (`AppMotion.envelope*`, toplam 1,4 sn): iç halka 0–0,30 sn, dış halka 0,15–0,45 sn (opaklık + 0,9→1 ölçek); gövde 0,25–0,80 sn çizilir gibi belirir (dolgu birlikte), kapak V'si 0,80–1,05 sn çizilir; 1,05–1,40 sn hafif ölçek vurgusu 1→1,04→1, sonra durur. "Animasyonları azalt" açıkken son hâl statik.
+- Kayıt tamamlandı tikinin (`SuccessCheck`) zamanlaması zarftan ayrıldı: `AppMotion.successPopSeconds/SettleSeconds/Overshoot` (değerler aynı).
+
+## Giriş/kayıt metinleri kısaltıldı (Figma TR metinlerinden bilinçli sapma)
+- Kural: her ekranda başlık + en fazla tek kısa cümle; hata kutularında ne oldu + gerekirse tek eylem. Yazı boyutu/stil token'ları değişmedi. EN aynı sadelikte. Kaldırılan anahtarlar ARB'den silindi.
+
+| Ekran | Anahtar | Önce | Sonra | Neden |
+|---|---|---|---|---|
+| Karşılama | `welcomeSubtitle` | "Okul mailinle giriş yap, kampüsün seni bekliyor." | "Okul e-postanla giriş yap." | Tek kısa cümle; ikinci yarı süs |
+| Giriş | `loginSubtitle` | "Kurum e-postan ve şifrenle devam et." | —(kaldırıldı) | Alan etiketlerini tekrar ediyordu; başlık yeterli |
+| Giriş · hata | `errorEmailNotEdu` | "Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın." | "Okul e-postanı (.edu.tr) kullan." | Ne oldu + eylem, tek kısa cümle |
+| Giriş · hata | `errorAccountNotFound` | "Bu e-postayla kayıtlı bir hesap bulamadık. E-postanı kontrol et ya da kayıt ol." | "Bu e-postayla hesap bulunamadı." | Kayıt ol bağlantısı zaten altta |
+| Giriş · hata | `errorPasswordWrong` | "Şifre yanlış. Tekrar dene." | "Şifre yanlış." | "Tekrar dene" kendiliğinden belli |
+| Giriş · kilit | `errorTooManyAttempts` | "Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene." | "Çok fazla deneme; biraz sonra tekrar dene." | Tek cümle |
+| Giriş · doğrulanmamış | `errorNotVerified` | "Hesabın henüz doğrulanmamış. E-postana gönderdiğimiz bağlantıya tıkla." | "Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla." | Kısaltıldı; eylem düğmesi ayrıca var |
+| Giriş/Kayıt · e-posta ipucu | `emailAsciiHint` | "E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik." | "Türkçe karakter ve büyük harfi düzelttik." | Açıklama yerine yalnızca ne olduğu |
+| Kayıt 1 | `signupSubtitle` | "Topluluğun e-posta uzantısından bulunur. Sana bir doğrulama bağlantısı göndereceğiz." | —(kaldırıldı) | Alan etiketi ve okul kartı yeterli; doğrulama bağlantısı bir sonraki ekranda söyleniyor |
+| Kayıt 1 · şifre kuralı | `signupPasswordRule` | "En az 8 karakter, en az bir harf ve bir rakam." | "En az 8 karakter, bir harf ve bir rakam." | Tekrarlanan "en az" kalktı |
+| Kayıt 1 · hata | `errorPasswordWeak` | "Şifren en az 8 karakter olmalı, en az bir harf ve bir rakam içermeli." | "En az 8 karakter, bir harf ve bir rakam." | Kural metniyle aynı, kısa |
+| Kayıt 1 · hata | `errorEmailInUse` | "Bu e-posta zaten kayıtlı. Giriş yapmayı dene." | "Bu e-posta zaten kayıtlı." | "Giriş yap" bağlantısı zaten altta |
+| Kayıt 1 · hata | `errorTermsRequired` | "Devam etmek için şartları kabul etmelisin." | "Şartları kabul et." | Tek kısa eylem |
+| Kayıt 1 · şartlar | `termsLead` | "" | "" | Tek satır |
+| Kayıt 1 · şartlar | `termsLink` | "Kullanım şartlarını" | "Şartları" | Tek satır |
+| Kayıt 1 · şartlar | `privacyLink` | "gizlilik politikasını" | "gizliliği" | Tek satır |
+| Kayıt 1 · şartlar | `termsTail` | " okudum, kabul ediyorum." | " kabul ediyorum." | Tek satır |
+| Kayıt 1 · okul kartı | `signupNewCommunity` | "Topluluğun ilk kayıtla açılacak" | "Topluluğun ilk kayıtla açılacak" | EN kısaltıldı (TR aynı) |
+| Kayıt 2 · Bağlantıyı gönderdik | `sentSubtitle` | "Doğrulama bağlantısını şu adrese gönderdik:" | —(kaldırıldı) | Başlık "gönderdik" diyor; altında e-posta adresi zaten görünüyor |
+| Kayıt 2 · Bağlantıyı gönderdik | `sentInstruction` | "Okul e-postandaki bağlantıya tıkla, sonra buraya dön ve "Bağlantıya tıkladım" düğmesine bas. Bağlantı 24 saat geçerlidir." | "Bağlantıya tıkla, sonra buraya dön." | Düğme adını tekrar ediyordu; 24 saat notu Süresi doldu ekranında |
+| Kayıt 2 · uyarı | `notVerifiedYet` | "E-postan henüz doğrulanmadı. Bağlantıya tıkladığından emin ol." | "E-postan henüz doğrulanmadı." | Tek kısa cümle |
+| Kayıt 3 · Adın ne? | `nameSubtitle` | "Diğer kullanıcılar seni bu adla görecek. Gerekirse düzenleyebilirsin." | "Diğer kullanıcılar seni bu adla görecek." | "Düzenleyebilirsin" alan zaten düzenlenebilir |
+| Kayıt tamamlandı | `doneSlogan` | "İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul." | "Elinde olanı paylaş, ihtiyacın olanı bul." | Tek cümle; slogan karşılamada zaten var |
+| Bağlantı süresi doldu | `expiredBody` | "Doğrulama bağlantısı 24 saat geçerliydi. Sana yeni bir bağlantı gönderebiliriz." | —(kaldırıldı) | "Yeni bağlantı gönder" düğmesini tekrar ediyordu; başlık yeterli |
+| Şifremi unuttum · uyarı | `resetExpired` | "Bağlantının süresi doldu. Yeni bir bağlantı iste." | "Bağlantının süresi doldu, yenisini iste." | Tek cümle |
+| Şifremi unuttum · bilgi | `passwordUpdated` | "Şifren güncellendi. Yeni şifrenle giriş yapabilirsin." | "Şifren güncellendi." | Giriş ekranına zaten dönülüyor |
+
+## Zarf halkaları nefes alır
+- Giriş animasyonu bittikten sonra iki halka ayrı, sürekli bir controller ile hafifçe "nefes alır": ölçek 1 ↔ 1,04, opaklık en fazla %30 azalır, 2,8 sn döngü, yumuşak (kosinüs) eğri, iki halka arasında yarım döngü faz farkı (`AppMotion.envelopeBreath*`). Zarf sabit kalır. Giriş animasyonu tek controller + Interval düzeninde aynı. Sayfa kapanınca durur ve bırakılır. "Animasyonları azalt" açıkken halkalar statik (sürekli animasyon yok).
+
+## Kurum dışı e-posta metni: "edu.tr"
+- Hata metni "Okul e-postanı (.edu.tr) kullan." → "Okul e-postanı kullan (edu.tr)." (EN "Use your school email (.edu.tr)." → "Use your school email (edu.tr)."). Başında nokta olmadan, sona parantez içinde: okunuşu daha sade (Figma metninden sapma). Kullanıcıya görünen başka ".edu.tr" metni yok; e-posta alanındaki sabit ".edu.tr" son eki alan biçimi olduğu için aynı kaldı.
+
+## Form hataları yalnızca gönderimde (Kayıt ve Yeni şifre)
+- Yazarken ve alan odağı kaybedince hata rengi, hata metni ve titreme yok; şifre kuralı ("En az 8 karakter, bir harf ve bir rakam.") nötr yardımcı metin olarak durur. Hata ve titreme yalnızca "Kayıt ol" / "Şifreyi kaydet"e basınca, kuralı sağlamayan alanda; kullanıcı yazarken kural sağlanır sağlanmaz hata kalkar ve bir sonraki gönderime kadar yazarken geri gelmez. Her başarısız gönderim yeniden titretir (`signupErrorSeq`, `newErrorSeq`).
+- E-posta, şifre ve (Yeni şifre ekranında) şifre tekrar alanlarına uygulanır. Okul kartı mantığı aynı. Önceki "kişisel e-postada alandan çıkınca hata" davranışı bu kurala uyması için kaldırıldı; kişisel e-posta artık gönderimde "kurum dışı" hatasını verir. Figma'da hata zamanlaması tanımlı değil.
+
+## Karşılama: slogan altındaki satır kaldırıldı
+- "Okul e-postanla giriş yap." satırı (ARB `welcomeSubtitle`, TR/EN) kaldırıldı; slogan ve düğmeler yeterli (Figma'dan sapma). Slogan ile "Giriş yap" arası tek boşluk: `AuthMotion.sloganButtonGap` = `AppSpacing.xxxl` (32 dp); eski düzen 6 dp + satır + 20 dp idi. Panel yüksekliği ölçümü buna göre güncellendi (alt sınır 330 dp aynı). 360×800 ve 412×917'de 1,3× ve 1,5× yazıda taşma yok.
+
+## Ayarlar verisi kullanıcıya göre
+- `SettingsRepository` metotları kullanıcı kimliği alır; mock bildirim tercihlerini ve engel listesini kimliğe göre tutar (her yeni kullanıcı örnek listeyle başlar: Mert Y., Kaan D.). Bir hesapta engel kaldırmak ya da bildirim anahtarını değiştirmek diğer hesabı etkilemez. `SettingsViewModel.setUser` oturum değişince app.dart'tan çağrılır.
+
+## Topluluk araması yükleme bitene kadar pasif
+- Topluluklarım'da arama kutusu liste yüklenene kadar pasif (`AppTextField.enabled`); hesap değişiminden hemen sonra önceki kullanıcının bağlamıyla arama yapılmaz.

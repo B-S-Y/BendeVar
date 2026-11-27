@@ -70,12 +70,6 @@ class SignupExpiredPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: AppTypography.title1.copyWith(color: c.textPrimary),
               ),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                l.expiredBody,
-                textAlign: TextAlign.center,
-                style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
-              ),
             ],
           ),
         ),

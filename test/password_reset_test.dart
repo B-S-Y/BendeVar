@@ -195,10 +195,7 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     expect(find.text('Tekrar hoş geldin'), findsOneWidget);
-    expect(
-      find.text('Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.'),
-      findsOneWidget,
-    );
+    expect(find.text('Şifren güncellendi.'), findsOneWidget);
   });
 
   for (final (name, w, h, scale) in [

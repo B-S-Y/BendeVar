@@ -636,15 +636,15 @@ class MockUserRepository implements UserRepository {
 }
 
 class MockSettingsRepository implements SettingsRepository {
-  NotificationPrefs _prefs = const NotificationPrefs();
-  final List<BlockedUser> _blocked = [
-    const BlockedUser(
+  /// Her yeni kullanıcının başlangıç engel listesi (mock örneği).
+  static const List<BlockedUser> _seedBlocked = [
+    BlockedUser(
       id: 'u-mert',
       name: 'Mert Y.',
       initials: 'MY',
       communityName: 'Yıldız Teknik Üniversitesi',
     ),
-    const BlockedUser(
+    BlockedUser(
       id: 'u-kaan',
       name: 'Kaan D.',
       initials: 'KD',
@@ -652,26 +652,36 @@ class MockSettingsRepository implements SettingsRepository {
     ),
   ];
 
+  /// Kullanıcı kimliği → tercihler / engel listesi (hesaplar arası sızmaz).
+  final Map<String, NotificationPrefs> _prefs = {};
+  final Map<String, List<BlockedUser>> _blocked = {};
+
+  List<BlockedUser> _blockedOf(String userId) =>
+      _blocked.putIfAbsent(userId, () => List.of(_seedBlocked));
+
   @override
-  Future<NotificationPrefs> notificationPrefs() async {
+  Future<NotificationPrefs> notificationPrefs(String userId) async {
     await Future<void>.delayed(_latency);
-    return _prefs;
+    return _prefs[userId] ?? const NotificationPrefs();
   }
 
   @override
-  Future<void> saveNotificationPrefs(NotificationPrefs prefs) async {
-    _prefs = prefs;
+  Future<void> saveNotificationPrefs(
+    String userId,
+    NotificationPrefs prefs,
+  ) async {
+    _prefs[userId] = prefs;
   }
 
   @override
-  Future<List<BlockedUser>> blockedUsers() async {
+  Future<List<BlockedUser>> blockedUsers(String userId) async {
     await Future<void>.delayed(_latency);
-    return List.unmodifiable(_blocked);
+    return List.unmodifiable(_blockedOf(userId));
   }
 
   @override
-  Future<void> unblock(String id) async {
+  Future<void> unblock(String userId, String id) async {
     await Future<void>.delayed(_latency);
-    _blocked.removeWhere((b) => b.id == id);
+    _blockedOf(userId).removeWhere((b) => b.id == id);
   }
 }

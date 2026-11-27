@@ -31,7 +31,7 @@ final _pages = <String, Widget>{
 void main() {
   setUpAll(initTestEnv);
   for (final (w, h) in [(360.0, 800.0), (412.0, 917.0)]) {
-    for (final scale in [1.3, 1.5]) {
+    for (final scale in [1.3, 1.5, 2.0]) {
       for (final mode in [ThemeMode.light, ThemeMode.dark]) {
         testWidgets(
           'Ayarlar alt sayfaları: ${w.toInt()}×${h.toInt()} ×$scale ${mode.name}',

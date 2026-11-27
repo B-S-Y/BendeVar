@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../../core/theme/app_motion.dart';
 import '../../../core/utils/validators.dart';
 import '../../../data/models/models.dart';
 import '../../../data/repositories/repositories.dart';
@@ -10,7 +11,7 @@ class AuthViewModel extends ChangeNotifier {
   AuthViewModel(
     this._repo, {
     required this._communities,
-    this.schoolLookupDelay = const Duration(milliseconds: 500),
+    this.schoolLookupDelay = AppMotion.schoolLookupDelay,
   }) : _user = _repo.currentUser;
 
   /// Yazma durduktan bu kadar sonra okul kartı aranır (kart yazarken çıkmaz).
@@ -159,6 +160,16 @@ class AuthViewModel extends ChangeNotifier {
   Timer? _lookupTimer;
   bool _emailBlurred = false;
 
+  // Hata yalnızca "Kayıt ol"a basınca, kuralı sağlamayan alanda gösterilir;
+  // kullanıcı yazarken kural sağlanır sağlanmaz kalkar, yazarken yeniden
+  // gelmez (bir sonraki gönderime kadar).
+  bool _signupEmailErrorShown = false;
+  bool _signupPasswordErrorShown = false;
+  int _signupErrorSeq = 0;
+
+  /// Her başarısız "Kayıt ol" denemesinde artar (yalnızca o an titreme).
+  int get signupErrorSeq => _signupErrorSeq;
+
   String get signupEmail => _signupEmail;
   String get signupPassword => _signupPassword;
   bool get signupObscure => _signupObscure;
@@ -166,14 +177,13 @@ class AuthViewModel extends ChangeNotifier {
   bool get signupLoading => _signupLoading;
   bool get completing => _completing;
 
-  /// 1.08'de e-posta hatası (1.08a: kurum dışı e-posta).
+  /// 1.08'de e-posta hatası (1.08a: kurum dışı e-posta). Yalnızca gönderimden
+  /// sonra; yazarken ya da alan odağı kaybedince gösterilmez.
   EmailError? get signupEmailError =>
-      _signupShowErrors ||
-          (_emailBlurred && Validators.isPersonalProvider(_signupEmail))
-      ? Validators.email(_signupEmail)
+      _signupEmailErrorShown ? Validators.email(_signupEmail) : null;
+  NewPasswordError? get signupPasswordError => _signupPasswordErrorShown
+      ? Validators.newPassword(_signupPassword)
       : null;
-  NewPasswordError? get signupPasswordError =>
-      _signupShowErrors ? Validators.newPassword(_signupPassword) : null;
   bool get termsError => _signupShowErrors && !_termsAccepted;
 
   /// Kayıt hatası (şimdilik yalnızca [AuthFailure.emailInUse]).
@@ -199,6 +209,7 @@ class AuthViewModel extends ChangeNotifier {
   void setSignupEmail(String v) {
     _signupEmail = v;
     _signupFailure = null;
+    if (Validators.email(v) == null) _signupEmailErrorShown = false;
     _emailBlurred = false;
     _scheduleLookup();
     notifyListeners();
@@ -234,6 +245,7 @@ class AuthViewModel extends ChangeNotifier {
 
   void setSignupPassword(String v) {
     _signupPassword = v;
+    if (Validators.newPassword(v) == null) _signupPasswordErrorShown = false;
     notifyListeners();
   }
 
@@ -265,9 +277,12 @@ class AuthViewModel extends ChangeNotifier {
   /// 1.08 → hesabı açar, doğrulama bağlantısı gönderilir. Başarılıysa true.
   Future<bool> signUp() async {
     _signupShowErrors = true;
-    if (Validators.email(_signupEmail) != null ||
-        Validators.newPassword(_signupPassword) != null ||
+    _signupEmailErrorShown = Validators.email(_signupEmail) != null;
+    _signupPasswordErrorShown = Validators.newPassword(_signupPassword) != null;
+    if (_signupEmailErrorShown ||
+        _signupPasswordErrorShown ||
         !_termsAccepted) {
+      _signupErrorSeq++;
       notifyListeners();
       return false;
     }
@@ -340,6 +355,8 @@ class AuthViewModel extends ChangeNotifier {
     _schoolCommunity = null;
     _schoolLookedUp = false;
     _emailBlurred = false;
+    _signupEmailErrorShown = false;
+    _signupPasswordErrorShown = false;
     _lookupTimer?.cancel();
     _linkSentAt = null;
     notifyListeners();
@@ -355,8 +372,13 @@ class AuthViewModel extends ChangeNotifier {
   String _confirmPassword = '';
   bool _newObscure = true;
   bool _confirmObscure = true;
-  bool _newShowErrors = false;
+  bool _newErrorShown = false;
+  bool _confirmErrorShown = false;
+  int _newErrorSeq = 0;
   bool _savingPassword = false;
+
+  /// Her başarısız "Şifreyi kaydet" denemesinde artar (yalnızca o an titreme).
+  int get newErrorSeq => _newErrorSeq;
 
   String get resetEmail => _resetEmail;
   bool get resetLoading => _resetLoading;
@@ -367,11 +389,9 @@ class AuthViewModel extends ChangeNotifier {
   EmailError? get resetEmailError =>
       _resetShowErrors ? Validators.email(_resetEmail) : null;
   NewPasswordError? get newPasswordError =>
-      _newShowErrors ? Validators.newPassword(_newPassword) : null;
+      _newErrorShown ? Validators.newPassword(_newPassword) : null;
   bool get passwordMismatch =>
-      _newShowErrors &&
-      Validators.newPassword(_newPassword) == null &&
-      _newPassword != _confirmPassword;
+      _confirmErrorShown && _newPassword != _confirmPassword;
 
   /// 1.05'e girişte yazılan e-posta hazır gelir. (Sayfa kurulurken çağrılır;
   /// bu yüzden dinleyicilere haber vermez.)
@@ -424,11 +444,14 @@ class AuthViewModel extends ChangeNotifier {
 
   void setNewPassword(String v) {
     _newPassword = v;
+    if (Validators.newPassword(v) == null) _newErrorShown = false;
+    if (_newPassword == _confirmPassword) _confirmErrorShown = false;
     notifyListeners();
   }
 
   void setConfirmPassword(String v) {
     _confirmPassword = v;
+    if (_newPassword == _confirmPassword) _confirmErrorShown = false;
     notifyListeners();
   }
 
@@ -444,9 +467,11 @@ class AuthViewModel extends ChangeNotifier {
 
   /// 1.07 → yeni şifreyi kaydeder. Başarılıysa true.
   Future<bool> savePassword() async {
-    _newShowErrors = true;
-    if (Validators.newPassword(_newPassword) != null ||
-        _newPassword != _confirmPassword) {
+    _newErrorShown = Validators.newPassword(_newPassword) != null;
+    // Tekrar alanı: yeni şifre geçerliyken eşleşmiyorsa.
+    _confirmErrorShown = !_newErrorShown && _newPassword != _confirmPassword;
+    if (_newErrorShown || _confirmErrorShown) {
+      _newErrorSeq++;
       notifyListeners();
       return false;
     }
@@ -467,7 +492,8 @@ class AuthViewModel extends ChangeNotifier {
     _resetSentAt = null;
     _newPassword = '';
     _confirmPassword = '';
-    _newShowErrors = false;
+    _newErrorShown = false;
+    _confirmErrorShown = false;
     _newObscure = true;
     _confirmObscure = true;
     _failure = null;

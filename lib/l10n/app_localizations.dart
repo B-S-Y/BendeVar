@@ -116,12 +116,6 @@ abstract class AppLocalizations {
   /// **'Elinde olan paylaşır,\nihtiyacı olan bulur.'**
   String get welcomeTitle;
 
-  /// No description provided for @welcomeSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Okul mailinle giriş yap, kampüsün seni bekliyor.'**
-  String get welcomeSubtitle;
-
   /// No description provided for @login.
   ///
   /// In tr, this message translates to:
@@ -139,12 +133,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Tekrar hoş geldin'**
   String get loginTitle;
-
-  /// No description provided for @loginSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Kurum e-postan ve şifrenle devam et.'**
-  String get loginSubtitle;
 
   /// No description provided for @emailLabel.
   ///
@@ -221,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorEmailNotEdu.
   ///
   /// In tr, this message translates to:
-  /// **'Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.'**
+  /// **'Okul e-postanı kullan (edu.tr).'**
   String get errorEmailNotEdu;
 
   /// No description provided for @errorPasswordEmpty.
@@ -239,25 +227,25 @@ abstract class AppLocalizations {
   /// No description provided for @errorAccountNotFound.
   ///
   /// In tr, this message translates to:
-  /// **'Bu e-postayla kayıtlı bir hesap bulamadık. E-postanı kontrol et ya da kayıt ol.'**
+  /// **'Bu e-postayla hesap bulunamadı.'**
   String get errorAccountNotFound;
 
   /// No description provided for @errorPasswordWrong.
   ///
   /// In tr, this message translates to:
-  /// **'Şifre yanlış. Tekrar dene.'**
+  /// **'Şifre yanlış.'**
   String get errorPasswordWrong;
 
   /// No description provided for @errorTooManyAttempts.
   ///
   /// In tr, this message translates to:
-  /// **'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene.'**
+  /// **'Çok fazla deneme; biraz sonra tekrar dene.'**
   String get errorTooManyAttempts;
 
   /// No description provided for @errorNotVerified.
   ///
   /// In tr, this message translates to:
-  /// **'Hesabın henüz doğrulanmamış. E-postana gönderdiğimiz bağlantıya tıkla.'**
+  /// **'Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla.'**
   String get errorNotVerified;
 
   /// No description provided for @resendVerification.
@@ -1262,12 +1250,6 @@ abstract class AppLocalizations {
   /// **'Okul e-postanla başla'**
   String get signupTitle;
 
-  /// No description provided for @signupSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Topluluğun e-posta uzantısından bulunur. Sana bir doğrulama bağlantısı göndereceğiz.'**
-  String get signupSubtitle;
-
   /// No description provided for @signupExit.
   ///
   /// In tr, this message translates to:
@@ -1313,25 +1295,25 @@ abstract class AppLocalizations {
   /// No description provided for @signupPasswordRule.
   ///
   /// In tr, this message translates to:
-  /// **'En az 8 karakter, en az bir harf ve bir rakam.'**
+  /// **'En az 8 karakter, bir harf ve bir rakam.'**
   String get signupPasswordRule;
 
   /// No description provided for @errorPasswordWeak.
   ///
   /// In tr, this message translates to:
-  /// **'Şifren en az 8 karakter olmalı, en az bir harf ve bir rakam içermeli.'**
+  /// **'En az 8 karakter, bir harf ve bir rakam.'**
   String get errorPasswordWeak;
 
   /// No description provided for @errorTermsRequired.
   ///
   /// In tr, this message translates to:
-  /// **'Devam etmek için şartları kabul etmelisin.'**
+  /// **'Şartları kabul et.'**
   String get errorTermsRequired;
 
   /// No description provided for @errorEmailInUse.
   ///
   /// In tr, this message translates to:
-  /// **'Bu e-posta zaten kayıtlı. Giriş yapmayı dene.'**
+  /// **'Bu e-posta zaten kayıtlı.'**
   String get errorEmailInUse;
 
   /// No description provided for @termsLead.
@@ -1343,7 +1325,7 @@ abstract class AppLocalizations {
   /// No description provided for @termsLink.
   ///
   /// In tr, this message translates to:
-  /// **'Kullanım şartlarını'**
+  /// **'Şartları'**
   String get termsLink;
 
   /// No description provided for @termsMid.
@@ -1355,13 +1337,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyLink.
   ///
   /// In tr, this message translates to:
-  /// **'gizlilik politikasını'**
+  /// **'gizliliği'**
   String get privacyLink;
 
   /// No description provided for @termsTail.
   ///
   /// In tr, this message translates to:
-  /// **' okudum, kabul ediyorum.'**
+  /// **' kabul ediyorum.'**
   String get termsTail;
 
   /// No description provided for @haveAccount.
@@ -1376,16 +1358,10 @@ abstract class AppLocalizations {
   /// **'Bağlantıyı gönderdik'**
   String get sentTitle;
 
-  /// No description provided for @sentSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Doğrulama bağlantısını şu adrese gönderdik:'**
-  String get sentSubtitle;
-
   /// No description provided for @sentInstruction.
   ///
   /// In tr, this message translates to:
-  /// **'Okul e-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.'**
+  /// **'Bağlantıya tıkla, sonra buraya dön.'**
   String get sentInstruction;
 
   /// No description provided for @sentWaiting.
@@ -1427,7 +1403,7 @@ abstract class AppLocalizations {
   /// No description provided for @notVerifiedYet.
   ///
   /// In tr, this message translates to:
-  /// **'E-postan henüz doğrulanmadı. Bağlantıya tıkladığından emin ol.'**
+  /// **'E-postan henüz doğrulanmadı.'**
   String get notVerifiedYet;
 
   /// No description provided for @linkResent.
@@ -1445,7 +1421,7 @@ abstract class AppLocalizations {
   /// No description provided for @nameSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Diğer kullanıcılar seni bu adla görecek. Gerekirse düzenleyebilirsin.'**
+  /// **'Diğer kullanıcılar seni bu adla görecek.'**
   String get nameSubtitle;
 
   /// No description provided for @nameLabel.
@@ -1477,12 +1453,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bağlantının süresi doldu'**
   String get expiredTitle;
-
-  /// No description provided for @expiredBody.
-  ///
-  /// In tr, this message translates to:
-  /// **'Doğrulama bağlantısı 24 saat geçerliydi. Sana yeni bir bağlantı gönderebiliriz.'**
-  String get expiredBody;
 
   /// No description provided for @sendNewLink.
   ///
@@ -1541,7 +1511,7 @@ abstract class AppLocalizations {
   /// No description provided for @resetExpired.
   ///
   /// In tr, this message translates to:
-  /// **'Bağlantının süresi doldu. Yeni bir bağlantı iste.'**
+  /// **'Bağlantının süresi doldu, yenisini iste.'**
   String get resetExpired;
 
   /// No description provided for @newPasswordTitle.
@@ -1589,7 +1559,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordUpdated.
   ///
   /// In tr, this message translates to:
-  /// **'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.'**
+  /// **'Şifren güncellendi.'**
   String get passwordUpdated;
 
   /// No description provided for @myCommunities.
@@ -1733,7 +1703,7 @@ abstract class AppLocalizations {
   /// No description provided for @communityMembers.
   ///
   /// In tr, this message translates to:
-  /// **'{count} üye'**
+  /// **'{count, plural, =1{1 üye} other{{count} üye}}'**
   String communityMembers(int count);
 
   /// No description provided for @communityFounderBadge.
@@ -1979,7 +1949,7 @@ abstract class AppLocalizations {
   /// No description provided for @emailAsciiHint.
   ///
   /// In tr, this message translates to:
-  /// **'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.'**
+  /// **'Türkçe karakter ve büyük harfi düzelttik.'**
   String get emailAsciiHint;
 
   /// No description provided for @doneTitle.
@@ -1997,7 +1967,7 @@ abstract class AppLocalizations {
   /// No description provided for @doneSlogan.
   ///
   /// In tr, this message translates to:
-  /// **'İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.'**
+  /// **'Elinde olanı paylaş, ihtiyacın olanı bul.'**
   String get doneSlogan;
 
   /// No description provided for @doneStart.

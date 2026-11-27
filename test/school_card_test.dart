@@ -1,3 +1,4 @@
+import 'package:bende_var/core/theme/app_motion.dart';
 import 'package:bende_var/core/utils/validators.dart';
 import 'package:bende_var/data/mock/mock_repositories.dart';
 import 'package:bende_var/features/auth/view/signup_page.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'test_helpers.dart';
 
-const _debounce = Duration(milliseconds: 500);
+const _debounce = AppMotion.schoolLookupDelay;
 
 AuthViewModel _vm({Duration delay = Duration.zero}) => AuthViewModel(
   MockAuthRepository(verifyAfter: Duration.zero),
@@ -140,6 +141,18 @@ void main() {
     expect(Validators.minSchoolIdLength, 2);
   });
 
+  test("okul kartı bekleme süresi token'dan (500 ms)", () {
+    expect(AppMotion.schoolLookupDelay, const Duration(milliseconds: 500));
+    expect(_vm().schoolLookupDelay, Duration.zero);
+    expect(
+      AuthViewModel(
+        MockAuthRepository(),
+        communities: MockCommunityRepository(),
+      ).schoolLookupDelay,
+      AppMotion.schoolLookupDelay,
+    );
+  });
+
   test('kişisel e-posta sağlayıcıları reddedilir (kayıt ve giriş)', () async {
     expect(
       Validators.personalProviders,
@@ -182,17 +195,20 @@ void main() {
     expect(si.emailError, EmailError.notEdu);
   });
 
-  testWidgets('kişisel e-posta alandan çıkınca hata gösterilir', (
+  testWidgets('kişisel e-posta: alandan çıkınca hata yok, Kayıt ol\'da var', (
     tester,
   ) async {
-    await _open(tester);
+    final vm = await _open(tester);
     await tester.tap(find.byKey(const Key('signup-email-field')));
     await tester.pump();
     await _type(tester, 'ali@gmail.edu.tr');
     await tester.tap(find.byKey(const Key('signup-password-field')));
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.byIcon(LucideIcons.circleAlert), findsWidgets);
+    expect(find.byIcon(LucideIcons.circleAlert), findsNothing);
     expect(find.text('Topluluğun ilk kayıtla açılacak'), findsNothing);
+    await vm.signUp();
+    await tester.pump();
+    expect(find.text('Okul e-postanı kullan (edu.tr).'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
 }

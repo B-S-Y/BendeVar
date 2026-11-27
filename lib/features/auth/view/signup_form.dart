@@ -127,11 +127,6 @@ class _SignupBodyState extends State<SignupBody> {
             l.signupTitle,
             style: AppTypography.title1.copyWith(color: c.textPrimary),
           ),
-          const SizedBox(height: AppSpacing.titleGap),
-          Text(
-            l.signupSubtitle,
-            style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
-          ),
           const SizedBox(height: AppSpacing.lg),
           InstitutionEmailField(
             fieldKey: const Key('signup-email-field'),
@@ -140,6 +135,7 @@ class _SignupBodyState extends State<SignupBody> {
             textInputAction: TextInputAction.next,
             onChanged: vm.setSignupEmail,
             errorText: emailError,
+            errorSignal: vm.signupErrorSeq,
           ),
           if (vm.showSchoolCard) ...[
             const SizedBox(height: AppSpacing.sm),
@@ -159,6 +155,7 @@ class _SignupBodyState extends State<SignupBody> {
             textInputAction: TextInputAction.done,
             onChanged: vm.setSignupPassword,
             errorText: passwordError,
+            errorSignal: vm.signupErrorSeq,
             suffix: IconButton(
               onPressed: vm.toggleSignupObscure,
               tooltip: vm.signupObscure ? l.showPassword : l.hidePassword,

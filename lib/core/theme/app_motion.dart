@@ -25,6 +25,10 @@ abstract final class AppMotion {
   /// "Animasyonları azalt" açıkken kısa, statik açılış.
   static const Duration splashReduced = Duration(milliseconds: 600);
 
+  /// Kayıtta okul kartı: yazma durduktan bu kadar sonra okul aranır (kart
+  /// yazarken çıkmaz).
+  static const Duration schoolLookupDelay = Duration(milliseconds: 500);
+
   /// Hatalı alanın sağa sola titremesi.
   static const Duration shake = Duration(milliseconds: 360);
   static const double shakeDistance = 6;
@@ -36,8 +40,32 @@ abstract final class AppMotion {
   static const int listStaggerMax = 8;
   static const double listSlide = 12;
 
-  /// Başarı tiki.
+  /// Başarı tiki (kayıt tamamlandı): ölçek 0 → [successOvershoot] → 1.
   static const Duration check = Duration(milliseconds: 600);
+  static const double successPopSeconds = .32;
+  static const double successSettleSeconds = .24;
+  static const double successOvershoot = 1.2;
+
+  /// "Bağlantıyı gönderdik" amblemi (sade kapalı zarf + iki halka), sn.
+  /// Halkalar içeriden dışarı belirir, gövde çizilir, kapak V'si çizilir,
+  /// sonda hafif ölçek vurgusu.
+  static const double envelopeSeconds = 1.4;
+  static const (double, double) envelopeRingInner = (0, .30);
+  static const (double, double) envelopeRingOuter = (.15, .45);
+  static const (double, double) envelopeBodyDraw = (.25, .80);
+  static const (double, double) envelopeFlapDraw = (.80, 1.05);
+  static const (double, double) envelopePulse = (1.05, 1.40);
+  static const double envelopeRingScaleFrom = .9;
+  static const double envelopePulseScale = 1.04;
+
+  /// Giriş bittikten sonra halkaların sürekli "nefes alması": yavaş döngü,
+  /// ölçek 1 ↔ [envelopeBreathScale], opaklık en fazla [envelopeBreathFade]
+  /// kadar azalır; iki halka arasında [envelopeBreathPhase] (döngü kesri) faz
+  /// farkı. Zarf sabit kalır.
+  static const Duration envelopeBreath = Duration(milliseconds: 2800);
+  static const double envelopeBreathScale = 1.04;
+  static const double envelopeBreathFade = .3;
+  static const double envelopeBreathPhase = .5;
 
   /// Kısa ipucunun ekranda kalma süresi ve belirme/kaybolma süresi.
   static const Duration hintVisible = Duration(seconds: 4);

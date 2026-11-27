@@ -321,6 +321,7 @@ class ResetNewPasswordPage extends StatelessWidget {
               textInputAction: TextInputAction.next,
               onChanged: vm.setNewPassword,
               errorText: error,
+              errorSignal: vm.newErrorSeq,
               suffix: eye(hidden: vm.newObscure, onToggle: vm.toggleNewObscure),
             ),
             if (error == null) ...[
@@ -343,6 +344,7 @@ class ResetNewPasswordPage extends StatelessWidget {
               onChanged: vm.setConfirmPassword,
               onSubmitted: (_) => save(),
               errorText: mismatch,
+              errorSignal: vm.newErrorSeq,
               suffix: eye(
                 hidden: vm.confirmObscure,
                 onToggle: vm.toggleConfirmObscure,

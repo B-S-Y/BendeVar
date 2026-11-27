@@ -48,6 +48,41 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _restored = false;
+
+  /// Açılışta kalıcı oturum kontrolü bitti mi (Beni hatırla).
+  bool get restored => _restored;
+
+  /// Açılış kapısı (SplashPage) için: kalıcı oturumu geri yükler.
+  Future<void> restore() async {
+    final user = await _repo.restoreSession();
+    if (user != null) _user = user;
+    _restored = true;
+    notifyListeners();
+  }
+
+  /// Açılış → Ana Sayfa geçişi giriş sonrası geçişle aynı olsun (sessiz).
+  void requestFadeToHome() => _fadeToHome = true;
+
+  bool _fadeToHome = false;
+
+  /// Giriş yeni başarılı oldu: Ana Sayfa'ya solma/büyüme geçişi oynatılır.
+  /// Geçiş bitince (ya da animasyonlar azaltılmışsa hemen) [endFadeToHome].
+  bool get fadeToHome => _fadeToHome;
+
+  /// Sessiz (build sırasında çağrılabilir; dinleyicileri uyandırmaz).
+  void endFadeToHome() => _fadeToHome = false;
+
+  bool _remember = false;
+
+  /// "Beni hatırla" (varsayılan kapalı).
+  bool get remember => _remember;
+
+  void setRemember(bool v) {
+    _remember = v;
+    notifyListeners();
+  }
+
   int _errorSeq = 0;
 
   /// Her başarısız giriş denemesinde artar (alan titremesi için).
@@ -71,7 +106,14 @@ class AuthViewModel extends ChangeNotifier {
     _failure = null;
     notifyListeners();
     try {
-      _user = await _repo.signIn(_email.trim(), _password);
+      final user = await _repo.signIn(
+        _email.trim(),
+        _password,
+        remember: _remember,
+      );
+      // Yönlendirme (refreshListenable) bunu görsün diye kullanıcıdan önce.
+      _fadeToHome = true;
+      _user = user;
       return true;
     } on AuthException catch (e) {
       _failure = e.failure;
@@ -379,6 +421,7 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> signOut() async {
     await _repo.signOut();
     _user = null;
+    _fadeToHome = false;
     _email = '';
     _password = '';
     _showErrors = false;

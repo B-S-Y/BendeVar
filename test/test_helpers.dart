@@ -37,9 +37,12 @@ Future<void> pumpApp(
   WidgetTester tester, {
   ThemeMode theme = ThemeMode.light,
   Locale locale = const Locale('tr'),
+  Map<String, Object> prefsValues = const {},
+  AppDependencies? deps,
+  bool animations = false,
 }) async {
   useAndroidScreen(tester);
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues(prefsValues);
   final prefs = await SharedPreferences.getInstance();
   final themeCtrl = ThemeController(prefs);
   final localeCtrl = LocaleController(prefs);
@@ -47,14 +50,25 @@ Future<void> pumpApp(
   await localeCtrl.setChoice(
     locale.languageCode == 'en' ? LocaleChoice.en : LocaleChoice.tr,
   );
+  final appDeps = deps ?? AppDependencies();
+  if (animations) {
+    // Gerçek cihaz gibi: animasyonlar açık.
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures();
+  }
   await tester.pumpWidget(
     BendeVarApp(
-      deps: AppDependencies(),
+      deps: appDeps,
       themeController: themeCtrl,
       localeController: localeCtrl,
     ),
   );
-  await tester.pumpAndSettle();
+  // Animasyonlar açıksa sürekli animasyon (yıldızlar) settle'ı bekletir.
+  if (animations) {
+    await tester.pump();
+  } else {
+    await tester.pumpAndSettle();
+  }
 }
 
 /// Tek bir widget'ı tema + dil ile sarar.

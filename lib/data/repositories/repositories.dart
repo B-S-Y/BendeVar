@@ -29,8 +29,18 @@ class AuthException implements Exception {
 abstract class AuthRepository {
   AppUser? get currentUser;
 
-  /// Başarısızlıkta [AuthException] fırlatır.
-  Future<AppUser> signIn(String email, String password);
+  /// Başarısızlıkta [AuthException] fırlatır. [remember] açıksa (ve hesap
+  /// doğrulanmışsa) oturum uygulama kapanıp açılınca korunur.
+  Future<AppUser> signIn(
+    String email,
+    String password, {
+    bool remember = false,
+  });
+
+  /// Açılışta: "Beni hatırla" ile kalan oturum varsa kullanıcıyı açar.
+  Future<AppUser?> restoreSession();
+
+  /// Oturumu kapatır ve hatırlanan oturumu siler.
   Future<void> signOut();
 
   /// Doğrulama bağlantısını (yeniden) gönderir.

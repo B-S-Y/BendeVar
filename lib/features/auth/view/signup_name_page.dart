@@ -42,7 +42,8 @@ class _SignupNamePageState extends State<SignupNamePage> {
     final ok = await vm.completeSignUp(_name.text);
     if (ok && mounted) {
       vm.resetSignup();
-      context.go('/home');
+      // Kayıt tamamlandı ekranı; "Başla" Ana Sayfa'ya götürür.
+      context.go('/signup/done');
     }
   }
 

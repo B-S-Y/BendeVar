@@ -51,6 +51,13 @@ class _BendeVarAppState extends State<BendeVarApp> {
   late final GoRouter _router = buildRouter(widget.deps, _auth);
 
   @override
+  void initState() {
+    super.initState();
+    // Oturum kontrolü açılış kapısında (SplashPage) beklenir.
+    _auth.restore();
+  }
+
+  @override
   void dispose() {
     _router.dispose();
     _auth.dispose();

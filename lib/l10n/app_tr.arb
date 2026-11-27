@@ -247,10 +247,8 @@
   "myListingsAndNeeds": "İhtiyaçlarım ve ilanlarım",
   "themeAndLanguage": "Tema ve dil",
   "logout": "Çıkış yap",
-  "logoutTitle": "Çıkış yapmak istiyor musun?",
-  "logoutLine1": "Bu telefondaki oturumun kapanır.",
-  "logoutLine2": "Tekrar girmek için kurum e-postan ve şifren gerekir.",
-  "logoutLine3": "Bu telefona bildirim gelmez; iade hatırlatmaları da durur.",
+  "logoutTitle": "Çıkış yapılsın mı?",
+  "logoutLine1": "Hesabından çıkacaksın.",
   "statusOnLoan": "Ödünçte",
   "statusAwaiting": "Teslim bekleniyor",
   "statusReturned": "İade edildi",
@@ -430,5 +428,12 @@
   "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
   "leaveCommunityLine2": "İstersen sonra yeniden katılabilirsin.",
   "communityLeft": "Topluluktan ayrıldın.",
-  "emailAsciiHint": "E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik."
+  "emailAsciiHint": "E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.",
+  "doneTitle": "Hoş geldin, {name}!",
+  "@doneTitle": {"placeholders": {"name": {"type": "String"}}},
+  "doneSubtitle": "{community} topluluğuna katıldın.",
+  "@doneSubtitle": {"placeholders": {"community": {"type": "String"}}},
+  "doneSlogan": "İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.",
+  "doneStart": "Başla",
+  "rememberMe": "Beni hatırla"
 }

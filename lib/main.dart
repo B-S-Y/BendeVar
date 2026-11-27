@@ -12,11 +12,9 @@ Future<void> main() async {
   final theme = ThemeController();
   final locale = LocaleController();
   await Future.wait([theme.load(), locale.load()]);
+  final deps = AppDependencies();
+  // "Beni hatırla" kontrolü açılış kapısında (SplashPage) yapılır.
   runApp(
-    BendeVarApp(
-      deps: AppDependencies(),
-      themeController: theme,
-      localeController: locale,
-    ),
+    BendeVarApp(deps: deps, themeController: theme, localeController: locale),
   );
 }

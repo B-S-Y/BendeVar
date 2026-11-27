@@ -113,7 +113,10 @@ void main() {
     // 1.15b çıkış onayı.
     await tester.tap(find.text('Çıkış yap'));
     await tester.pumpAndSettle();
-    expect(find.text('Çıkış yapmak istiyor musun?'), findsOneWidget);
+    expect(find.text('Çıkış yapılsın mı?'), findsOneWidget);
+    expect(find.text('Hesabından çıkacaksın.'), findsOneWidget);
+    expect(find.text('Vazgeç'), findsOneWidget);
+    expect(find.textContaining('bildirim'), findsNothing);
     await tester.tap(find.text('Çıkış yap').last);
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();

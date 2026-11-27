@@ -9,6 +9,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_buttons.dart';
+import '../../../core/widgets/app_checkbox.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/institution_email_field.dart';
 import '../../../l10n/app_localizations.dart';
@@ -162,6 +163,12 @@ class _LoginBodyState extends State<LoginBody> {
                 color: c.textSecondary,
               ),
             ),
+          ),
+          AppCheckbox(
+            checkboxKey: const Key('remember-checkbox'),
+            value: vm.remember,
+            onChanged: vm.setRemember,
+            label: l.rememberMe,
           ),
           if (vm.failure == AuthFailure.tooManyAttempts) ...[
             const SizedBox(height: AppSpacing.lg),

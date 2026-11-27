@@ -118,3 +118,30 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - D6 (GERİ ALINDI, bkz. aşağıdaki not): `AppColors.lerp` tüm renkleri `Color.lerp` ile geçiriyor (eskiden yarıda sıçrıyordu); `MaterialApp.themeAnimationDuration` = `AppMotion.theme`, azaltılınca sıfır.
 
 - D6 geri alındı: tema geçişi çok yavaş hissedildiği için `AppColors.lerp` ve `themeAnimationDuration` D6 öncesi hâline döndü (varsayılan MaterialApp tema geçişi). D1, D2, D3, D5 aynen duruyor.
+
+## Kayıt tamamlandı ekranı (1.10 sonrası)
+- Figma'da bu ekran için PNG yok; en yakın örnek 1.09 düzeni (koyu yıldızlı zemin + alt açık panel, `AuthBackdrop`, `c.sheet` panel, ortak `PrimaryButton`). Rota: `/signup/done`; 1.10 "Bitir"den sonra açılır, "Başla" `go('/home')` ile yığını temizleyerek Ana Sayfa'ya gider.
+- Tik: yeni bir animasyon yazılmadı; 1.09 zarfındaki rozetle aynı zamanlama/eğri/aşım (`EnvelopeAnimation.badgePop/badgeSettle/badgeOvershoot`, 0 → 1,2 → 1) yeniden kullanıldı. Zarftaki rozet zarfın içinde özel olduğu için bağımsız `SuccessCheck` widget'ı (96 dp mavi `accent` daire, beyaz tik) aynı sabitlerle yazıldı.
+- Sıra: tik (~0,56 sn) → başlık (0,5 sn) → 0,2 sn sonra alt metin (0,5 sn); ikisi yukarı kayarak ve solarak gelir (`AppMotion.listSlide`). "Animasyonları azalt" açıksa son kare doğrudan, yıldızlar durağan.
+- "Hoş geldin, {ad}!" için ad: girilen Ad Soyad'ın ilk kelimesi (ör. "Elif Yıldırım" → "Elif"). Topluluk adı kullanıcının topluluğundan gelir.
+- Alt panel metni "İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul." (EN: "Whatever you need, in your community. Share what you have, find what you need.").
+
+## Çıkış onayı sadeleştirildi
+- 1.15b çıkış onayı: başlık "Çıkış yapılsın mı?", tek satır "Hesabından çıkacaksın.", butonlar "Vazgeç" / "Çıkış yap". Eski üç satırlık açıklama (`logoutLine2/3`) kaldırıldı. Aynı metin Profil'deki çıkış onayında da kullanıldığı için `profile_page.dart`'ta yalnızca `messages` listesi tek satıra indirildi (başka değişiklik yok). PNG'deki (1.15b) uzun metinden bilinçli sapmadır.
+
+## Beni hatırla (giriş)
+- Giriş formunda şifre alanının altında "Beni hatırla" onay kutusu (varsayılan boş; ortak `AppCheckbox`, yeni dosya `lib/core/widgets/app_checkbox.dart`). Kayıt formundaki şartlar kutusu kendi içinde yazılı olduğu için dokunulmadı.
+- Açıkken giriş: `AuthRepository.signIn(..., remember: true)` e-postayı `shared_preferences`'a (`remember_email`) yazar. Açılışta `main.dart` `restoreSession()` çağırır; kayıt varsa Giriş istenmeden Ana Sayfa açılır. Kapalıyken (ya da kapalı girişte) kayıt silinir, her açılışta giriş istenir. Çıkış yapınca (`signOut`) silinir.
+- Doğrulanmamış hesap giriş aşamasında reddedildiği için hatırlanmaz; elle yazılmış eski kayıt olsa bile açılışta kullanılmaz ve silinir.
+- Mock'ta yalnızca e-posta saklanır (şifre asla). Firebase'e geçince oturum kalıcılığı SDK'da olur; `restoreSession` oradaki `currentUser`'ı döndürür.
+
+## Giriş → Ana Sayfa geçişi
+- Giriş başarılı olunca: giriş ekranı ~0,45 sn solar, Ana Sayfa aynı sürede %96'dan %100'e büyüyerek ve belirginleşerek gelir (`AppMotion.loginToHome`, `homeScaleFrom`). Yalnızca girişin hemen ardından oynar (`AuthViewModel.fadeToHome` bayrağı, geçiş bitince sessizce iner); diğer `/home` girişleri ortak kayma+solma geçişini kullanır.
+- "Animasyonları azalt" açıkken efekt yok, doğrudan geçer. `go('/home')` yığını temizlediği için geri tuşu giriş ekranına dönmez.
+- Uygulama soğuk açılışında (Beni hatırla) geçiş oynamaz; ilk sayfa animasyonsuz açılır.
+
+## Kısa açılış (Beni hatırla ile açılan oturum)
+- Uygulama artık `/splash` açılış kapısıyla başlar (`SplashPage`). Oturum kontrolü (`AuthViewModel.restore` → `restoreSession`, shared_preferences) bu kapıda, animasyon süresi içinde yapılır; `main.dart` artık kontrolü beklemez.
+- Oturum yok: bekletmeden Karşılama'ya geçilir (tam 3,5 sn karşılama animasyonu orada, değişmedi); logo/ad hiç görünmez. Oturum var: ~1,2 sn (`AppMotion.splash`) karşılama zemini (`AuthBackdrop`, durağan yıldızlar), ortada `AppLogo` küçük büyümeyle (%80→%100), altında "Bende Var"; halka/parçacık/panel yok. Sonra giriş sonrası geçişle (`fadeToHome`: açılış solar, Ana Sayfa %96→%100) Ana Sayfa.
+- Kontrol 1,2 sn'den uzun sürerse oturum bilinince hemen geçilir. "Animasyonları azalt" açıksa açılış atlanır, doğrudan Ana Sayfa.
+- Redirect aynı: oturum yok → Karşılama (`/splash` herkese açık rota); oturum var → Ana Sayfa. Karşılama'ya geçiş ortak kayma+solma sayfa geçişini kullanır.

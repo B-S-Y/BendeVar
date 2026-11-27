@@ -23,6 +23,11 @@ class AppPageTransitionsBuilder extends PageTransitionsBuilder {
     Widget child,
   ) {
     if (AppMotion.reduce(context)) return child;
+    return slideFade(animation, child);
+  }
+
+  /// Ortak geçişin gövdesi (özel sayfalar da aynısını kullanır).
+  static Widget slideFade(Animation<double> animation, Widget child) {
     final curved = animation.drive(CurveTween(curve: AppMotion.standard));
     return FadeTransition(
       opacity: curved,
@@ -37,4 +42,25 @@ class AppPageTransitionsBuilder extends PageTransitionsBuilder {
       ),
     );
   }
+
+  /// Giriş → Ana Sayfa: yeni sayfa %96'dan %100'e büyüyerek belirir.
+  static Widget scaleFade(Animation<double> animation, Widget child) {
+    final curved = animation.drive(CurveTween(curve: AppMotion.standard));
+    return FadeTransition(
+      opacity: curved,
+      child: ScaleTransition(
+        scale: curved.drive(
+          Tween<double>(begin: AppMotion.homeScaleFrom, end: 1),
+        ),
+        child: child,
+      ),
+    );
+  }
+
+  /// Giriş → Ana Sayfa: giden (giriş) sayfa, gelen sayfanın animasyonuyla solar.
+  static Widget fadeOut(Animation<double> secondary, Widget child) =>
+      FadeTransition(
+        opacity: secondary.drive(Tween<double>(begin: 1, end: 0)),
+        child: child,
+      );
 }

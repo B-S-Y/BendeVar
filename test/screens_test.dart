@@ -302,7 +302,7 @@ void main() {
     );
     await tester.tap(find.text('Çıkış yap'));
     await tester.pumpAndSettle();
-    expect(find.text('Çıkış yapmak istiyor musun?'), findsOneWidget);
+    expect(find.text('Çıkış yapılsın mı?'), findsOneWidget);
     await tester.tap(find.text('Çıkış yap').last);
     // Sahte repository gecikmesi (animasyonlar kapalıyken settle beklemez).
     await tester.pump(const Duration(seconds: 1));

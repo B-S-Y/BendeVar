@@ -550,18 +550,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get logout => 'Çıkış yap';
 
   @override
-  String get logoutTitle => 'Çıkış yapmak istiyor musun?';
+  String get logoutTitle => 'Çıkış yapılsın mı?';
 
   @override
-  String get logoutLine1 => 'Bu telefondaki oturumun kapanır.';
-
-  @override
-  String get logoutLine2 =>
-      'Tekrar girmek için kurum e-postan ve şifren gerekir.';
-
-  @override
-  String get logoutLine3 =>
-      'Bu telefona bildirim gelmez; iade hatırlatmaları da durur.';
+  String get logoutLine1 => 'Hesabından çıkacaksın.';
 
   @override
   String get statusOnLoan => 'Ödünçte';
@@ -1043,4 +1035,24 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get emailAsciiHint =>
       'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.';
+
+  @override
+  String doneTitle(String name) {
+    return 'Hoş geldin, $name!';
+  }
+
+  @override
+  String doneSubtitle(String community) {
+    return '$community topluluğuna katıldın.';
+  }
+
+  @override
+  String get doneSlogan =>
+      'İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.';
+
+  @override
+  String get doneStart => 'Başla';
+
+  @override
+  String get rememberMe => 'Beni hatırla';
 }

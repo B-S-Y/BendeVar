@@ -41,3 +41,8 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Düzeltme turu C: arama girişte sıfırlanır, davet kodu yalnızca gizli topluluklarda; testler community_test.dart.
 - Düzeltme turu D: hareket token'ları (app_motion.dart), ortak sayfa geçişi, düğme basılma, alan titremesi, liste girişi, yumuşak tema geçişi. D4 için ayrı 'kayıt tamamlandı' ekranı yok (zarf+tik 1.06/1.09'da var). Testler: test/motion_test.dart.
 - D6 geri alındı (tema geçişi eski hâlinde); D1/D2/D3/D5 duruyor.
+- Kayıt tamamlandı ekranı (/signup/done): SuccessCheck + SignupDonePage, 1.10 sonrası; test/signup_done_test.dart.
+- Çıkış onayı sadeleştirildi (başlık + tek satır).
+- Beni hatırla: AppCheckbox, signIn(remember), restoreSession (main.dart); testler test/remember_test.dart.
+- Giriş → Ana Sayfa solma/büyüme geçişi (router.dart _authEntryPage/_shellPage); test/login_transition_test.dart.
+- Kısa açılış kapısı (/splash, SplashPage): Beni hatırla açılışında logo animasyonu + solma ile Ana Sayfa; testler test/splash_test.dart.

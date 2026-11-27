@@ -188,6 +188,14 @@ void main() {
     await tester.tap(find.text('Tamamla'));
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
+    // Kayıt tamamlandı ekranı, sonra "Başla" ile Ana Sayfa.
+    expect(find.text('Hoş geldin, Sule!'), findsOneWidget);
+    expect(
+      find.text('Yıldız Teknik Üniversitesi topluluğuna katıldın.'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Başla'));
+    await tester.pumpAndSettle();
     expect(find.textContaining('İlanlar · '), findsOneWidget);
   });
 

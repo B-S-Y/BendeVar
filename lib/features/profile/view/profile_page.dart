@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
       final ok = await showConfirmSheet(
         context,
         title: l.logoutTitle,
-        messages: [l.logoutLine1, l.logoutLine2, l.logoutLine3],
+        messages: [l.logoutLine1],
         cancelLabel: l.cancel,
         confirmLabel: l.logout,
       );

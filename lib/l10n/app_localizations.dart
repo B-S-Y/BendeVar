@@ -1121,26 +1121,14 @@ abstract class AppLocalizations {
   /// No description provided for @logoutTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Çıkış yapmak istiyor musun?'**
+  /// **'Çıkış yapılsın mı?'**
   String get logoutTitle;
 
   /// No description provided for @logoutLine1.
   ///
   /// In tr, this message translates to:
-  /// **'Bu telefondaki oturumun kapanır.'**
+  /// **'Hesabından çıkacaksın.'**
   String get logoutLine1;
-
-  /// No description provided for @logoutLine2.
-  ///
-  /// In tr, this message translates to:
-  /// **'Tekrar girmek için kurum e-postan ve şifren gerekir.'**
-  String get logoutLine2;
-
-  /// No description provided for @logoutLine3.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bu telefona bildirim gelmez; iade hatırlatmaları da durur.'**
-  String get logoutLine3;
 
   /// No description provided for @statusOnLoan.
   ///
@@ -2023,6 +2011,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.'**
   String get emailAsciiHint;
+
+  /// No description provided for @doneTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hoş geldin, {name}!'**
+  String doneTitle(String name);
+
+  /// No description provided for @doneSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{community} topluluğuna katıldın.'**
+  String doneSubtitle(String community);
+
+  /// No description provided for @doneSlogan.
+  ///
+  /// In tr, this message translates to:
+  /// **'İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.'**
+  String get doneSlogan;
+
+  /// No description provided for @doneStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başla'**
+  String get doneStart;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beni hatırla'**
+  String get rememberMe;
 }
 
 class _AppLocalizationsDelegate

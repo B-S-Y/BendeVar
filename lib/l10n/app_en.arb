@@ -247,10 +247,8 @@
   "myListingsAndNeeds": "My needs and listings",
   "themeAndLanguage": "Theme and language",
   "logout": "Sign out",
-  "logoutTitle": "Do you want to sign out?",
-  "logoutLine1": "Your session on this phone will end.",
-  "logoutLine2": "You'll need your institutional email and password to sign in again.",
-  "logoutLine3": "This phone won't get notifications, and return reminders will stop too.",
+  "logoutTitle": "Sign out?",
+  "logoutLine1": "You will be signed out of your account.",
   "statusOnLoan": "On loan",
   "statusAwaiting": "Awaiting handover",
   "statusReturned": "Returned",
@@ -430,5 +428,12 @@
   "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
   "leaveCommunityLine2": "You can join again later.",
   "communityLeft": "You left the community.",
-  "emailAsciiHint": "Email addresses don't use Turkish characters or capital letters, so we fixed it automatically."
+  "emailAsciiHint": "Email addresses don't use Turkish characters or capital letters, so we fixed it automatically.",
+  "doneTitle": "Welcome, {name}!",
+  "@doneTitle": {"placeholders": {"name": {"type": "String"}}},
+  "doneSubtitle": "You joined the {community} community.",
+  "@doneSubtitle": {"placeholders": {"community": {"type": "String"}}},
+  "doneSlogan": "Whatever you need, in your community. Share what you have, find what you need.",
+  "doneStart": "Get started",
+  "rememberMe": "Remember me"
 }

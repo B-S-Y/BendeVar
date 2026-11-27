@@ -563,18 +563,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Sign out';
 
   @override
-  String get logoutTitle => 'Do you want to sign out?';
+  String get logoutTitle => 'Sign out?';
 
   @override
-  String get logoutLine1 => 'Your session on this phone will end.';
-
-  @override
-  String get logoutLine2 =>
-      'You\'ll need your institutional email and password to sign in again.';
-
-  @override
-  String get logoutLine3 =>
-      'This phone won\'t get notifications, and return reminders will stop too.';
+  String get logoutLine1 => 'You will be signed out of your account.';
 
   @override
   String get statusOnLoan => 'On loan';
@@ -1058,4 +1050,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emailAsciiHint =>
       'Email addresses don\'t use Turkish characters or capital letters, so we fixed it automatically.';
+
+  @override
+  String doneTitle(String name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String doneSubtitle(String community) {
+    return 'You joined the $community community.';
+  }
+
+  @override
+  String get doneSlogan =>
+      'Whatever you need, in your community. Share what you have, find what you need.';
+
+  @override
+  String get doneStart => 'Get started';
+
+  @override
+  String get rememberMe => 'Remember me';
 }

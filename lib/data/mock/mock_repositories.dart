@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/community_models.dart';
 import '../models/models.dart';
 import '../models/settings_models.dart';
@@ -48,8 +50,40 @@ class MockAuthRepository implements AuthRepository {
   @override
   AppUser? get currentUser => _user;
 
+  /// "Beni hatırla" için kalıcı anahtar (shared_preferences; Firebase'de
+  /// oturum kalıcılığı SDK'da olacak). Mock'ta en iyi çaba: erişilemezse yok sayılır.
+  static const String rememberKey = 'remember_email';
+
+  Future<SharedPreferences?> _prefs() async {
+    try {
+      return await SharedPreferences.getInstance();
+    } catch (_) {
+      return null;
+    }
+  }
+
   @override
-  Future<AppUser> signIn(String email, String password) async {
+  Future<AppUser?> restoreSession() async {
+    final prefs = await _prefs();
+    final email = prefs?.getString(rememberKey);
+    if (email == null) return null;
+    // Yalnızca doğrulanmış hesap hatırlanır.
+    final account = _accounts
+        .where((a) => a.email == email && a.verified)
+        .firstOrNull;
+    if (account == null) {
+      await prefs?.remove(rememberKey);
+      return null;
+    }
+    return _user = account.user;
+  }
+
+  @override
+  Future<AppUser> signIn(
+    String email,
+    String password, {
+    bool remember = false,
+  }) async {
     await Future<void>.delayed(_latency);
     final key = email.trim().toLowerCase();
     final pending = _pending[key];
@@ -80,6 +114,14 @@ class MockAuthRepository implements AuthRepository {
       throw const AuthException(AuthFailure.notVerified);
     }
     _user = account.user;
+    // Doğrulanmamış hesap yukarıda reddedildi; buraya yalnızca doğrulanmış
+    // hesap gelir. Hatırlama kapalıysa eski kayıt da silinir.
+    final prefs = await _prefs();
+    if (remember) {
+      await prefs?.setString(rememberKey, account.email);
+    } else {
+      await prefs?.remove(rememberKey);
+    }
     return account.user;
   }
 
@@ -87,6 +129,7 @@ class MockAuthRepository implements AuthRepository {
   Future<void> signOut() async {
     await Future<void>.delayed(_latency);
     _user = null;
+    await (await _prefs())?.remove(rememberKey);
   }
 
   @override

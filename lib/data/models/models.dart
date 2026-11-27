@@ -18,10 +18,21 @@ class Community {
     required this.id,
     required this.name,
     required this.shortName,
+    this.nameEn,
   });
   final String id;
+
+  /// Türkçe ad (varsayılan).
   final String name;
   final String shortName;
+
+  /// İngilizce ad; yoksa [name] gösterilir.
+  final String? nameEn;
+
+  /// Seçili dile göre ad (`en` → [nameEn], diğerleri [name]). Veri çevrilmez,
+  /// okulun kendi iki adı kullanılır.
+  String localizedName(String languageCode) =>
+      languageCode == 'en' ? (nameEn ?? name) : name;
 }
 
 class AppUser {

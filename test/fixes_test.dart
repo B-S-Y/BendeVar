@@ -36,7 +36,7 @@ void main() {
         description: '',
         visibility: CommunityVisibility.open,
       );
-      expect(elif.mine.map((c) => c.id), containsAll(['ytu', 'kamp']));
+      expect(elif.mine.map((c) => c.id), containsAll(['yildiz', 'kamp']));
 
       // Aynı oturumda çıkış, Marmara hesabıyla giriş (aynı repo).
       final marmara = CommunityViewModel(repo);

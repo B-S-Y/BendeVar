@@ -5,8 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/utils/text_search.dart';
 import '../models/community_models.dart';
 import '../models/models.dart';
+import '../models/school.dart';
 import '../models/settings_models.dart';
 import '../repositories/repositories.dart';
+import '../school_directory.dart';
 import 'mock_data.dart';
 
 const Duration _latency = Duration(milliseconds: 250);
@@ -243,9 +245,21 @@ class MockAuthRepository implements AuthRepository {
 }
 
 class MockCommunityRepository implements CommunityRepository {
-  MockCommunityRepository() : _bySchool = {...mockKnownSchools};
+  MockCommunityRepository({Future<SchoolDirectory> Function()? loadSchools})
+    : _loadSchools = loadSchools ?? SchoolDirectory.loadShared;
 
-  final Map<String, Community> _bySchool;
+  /// Okul rehberi (JSON, bir kez yüklenir).
+  final Future<SchoolDirectory> Function() _loadSchools;
+
+  /// Rehberde olmayıp ilk kayıtla açılan okul toplulukları.
+  final Map<String, Community> _created = {};
+
+  Community _fromSchool(School s) => Community(
+    id: s.id,
+    name: s.nameTr,
+    shortName: s.nameTr,
+    nameEn: s.nameEn,
+  );
 
   /// Tüm topluluklar (okul toplulukları ilk girişte eklenir).
   final Map<String, CommunityInfo> _all = {
@@ -255,7 +269,7 @@ class MockCommunityRepository implements CommunityRepository {
       description: 'Yurtta kalanlar için ödünç alma ve verme.',
       memberCount: 86,
       visibility: CommunityVisibility.schoolOnly,
-      schoolId: 'ytu',
+      schoolId: 'yildiz',
     ),
     'kamp': const CommunityInfo(
       id: 'kamp',
@@ -311,12 +325,18 @@ class MockCommunityRepository implements CommunityRepository {
   );
 
   @override
-  Future<Community?> findBySchool(String schoolId) async => _bySchool[schoolId];
+  Future<Community?> findBySchool(String schoolId) async {
+    final directory = SchoolDirectory.cached ?? await _loadSchools();
+    final school = directory.find(schoolId);
+    return school == null ? _created[schoolId] : _fromSchool(school);
+  }
 
   @override
   Future<Community> joinOrCreate(String schoolId) async {
     await Future<void>.delayed(_latency);
-    return _bySchool.putIfAbsent(schoolId, () {
+    final known = await findBySchool(schoolId);
+    if (known != null) return known;
+    return _created.putIfAbsent(schoolId, () {
       final name = schoolId[0].toUpperCase() + schoolId.substring(1);
       return Community(id: schoolId, name: name, shortName: name);
     });

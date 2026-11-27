@@ -141,7 +141,9 @@ class _SignupBodyState extends State<SignupBody> {
             const SizedBox(height: AppSpacing.sm),
             _SchoolCard(
               name:
-                  vm.schoolCommunity?.name ??
+                  vm.schoolCommunity?.localizedName(
+                    Localizations.localeOf(context).languageCode,
+                  ) ??
                   _capitalize(Validators.schoolId(vm.signupEmail) ?? ''),
               exists: vm.schoolCommunity != null,
             ),

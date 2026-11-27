@@ -287,3 +287,12 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 
 ## Topluluk araması yükleme bitene kadar pasif
 - Topluluklarım'da arama kutusu liste yüklenene kadar pasif (`AppTextField.enabled`); hesap değişiminden hemen sonra önceki kullanıcının bağlamıyla arama yapılmaz.
+
+## Okul listesi JSON'dan (`assets/data/tr_universities.json`)
+- Kayıttaki okul bulma artık 206 okuldan oluşan JSON'dan beslenir (`SchoolDirectory`, tek sefer yüklenir; eski `mockKnownSchools` kalktı). Kimlik ve alias'lar tek arama haritasında; arama `TextSearch.normalize` ile büyük/küçük harf ve Türkçe karakterden bağımsız. Okul adı seçili dile göre (`Community.localizedName`: TR `name_tr`, EN `name_en`).
+- Birleştirilen/alias yapılan kimlikler: `ybu`→`aybu`, `ohu`→`nigde`, `gata`→`sbu`, `gyte`→`gtu`, `karaelmas`→`beun`, `dho`/`hho`→`msu` (Millî Savunma Üniversitesi). `msgsu` ayrı okul. `ayvansaray`, `boun` vb. alias'lar duruyor.
+- Okul topluluğu kimliği artık JSON kimliği: Yıldız Teknik `ytu` → `yildiz` (mock hesaplar, yurt topluluğu ve testler buna göre).
+- Rehberde olmayan okul eskisi gibi: "Topluluğun ilk kayıtla açılacak", `joinOrCreate` ile ilk kayıtta açılır.
+- Sabancı (`sabanciuniv.edu`, `.edu.tr` değil) sabit `.edu.tr` kuralı yüzünden kayıt olamaz; kodda özel durum yok. JSON'da `note` olarak duruyor.
+- Okul adları ARB'de değil veridir; EN arayüzde okul kartı `name_en` gösterir. Ana Sayfa ve ilan detayı (başkasının modülü) hâlâ Türkçe `community.name` gösterir.
+- Ön ek (`st.`, `ogr.`, `std.`) listesi yok: okul kimliği `.edu.tr`'den önceki son etikettir, bu yüzden `st.biruni.edu.tr` → `biruni`.

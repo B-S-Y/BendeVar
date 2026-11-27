@@ -22,7 +22,7 @@ void main() {
     test('okul topluluğu en üstte ve ayrılınamaz', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
       await vm.load(mockUser);
-      expect(vm.mine.map((c) => c.id), ['ytu']);
+      expect(vm.mine.map((c) => c.id), ['yildiz']);
       expect(vm.mine.first.isSchool, isTrue);
       await vm.leave('yildiz'); // listeden düşer ama repo okulu bırakmaz
       final again = CommunityViewModel(MockCommunityRepository());
@@ -209,7 +209,7 @@ void main() {
     await tester.tap(find.text('Topluluklarım'));
     await settle();
     expect(find.byKey(const Key('result-kamp')), findsNothing);
-    expect(find.byKey(const Key('mine-ytu')), findsOneWidget);
+    expect(find.byKey(const Key('mine-yildiz')), findsOneWidget);
     final field = tester.widget<TextField>(
       find.descendant(
         of: find.byKey(const Key('community-search')),

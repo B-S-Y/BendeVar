@@ -103,7 +103,11 @@ class _SignupDonePageState extends State<SignupDonePage>
         .select<AuthViewModel, ({String name, String community})>(
           (v) => (
             name: (v.user?.displayName ?? '').split(' ').first,
-            community: v.user?.community.name ?? '',
+            community:
+                v.user?.community.localizedName(
+                  Localizations.localeOf(context).languageCode,
+                ) ??
+                '',
           ),
         );
     final bottom = MediaQuery.paddingOf(context).bottom;

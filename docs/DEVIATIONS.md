@@ -26,3 +26,22 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 | appBarFieldFill / appBarFieldBorder | #1C2540 / #2A3552 | Üst bar içi alan |
 | scrim | siyah %70 | Alt sayfa arka perdesi |
 | unreadTint | #18233F | Okunmamış satır zemini |
+
+## 1.01 Karşılama animasyonu (ANIMASYON_1.01.md)
+- Toplam süre 3,52 sn: belge "≈3,5 sn" diyor ama son öğe (panel içeriği) 3,52'de bitiyor; Interval 1'i aşmasın diye controller 3,52 sn.
+- "Bende Var" yazısı belgede Bold 800; Inter'in 800 ağırlığı pakette yok (400/500/600/700), 700 kullanıldı.
+- Arka plan lekeleri (blob): belge yalnızca davranışı (morph 12 sn, süzülme 16/−20 px, 22°, 10 sn) veriyor; mockup HTML'inde leke öğesi yok. Konum (sol-üst ve sağ-orta), boyut (260×240, 300×280), renk (`heroBlue`/`heroDeep`, %12) ve bulanıklık (σ 36) tahmini.
+- Yıldız sayısı/konumu/gecikmesi mockup HTML'inden birebir (`auth_stars.dart`); ekran boyutuna 412×917 uzayından ölçeklenir.
+- Parçacık/halka merkezi, mockup'taki (195,385) yerine logonun gerçek merkezi (ekran ortası, logo üstü + 52).
+- Koyu tema: `heroTop` (#050A18) geçici; halka/parçacık renkleri iki temada aynı. `// TODO(koyu-tema)`.
+- Panel köşesi bu panelde 28 (belge); genel `AppRadius.sheet` 24 kaldı.
+- "Kayıt ol" şimdilik ComingSoon'a gider (1.08 Görev 3'te aynı panele bağlanacak).
+- Giriş artık ayrı sayfa değil, karşılama panelinin dönüşümü (`AuthStage`); `/login` doğrudan açılırsa panel açık, animasyonsuz gelir.
+- Testlerde "animasyonları azalt" açık varsayılır (sürekli yıldız/leke animasyonu pumpAndSettle'ı bekletmesin).
+
+## 1.01 panel safe area
+- Ana panel yüksekliği artık sabit 330 değil: `max(330, ölçülen içerik) + alt sistem çubuğu payı` (yazı boyutuna göre TextPainter ile ölçülür). Açık panel de bunun altına inmez. 330→700 büyümesi aynı kalır.
+
+## 1.01 soğuk açılış ve çentik düzeltmesi
+- Açılış animasyonu artık ilk kare + 250 ms sonra başlar; tek karede en fazla 50 ms ilerler (soğuk açılışta ilk karelerin ağırlığı animasyonu yutuyordu). "Animasyonları azalt" kararı başlangıçta yeniden okunur; ilk karede geçici true görünürse animasyon baştan oynar.
+- Logo grubu üst safe area + 12 dp altına iner (`logoTopGap`); açık panelin üst payı da buna göre artar. Tasarım uzayındaki 30 dp, çentiksiz ekranda aynı kalır.

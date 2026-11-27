@@ -15,6 +15,10 @@ void useAndroidScreen(WidgetTester tester) {
   tester.view.physicalSize = const Size(824, 1834);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
+  // Sürekli animasyonlar (yıldız/leke) pumpAndSettle'ı bekletmesin.
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(disableAnimations: true);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
 }
 
 Future<void> initTestEnv() async {

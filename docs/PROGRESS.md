@@ -22,3 +22,7 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Gerçek cihazda/emülatörde görsel karşılaştırma (PNG ile) ve ince ayar.
 - Koyu tema "geçici" renklerini belge güncellenince `app_colors.dart`'ta düzelt.
 - Kapsam dışı ekranlar: kayıt, filtre paneli, QR, ayarlar; sonra Firebase (README).
+
+## Eda · 1.xx modülü (dal: eda/giris-kayit-ayarlar)
+- [x] Görev 1 (yeniden yapıldı, ANIMASYON_1.01.md'ye göre): tek `AuthStage` sahnesi; tek açılış controller'ı + Interval'ler (3,52 sn), 130 yıldız ve leke ayrı sürekli controller, halka/parçacık patlaması, panel 330→700 ve form öğelerinin sıralı gelişi, geri dönüşte ters oynatma. "Animasyonları azalt" açıkken son kare. 1.09 zarf animasyonu Görev 3'te. Dosyalar: `features/auth/view/auth_{stage,motion,backdrop,burst,stars}.dart`, `login_form.dart`.
+- [x] `EnvelopeAnimation` (1.09 zarfı, `lib/core/widgets/envelope_animation.dart`): bir kez oynar, açık zarf + tikte durur, azalt açıksa son kare. Ekrana Görev 3'te konacak.

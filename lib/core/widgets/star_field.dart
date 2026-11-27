@@ -3,21 +3,25 @@ import 'package:material_ui/material_ui.dart';
 import '../theme/app_colors.dart';
 
 /// Karşılama / giriş zemini süsü: sabit konumlu küçük yıldızlar.
+/// [reveal] verilirse yıldızlar 0→1 arasında sırayla belirir.
 class StarField extends StatelessWidget {
-  const StarField({super.key});
+  const StarField({super.key, this.reveal});
+
+  final Animation<double>? reveal;
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
     child: CustomPaint(
-      painter: _StarPainter(context.colors.onHero),
+      painter: _StarPainter(context.colors.onHero, reveal),
       size: Size.infinite,
     ),
   );
 }
 
 class _StarPainter extends CustomPainter {
-  _StarPainter(this.color);
+  _StarPainter(this.color, this.reveal) : super(repaint: reveal);
   final Color color;
+  final Animation<double>? reveal;
 
   // (x, y, yarıçap) oranları.
   static const List<(double, double, double)> _stars = [
@@ -41,14 +45,23 @@ class _StarPainter extends CustomPainter {
     (0.12, 0.63, 1.2),
   ];
 
+  /// Her yıldızın belirme penceresinin genişliği (toplam sürenin oranı).
+  static const double _window = 0.3;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color.withValues(alpha: 0.85);
-    for (final (x, y, r) in _stars) {
+    final t = reveal?.value ?? 1.0;
+    for (var i = 0; i < _stars.length; i++) {
+      final (x, y, r) = _stars[i];
+      final start = (1 - _window) * i / _stars.length;
+      final a = ((t - start) / _window).clamp(0.0, 1.0);
+      if (a == 0) continue;
+      final paint = Paint()..color = color.withValues(alpha: 0.85 * a);
       canvas.drawCircle(Offset(size.width * x, size.height * y), r, paint);
     }
   }
 
   @override
-  bool shouldRepaint(_StarPainter old) => old.color != color;
+  bool shouldRepaint(_StarPainter old) =>
+      old.color != color || old.reveal != reveal;
 }

@@ -27,6 +27,11 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.hero,
     required this.onHero,
     required this.onHeroMuted,
+    required this.heroTop,
+    required this.heroBlue,
+    required this.heroSilver,
+    required this.heroDeep,
+    required this.envelopeFront,
     required this.appBar,
     required this.onAppBar,
     required this.appBarFieldFill,
@@ -82,6 +87,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color hero;
   final Color onHero;
   final Color onHeroMuted;
+  final Color heroTop; // zemin gradyanının üst ucu (ANIMASYON_1.01.md)
+  final Color heroBlue; // halka 1, parçacık, leke
+  final Color heroSilver; // halka 2, parçacık
+  final Color heroDeep; // parçacık
+  final Color envelopeFront; // 1.09 zarfın ön yüzü
 
   // Üst bar
   final Color appBar;
@@ -142,6 +152,11 @@ class AppColors extends ThemeExtension<AppColors> {
     hero: Color(0xFF0B1D45),
     onHero: _white,
     onHeroMuted: Color(0xFFD5DCEB),
+    heroTop: Color(0xFF06112B),
+    heroBlue: Color(0xFF5B8CFF),
+    heroSilver: Color(0xFFA9B2C2),
+    heroDeep: Color(0xFF2F5FC4),
+    envelopeFront: Color(0xFF163066),
     appBar: Color(0xFF0B1D45),
     onAppBar: _white,
     appBarFieldFill: Color(0x1AFFFFFF),
@@ -194,6 +209,13 @@ class AppColors extends ThemeExtension<AppColors> {
     hero: Color(0xFF0A1226),
     onHero: Color(0xFFE8ECF4),
     onHeroMuted: Color(0xFF9AA6BC),
+    // TODO(koyu-tema): belgede yok, geçici (animasyon zemini ve parçacıklar)
+    heroTop: Color(0xFF050A18),
+    heroBlue: Color(0xFF5B8CFF),
+    heroSilver: Color(0xFFA9B2C2),
+    heroDeep: Color(0xFF2F5FC4),
+    // TODO(koyu-tema): belgede yok, geçici (1.09 zarf ön yüzü)
+    envelopeFront: Color(0xFF6F94DB),
     appBar: Color(0xFF141D35),
     onAppBar: Color(0xFFE8ECF4),
     // TODO(koyu-tema): belgede yok, geçici (üst bar içi alan)

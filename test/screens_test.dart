@@ -1,3 +1,5 @@
+import 'package:bende_var/core/widgets/app_logo.dart';
+import 'package:bende_var/features/auth/view/auth_stage.dart';
 import 'package:bende_var/features/auth/view/login_page.dart';
 import 'package:bende_var/features/auth/viewmodel/auth_view_model.dart';
 import 'package:bende_var/data/mock/mock_repositories.dart';
@@ -33,6 +35,82 @@ void main() {
         );
       });
     }
+  }
+
+  testWidgets('Karşılama animasyonu: açılış, giriş geçişi ve geri dönüş', (
+    tester,
+  ) async {
+    useAndroidScreen(tester);
+    // Bu testte animasyonlar açık (yıldız/leke sürekli döner, settle beklenmez).
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures();
+    final vm = AuthViewModel(MockAuthRepository());
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(value: vm, child: wrap(const AuthStage())),
+    );
+    await tester.pump(const Duration(milliseconds: 1000));
+    expect(tester.takeException(), isNull);
+    // Kare başına ilerleme sınırlı (kare atlamasına karşı): gerçek kare akışı.
+    for (var i = 0; i < 90; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+    expect(find.textContaining('ihtiyacı olan bulur.'), findsOneWidget);
+    await tester.tap(find.text('Giriş yap'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(find.text('Tekrar hoş geldin'), findsOneWidget);
+    await tester.tap(find.byTooltip('Geri'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(find.text('Tekrar hoş geldin'), findsNothing);
+    expect(find.text('Kayıt ol'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  for (final (name, w, h, scale) in [
+    ('A23 412×915', 412.0, 915.0, 1.0),
+    ('küçük 320×568', 320.0, 568.0, 1.0),
+    ('büyük yazı 360×640', 360.0, 640.0, 1.6),
+  ]) {
+    testWidgets('Karşılama paneli kesilmez/taşmaz: $name', (tester) async {
+      useAndroidScreen(tester);
+      tester.view.physicalSize = Size(w * 2, h * 2);
+      // Üç tuşlu gezinme çubuğu: 48 dp alt güvenli alan.
+      tester.view.padding = const FakeViewPadding(bottom: 96, top: 96);
+      tester.view.viewPadding = const FakeViewPadding(bottom: 96, top: 96);
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      final vm = AuthViewModel(MockAuthRepository());
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(value: vm, child: wrap(const AuthStage())),
+      );
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      // Logo durum çubuğu/çentik (48 dp) altında kalır.
+      expect(
+        tester.getRect(find.byType(AppLogo)).top,
+        greaterThanOrEqualTo(48),
+      );
+      // Ana panel: "Kayıt ol" sistem çubuğunun üstünde kalır.
+      final signup = tester.getRect(
+        find.widgetWithText(ElevatedButton, 'Kayıt ol'),
+      );
+      expect(signup.bottom, lessThanOrEqualTo(h - 48));
+      await tester.tap(find.text('Giriş yap'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      // Giriş formu: ana düğme sistem çubuğunun üstünde.
+      final btn = tester.getRect(
+        find.widgetWithText(ElevatedButton, 'Giriş yap'),
+      );
+      expect(btn.bottom, lessThanOrEqualTo(h - 48));
+      expect(btn.top, greaterThan(0));
+      expect(
+        tester.getRect(find.byType(AppLogo)).top,
+        greaterThanOrEqualTo(48),
+      );
+    });
   }
 
   testWidgets('Giriş: düğme pasif, .edu.tr olmayan e-posta hata gösterir', (
@@ -190,6 +268,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Çıkış yapmak istiyor musun?'), findsOneWidget);
     await tester.tap(find.text('Çıkış yap').last);
+    // Sahte repository gecikmesi (animasyonlar kapalıyken settle beklemez).
+    await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     expect(find.text('İhtiyacın topluluğunda.'), findsOneWidget);
   });

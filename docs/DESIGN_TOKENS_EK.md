@@ -27,3 +27,12 @@ STIL_STANDARTLARI.md'de olmayan, ekranlardan ölçülen değerler (PNG 2x → dp
 
 ## Belgede koyu karşılığı olmayan roller (geçici)
 `app_colors.dart` içinde `// TODO(koyu-tema): belgede yok, geçici` ile işaretli: birincil basılı hal, gümüş (pasif ikon), ikincil düğme yazı/kenar/basılı zemin, karşılama zemini, üst bar içi alan zemini/kenarı, scrim, okunmamış satır zemini. Ayrıntı: DEVIATIONS.md.
+
+## 1.01 animasyonu (ANIMASYON_1.01.md)
+| Değer | Hangi kaynaktan | Neden |
+|---|---|---|
+| heroTop #06112B, heroBlue #5B8CFF, heroSilver #A9B2C2, heroDeep #2F5FC4 | ANIMASYON_1.01.md | Gradyan üstü, halka, parçacık |
+| Panel yüksekliği 330 → 700, köşe 28, içerik kenarı 20/30/34 | ANIMASYON_1.01.md | Karşılama → giriş büyümesi |
+| Logo 104, "Bende Var" 34/-0,4, ad boşluğu 14, slogan boşluğu 8 | ANIMASYON_1.01.md | Karşılama logo grubu |
+| Süre/eğri/gecikme sabitleri | ANIMASYON_1.01.md | `auth_motion.dart` |
+| envelopeFront #163066 (koyu: geçici #6F94DB) | 1.09 mockup | Zarf ön yüzü; diğer zarf renkleri mevcut rollerden (primary, accent, card, infoBg, onBadge) |

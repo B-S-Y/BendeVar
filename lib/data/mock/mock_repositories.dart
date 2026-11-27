@@ -1,28 +1,468 @@
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../core/utils/text_search.dart';
+import '../models/community_models.dart';
 import '../models/models.dart';
+import '../models/settings_models.dart';
 import '../repositories/repositories.dart';
 import 'mock_data.dart';
 
 const Duration _latency = Duration(milliseconds: 250);
 
+class _PendingSignUp {
+  _PendingSignUp(this.password, this.sentAt);
+  final String password;
+  DateTime sentAt;
+}
+
 class MockAuthRepository implements AuthRepository {
+  MockAuthRepository({
+    List<MockAccount>? accounts,
+    this.verifyAfter = const Duration(seconds: 8),
+    DateTime Function()? now,
+  }) : _accounts = List.of(accounts ?? mockAccounts),
+       _now = now ?? DateTime.now;
+
+  /// Saat (testte sahte saat verilebilir).
+  final DateTime Function() _now;
+
+  final List<MockAccount> _accounts;
+  final Map<String, _PendingSignUp> _pending = {};
+  final Map<String, DateTime> _resets = {};
   AppUser? _user;
+  final Map<String, int> _failures = {};
+  final Map<String, DateTime> _lockedUntil = {};
+
+  /// Bu kadar yanlış şifreden sonra hesap geçici kilitlenir.
+  static const int maxFailures = 3;
+
+  /// Kilit süresi (tek sabit). Dolunca kilit kalkar, yanlış deneme sayacı
+  /// sıfırlanır. Arayüzde geri sayım gösterilmez.
+  static const Duration lockDuration = Duration(seconds: 30);
+
+  /// Kayıtta doğrulama bağlantısına "tıklanması" bu süre sonra taklit edilir.
+  final Duration verifyAfter;
+
+  /// Bu önekle başlayan e-postalarda bağlantı süresi dolar (1.12).
+  static const String expiredPrefix = 'suredoldu';
 
   @override
   AppUser? get currentUser => _user;
 
+  /// "Beni hatırla" için kalıcı anahtar (shared_preferences; Firebase'de
+  /// oturum kalıcılığı SDK'da olacak). Mock'ta en iyi çaba: erişilemezse yok sayılır.
+  static const String rememberKey = 'remember_email';
+
+  Future<SharedPreferences?> _prefs() async {
+    try {
+      return await SharedPreferences.getInstance();
+    } catch (_) {
+      return null;
+    }
+  }
+
   @override
-  Future<AppUser> signIn(String email, String password) async {
+  Future<AppUser?> restoreSession() async {
+    final prefs = await _prefs();
+    final email = prefs?.getString(rememberKey);
+    if (email == null) return null;
+    // Yalnızca doğrulanmış hesap hatırlanır.
+    final account = _accounts
+        .where((a) => a.email == email && a.verified)
+        .firstOrNull;
+    if (account == null) {
+      await prefs?.remove(rememberKey);
+      return null;
+    }
+    return _user = account.user;
+  }
+
+  @override
+  Future<AppUser> signIn(
+    String email,
+    String password, {
+    bool remember = false,
+  }) async {
     await Future<void>.delayed(_latency);
-    _user = mockUser;
-    return mockUser;
+    final key = email.trim().toLowerCase();
+    final pending = _pending[key];
+    final account = _accounts.where((a) => a.email == key).firstOrNull;
+    if (account == null && pending == null) {
+      throw const AuthException(AuthFailure.accountNotFound);
+    }
+    final lockedUntil = _lockedUntil[key];
+    if (lockedUntil != null) {
+      if (_now().isBefore(lockedUntil)) {
+        throw const AuthException(AuthFailure.tooManyAttempts);
+      }
+      // Süre doldu: kilit kalkar, sayaç sıfırlanır.
+      _lockedUntil.remove(key);
+      _failures.remove(key);
+    }
+    final expected = account?.password ?? pending!.password;
+    if (password != expected) {
+      final count = (_failures[key] ?? 0) + 1;
+      _failures[key] = count;
+      if (count >= maxFailures) _lockedUntil[key] = _now().add(lockDuration);
+      throw const AuthException(AuthFailure.wrongPassword);
+    }
+    _failures.remove(key);
+    _lockedUntil.remove(key);
+    // Gerçekte: giriş olur, sonra e-posta doğrulaması denetlenir (1.04).
+    if (account == null || !account.verified) {
+      throw const AuthException(AuthFailure.notVerified);
+    }
+    _user = account.user;
+    // Doğrulanmamış hesap yukarıda reddedildi; buraya yalnızca doğrulanmış
+    // hesap gelir. Hatırlama kapalıysa eski kayıt da silinir.
+    final prefs = await _prefs();
+    if (remember) {
+      await prefs?.setString(rememberKey, account.email);
+    } else {
+      await prefs?.remove(rememberKey);
+    }
+    return account.user;
   }
 
   @override
   Future<void> signOut() async {
     await Future<void>.delayed(_latency);
     _user = null;
+    await (await _prefs())?.remove(rememberKey);
+  }
+
+  @override
+  Future<void> sendVerification(String email) async {
+    await Future<void>.delayed(_latency);
+    _pending[email.trim().toLowerCase()]?.sentAt = DateTime.now();
+  }
+
+  @override
+  Future<void> signUp(String email, String password) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    if (_accounts.any((a) => a.email == key) || _pending.containsKey(key)) {
+      throw const AuthException(AuthFailure.emailInUse);
+    }
+    _pending[key] = _PendingSignUp(password, DateTime.now());
+  }
+
+  @override
+  Future<VerificationStatus> checkVerification(String email) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final pending = _pending[key];
+    if (pending == null) return VerificationStatus.verified;
+    if (DateTime.now().difference(pending.sentAt) < verifyAfter) {
+      return VerificationStatus.pending;
+    }
+    return key.startsWith(expiredPrefix)
+        ? VerificationStatus.expired
+        : VerificationStatus.verified;
+  }
+
+  @override
+  Future<void> requestPasswordReset(String email) async {
+    await Future<void>.delayed(_latency);
+    _resets[email.trim().toLowerCase()] = DateTime.now();
+  }
+
+  @override
+  Future<VerificationStatus> checkPasswordReset(String email) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final sent = _resets[key];
+    // Kayıtsız e-postaya bağlantı gitmez: hiç "tıklanmaz" (hesap sızdırılmaz).
+    final known =
+        _accounts.any((a) => a.email == key) || _pending.containsKey(key);
+    if (sent == null || !known) return VerificationStatus.pending;
+    if (DateTime.now().difference(sent) < verifyAfter) {
+      return VerificationStatus.pending;
+    }
+    return key.startsWith(expiredPrefix)
+        ? VerificationStatus.expired
+        : VerificationStatus.verified;
+  }
+
+  @override
+  Future<void> confirmPasswordReset(String email, String newPassword) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final i = _accounts.indexWhere((a) => a.email == key);
+    if (i >= 0) {
+      final a = _accounts[i];
+      _accounts[i] = MockAccount(
+        email: a.email,
+        user: a.user,
+        verified: a.verified,
+        password: newPassword,
+      );
+    }
+    _failures.remove(key); // kilit de açılır
+    _lockedUntil.remove(key);
+    _resets.remove(key);
+  }
+
+  @override
+  Future<AppUser> completeSignUp({
+    required String email,
+    required String displayName,
+    required Community community,
+  }) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final pending = _pending.remove(key);
+    final parts = displayName.trim().split(RegExp(r'\s+'));
+    final short = parts.length > 1
+        ? '${parts.first} ${parts.last[0].toUpperCase()}.'
+        : parts.first;
+    final user = AppUser(
+      id: 'u-$key', // tam e-posta: aynı yerel kısımlı hesaplar çakışmasın
+      displayName: displayName.trim(),
+      shortName: short,
+      email: key,
+      community: community,
+      department: '',
+      bio: '',
+      rating: 0,
+      transactions: 0,
+      onTimeRate: 0,
+    );
+    _accounts.add(
+      MockAccount(
+        email: key,
+        password: pending?.password ?? mockPassword,
+        user: user,
+      ),
+    );
+    _user = user;
+    return user;
+  }
+}
+
+class MockCommunityRepository implements CommunityRepository {
+  MockCommunityRepository() : _bySchool = {...mockKnownSchools};
+
+  final Map<String, Community> _bySchool;
+
+  /// Tüm topluluklar (okul toplulukları ilk girişte eklenir).
+  final Map<String, CommunityInfo> _all = {
+    'yurt': const CommunityInfo(
+      id: 'yurt',
+      name: 'Yıldız Yurt Topluluğu',
+      description: 'Yurtta kalanlar için ödünç alma ve verme.',
+      memberCount: 86,
+      visibility: CommunityVisibility.schoolOnly,
+      schoolId: 'ytu',
+    ),
+    'kamp': const CommunityInfo(
+      id: 'kamp',
+      name: 'Kamp Kulübü',
+      description: 'Kamp malzemelerini paylaşan herkes.',
+      memberCount: 42,
+      visibility: CommunityVisibility.open,
+    ),
+    'yoga': const CommunityInfo(
+      id: 'yoga',
+      name: 'Yoga ve Esneme',
+      memberCount: 18,
+      visibility: CommunityVisibility.open,
+    ),
+    'istanbul': const CommunityInfo(
+      id: 'istanbul',
+      name: 'İstanbul Gezginleri',
+      memberCount: 27,
+      visibility: CommunityVisibility.open,
+    ),
+    'acik': const CommunityInfo(
+      id: 'acik',
+      name: 'Açık Hava Sporları',
+      memberCount: 33,
+      visibility: CommunityVisibility.open,
+    ),
+    'proje': const CommunityInfo(
+      id: 'proje',
+      name: 'Proje Ekibi',
+      memberCount: 6,
+      visibility: CommunityVisibility.secret,
+      inviteCode: '482913',
+    ),
+  };
+
+  /// Geçerli kullanıcı (myCommunities ile belirlenir) ve okulu.
+  String _userId = '';
+  String _schoolId = '';
+  int _seq = 0;
+
+  /// Kullanıcı kimliği → üye olduğu topluluklar. Katalogdaki `joined` /
+  /// `isFounder` alanları kullanılmaz; her kullanıcı için buradan hesaplanır.
+  final Map<String, Set<String>> _members = {};
+
+  /// Topluluk → kurucu kullanıcı.
+  final Map<String, String> _founders = {};
+
+  Set<String> get _mine => _members.putIfAbsent(_userId, () => <String>{});
+
+  CommunityInfo _view(CommunityInfo c) => c.copyWith(
+    joined: _mine.contains(c.id),
+    isFounder: _founders[c.id] == _userId,
+  );
+
+  @override
+  Future<Community?> findBySchool(String schoolId) async => _bySchool[schoolId];
+
+  @override
+  Future<Community> joinOrCreate(String schoolId) async {
+    await Future<void>.delayed(_latency);
+    return _bySchool.putIfAbsent(schoolId, () {
+      final name = schoolId[0].toUpperCase() + schoolId.substring(1);
+      return Community(id: schoolId, name: name, shortName: name);
+    });
+  }
+
+  @override
+  Future<List<CommunityInfo>> myCommunities({
+    required String userId,
+    required Community school,
+  }) async {
+    await Future<void>.delayed(_latency);
+    _userId = userId;
+    _schoolId = school.id;
+    _all.putIfAbsent(
+      school.id,
+      () => CommunityInfo(
+        id: school.id,
+        name: school.name,
+        memberCount: 1240,
+        visibility: CommunityVisibility.schoolOnly,
+        schoolId: school.id,
+        isSchool: true,
+      ),
+    );
+    _mine.add(school.id); // okul topluluğuna otomatik üye
+    final mine = _all.values.where((c) => _mine.contains(c.id)).map(_view);
+    final list = mine.toList()
+      ..sort((a, b) => a.isSchool == b.isSchool ? 0 : (a.isSchool ? -1 : 1));
+    return list;
+  }
+
+  bool _visibleToMe(CommunityInfo c) =>
+      c.visibility == CommunityVisibility.open ||
+      (c.visibility == CommunityVisibility.schoolOnly &&
+          c.schoolId == _schoolId);
+
+  @override
+  Future<List<CommunityInfo>> search(String query) async {
+    await Future<void>.delayed(_latency);
+    if (query.trim().isEmpty) return const [];
+    return _all.values
+        .where((c) => _visibleToMe(c) && TextSearch.matches(c.name, query))
+        .map(_view)
+        .toList();
+  }
+
+  CommunityInfo _add(CommunityInfo c) {
+    _mine.add(c.id);
+    _all[c.id] = c.copyWith(memberCount: c.memberCount + 1);
+    return _view(_all[c.id]!);
+  }
+
+  @override
+  Future<CommunityInfo> join(String id) async {
+    await Future<void>.delayed(_latency);
+    final c = _all[id]!;
+    if (_mine.contains(id)) return _view(c);
+    // Okula özel topluluğa yalnızca aynı okulun üyeleri katılır (arama gizlese
+    // de doğrudan istek burada da reddedilir).
+    if (c.visibility == CommunityVisibility.schoolOnly &&
+        c.schoolId != _schoolId) {
+      throw const CommunityException(CommunityFailure.unknown);
+    }
+    return _add(c);
+  }
+
+  /// 6 haneli, yalnızca rakam; mevcut kodlarla çakışmaz.
+  String _newCode() {
+    var n = 100000 + (_seq * 7919 + 13579) % 900000;
+    final used = _all.values.map((c) => c.inviteCode).toSet();
+    while (used.contains('$n')) {
+      n = 100000 + (n + 1) % 900000;
+    }
+    return '$n';
+  }
+
+  CommunityInfo _byCode(String code) {
+    final key = code.trim();
+    final found = _all.values.where((c) => c.inviteCode == key);
+    if (key.isEmpty || found.isEmpty) {
+      throw const CommunityException(CommunityFailure.invalidCode);
+    }
+    return found.first;
+  }
+
+  @override
+  Future<CommunityInfo> previewByCode(String code) async {
+    await Future<void>.delayed(_latency);
+    final c = _byCode(code);
+    if (_mine.contains(c.id)) {
+      throw const CommunityException(CommunityFailure.alreadyMember);
+    }
+    return _view(c);
+  }
+
+  @override
+  Future<CommunityInfo> joinByCode(String code) async {
+    await Future<void>.delayed(_latency);
+    final c = _byCode(code);
+    if (_mine.contains(c.id)) {
+      throw const CommunityException(CommunityFailure.alreadyMember);
+    }
+    return _add(c);
+  }
+
+  @override
+  Future<CommunityInfo> create({
+    required String name,
+    required String description,
+    required CommunityVisibility visibility,
+  }) async {
+    await Future<void>.delayed(_latency);
+    _seq++;
+    final id = 'c$_seq';
+    _all[id] = CommunityInfo(
+      id: id,
+      name: name.trim(),
+      description: description.trim(),
+      memberCount: 1,
+      visibility: visibility,
+      schoolId: visibility == CommunityVisibility.schoolOnly ? _schoolId : null,
+      // Davet kodu yalnızca gizli topluluklarda var; açık ve okula özel
+      // topluluklara kodsuz katılınır.
+      inviteCode: visibility == CommunityVisibility.secret ? _newCode() : null,
+    );
+    _founders[id] = _userId;
+    _mine.add(id);
+    return _view(_all[id]!);
+  }
+
+  @override
+  Future<void> leave(String id) async {
+    await Future<void>.delayed(_latency);
+    final c = _all[id];
+    if (c == null || c.isSchool || !_mine.remove(id)) return;
+    _all[id] = c.copyWith(memberCount: c.memberCount - 1);
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    await Future<void>.delayed(_latency);
+    _all.remove(id);
+    _founders.remove(id);
+    for (final set in _members.values) {
+      set.remove(id);
+    }
   }
 }
 
@@ -192,5 +632,56 @@ class MockUserRepository implements UserRepository {
         when: DateTime(DateTime.now().year, 11, 21, 14),
       ),
     ];
+  }
+}
+
+class MockSettingsRepository implements SettingsRepository {
+  /// Her yeni kullanıcının başlangıç engel listesi (mock örneği).
+  static const List<BlockedUser> _seedBlocked = [
+    BlockedUser(
+      id: 'u-mert',
+      name: 'Mert Y.',
+      initials: 'MY',
+      communityName: 'Yıldız Teknik Üniversitesi',
+    ),
+    BlockedUser(
+      id: 'u-kaan',
+      name: 'Kaan D.',
+      initials: 'KD',
+      communityName: 'Yıldız Teknik Üniversitesi',
+    ),
+  ];
+
+  /// Kullanıcı kimliği → tercihler / engel listesi (hesaplar arası sızmaz).
+  final Map<String, NotificationPrefs> _prefs = {};
+  final Map<String, List<BlockedUser>> _blocked = {};
+
+  List<BlockedUser> _blockedOf(String userId) =>
+      _blocked.putIfAbsent(userId, () => List.of(_seedBlocked));
+
+  @override
+  Future<NotificationPrefs> notificationPrefs(String userId) async {
+    await Future<void>.delayed(_latency);
+    return _prefs[userId] ?? const NotificationPrefs();
+  }
+
+  @override
+  Future<void> saveNotificationPrefs(
+    String userId,
+    NotificationPrefs prefs,
+  ) async {
+    _prefs[userId] = prefs;
+  }
+
+  @override
+  Future<List<BlockedUser>> blockedUsers(String userId) async {
+    await Future<void>.delayed(_latency);
+    return List.unmodifiable(_blockedOf(userId));
+  }
+
+  @override
+  Future<void> unblock(String userId, String id) async {
+    await Future<void>.delayed(_latency);
+    _blockedOf(userId).removeWhere((b) => b.id == id);
   }
 }

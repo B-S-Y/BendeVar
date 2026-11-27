@@ -27,6 +27,14 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.hero,
     required this.onHero,
     required this.onHeroMuted,
+    required this.heroTop,
+    required this.heroBlue,
+    required this.heroSilver,
+    required this.heroDeep,
+    required this.envelopeLine,
+    required this.envelopeSurface,
+    required this.envelopeRingInner,
+    required this.envelopeRingOuter,
     required this.appBar,
     required this.onAppBar,
     required this.appBarFieldFill,
@@ -82,6 +90,14 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color hero;
   final Color onHero;
   final Color onHeroMuted;
+  final Color heroTop; // zemin gradyanının üst ucu (ANIMASYON_1.01.md)
+  final Color heroBlue; // halka 1, parçacık, leke
+  final Color heroSilver; // halka 2, parçacık
+  final Color heroDeep; // parçacık
+  final Color envelopeLine; // 1.09 zarf ve kapak çizgisi
+  final Color envelopeSurface; // zarf gövdesi dolgusu
+  final Color envelopeRingInner; // iç ince halka
+  final Color envelopeRingOuter; // dış ince halka
 
   // Üst bar
   final Color appBar;
@@ -142,6 +158,16 @@ class AppColors extends ThemeExtension<AppColors> {
     hero: Color(0xFF0B1D45),
     onHero: _white,
     onHeroMuted: Color(0xFFD5DCEB),
+    heroTop: Color(0xFF06112B),
+    heroBlue: Color(0xFF5B8CFF),
+    heroSilver: Color(0xFFA9B2C2),
+    heroDeep: Color(0xFF2F5FC4),
+    // Açık: çizgi = alt menü aktif ikon (navPillIcon), dolgu = yüzey (card).
+    envelopeLine: Color(0xFF0B1D45),
+    envelopeSurface: _white,
+    // Belgede yok, geçici: açık gri-mavi halkalar (dış daha açık).
+    envelopeRingInner: Color(0xFFB8C6DE),
+    envelopeRingOuter: Color(0xFFD5DEEE),
     appBar: Color(0xFF0B1D45),
     onAppBar: _white,
     appBarFieldFill: Color(0x1AFFFFFF),
@@ -194,6 +220,19 @@ class AppColors extends ThemeExtension<AppColors> {
     hero: Color(0xFF0A1226),
     onHero: Color(0xFFE8ECF4),
     onHeroMuted: Color(0xFF9AA6BC),
+    // TODO(koyu-tema): belgede yok, geçici (animasyon zemini ve parçacıklar)
+    heroTop: Color(0xFF050A18),
+    heroBlue: Color(0xFF5B8CFF),
+    heroSilver: Color(0xFFA9B2C2),
+    heroDeep: Color(0xFF2F5FC4),
+    // Koyu: çizgi = açık mavi vurgu (alt menü logo/aktif vurgusu #8FB0F0),
+    // dolgu = panel/yüzey (card).
+    envelopeLine: Color(0xFF8FB0F0),
+    envelopeSurface: Color(0xFF141D35),
+    // TODO(koyu-tema): belgede yok, geçici (iç halka: orta mavi)
+    envelopeRingInner: Color(0xFF3A4A85),
+    // TODO(koyu-tema): belgede yok, geçici (dış halka: daha koyu mavi)
+    envelopeRingOuter: Color(0xFF2A3560),
     appBar: Color(0xFF141D35),
     onAppBar: Color(0xFFE8ECF4),
     // TODO(koyu-tema): belgede yok, geçici (üst bar içi alan)
@@ -231,6 +270,9 @@ class AppColors extends ThemeExtension<AppColors> {
     return t < 0.5 ? this : other;
   }
 }
+
+/// Metin bağlantısı basılıyken vurgu renginin opaklığı.
+const double kLinkPressedAlpha = 0.7;
 
 extension AppColorsContext on BuildContext {
   AppColors get colors => Theme.of(this).extension<AppColors>()!;

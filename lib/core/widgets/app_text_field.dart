@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -5,6 +6,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import 'shake_on_error.dart';
 
 /// Etiketli giriş alanı: yükseklik 50, köşe 10, kenar `fieldBorder`.
 /// Hata = renk + ikon + açıklayıcı cümle.
@@ -26,6 +28,11 @@ class AppTextField extends StatelessWidget {
     this.onSubmitted,
     this.initialValue,
     this.fieldKey,
+    this.errorSignal,
+    this.inputFormatters,
+    this.maxLength,
+    this.focusNode,
+    this.enabled = true,
   });
 
   final String? label;
@@ -44,8 +51,27 @@ class AppTextField extends StatelessWidget {
   final String? initialValue;
   final Key? fieldKey;
 
+  /// Aynı hata metni tekrar geldiğinde de titremesi için (örn. deneme sayacı).
+  final Object? errorSignal;
+
+  final List<TextInputFormatter>? inputFormatters;
+
+  /// Verilirse sayaç gösterilmez, yalnızca sınır uygulanır.
+  final int? maxLength;
+
+  /// Odak denetimi (kayıp/kazanç dinlemek için); verilmezse alan kendi odağını yönetir.
+  final FocusNode? focusNode;
+
+  /// false: alan pasif (yazılamaz).
+  final bool enabled;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ShakeOnError(
+    trigger: errorText == null ? null : Object.hash(errorText, errorSignal),
+    child: _buildField(context),
+  );
+
+  Widget _buildField(BuildContext context) {
     final c = context.colors;
     final hasError = errorText != null;
 
@@ -67,10 +93,15 @@ class AppTextField extends StatelessWidget {
         TextFormField(
           key: fieldKey,
           controller: controller,
+          focusNode: focusNode,
+          enabled: enabled,
           initialValue: controller == null ? initialValue : null,
           onChanged: onChanged,
           onFieldSubmitted: onSubmitted,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          maxLength: maxLength,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
           obscureText: obscureText,
           minLines: minLines,
           maxLines: obscureText ? 1 : maxLines,
@@ -78,6 +109,7 @@ class AppTextField extends StatelessWidget {
           style: AppTypography.body.copyWith(color: c.textPrimary),
           cursorColor: c.accent,
           decoration: InputDecoration(
+            counterText: '',
             hintText: hint,
             hintStyle: AppTypography.body.copyWith(color: c.textSecondary),
             filled: true,
@@ -118,7 +150,7 @@ class AppTextField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 1),
+                padding: const EdgeInsets.only(top: AppSizes.errorIconNudge),
                 child: Icon(
                   LucideIcons.circleAlert,
                   size: AppSizes.iconField,

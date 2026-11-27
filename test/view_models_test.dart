@@ -1,5 +1,6 @@
 import 'package:bende_var/data/mock/mock_repositories.dart';
 import 'package:bende_var/data/models/models.dart';
+import 'package:bende_var/data/repositories/repositories.dart';
 import 'package:bende_var/features/auth/viewmodel/auth_view_model.dart';
 import 'package:bende_var/features/create_listing/viewmodel/create_listing_view_model.dart';
 import 'package:bende_var/features/home/viewmodel/home_view_model.dart';
@@ -7,9 +8,110 @@ import 'package:bende_var/features/messages/viewmodel/messages_view_models.dart'
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('AuthViewModel giriş hataları', () {
+    AuthViewModel make(String email, String pw) =>
+        AuthViewModel(
+            MockAuthRepository(),
+            communities: MockCommunityRepository(),
+          )
+          ..setEmail(email)
+          ..setPassword(pw);
+
+    test('1.03b: kısa/yanlış şifre wrongPassword verir, girdi değişince temizlenir', () async {
+      final vm = make('elif@std.yildiz.edu.tr', 'x');
+      expect(await vm.signIn(), isFalse);
+      expect(vm.failure, AuthFailure.wrongPassword);
+      vm.setPassword('sifre123');
+      expect(vm.failure, isNull);
+      expect(await vm.signIn(), isTrue);
+    });
+
+    test('1.03c: 3 yanlıştan sonra tooManyAttempts', () async {
+      final vm = make('elif@std.yildiz.edu.tr', 'x');
+      for (var i = 0; i < 3; i++) {
+        await vm.signIn();
+      }
+      await vm.signIn();
+      expect(vm.failure, AuthFailure.tooManyAttempts);
+    });
+
+    test('kayıtsız e-posta accountNotFound verir', () async {
+      final vm = make('yok@std.yildiz.edu.tr', 'sifre123');
+      expect(await vm.signIn(), isFalse);
+      expect(vm.failure, AuthFailure.accountNotFound);
+    });
+
+    test('farklı okul hesabı Marmara topluluğuna girer', () async {
+      final vm = make('test@std.marmara.edu.tr', 'sifre123');
+      expect(await vm.signIn(), isTrue);
+      expect(vm.user?.community.name, 'Marmara Üniversitesi');
+    });
+
+    test('ekip hesapları: Yıldız topluluğu, doğru kısa ad', () async {
+      for (final (email, short) in [
+        ('eda@std.yildiz.edu.tr', 'Eda H.'),
+        ('emine@yildiz.edu.tr', 'Emine B.'),
+        ('elif@std.yildiz.edu.tr', 'Elif Y.'),
+        ('sena@std.yildiz.edu.tr', 'Sena G.'),
+      ]) {
+        final vm = make(email, 'sifre123');
+        expect(await vm.signIn(), isTrue, reason: email);
+        expect(vm.user?.shortName, short);
+        expect(vm.user?.community.name, 'Yıldız Teknik Üniversitesi');
+      }
+    });
+
+    test(
+      '1.03c: kilit 30 sn sürer, sonra kalkar ve sayaç sıfırlanır',
+      () async {
+        var now = DateTime(2026, 1, 1, 12);
+        final vm =
+            AuthViewModel(
+                MockAuthRepository(now: () => now),
+                communities: MockCommunityRepository(),
+              )
+              ..setEmail('elif@std.yildiz.edu.tr')
+              ..setPassword('yanlis');
+        for (var i = 0; i < 3; i++) {
+          await vm.signIn();
+        }
+        expect(vm.failure, AuthFailure.wrongPassword);
+        await vm.signIn();
+        expect(vm.failure, AuthFailure.tooManyAttempts);
+
+        // Süre dolmadan doğru şifre de kabul edilmez.
+        now = now.add(
+          MockAuthRepository.lockDuration - const Duration(seconds: 1),
+        );
+        vm.setPassword('sifre123');
+        expect(await vm.signIn(), isFalse);
+        expect(vm.failure, AuthFailure.tooManyAttempts);
+
+        // Süre dolunca kilit kalkar; sayaç sıfırlandığı için yanlış şifre yine
+        // wrongPassword verir (hemen kilitlenmez).
+        now = now.add(const Duration(seconds: 2));
+        vm.setPassword('yanlis');
+        expect(await vm.signIn(), isFalse);
+        expect(vm.failure, AuthFailure.wrongPassword);
+        vm.setPassword('sifre123');
+        expect(await vm.signIn(), isTrue);
+      },
+    );
+
+    test('1.04: doğrulanmamış hesap notVerified verir', () async {
+      final vm = make('sudem@yildiz.edu.tr', 'sifre123');
+      expect(await vm.signIn(), isFalse);
+      expect(vm.failure, AuthFailure.notVerified);
+      expect(vm.isSignedIn, isFalse);
+    });
+  });
+
   group('AuthViewModel', () {
     test('iki alan dolmadan gönderilemez', () {
-      final vm = AuthViewModel(MockAuthRepository());
+      final vm = AuthViewModel(
+        MockAuthRepository(),
+        communities: MockCommunityRepository(),
+      );
       expect(vm.canSubmit, isFalse);
       vm.setEmail('ad@okul.edu.tr');
       expect(vm.canSubmit, isFalse);
@@ -18,18 +120,26 @@ void main() {
     });
 
     test('.edu.tr olmayan e-posta ile giriş başarısız', () async {
-      final vm = AuthViewModel(MockAuthRepository())
-        ..setEmail('ad@gmail.com')
-        ..setPassword('123');
+      final vm =
+          AuthViewModel(
+              MockAuthRepository(),
+              communities: MockCommunityRepository(),
+            )
+            ..setEmail('ad@gmail.com')
+            ..setPassword('123');
       expect(await vm.signIn(), isFalse);
       expect(vm.isSignedIn, isFalse);
       expect(vm.emailError, isNotNull);
     });
 
     test('geçerli bilgilerle giriş ve çıkış', () async {
-      final vm = AuthViewModel(MockAuthRepository())
-        ..setEmail('ad@okul.edu.tr')
-        ..setPassword('123');
+      final vm =
+          AuthViewModel(
+              MockAuthRepository(),
+              communities: MockCommunityRepository(),
+            )
+            ..setEmail('eda@std.yildiz.edu.tr')
+            ..setPassword('sifre123');
       expect(await vm.signIn(), isTrue);
       expect(vm.isSignedIn, isTrue);
       await vm.signOut();

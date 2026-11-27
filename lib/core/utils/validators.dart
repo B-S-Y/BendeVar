@@ -3,23 +3,84 @@ enum EmailError { empty, notEdu }
 
 enum PasswordError { empty }
 
+/// Yeni şifre (kayıt): en az 8 karakter, en az bir harf ve bir rakam.
+enum NewPasswordError { empty, weak }
+
 enum RequiredError { empty }
 
 class Validators {
   const Validators._();
 
-  /// Kurum e-postası `.edu.tr` ile bitmeli.
+  /// Kişisel e-posta sağlayıcıları: alan sabit `.edu.tr` eklediği için
+  /// "gmail.edu.tr" gibi adresler geçmesin diye okul kimliği olarak reddedilir.
+  static const Set<String> personalProviders = {
+    'gmail',
+    'hotmail',
+    'outlook',
+    'yahoo',
+    'icloud',
+    'yandex',
+    'proton',
+    'protonmail',
+    'live',
+    'msn',
+  };
+
+  /// Okul kimliği kişisel e-posta sağlayıcısı mı (gmail, hotmail...).
+  static bool isPersonalProvider(String? email) =>
+      personalProviders.contains(schoolId(email));
+
+  /// Kurum e-postası `.edu.tr` ile bitmeli; kişisel sağlayıcı adı olmamalı.
+  /// İkisi de aynı hata durumudur ([EmailError.notEdu]: "kurum dışı e-posta").
   static EmailError? email(String? value) {
     final v = (value ?? '').trim().toLowerCase();
     if (v.isEmpty) return EmailError.empty;
     final pattern = RegExp(r'^[^\s@]+@[^\s@]+\.edu\.tr$');
     if (!pattern.hasMatch(v)) return EmailError.notEdu;
+    if (isPersonalProvider(v)) return EmailError.notEdu;
+    // Okul kimliği en az 2 harf (ku = Koç); tek harf geçersiz e-posta.
+    if ((schoolId(v) ?? '').length < minSchoolIdLength) {
+      return EmailError.notEdu;
+    }
     return null;
+  }
+
+  /// Kayıt/giriş için okul kimliği en az bu kadar harf (ku, iuc gibi kısa
+  /// kimlikler geçerli; tek harf geçersiz).
+  static const int minSchoolIdLength = 2;
+
+  /// Okul kimliği: `.edu.tr`'den önceki son kelime
+  /// (`std.yildiz.edu.tr` ve `yildiz.edu.tr` → `yildiz`). Geçersizse null.
+  static String? schoolId(String? email) {
+    final v = (email ?? '').trim().toLowerCase();
+    final m = RegExp(r'^[^\s@]+@(?:[^\s@]*\.)?([^\s@.]+)\.edu\.tr$')
+        .firstMatch(v);
+    return m?.group(1);
   }
 
   static PasswordError? password(String? value) {
     if ((value ?? '').isEmpty) return PasswordError.empty;
     return null;
+  }
+
+  static NewPasswordError? newPassword(String? value) {
+    final v = value ?? '';
+    if (v.isEmpty) return NewPasswordError.empty;
+    final ok =
+        v.length >= 8 &&
+        RegExp(r'\p{L}', unicode: true).hasMatch(v) &&
+        RegExp(r'\d').hasMatch(v);
+    return ok ? null : NewPasswordError.weak;
+  }
+
+  /// `ad.soyad@...` → "Ad Soyad" (kayıttaki ad önerisi).
+  static String nameFromEmail(String? email) {
+    final local = (email ?? '').split('@').first;
+    final words = local
+        .split(RegExp(r'[._\-+\d]+'))
+        .where((w) => w.isNotEmpty)
+        .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase());
+    return words.join(' ');
   }
 
   static RequiredError? requiredText(String? value) {

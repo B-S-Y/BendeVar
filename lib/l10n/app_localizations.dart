@@ -116,12 +116,6 @@ abstract class AppLocalizations {
   /// **'Elinde olan paylaşır,\nihtiyacı olan bulur.'**
   String get welcomeTitle;
 
-  /// No description provided for @welcomeSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Okul mailinle giriş yap, kampüsün seni bekliyor.'**
-  String get welcomeSubtitle;
-
   /// No description provided for @login.
   ///
   /// In tr, this message translates to:
@@ -140,23 +134,11 @@ abstract class AppLocalizations {
   /// **'Tekrar hoş geldin'**
   String get loginTitle;
 
-  /// No description provided for @loginSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Kurum e-postan ve şifrenle devam et.'**
-  String get loginSubtitle;
-
   /// No description provided for @emailLabel.
   ///
   /// In tr, this message translates to:
   /// **'Kurum e-postası'**
   String get emailLabel;
-
-  /// No description provided for @emailHint.
-  ///
-  /// In tr, this message translates to:
-  /// **'ad.soyad@okul.edu.tr'**
-  String get emailHint;
 
   /// No description provided for @passwordLabel.
   ///
@@ -227,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorEmailNotEdu.
   ///
   /// In tr, this message translates to:
-  /// **'Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.'**
+  /// **'Okul e-postanı kullan (edu.tr).'**
   String get errorEmailNotEdu;
 
   /// No description provided for @errorPasswordEmpty.
@@ -235,6 +217,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Şifreni gir.'**
   String get errorPasswordEmpty;
+
+  /// No description provided for @emailHintShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'ad.soyad@okul'**
+  String get emailHintShort;
+
+  /// No description provided for @errorAccountNotFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-postayla hesap bulunamadı.'**
+  String get errorAccountNotFound;
+
+  /// No description provided for @errorPasswordWrong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre yanlış.'**
+  String get errorPasswordWrong;
+
+  /// No description provided for @errorTooManyAttempts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok fazla deneme; biraz sonra tekrar dene.'**
+  String get errorTooManyAttempts;
+
+  /// No description provided for @errorNotVerified.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla.'**
+  String get errorNotVerified;
+
+  /// No description provided for @resendVerification.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı tekrar gönder'**
+  String get resendVerification;
+
+  /// No description provided for @verificationSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bağlantısı gönderildi.'**
+  String get verificationSent;
 
   /// No description provided for @navHome.
   ///
@@ -1079,26 +1103,14 @@ abstract class AppLocalizations {
   /// No description provided for @logoutTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Çıkış yapmak istiyor musun?'**
+  /// **'Çıkış yapılsın mı?'**
   String get logoutTitle;
 
   /// No description provided for @logoutLine1.
   ///
   /// In tr, this message translates to:
-  /// **'Bu telefondaki oturumun kapanır.'**
+  /// **'Hesabından çıkacaksın.'**
   String get logoutLine1;
-
-  /// No description provided for @logoutLine2.
-  ///
-  /// In tr, this message translates to:
-  /// **'Tekrar girmek için kurum e-postan ve şifren gerekir.'**
-  String get logoutLine2;
-
-  /// No description provided for @logoutLine3.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bu telefona bildirim gelmez; iade hatırlatmaları da durur.'**
-  String get logoutLine3;
 
   /// No description provided for @statusOnLoan.
   ///
@@ -1231,6 +1243,828 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Dün'**
   String get timeYesterday;
+
+  /// No description provided for @signupTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul e-postanla başla'**
+  String get signupTitle;
+
+  /// No description provided for @signupExit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıttan çık'**
+  String get signupExit;
+
+  /// No description provided for @stepAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get stepAccount;
+
+  /// No description provided for @stepVerify.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama'**
+  String get stepVerify;
+
+  /// No description provided for @stepName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adın'**
+  String get stepName;
+
+  /// No description provided for @signupJoinCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul topluluğuna katılacaksın'**
+  String get signupJoinCommunity;
+
+  /// No description provided for @signupNewCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun ilk kayıtla açılacak'**
+  String get signupNewCommunity;
+
+  /// No description provided for @signupPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre belirle'**
+  String get signupPasswordHint;
+
+  /// No description provided for @signupPasswordRule.
+  ///
+  /// In tr, this message translates to:
+  /// **'En az 8 karakter, bir harf ve bir rakam.'**
+  String get signupPasswordRule;
+
+  /// No description provided for @errorPasswordWeak.
+  ///
+  /// In tr, this message translates to:
+  /// **'En az 8 karakter, bir harf ve bir rakam.'**
+  String get errorPasswordWeak;
+
+  /// No description provided for @errorTermsRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şartları kabul et.'**
+  String get errorTermsRequired;
+
+  /// No description provided for @errorEmailInUse.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-posta zaten kayıtlı.'**
+  String get errorEmailInUse;
+
+  /// No description provided for @termsLead.
+  ///
+  /// In tr, this message translates to:
+  /// **''**
+  String get termsLead;
+
+  /// No description provided for @termsLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şartları'**
+  String get termsLink;
+
+  /// No description provided for @termsMid.
+  ///
+  /// In tr, this message translates to:
+  /// **' ve '**
+  String get termsMid;
+
+  /// No description provided for @privacyLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'gizliliği'**
+  String get privacyLink;
+
+  /// No description provided for @termsTail.
+  ///
+  /// In tr, this message translates to:
+  /// **' kabul ediyorum.'**
+  String get termsTail;
+
+  /// No description provided for @haveAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın var mı?'**
+  String get haveAccount;
+
+  /// No description provided for @sentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı gönderdik'**
+  String get sentTitle;
+
+  /// No description provided for @sentInstruction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıya tıkla, sonra buraya dön.'**
+  String get sentInstruction;
+
+  /// No description provided for @sentWaiting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bekleniyor'**
+  String get sentWaiting;
+
+  /// No description provided for @openMailApp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mail uygulamasını aç'**
+  String get openMailApp;
+
+  /// No description provided for @clickedLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıya tıkladım'**
+  String get clickedLink;
+
+  /// No description provided for @resendIn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar gönder ({time})'**
+  String resendIn(String time);
+
+  /// No description provided for @resendLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar gönder'**
+  String get resendLink;
+
+  /// No description provided for @fixEmail.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postayı düzelt'**
+  String get fixEmail;
+
+  /// No description provided for @notVerifiedYet.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postan henüz doğrulanmadı.'**
+  String get notVerifiedYet;
+
+  /// No description provided for @linkResent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tekrar gönderildi.'**
+  String get linkResent;
+
+  /// No description provided for @nameTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adın ne?'**
+  String get nameTitle;
+
+  /// No description provided for @nameSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer kullanıcılar seni bu adla görecek.'**
+  String get nameSubtitle;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad'**
+  String get nameLabel;
+
+  /// No description provided for @nameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adını ve soyadını yaz'**
+  String get nameHint;
+
+  /// No description provided for @errorNameEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adını gir.'**
+  String get errorNameEmpty;
+
+  /// No description provided for @finish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamla'**
+  String get finish;
+
+  /// No description provided for @expiredTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantının süresi doldu'**
+  String get expiredTitle;
+
+  /// No description provided for @sendNewLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bağlantı gönder'**
+  String get sendNewLink;
+
+  /// No description provided for @legalTermsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım şartları'**
+  String get legalTermsTitle;
+
+  /// No description provided for @legalPrivacyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik politikası'**
+  String get legalPrivacyTitle;
+
+  /// No description provided for @legalTermsBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.'**
+  String get legalTermsBody;
+
+  /// No description provided for @legalPrivacyBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.'**
+  String get legalPrivacyBody;
+
+  /// No description provided for @forgotTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreni mi unuttun?'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postanı yaz, sana bir bağlantı gönderelim.'**
+  String get forgotSubtitle;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı gönder'**
+  String get sendResetLink;
+
+  /// No description provided for @resetSentInstruction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıya tıkla, sonra buraya dön.'**
+  String get resetSentInstruction;
+
+  /// No description provided for @resetExpired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantının süresi doldu, yenisini iste.'**
+  String get resetExpired;
+
+  /// No description provided for @newPasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre belirle'**
+  String get newPasswordTitle;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre'**
+  String get newPasswordLabel;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifreni gir'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifreyi tekrar gir'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @confirmPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreni tekrar yaz'**
+  String get confirmPasswordHint;
+
+  /// No description provided for @errorPasswordMismatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor.'**
+  String get errorPasswordMismatch;
+
+  /// No description provided for @savePassword.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreyi kaydet'**
+  String get savePassword;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifren güncellendi.'**
+  String get passwordUpdated;
+
+  /// No description provided for @myCommunities.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluklarım'**
+  String get myCommunities;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim ayarları'**
+  String get notificationSettings;
+
+  /// No description provided for @privacySupport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik ve destek'**
+  String get privacySupport;
+
+  /// No description provided for @notifMessages.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesajlar'**
+  String get notifMessages;
+
+  /// No description provided for @notifMessagesDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bir mesaj geldiğinde haber ver.'**
+  String get notifMessagesDesc;
+
+  /// No description provided for @notifResponses.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılıklar'**
+  String get notifResponses;
+
+  /// No description provided for @notifResponsesDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.'**
+  String get notifResponsesDesc;
+
+  /// No description provided for @notifReminders.
+  ///
+  /// In tr, this message translates to:
+  /// **'İade hatırlatmaları'**
+  String get notifReminders;
+
+  /// No description provided for @notifRemindersDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.'**
+  String get notifRemindersDesc;
+
+  /// No description provided for @notifAnnouncements.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk duyuruları'**
+  String get notifAnnouncements;
+
+  /// No description provided for @notifAnnouncementsDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğunla ilgili önemli gelişmeleri haber ver.'**
+  String get notifAnnouncementsDesc;
+
+  /// No description provided for @blockedAccounts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engellenenler'**
+  String get blockedAccounts;
+
+  /// No description provided for @helpSupport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım ve destek'**
+  String get helpSupport;
+
+  /// No description provided for @blockedEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engellediğin hesap yok.'**
+  String get blockedEmpty;
+
+  /// No description provided for @unblock.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engeli kaldır'**
+  String get unblock;
+
+  /// No description provided for @unblockTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engeli kaldırmak istiyor musun?'**
+  String get unblockTitle;
+
+  /// No description provided for @unblockLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} sana yeniden mesaj gönderebilir.'**
+  String unblockLine1(String name);
+
+  /// No description provided for @unblockLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.'**
+  String get unblockLine2;
+
+  /// No description provided for @unblocked.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engel kaldırıldı.'**
+  String get unblocked;
+
+  /// No description provided for @communitiesSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk ara'**
+  String get communitiesSearchHint;
+
+  /// No description provided for @communitiesMine.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluklarım'**
+  String get communitiesMine;
+
+  /// No description provided for @communitiesResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arama sonuçları'**
+  String get communitiesResults;
+
+  /// No description provided for @communitiesNoResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aramaya uygun topluluk bulunamadı.'**
+  String get communitiesNoResults;
+
+  /// No description provided for @communityMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 üye} other{{count} üye}}'**
+  String communityMembers(int count);
+
+  /// No description provided for @communityFounderBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurucu'**
+  String get communityFounderBadge;
+
+  /// No description provided for @communityJoin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katıl'**
+  String get communityJoin;
+
+  /// No description provided for @communityMember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üyesin'**
+  String get communityMember;
+
+  /// No description provided for @communityJoined.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğa katıldın.'**
+  String get communityJoined;
+
+  /// No description provided for @communityLeave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayrıl'**
+  String get communityLeave;
+
+  /// No description provided for @joinWithCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet koduyla katıl'**
+  String get joinWithCode;
+
+  /// No description provided for @createCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluştur'**
+  String get createCommunity;
+
+  /// No description provided for @inviteCodeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet koduyla katıl'**
+  String get inviteCodeTitle;
+
+  /// No description provided for @inviteCodeHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu'**
+  String get inviteCodeHint;
+
+  /// No description provided for @inviteCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kod geçerli değil. Kodu kontrol edip tekrar dene.'**
+  String get inviteCodeInvalid;
+
+  /// No description provided for @inviteCodeAlready.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu topluluğun zaten üyesisin.'**
+  String get inviteCodeAlready;
+
+  /// No description provided for @inviteCodeSuccessTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğa katıldın'**
+  String get inviteCodeSuccessTitle;
+
+  /// No description provided for @inviteCodeSuccessBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğuna katıldın.'**
+  String inviteCodeSuccessBody(String name);
+
+  /// No description provided for @done.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get done;
+
+  /// No description provided for @createCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluştur'**
+  String get createCommunityTitle;
+
+  /// No description provided for @communityNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk adı'**
+  String get communityNameLabel;
+
+  /// No description provided for @communityNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn. Kamp Kulübü'**
+  String get communityNameHint;
+
+  /// No description provided for @communityNameError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk adı en az 3 karakter olmalı.'**
+  String get communityNameError;
+
+  /// No description provided for @communityDescLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıklama (isteğe bağlı)'**
+  String get communityDescLabel;
+
+  /// No description provided for @communityDescHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu topluluk ne için?'**
+  String get communityDescHint;
+
+  /// No description provided for @communityVisibilityLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünürlük'**
+  String get communityVisibilityLabel;
+
+  /// No description provided for @visibilityOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get visibilityOpen;
+
+  /// No description provided for @visibilityOpenDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada çıkar, herkes katılabilir.'**
+  String get visibilityOpenDesc;
+
+  /// No description provided for @visibilitySchool.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okula özel'**
+  String get visibilitySchool;
+
+  /// No description provided for @visibilitySchoolDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.'**
+  String get visibilitySchoolDesc;
+
+  /// No description provided for @visibilitySecret.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizli'**
+  String get visibilitySecret;
+
+  /// No description provided for @visibilitySecretDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada çıkmaz; yalnızca davet koduyla katılınır.'**
+  String get visibilitySecretDesc;
+
+  /// No description provided for @communityCreated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluşturuldu.'**
+  String get communityCreated;
+
+  /// No description provided for @founderActionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk işlemleri'**
+  String get founderActionsTitle;
+
+  /// No description provided for @copyInviteCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodunu kopyala'**
+  String get copyInviteCode;
+
+  /// No description provided for @inviteCodeCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu kopyalandı.'**
+  String get inviteCodeCopied;
+
+  /// No description provided for @deleteCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğu sil'**
+  String get deleteCommunity;
+
+  /// No description provided for @deleteCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğu silmek istiyor musun?'**
+  String get deleteCommunityTitle;
+
+  /// No description provided for @deleteCommunityLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğu ve üyelikler kalıcı olarak silinir.'**
+  String deleteCommunityLine1(String name);
+
+  /// No description provided for @deleteCommunityLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem geri alınamaz.'**
+  String get deleteCommunityLine2;
+
+  /// No description provided for @communityDeleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk silindi.'**
+  String get communityDeleted;
+
+  /// No description provided for @leaveCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluktan ayrılmak istiyor musun?'**
+  String get leaveCommunityTitle;
+
+  /// No description provided for @leaveCommunityLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.'**
+  String leaveCommunityLine1(String name);
+
+  /// No description provided for @leaveCommunityLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'İstersen sonra yeniden katılabilirsin.'**
+  String get leaveCommunityLine2;
+
+  /// No description provided for @communityLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluktan ayrıldın.'**
+  String get communityLeft;
+
+  /// No description provided for @emailAsciiHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türkçe karakter ve büyük harfi düzelttik.'**
+  String get emailAsciiHint;
+
+  /// No description provided for @doneTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hoş geldin, {name}!'**
+  String doneTitle(String name);
+
+  /// No description provided for @doneSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{community} topluluğuna katıldın.'**
+  String doneSubtitle(String community);
+
+  /// No description provided for @doneSlogan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Elinde olanı paylaş, ihtiyacın olanı bul.'**
+  String get doneSlogan;
+
+  /// No description provided for @doneStart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başla'**
+  String get doneStart;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beni hatırla'**
+  String get rememberMe;
+
+  /// No description provided for @loadFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüklenemedi. Bağlantını kontrol edip tekrar dene.'**
+  String get loadFailed;
+
+  /// No description provided for @actionFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlem tamamlanamadı.'**
+  String get actionFailed;
+
+  /// No description provided for @retry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar dene'**
+  String get retry;
+
+  /// No description provided for @stepSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} ({step}/{total})'**
+  String stepSemantics(String label, int step, int total);
+
+  /// No description provided for @inviteContinue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam'**
+  String get inviteContinue;
+
+  /// No description provided for @helpIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takıldığın bir şey mi var? Sık sorulanlara göz at.'**
+  String get helpIntro;
+
+  /// No description provided for @helpQ1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir topluluğa nasıl katılırım?'**
+  String get helpQ1;
+
+  /// No description provided for @helpA1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım\'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.'**
+  String get helpA1;
+
+  /// No description provided for @helpQ2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beni hatırla ne işe yarar?'**
+  String get helpQ2;
+
+  /// No description provided for @helpA2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.'**
+  String get helpA2;
+
+  /// No description provided for @helpQ3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifremi unuttum, ne yapmalıyım?'**
+  String get helpQ3;
+
+  /// No description provided for @helpA3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.'**
+  String get helpA3;
+
+  /// No description provided for @helpContact.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hâlâ çözemedin mi? Bize yaz:'**
+  String get helpContact;
+
+  /// No description provided for @helpContactEmail.
+  ///
+  /// In tr, this message translates to:
+  /// **'destek@bendevar.app'**
+  String get helpContactEmail;
 }
 
 class _AppLocalizationsDelegate

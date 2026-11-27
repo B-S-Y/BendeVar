@@ -15,6 +15,10 @@ void useAndroidScreen(WidgetTester tester) {
   tester.view.physicalSize = const Size(824, 1834);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
+  // Sürekli animasyonlar (yıldız/leke) pumpAndSettle'ı bekletmesin.
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(disableAnimations: true);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
 }
 
 Future<void> initTestEnv() async {
@@ -33,9 +37,13 @@ Future<void> pumpApp(
   WidgetTester tester, {
   ThemeMode theme = ThemeMode.light,
   Locale locale = const Locale('tr'),
+  Map<String, Object> prefsValues = const {},
+  AppDependencies? deps,
+  bool animations = false,
+  bool settle = true,
 }) async {
   useAndroidScreen(tester);
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues(prefsValues);
   final prefs = await SharedPreferences.getInstance();
   final themeCtrl = ThemeController(prefs);
   final localeCtrl = LocaleController(prefs);
@@ -43,14 +51,25 @@ Future<void> pumpApp(
   await localeCtrl.setChoice(
     locale.languageCode == 'en' ? LocaleChoice.en : LocaleChoice.tr,
   );
+  final appDeps = deps ?? AppDependencies();
+  if (animations) {
+    // Gerçek cihaz gibi: animasyonlar açık.
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures();
+  }
   await tester.pumpWidget(
     BendeVarApp(
-      deps: AppDependencies(),
+      deps: appDeps,
       themeController: themeCtrl,
       localeController: localeCtrl,
     ),
   );
-  await tester.pumpAndSettle();
+  // Animasyonlar açıksa sürekli animasyon (yıldızlar) settle'ı bekletir.
+  if (animations || !settle) {
+    await tester.pump();
+  } else {
+    await tester.pumpAndSettle();
+  }
 }
 
 /// Tek bir widget'ı tema + dil ile sarar.

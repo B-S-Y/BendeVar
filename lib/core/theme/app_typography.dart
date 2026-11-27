@@ -20,6 +20,13 @@ class AppTypography {
   );
 
   static final TextStyle brand = _s(28, 34, FontWeight.w700);
+  static final TextStyle welcomeHeading = _s(21, 27, FontWeight.w700);
+  static final TextStyle brandHero = _s(
+    34,
+    40,
+    FontWeight.w700,
+    letterSpacing: -0.4,
+  );
   static final TextStyle title1 = _s(22, 28, FontWeight.w700);
   static final TextStyle title2 = _s(18, 24, FontWeight.w700);
   static final TextStyle appBar = _s(16, 22, FontWeight.w600);

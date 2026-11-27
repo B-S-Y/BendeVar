@@ -3,13 +3,10 @@
   "brandName": "Bende Var",
   "slogan": "Your need, in your community.",
   "welcomeTitle": "Those who have, share.\nThose in need, find.",
-  "welcomeSubtitle": "Sign in with your school email, your campus is waiting.",
   "login": "Sign in",
   "signup": "Sign up",
   "loginTitle": "Welcome back",
-  "loginSubtitle": "Continue with your institutional email and password.",
   "emailLabel": "Institutional email",
-  "emailHint": "name.surname@school.edu.tr",
   "passwordLabel": "Password",
   "passwordHint": "Enter your password",
   "forgotPassword": "Forgot my password",
@@ -21,8 +18,15 @@
   "cancel": "Cancel",
   "more": "More",
   "errorEmailEmpty": "Enter your email address.",
-  "errorEmailNotEdu": "Sign in with your institutional email (an address ending in .edu.tr).",
+  "errorEmailNotEdu": "Use your school email (edu.tr).",
   "errorPasswordEmpty": "Enter your password.",
+  "emailHintShort": "name.surname@school",
+  "errorAccountNotFound": "No account with this email.",
+  "errorPasswordWrong": "Wrong password.",
+  "errorTooManyAttempts": "Too many attempts; try again shortly.",
+  "errorNotVerified": "Your account isn't verified. Tap the link in your email.",
+  "resendVerification": "Resend the link",
+  "verificationSent": "Verification link sent.",
   "navHome": "Home",
   "navMessages": "Messages",
   "navCreate": "Create a listing or need",
@@ -240,10 +244,8 @@
   "myListingsAndNeeds": "My needs and listings",
   "themeAndLanguage": "Theme and language",
   "logout": "Sign out",
-  "logoutTitle": "Do you want to sign out?",
-  "logoutLine1": "Your session on this phone will end.",
-  "logoutLine2": "You'll need your institutional email and password to sign in again.",
-  "logoutLine3": "This phone won't get notifications, and return reminders will stop too.",
+  "logoutTitle": "Sign out?",
+  "logoutLine1": "You will be signed out of your account.",
   "statusOnLoan": "On loan",
   "statusAwaiting": "Awaiting handover",
   "statusReturned": "Returned",
@@ -286,5 +288,211 @@
       }
     }
   },
-  "timeYesterday": "Yesterday"
+  "timeYesterday": "Yesterday",
+  "signupTitle": "Start with your school email",
+  "signupExit": "Leave sign-up",
+  "stepAccount": "Account",
+  "stepVerify": "Verification",
+  "stepName": "Your name",
+  "signupJoinCommunity": "You'll join your school community",
+  "signupNewCommunity": "Your community opens with this sign-up",
+  "signupPasswordHint": "Create a password",
+  "signupPasswordRule": "At least 8 characters, a letter and a digit.",
+  "errorPasswordWeak": "At least 8 characters, a letter and a digit.",
+  "errorTermsRequired": "Accept the terms.",
+  "errorEmailInUse": "This email is already registered.",
+  "termsLead": "I accept the ",
+  "termsLink": "Terms",
+  "termsMid": " and ",
+  "privacyLink": "Privacy",
+  "termsTail": ".",
+  "haveAccount": "Already have an account?",
+  "sentTitle": "We sent the link",
+  "sentInstruction": "Tap the link, then come back here.",
+  "sentWaiting": "Waiting for verification",
+  "openMailApp": "Open mail app",
+  "clickedLink": "I tapped the link",
+  "resendIn": "Resend ({time})",
+  "@resendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "resendLink": "Resend",
+  "fixEmail": "Fix the email",
+  "notVerifiedYet": "Your email isn't verified yet.",
+  "linkResent": "Link sent again.",
+  "nameTitle": "What's your name?",
+  "nameSubtitle": "Others will see you by this name.",
+  "nameLabel": "Full name",
+  "nameHint": "Enter your first and last name",
+  "errorNameEmpty": "Enter your name.",
+  "finish": "Finish",
+  "expiredTitle": "The link has expired",
+  "sendNewLink": "Send a new link",
+  "legalTermsTitle": "Terms of Use",
+  "legalPrivacyTitle": "Privacy Policy",
+  "legalTermsBody": "Bende Var is a community app where people in the same school or dorm meet each other's needs by lending and borrowing.\n\n1. Account\nYou sign up with your institutional email and join your school's community. You are responsible for your account's security.\n\n2. Listings and needs\nListings are for lending your items, needs are for looking for an item. The information you share must be accurate.\n\n3. Borrowing and lending\nThe parties agree on the handover place, duration and conditions by messaging. No payments are taken in the app. The borrower is responsible for returning the item on time and in the condition received.\n\n4. Conduct\nYou treat other users with respect. You may not share illegal, dangerous or other people's items.\n\n5. Closing accounts\nAccounts that violate these terms may be closed.\n\nThis text is a placeholder and not the final legal text.",
+  "legalPrivacyBody": "This policy explains what information Bende Var uses and why.\n\n1. Information we collect\nYour institutional email address, your name, the listings and needs you share, your messages and ratings.\n\n2. How we use it\nTo match you with your school's community, run borrowing and lending, send return reminders and improve the app.\n\n3. Sharing\nYour name and listings are visible only to users in your community. We don't sell your information to third parties.\n\n4. Retention and deletion\nYour personal information is deleted when you close your account.\n\n5. Your rights\nYou can ask to access, correct or delete your information.\n\nThis text is a placeholder and not the final legal text.",
+  "forgotTitle": "Forgot your password?",
+  "forgotSubtitle": "Enter your email and we'll send you a link.",
+  "sendResetLink": "Send link",
+  "resetSentInstruction": "Tap the link, then come back here.",
+  "resetExpired": "The link expired, request a new one.",
+  "newPasswordTitle": "Set a new password",
+  "newPasswordLabel": "New password",
+  "newPasswordHint": "Enter your new password",
+  "confirmPasswordLabel": "Repeat the new password",
+  "confirmPasswordHint": "Type your password again",
+  "errorPasswordMismatch": "Passwords don't match.",
+  "savePassword": "Save password",
+  "passwordUpdated": "Your password is updated.",
+  "myCommunities": "My communities",
+  "notificationSettings": "Notification settings",
+  "privacySupport": "Privacy and support",
+  "notifMessages": "Messages",
+  "notifMessagesDesc": "Notify me when a new message arrives.",
+  "notifResponses": "Responses",
+  "notifResponsesDesc": "Notify me when someone responds to my listing or need.",
+  "notifReminders": "Return reminders",
+  "notifRemindersDesc": "Notify me when the return day of an item I borrowed is near.",
+  "notifAnnouncements": "Community announcements",
+  "notifAnnouncementsDesc": "Notify me about important news in my community.",
+  "blockedAccounts": "Blocked",
+  "helpSupport": "Help and support",
+  "blockedEmpty": "You haven't blocked anyone.",
+  "unblock": "Unblock",
+  "unblockTitle": "Do you want to unblock?",
+  "unblockLine1": "{name} can message you again.",
+  "@unblockLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockLine2": "You'll see their listings and needs again.",
+  "unblocked": "Unblocked.",
+  "communitiesSearchHint": "Search communities",
+  "communitiesMine": "My communities",
+  "communitiesResults": "Search results",
+  "communitiesNoResults": "No community matches this search.",
+  "communityMembers": "{count, plural, =1{1 member} other{{count} members}}",
+  "@communityMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "communityFounderBadge": "Founder",
+  "communityJoin": "Join",
+  "communityMember": "Member",
+  "communityJoined": "You joined the community.",
+  "communityLeave": "Leave",
+  "joinWithCode": "Join with invite code",
+  "createCommunity": "Create community",
+  "inviteCodeTitle": "Join with invite code",
+  "inviteCodeHint": "Invite code",
+  "inviteCodeInvalid": "This code isn't valid. Check it and try again.",
+  "inviteCodeAlready": "You're already a member of this community.",
+  "inviteCodeSuccessTitle": "You joined the community",
+  "inviteCodeSuccessBody": "You joined {name}.",
+  "@inviteCodeSuccessBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "done": "Done",
+  "createCommunityTitle": "Create community",
+  "communityNameLabel": "Community name",
+  "communityNameHint": "E.g. Camping Club",
+  "communityNameError": "The community name must be at least 3 characters.",
+  "communityDescLabel": "Description (optional)",
+  "communityDescHint": "What is this community for?",
+  "communityVisibilityLabel": "Visibility",
+  "visibilityOpen": "Open",
+  "visibilityOpenDesc": "Shows up in search, anyone can join.",
+  "visibilitySchool": "School only",
+  "visibilitySchoolDesc": "Shows up in search only for school members, and only they can join.",
+  "visibilitySecret": "Secret",
+  "visibilitySecretDesc": "Doesn't show up in search; joined only with an invite code.",
+  "communityCreated": "Community created.",
+  "founderActionsTitle": "Community actions",
+  "copyInviteCode": "Copy invite code",
+  "inviteCodeCopied": "Invite code copied.",
+  "deleteCommunity": "Delete community",
+  "deleteCommunityTitle": "Do you want to delete the community?",
+  "deleteCommunityLine1": "{name} and its memberships will be deleted permanently.",
+  "@deleteCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteCommunityLine2": "This can't be undone.",
+  "communityDeleted": "Community deleted.",
+  "leaveCommunityTitle": "Do you want to leave the community?",
+  "leaveCommunityLine1": "If you leave {name}, you won't see your listings and needs there.",
+  "@leaveCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveCommunityLine2": "You can join again later.",
+  "communityLeft": "You left the community.",
+  "emailAsciiHint": "We fixed Turkish characters and capitals.",
+  "doneTitle": "Welcome, {name}!",
+  "@doneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "doneSubtitle": "You joined the {community} community.",
+  "@doneSubtitle": {
+    "placeholders": {
+      "community": {
+        "type": "String"
+      }
+    }
+  },
+  "doneSlogan": "Share what you have, find what you need.",
+  "doneStart": "Get started",
+  "rememberMe": "Remember me",
+  "loadFailed": "Couldn't load. Check your connection and try again.",
+  "actionFailed": "That didn't work.",
+  "retry": "Try again",
+  "stepSemantics": "{label} (step {step} of {total})",
+  "@stepSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "inviteContinue": "Continue",
+  "helpIntro": "Stuck on something? Have a look at the common questions.",
+  "helpQ1": "How do I join a community?",
+  "helpA1": "You join your school community automatically with your institutional email. Search for others in My communities, or join with a 6-digit invite code.",
+  "helpQ2": "What does Remember me do?",
+  "helpA2": "When on, you'll skip signing in after closing and reopening the app. Signing out forgets you.",
+  "helpQ3": "I forgot my password. What now?",
+  "helpA3": "Tap \"Forgot password\" on the sign-in screen and we'll email you a reset link.",
+  "helpContact": "Still stuck? Write to us:",
+  "helpContactEmail": "support@bendevar.app"
 }

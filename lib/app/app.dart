@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../core/theme/app_theme.dart';
 import '../features/auth/viewmodel/auth_view_model.dart';
+import '../features/auth/viewmodel/community_view_model.dart';
+import '../features/auth/viewmodel/settings_view_model.dart';
 import '../features/home/viewmodel/home_view_model.dart';
 import '../features/messages/viewmodel/messages_view_models.dart';
 import '../features/profile/viewmodel/profile_view_models.dart';
@@ -30,23 +32,57 @@ class BendeVarApp extends StatefulWidget {
 }
 
 class _BendeVarAppState extends State<BendeVarApp> {
-  late final AuthViewModel _auth = AuthViewModel(widget.deps.auth);
+  late final AuthViewModel _auth = AuthViewModel(
+    widget.deps.auth,
+    communities: widget.deps.communities,
+  );
   late final HomeViewModel _home = HomeViewModel(widget.deps.listings);
   late final MessagesViewModel _messages = MessagesViewModel(widget.deps.chats);
   late final NotificationsViewModel _notifications = NotificationsViewModel(
     widget.deps.notifications,
   );
   late final ProfileViewModel _profile = ProfileViewModel(widget.deps.users);
+  late final SettingsViewModel _settings = SettingsViewModel(
+    widget.deps.settings,
+  );
+  late final CommunityViewModel _communities = CommunityViewModel(
+    widget.deps.communities,
+  );
   late final GoRouter _router = buildRouter(widget.deps, _auth);
 
   @override
+  void initState() {
+    super.initState();
+    // Oturum kontrolü açılış kapısında (SplashPage) beklenir.
+    _auth.restore();
+    _lastUserId = _auth.user?.id;
+    _settings.setUser(_lastUserId);
+    _auth.addListener(_onAuthChanged);
+  }
+
+  String? _lastUserId;
+
+  /// Çıkış yapınca ya da başka kullanıcı girince kullanıcıya ait ekran verisi
+  /// sıfırlanır (ayarlar, topluluklar); ekranlar açılınca yeniden yükler.
+  void _onAuthChanged() {
+    final id = _auth.user?.id;
+    if (id == _lastUserId) return;
+    _lastUserId = id;
+    _settings.setUser(id);
+    _communities.reset();
+  }
+
+  @override
   void dispose() {
+    _auth.removeListener(_onAuthChanged);
     _router.dispose();
     _auth.dispose();
     _home.dispose();
     _messages.dispose();
     _notifications.dispose();
     _profile.dispose();
+    _settings.dispose();
+    _communities.dispose();
     super.dispose();
   }
 
@@ -61,6 +97,8 @@ class _BendeVarAppState extends State<BendeVarApp> {
         ChangeNotifierProvider.value(value: _messages),
         ChangeNotifierProvider.value(value: _notifications),
         ChangeNotifierProvider.value(value: _profile),
+        ChangeNotifierProvider.value(value: _settings),
+        ChangeNotifierProvider.value(value: _communities),
       ],
       child: Consumer2<ThemeController, LocaleController>(
         builder: (context, theme, locale, _) => MaterialApp.router(

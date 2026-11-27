@@ -19,10 +19,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get welcomeTitle => 'Elinde olan paylaşır,\nihtiyacı olan bulur.';
 
   @override
-  String get welcomeSubtitle =>
-      'Okul mailinle giriş yap, kampüsün seni bekliyor.';
-
-  @override
   String get login => 'Giriş yap';
 
   @override
@@ -32,13 +28,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginTitle => 'Tekrar hoş geldin';
 
   @override
-  String get loginSubtitle => 'Kurum e-postan ve şifrenle devam et.';
-
-  @override
   String get emailLabel => 'Kurum e-postası';
-
-  @override
-  String get emailHint => 'ad.soyad@okul.edu.tr';
 
   @override
   String get passwordLabel => 'Şifre';
@@ -74,11 +64,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get errorEmailEmpty => 'E-posta adresini gir.';
 
   @override
-  String get errorEmailNotEdu =>
-      'Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.';
+  String get errorEmailNotEdu => 'Okul e-postanı kullan (edu.tr).';
 
   @override
   String get errorPasswordEmpty => 'Şifreni gir.';
+
+  @override
+  String get emailHintShort => 'ad.soyad@okul';
+
+  @override
+  String get errorAccountNotFound => 'Bu e-postayla hesap bulunamadı.';
+
+  @override
+  String get errorPasswordWrong => 'Şifre yanlış.';
+
+  @override
+  String get errorTooManyAttempts =>
+      'Çok fazla deneme; biraz sonra tekrar dene.';
+
+  @override
+  String get errorNotVerified =>
+      'Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla.';
+
+  @override
+  String get resendVerification => 'Bağlantıyı tekrar gönder';
+
+  @override
+  String get verificationSent => 'Doğrulama bağlantısı gönderildi.';
 
   @override
   String get navHome => 'Ana sayfa';
@@ -526,18 +538,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get logout => 'Çıkış yap';
 
   @override
-  String get logoutTitle => 'Çıkış yapmak istiyor musun?';
+  String get logoutTitle => 'Çıkış yapılsın mı?';
 
   @override
-  String get logoutLine1 => 'Bu telefondaki oturumun kapanır.';
-
-  @override
-  String get logoutLine2 =>
-      'Tekrar girmek için kurum e-postan ve şifren gerekir.';
-
-  @override
-  String get logoutLine3 =>
-      'Bu telefona bildirim gelmez; iade hatırlatmaları da durur.';
+  String get logoutLine1 => 'Hesabından çıkacaksın.';
 
   @override
   String get statusOnLoan => 'Ödünçte';
@@ -610,4 +614,451 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get timeYesterday => 'Dün';
+
+  @override
+  String get signupTitle => 'Okul e-postanla başla';
+
+  @override
+  String get signupExit => 'Kayıttan çık';
+
+  @override
+  String get stepAccount => 'Hesap';
+
+  @override
+  String get stepVerify => 'Doğrulama';
+
+  @override
+  String get stepName => 'Adın';
+
+  @override
+  String get signupJoinCommunity => 'Okul topluluğuna katılacaksın';
+
+  @override
+  String get signupNewCommunity => 'Topluluğun ilk kayıtla açılacak';
+
+  @override
+  String get signupPasswordHint => 'Şifre belirle';
+
+  @override
+  String get signupPasswordRule => 'En az 8 karakter, bir harf ve bir rakam.';
+
+  @override
+  String get errorPasswordWeak => 'En az 8 karakter, bir harf ve bir rakam.';
+
+  @override
+  String get errorTermsRequired => 'Şartları kabul et.';
+
+  @override
+  String get errorEmailInUse => 'Bu e-posta zaten kayıtlı.';
+
+  @override
+  String get termsLead => '';
+
+  @override
+  String get termsLink => 'Şartları';
+
+  @override
+  String get termsMid => ' ve ';
+
+  @override
+  String get privacyLink => 'gizliliği';
+
+  @override
+  String get termsTail => ' kabul ediyorum.';
+
+  @override
+  String get haveAccount => 'Hesabın var mı?';
+
+  @override
+  String get sentTitle => 'Bağlantıyı gönderdik';
+
+  @override
+  String get sentInstruction => 'Bağlantıya tıkla, sonra buraya dön.';
+
+  @override
+  String get sentWaiting => 'Doğrulama bekleniyor';
+
+  @override
+  String get openMailApp => 'Mail uygulamasını aç';
+
+  @override
+  String get clickedLink => 'Bağlantıya tıkladım';
+
+  @override
+  String resendIn(String time) {
+    return 'Tekrar gönder ($time)';
+  }
+
+  @override
+  String get resendLink => 'Tekrar gönder';
+
+  @override
+  String get fixEmail => 'E-postayı düzelt';
+
+  @override
+  String get notVerifiedYet => 'E-postan henüz doğrulanmadı.';
+
+  @override
+  String get linkResent => 'Bağlantı tekrar gönderildi.';
+
+  @override
+  String get nameTitle => 'Adın ne?';
+
+  @override
+  String get nameSubtitle => 'Diğer kullanıcılar seni bu adla görecek.';
+
+  @override
+  String get nameLabel => 'Ad Soyad';
+
+  @override
+  String get nameHint => 'Adını ve soyadını yaz';
+
+  @override
+  String get errorNameEmpty => 'Adını gir.';
+
+  @override
+  String get finish => 'Tamamla';
+
+  @override
+  String get expiredTitle => 'Bağlantının süresi doldu';
+
+  @override
+  String get sendNewLink => 'Yeni bağlantı gönder';
+
+  @override
+  String get legalTermsTitle => 'Kullanım şartları';
+
+  @override
+  String get legalPrivacyTitle => 'Gizlilik politikası';
+
+  @override
+  String get legalTermsBody =>
+      'Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.';
+
+  @override
+  String get legalPrivacyBody =>
+      'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.';
+
+  @override
+  String get forgotTitle => 'Şifreni mi unuttun?';
+
+  @override
+  String get forgotSubtitle => 'E-postanı yaz, sana bir bağlantı gönderelim.';
+
+  @override
+  String get sendResetLink => 'Bağlantı gönder';
+
+  @override
+  String get resetSentInstruction => 'Bağlantıya tıkla, sonra buraya dön.';
+
+  @override
+  String get resetExpired => 'Bağlantının süresi doldu, yenisini iste.';
+
+  @override
+  String get newPasswordTitle => 'Yeni şifre belirle';
+
+  @override
+  String get newPasswordLabel => 'Yeni şifre';
+
+  @override
+  String get newPasswordHint => 'Yeni şifreni gir';
+
+  @override
+  String get confirmPasswordLabel => 'Yeni şifreyi tekrar gir';
+
+  @override
+  String get confirmPasswordHint => 'Şifreni tekrar yaz';
+
+  @override
+  String get errorPasswordMismatch => 'Şifreler eşleşmiyor.';
+
+  @override
+  String get savePassword => 'Şifreyi kaydet';
+
+  @override
+  String get passwordUpdated => 'Şifren güncellendi.';
+
+  @override
+  String get myCommunities => 'Topluluklarım';
+
+  @override
+  String get notificationSettings => 'Bildirim ayarları';
+
+  @override
+  String get privacySupport => 'Gizlilik ve destek';
+
+  @override
+  String get notifMessages => 'Mesajlar';
+
+  @override
+  String get notifMessagesDesc => 'Yeni bir mesaj geldiğinde haber ver.';
+
+  @override
+  String get notifResponses => 'Karşılıklar';
+
+  @override
+  String get notifResponsesDesc =>
+      'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.';
+
+  @override
+  String get notifReminders => 'İade hatırlatmaları';
+
+  @override
+  String get notifRemindersDesc =>
+      'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.';
+
+  @override
+  String get notifAnnouncements => 'Topluluk duyuruları';
+
+  @override
+  String get notifAnnouncementsDesc =>
+      'Topluluğunla ilgili önemli gelişmeleri haber ver.';
+
+  @override
+  String get blockedAccounts => 'Engellenenler';
+
+  @override
+  String get helpSupport => 'Yardım ve destek';
+
+  @override
+  String get blockedEmpty => 'Engellediğin hesap yok.';
+
+  @override
+  String get unblock => 'Engeli kaldır';
+
+  @override
+  String get unblockTitle => 'Engeli kaldırmak istiyor musun?';
+
+  @override
+  String unblockLine1(String name) {
+    return '$name sana yeniden mesaj gönderebilir.';
+  }
+
+  @override
+  String get unblockLine2 =>
+      'Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.';
+
+  @override
+  String get unblocked => 'Engel kaldırıldı.';
+
+  @override
+  String get communitiesSearchHint => 'Topluluk ara';
+
+  @override
+  String get communitiesMine => 'Topluluklarım';
+
+  @override
+  String get communitiesResults => 'Arama sonuçları';
+
+  @override
+  String get communitiesNoResults => 'Bu aramaya uygun topluluk bulunamadı.';
+
+  @override
+  String communityMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count üye',
+      one: '1 üye',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityFounderBadge => 'Kurucu';
+
+  @override
+  String get communityJoin => 'Katıl';
+
+  @override
+  String get communityMember => 'Üyesin';
+
+  @override
+  String get communityJoined => 'Topluluğa katıldın.';
+
+  @override
+  String get communityLeave => 'Ayrıl';
+
+  @override
+  String get joinWithCode => 'Davet koduyla katıl';
+
+  @override
+  String get createCommunity => 'Topluluk oluştur';
+
+  @override
+  String get inviteCodeTitle => 'Davet koduyla katıl';
+
+  @override
+  String get inviteCodeHint => 'Davet kodu';
+
+  @override
+  String get inviteCodeInvalid =>
+      'Bu kod geçerli değil. Kodu kontrol edip tekrar dene.';
+
+  @override
+  String get inviteCodeAlready => 'Bu topluluğun zaten üyesisin.';
+
+  @override
+  String get inviteCodeSuccessTitle => 'Topluluğa katıldın';
+
+  @override
+  String inviteCodeSuccessBody(String name) {
+    return '$name topluluğuna katıldın.';
+  }
+
+  @override
+  String get done => 'Tamam';
+
+  @override
+  String get createCommunityTitle => 'Topluluk oluştur';
+
+  @override
+  String get communityNameLabel => 'Topluluk adı';
+
+  @override
+  String get communityNameHint => 'Örn. Kamp Kulübü';
+
+  @override
+  String get communityNameError => 'Topluluk adı en az 3 karakter olmalı.';
+
+  @override
+  String get communityDescLabel => 'Açıklama (isteğe bağlı)';
+
+  @override
+  String get communityDescHint => 'Bu topluluk ne için?';
+
+  @override
+  String get communityVisibilityLabel => 'Görünürlük';
+
+  @override
+  String get visibilityOpen => 'Açık';
+
+  @override
+  String get visibilityOpenDesc => 'Aramada çıkar, herkes katılabilir.';
+
+  @override
+  String get visibilitySchool => 'Okula özel';
+
+  @override
+  String get visibilitySchoolDesc =>
+      'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.';
+
+  @override
+  String get visibilitySecret => 'Gizli';
+
+  @override
+  String get visibilitySecretDesc =>
+      'Aramada çıkmaz; yalnızca davet koduyla katılınır.';
+
+  @override
+  String get communityCreated => 'Topluluk oluşturuldu.';
+
+  @override
+  String get founderActionsTitle => 'Topluluk işlemleri';
+
+  @override
+  String get copyInviteCode => 'Davet kodunu kopyala';
+
+  @override
+  String get inviteCodeCopied => 'Davet kodu kopyalandı.';
+
+  @override
+  String get deleteCommunity => 'Topluluğu sil';
+
+  @override
+  String get deleteCommunityTitle => 'Topluluğu silmek istiyor musun?';
+
+  @override
+  String deleteCommunityLine1(String name) {
+    return '$name topluluğu ve üyelikler kalıcı olarak silinir.';
+  }
+
+  @override
+  String get deleteCommunityLine2 => 'Bu işlem geri alınamaz.';
+
+  @override
+  String get communityDeleted => 'Topluluk silindi.';
+
+  @override
+  String get leaveCommunityTitle => 'Topluluktan ayrılmak istiyor musun?';
+
+  @override
+  String leaveCommunityLine1(String name) {
+    return '$name topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.';
+  }
+
+  @override
+  String get leaveCommunityLine2 => 'İstersen sonra yeniden katılabilirsin.';
+
+  @override
+  String get communityLeft => 'Topluluktan ayrıldın.';
+
+  @override
+  String get emailAsciiHint => 'Türkçe karakter ve büyük harfi düzelttik.';
+
+  @override
+  String doneTitle(String name) {
+    return 'Hoş geldin, $name!';
+  }
+
+  @override
+  String doneSubtitle(String community) {
+    return '$community topluluğuna katıldın.';
+  }
+
+  @override
+  String get doneSlogan => 'Elinde olanı paylaş, ihtiyacın olanı bul.';
+
+  @override
+  String get doneStart => 'Başla';
+
+  @override
+  String get rememberMe => 'Beni hatırla';
+
+  @override
+  String get loadFailed => 'Yüklenemedi. Bağlantını kontrol edip tekrar dene.';
+
+  @override
+  String get actionFailed => 'İşlem tamamlanamadı.';
+
+  @override
+  String get retry => 'Tekrar dene';
+
+  @override
+  String stepSemantics(String label, int step, int total) {
+    return '$label ($step/$total)';
+  }
+
+  @override
+  String get inviteContinue => 'Devam';
+
+  @override
+  String get helpIntro => 'Takıldığın bir şey mi var? Sık sorulanlara göz at.';
+
+  @override
+  String get helpQ1 => 'Bir topluluğa nasıl katılırım?';
+
+  @override
+  String get helpA1 =>
+      'Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım\'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.';
+
+  @override
+  String get helpQ2 => 'Beni hatırla ne işe yarar?';
+
+  @override
+  String get helpA2 =>
+      'Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.';
+
+  @override
+  String get helpQ3 => 'Şifremi unuttum, ne yapmalıyım?';
+
+  @override
+  String get helpA3 =>
+      'Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.';
+
+  @override
+  String get helpContact => 'Hâlâ çözemedin mi? Bize yaz:';
+
+  @override
+  String get helpContactEmail => 'destek@bendevar.app';
 }

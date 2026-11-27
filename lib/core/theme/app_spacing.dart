@@ -13,6 +13,25 @@ class AppSpacing {
 
   /// Ekran yan kenar boşluğu (2.01'de 32 px = 16 dp).
   static const double screen = 16;
+
+  // Mockup'tan ölçülen ek boşluklar (4'lük ızgara dışı; DESIGN_TOKENS_EK.md).
+  /// Başlık → alt başlık (1.05, 1.07, 1.08, 1.10).
+  static const double titleGap = 6;
+
+  /// Şifre alanı → kural metni (1.07, 1.08).
+  static const double hintGap = 6;
+
+  /// Durum hapı dikey iç boşluğu (1.09 "Bekleniyor").
+  static const double pillPadV = 6;
+
+  /// Sıkı satır aralığı (1.06/1.09 alt bağlantılar, 1.08 şartlar kutusu).
+  static const double compactGap = 10;
+
+  /// "Bağlantı gönderildi" dikey yığını (1.06, 1.09).
+  static const double sentGap = 14;
+
+  /// Logo → "Bende Var" (şerit), adım noktası → etiket (kayıt adımları).
+  static const double brandGap = 7;
 }
 
 /// Bileşen ölçüleri.
@@ -29,6 +48,12 @@ class AppSizes {
   static const double navPillHeight = 44;
   static const double navLogo = 44;
   static const double iconAppBar = 22;
+
+  /// Düğmedeki yükleniyor halkasının çizgi kalınlığı.
+  static const double spinnerStroke = 2;
+
+  /// Hata ikonunu metnin ilk satırıyla hizalayan dikey kaydırma.
+  static const double errorIconNudge = 1;
   static const double iconRow = 18;
   static const double iconField = 16;
   static const double borderWidth = 1;

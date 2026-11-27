@@ -19,10 +19,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Those who have, share.\nThose in need, find.';
 
   @override
-  String get welcomeSubtitle =>
-      'Sign in with your school email, your campus is waiting.';
-
-  @override
   String get login => 'Sign in';
 
   @override
@@ -32,14 +28,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginTitle => 'Welcome back';
 
   @override
-  String get loginSubtitle =>
-      'Continue with your institutional email and password.';
-
-  @override
   String get emailLabel => 'Institutional email';
-
-  @override
-  String get emailHint => 'name.surname@school.edu.tr';
 
   @override
   String get passwordLabel => 'Password';
@@ -75,11 +64,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorEmailEmpty => 'Enter your email address.';
 
   @override
-  String get errorEmailNotEdu =>
-      'Sign in with your institutional email (an address ending in .edu.tr).';
+  String get errorEmailNotEdu => 'Use your school email (edu.tr).';
 
   @override
   String get errorPasswordEmpty => 'Enter your password.';
+
+  @override
+  String get emailHintShort => 'name.surname@school';
+
+  @override
+  String get errorAccountNotFound => 'No account with this email.';
+
+  @override
+  String get errorPasswordWrong => 'Wrong password.';
+
+  @override
+  String get errorTooManyAttempts => 'Too many attempts; try again shortly.';
+
+  @override
+  String get errorNotVerified =>
+      'Your account isn\'t verified. Tap the link in your email.';
+
+  @override
+  String get resendVerification => 'Resend the link';
+
+  @override
+  String get verificationSent => 'Verification link sent.';
 
   @override
   String get navHome => 'Home';
@@ -539,18 +549,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Sign out';
 
   @override
-  String get logoutTitle => 'Do you want to sign out?';
+  String get logoutTitle => 'Sign out?';
 
   @override
-  String get logoutLine1 => 'Your session on this phone will end.';
-
-  @override
-  String get logoutLine2 =>
-      'You\'ll need your institutional email and password to sign in again.';
-
-  @override
-  String get logoutLine3 =>
-      'This phone won\'t get notifications, and return reminders will stop too.';
+  String get logoutLine1 => 'You will be signed out of your account.';
 
   @override
   String get statusOnLoan => 'On loan';
@@ -623,4 +625,455 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timeYesterday => 'Yesterday';
+
+  @override
+  String get signupTitle => 'Start with your school email';
+
+  @override
+  String get signupExit => 'Leave sign-up';
+
+  @override
+  String get stepAccount => 'Account';
+
+  @override
+  String get stepVerify => 'Verification';
+
+  @override
+  String get stepName => 'Your name';
+
+  @override
+  String get signupJoinCommunity => 'You\'ll join your school community';
+
+  @override
+  String get signupNewCommunity => 'Your community opens with this sign-up';
+
+  @override
+  String get signupPasswordHint => 'Create a password';
+
+  @override
+  String get signupPasswordRule =>
+      'At least 8 characters, a letter and a digit.';
+
+  @override
+  String get errorPasswordWeak =>
+      'At least 8 characters, a letter and a digit.';
+
+  @override
+  String get errorTermsRequired => 'Accept the terms.';
+
+  @override
+  String get errorEmailInUse => 'This email is already registered.';
+
+  @override
+  String get termsLead => 'I accept the ';
+
+  @override
+  String get termsLink => 'Terms';
+
+  @override
+  String get termsMid => ' and ';
+
+  @override
+  String get privacyLink => 'Privacy';
+
+  @override
+  String get termsTail => '.';
+
+  @override
+  String get haveAccount => 'Already have an account?';
+
+  @override
+  String get sentTitle => 'We sent the link';
+
+  @override
+  String get sentInstruction => 'Tap the link, then come back here.';
+
+  @override
+  String get sentWaiting => 'Waiting for verification';
+
+  @override
+  String get openMailApp => 'Open mail app';
+
+  @override
+  String get clickedLink => 'I tapped the link';
+
+  @override
+  String resendIn(String time) {
+    return 'Resend ($time)';
+  }
+
+  @override
+  String get resendLink => 'Resend';
+
+  @override
+  String get fixEmail => 'Fix the email';
+
+  @override
+  String get notVerifiedYet => 'Your email isn\'t verified yet.';
+
+  @override
+  String get linkResent => 'Link sent again.';
+
+  @override
+  String get nameTitle => 'What\'s your name?';
+
+  @override
+  String get nameSubtitle => 'Others will see you by this name.';
+
+  @override
+  String get nameLabel => 'Full name';
+
+  @override
+  String get nameHint => 'Enter your first and last name';
+
+  @override
+  String get errorNameEmpty => 'Enter your name.';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get expiredTitle => 'The link has expired';
+
+  @override
+  String get sendNewLink => 'Send a new link';
+
+  @override
+  String get legalTermsTitle => 'Terms of Use';
+
+  @override
+  String get legalPrivacyTitle => 'Privacy Policy';
+
+  @override
+  String get legalTermsBody =>
+      'Bende Var is a community app where people in the same school or dorm meet each other\'s needs by lending and borrowing.\n\n1. Account\nYou sign up with your institutional email and join your school\'s community. You are responsible for your account\'s security.\n\n2. Listings and needs\nListings are for lending your items, needs are for looking for an item. The information you share must be accurate.\n\n3. Borrowing and lending\nThe parties agree on the handover place, duration and conditions by messaging. No payments are taken in the app. The borrower is responsible for returning the item on time and in the condition received.\n\n4. Conduct\nYou treat other users with respect. You may not share illegal, dangerous or other people\'s items.\n\n5. Closing accounts\nAccounts that violate these terms may be closed.\n\nThis text is a placeholder and not the final legal text.';
+
+  @override
+  String get legalPrivacyBody =>
+      'This policy explains what information Bende Var uses and why.\n\n1. Information we collect\nYour institutional email address, your name, the listings and needs you share, your messages and ratings.\n\n2. How we use it\nTo match you with your school\'s community, run borrowing and lending, send return reminders and improve the app.\n\n3. Sharing\nYour name and listings are visible only to users in your community. We don\'t sell your information to third parties.\n\n4. Retention and deletion\nYour personal information is deleted when you close your account.\n\n5. Your rights\nYou can ask to access, correct or delete your information.\n\nThis text is a placeholder and not the final legal text.';
+
+  @override
+  String get forgotTitle => 'Forgot your password?';
+
+  @override
+  String get forgotSubtitle => 'Enter your email and we\'ll send you a link.';
+
+  @override
+  String get sendResetLink => 'Send link';
+
+  @override
+  String get resetSentInstruction => 'Tap the link, then come back here.';
+
+  @override
+  String get resetExpired => 'The link expired, request a new one.';
+
+  @override
+  String get newPasswordTitle => 'Set a new password';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get newPasswordHint => 'Enter your new password';
+
+  @override
+  String get confirmPasswordLabel => 'Repeat the new password';
+
+  @override
+  String get confirmPasswordHint => 'Type your password again';
+
+  @override
+  String get errorPasswordMismatch => 'Passwords don\'t match.';
+
+  @override
+  String get savePassword => 'Save password';
+
+  @override
+  String get passwordUpdated => 'Your password is updated.';
+
+  @override
+  String get myCommunities => 'My communities';
+
+  @override
+  String get notificationSettings => 'Notification settings';
+
+  @override
+  String get privacySupport => 'Privacy and support';
+
+  @override
+  String get notifMessages => 'Messages';
+
+  @override
+  String get notifMessagesDesc => 'Notify me when a new message arrives.';
+
+  @override
+  String get notifResponses => 'Responses';
+
+  @override
+  String get notifResponsesDesc =>
+      'Notify me when someone responds to my listing or need.';
+
+  @override
+  String get notifReminders => 'Return reminders';
+
+  @override
+  String get notifRemindersDesc =>
+      'Notify me when the return day of an item I borrowed is near.';
+
+  @override
+  String get notifAnnouncements => 'Community announcements';
+
+  @override
+  String get notifAnnouncementsDesc =>
+      'Notify me about important news in my community.';
+
+  @override
+  String get blockedAccounts => 'Blocked';
+
+  @override
+  String get helpSupport => 'Help and support';
+
+  @override
+  String get blockedEmpty => 'You haven\'t blocked anyone.';
+
+  @override
+  String get unblock => 'Unblock';
+
+  @override
+  String get unblockTitle => 'Do you want to unblock?';
+
+  @override
+  String unblockLine1(String name) {
+    return '$name can message you again.';
+  }
+
+  @override
+  String get unblockLine2 => 'You\'ll see their listings and needs again.';
+
+  @override
+  String get unblocked => 'Unblocked.';
+
+  @override
+  String get communitiesSearchHint => 'Search communities';
+
+  @override
+  String get communitiesMine => 'My communities';
+
+  @override
+  String get communitiesResults => 'Search results';
+
+  @override
+  String get communitiesNoResults => 'No community matches this search.';
+
+  @override
+  String communityMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get communityFounderBadge => 'Founder';
+
+  @override
+  String get communityJoin => 'Join';
+
+  @override
+  String get communityMember => 'Member';
+
+  @override
+  String get communityJoined => 'You joined the community.';
+
+  @override
+  String get communityLeave => 'Leave';
+
+  @override
+  String get joinWithCode => 'Join with invite code';
+
+  @override
+  String get createCommunity => 'Create community';
+
+  @override
+  String get inviteCodeTitle => 'Join with invite code';
+
+  @override
+  String get inviteCodeHint => 'Invite code';
+
+  @override
+  String get inviteCodeInvalid =>
+      'This code isn\'t valid. Check it and try again.';
+
+  @override
+  String get inviteCodeAlready => 'You\'re already a member of this community.';
+
+  @override
+  String get inviteCodeSuccessTitle => 'You joined the community';
+
+  @override
+  String inviteCodeSuccessBody(String name) {
+    return 'You joined $name.';
+  }
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get createCommunityTitle => 'Create community';
+
+  @override
+  String get communityNameLabel => 'Community name';
+
+  @override
+  String get communityNameHint => 'E.g. Camping Club';
+
+  @override
+  String get communityNameError =>
+      'The community name must be at least 3 characters.';
+
+  @override
+  String get communityDescLabel => 'Description (optional)';
+
+  @override
+  String get communityDescHint => 'What is this community for?';
+
+  @override
+  String get communityVisibilityLabel => 'Visibility';
+
+  @override
+  String get visibilityOpen => 'Open';
+
+  @override
+  String get visibilityOpenDesc => 'Shows up in search, anyone can join.';
+
+  @override
+  String get visibilitySchool => 'School only';
+
+  @override
+  String get visibilitySchoolDesc =>
+      'Shows up in search only for school members, and only they can join.';
+
+  @override
+  String get visibilitySecret => 'Secret';
+
+  @override
+  String get visibilitySecretDesc =>
+      'Doesn\'t show up in search; joined only with an invite code.';
+
+  @override
+  String get communityCreated => 'Community created.';
+
+  @override
+  String get founderActionsTitle => 'Community actions';
+
+  @override
+  String get copyInviteCode => 'Copy invite code';
+
+  @override
+  String get inviteCodeCopied => 'Invite code copied.';
+
+  @override
+  String get deleteCommunity => 'Delete community';
+
+  @override
+  String get deleteCommunityTitle => 'Do you want to delete the community?';
+
+  @override
+  String deleteCommunityLine1(String name) {
+    return '$name and its memberships will be deleted permanently.';
+  }
+
+  @override
+  String get deleteCommunityLine2 => 'This can\'t be undone.';
+
+  @override
+  String get communityDeleted => 'Community deleted.';
+
+  @override
+  String get leaveCommunityTitle => 'Do you want to leave the community?';
+
+  @override
+  String leaveCommunityLine1(String name) {
+    return 'If you leave $name, you won\'t see your listings and needs there.';
+  }
+
+  @override
+  String get leaveCommunityLine2 => 'You can join again later.';
+
+  @override
+  String get communityLeft => 'You left the community.';
+
+  @override
+  String get emailAsciiHint => 'We fixed Turkish characters and capitals.';
+
+  @override
+  String doneTitle(String name) {
+    return 'Welcome, $name!';
+  }
+
+  @override
+  String doneSubtitle(String community) {
+    return 'You joined the $community community.';
+  }
+
+  @override
+  String get doneSlogan => 'Share what you have, find what you need.';
+
+  @override
+  String get doneStart => 'Get started';
+
+  @override
+  String get rememberMe => 'Remember me';
+
+  @override
+  String get loadFailed =>
+      'Couldn\'t load. Check your connection and try again.';
+
+  @override
+  String get actionFailed => 'That didn\'t work.';
+
+  @override
+  String get retry => 'Try again';
+
+  @override
+  String stepSemantics(String label, int step, int total) {
+    return '$label (step $step of $total)';
+  }
+
+  @override
+  String get inviteContinue => 'Continue';
+
+  @override
+  String get helpIntro =>
+      'Stuck on something? Have a look at the common questions.';
+
+  @override
+  String get helpQ1 => 'How do I join a community?';
+
+  @override
+  String get helpA1 =>
+      'You join your school community automatically with your institutional email. Search for others in My communities, or join with a 6-digit invite code.';
+
+  @override
+  String get helpQ2 => 'What does Remember me do?';
+
+  @override
+  String get helpA2 =>
+      'When on, you\'ll skip signing in after closing and reopening the app. Signing out forgets you.';
+
+  @override
+  String get helpQ3 => 'I forgot my password. What now?';
+
+  @override
+  String get helpA3 =>
+      'Tap \"Forgot password\" on the sign-in screen and we\'ll email you a reset link.';
+
+  @override
+  String get helpContact => 'Still stuck? Write to us:';
+
+  @override
+  String get helpContactEmail => 'support@bendevar.app';
 }

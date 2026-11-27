@@ -13,6 +13,9 @@ class AppRadius {
   static const double sheet = 24;
   static const double full = 999;
 
+  /// Durum hapı (1.09 "Bekleniyor").
+  static const double pill = 20;
+
   static BorderRadius get fieldR => BorderRadius.circular(field);
   static BorderRadius get buttonR => BorderRadius.circular(button);
   static BorderRadius get buttonSmallR => BorderRadius.circular(buttonSmall);
@@ -20,6 +23,7 @@ class AppRadius {
   static BorderRadius get cardLargeR => BorderRadius.circular(cardLarge);
   static BorderRadius get thumbR => BorderRadius.circular(thumb);
   static BorderRadius get fullR => BorderRadius.circular(full);
+  static BorderRadius get pillR => BorderRadius.circular(pill);
   static BorderRadius get sheetR =>
       const BorderRadius.vertical(top: Radius.circular(sheet));
 }

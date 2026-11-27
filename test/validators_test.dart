@@ -41,4 +41,18 @@ void main() {
     expect(Validators.validPrice('abc'), isFalse);
     expect(Validators.validPrice(''), isFalse);
   });
+
+  test('Validators.nameFromEmail', () {
+    expect(
+      Validators.nameFromEmail('elif.yildirim@std.yildiz.edu.tr'),
+      'Elif Yildirim',
+    );
+    expect(Validators.nameFromEmail('mert_kaya2@yildiz.edu.tr'), 'Mert Kaya');
+    expect(Validators.nameFromEmail('a.b-c+d@okul.edu.tr'), 'A B C D');
+    expect(Validators.nameFromEmail('ALI@okul.edu.tr'), 'Ali');
+    expect(Validators.nameFromEmail('sule'), 'Sule');
+    expect(Validators.nameFromEmail('123@okul.edu.tr'), '');
+    expect(Validators.nameFromEmail(''), '');
+    expect(Validators.nameFromEmail(null), '');
+  });
 }

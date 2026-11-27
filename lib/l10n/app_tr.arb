@@ -3,13 +3,10 @@
   "brandName": "Bende Var",
   "slogan": "İhtiyacın topluluğunda.",
   "welcomeTitle": "Elinde olan paylaşır,\nihtiyacı olan bulur.",
-  "welcomeSubtitle": "Okul mailinle giriş yap, kampüsün seni bekliyor.",
   "login": "Giriş yap",
   "signup": "Kayıt ol",
   "loginTitle": "Tekrar hoş geldin",
-  "loginSubtitle": "Kurum e-postan ve şifrenle devam et.",
   "emailLabel": "Kurum e-postası",
-  "emailHint": "ad.soyad@okul.edu.tr",
   "passwordLabel": "Şifre",
   "passwordHint": "Şifreni gir",
   "forgotPassword": "Şifremi unuttum",
@@ -21,8 +18,15 @@
   "cancel": "Vazgeç",
   "more": "Diğer",
   "errorEmailEmpty": "E-posta adresini gir.",
-  "errorEmailNotEdu": "Kurum e-postanla (.edu.tr ile biten adres) giriş yapmalısın.",
+  "errorEmailNotEdu": "Okul e-postanı kullan (edu.tr).",
   "errorPasswordEmpty": "Şifreni gir.",
+  "emailHintShort": "ad.soyad@okul",
+  "errorAccountNotFound": "Bu e-postayla hesap bulunamadı.",
+  "errorPasswordWrong": "Şifre yanlış.",
+  "errorTooManyAttempts": "Çok fazla deneme; biraz sonra tekrar dene.",
+  "errorNotVerified": "Hesabın doğrulanmamış. E-postandaki bağlantıya tıkla.",
+  "resendVerification": "Bağlantıyı tekrar gönder",
+  "verificationSent": "Doğrulama bağlantısı gönderildi.",
   "navHome": "Ana sayfa",
   "navMessages": "Mesajlar",
   "navCreate": "İlan veya ihtiyaç oluştur",
@@ -240,10 +244,8 @@
   "myListingsAndNeeds": "İhtiyaçlarım ve ilanlarım",
   "themeAndLanguage": "Tema ve dil",
   "logout": "Çıkış yap",
-  "logoutTitle": "Çıkış yapmak istiyor musun?",
-  "logoutLine1": "Bu telefondaki oturumun kapanır.",
-  "logoutLine2": "Tekrar girmek için kurum e-postan ve şifren gerekir.",
-  "logoutLine3": "Bu telefona bildirim gelmez; iade hatırlatmaları da durur.",
+  "logoutTitle": "Çıkış yapılsın mı?",
+  "logoutLine1": "Hesabından çıkacaksın.",
   "statusOnLoan": "Ödünçte",
   "statusAwaiting": "Teslim bekleniyor",
   "statusReturned": "İade edildi",
@@ -286,5 +288,211 @@
       }
     }
   },
-  "timeYesterday": "Dün"
+  "timeYesterday": "Dün",
+  "signupTitle": "Okul e-postanla başla",
+  "signupExit": "Kayıttan çık",
+  "stepAccount": "Hesap",
+  "stepVerify": "Doğrulama",
+  "stepName": "Adın",
+  "signupJoinCommunity": "Okul topluluğuna katılacaksın",
+  "signupNewCommunity": "Topluluğun ilk kayıtla açılacak",
+  "signupPasswordHint": "Şifre belirle",
+  "signupPasswordRule": "En az 8 karakter, bir harf ve bir rakam.",
+  "errorPasswordWeak": "En az 8 karakter, bir harf ve bir rakam.",
+  "errorTermsRequired": "Şartları kabul et.",
+  "errorEmailInUse": "Bu e-posta zaten kayıtlı.",
+  "termsLead": "",
+  "termsLink": "Şartları",
+  "termsMid": " ve ",
+  "privacyLink": "gizliliği",
+  "termsTail": " kabul ediyorum.",
+  "haveAccount": "Hesabın var mı?",
+  "sentTitle": "Bağlantıyı gönderdik",
+  "sentInstruction": "Bağlantıya tıkla, sonra buraya dön.",
+  "sentWaiting": "Doğrulama bekleniyor",
+  "openMailApp": "Mail uygulamasını aç",
+  "clickedLink": "Bağlantıya tıkladım",
+  "resendIn": "Tekrar gönder ({time})",
+  "@resendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "resendLink": "Tekrar gönder",
+  "fixEmail": "E-postayı düzelt",
+  "notVerifiedYet": "E-postan henüz doğrulanmadı.",
+  "linkResent": "Bağlantı tekrar gönderildi.",
+  "nameTitle": "Adın ne?",
+  "nameSubtitle": "Diğer kullanıcılar seni bu adla görecek.",
+  "nameLabel": "Ad Soyad",
+  "nameHint": "Adını ve soyadını yaz",
+  "errorNameEmpty": "Adını gir.",
+  "finish": "Tamamla",
+  "expiredTitle": "Bağlantının süresi doldu",
+  "sendNewLink": "Yeni bağlantı gönder",
+  "legalTermsTitle": "Kullanım şartları",
+  "legalPrivacyTitle": "Gizlilik politikası",
+  "legalTermsBody": "Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.",
+  "legalPrivacyBody": "Bu politika, Bende Var'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.",
+  "forgotTitle": "Şifreni mi unuttun?",
+  "forgotSubtitle": "E-postanı yaz, sana bir bağlantı gönderelim.",
+  "sendResetLink": "Bağlantı gönder",
+  "resetSentInstruction": "Bağlantıya tıkla, sonra buraya dön.",
+  "resetExpired": "Bağlantının süresi doldu, yenisini iste.",
+  "newPasswordTitle": "Yeni şifre belirle",
+  "newPasswordLabel": "Yeni şifre",
+  "newPasswordHint": "Yeni şifreni gir",
+  "confirmPasswordLabel": "Yeni şifreyi tekrar gir",
+  "confirmPasswordHint": "Şifreni tekrar yaz",
+  "errorPasswordMismatch": "Şifreler eşleşmiyor.",
+  "savePassword": "Şifreyi kaydet",
+  "passwordUpdated": "Şifren güncellendi.",
+  "myCommunities": "Topluluklarım",
+  "notificationSettings": "Bildirim ayarları",
+  "privacySupport": "Gizlilik ve destek",
+  "notifMessages": "Mesajlar",
+  "notifMessagesDesc": "Yeni bir mesaj geldiğinde haber ver.",
+  "notifResponses": "Karşılıklar",
+  "notifResponsesDesc": "İlanına ya da ihtiyacına karşılık geldiğinde haber ver.",
+  "notifReminders": "İade hatırlatmaları",
+  "notifRemindersDesc": "Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.",
+  "notifAnnouncements": "Topluluk duyuruları",
+  "notifAnnouncementsDesc": "Topluluğunla ilgili önemli gelişmeleri haber ver.",
+  "blockedAccounts": "Engellenenler",
+  "helpSupport": "Yardım ve destek",
+  "blockedEmpty": "Engellediğin hesap yok.",
+  "unblock": "Engeli kaldır",
+  "unblockTitle": "Engeli kaldırmak istiyor musun?",
+  "unblockLine1": "{name} sana yeniden mesaj gönderebilir.",
+  "@unblockLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockLine2": "Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.",
+  "unblocked": "Engel kaldırıldı.",
+  "communitiesSearchHint": "Topluluk ara",
+  "communitiesMine": "Topluluklarım",
+  "communitiesResults": "Arama sonuçları",
+  "communitiesNoResults": "Bu aramaya uygun topluluk bulunamadı.",
+  "communityMembers": "{count, plural, =1{1 üye} other{{count} üye}}",
+  "@communityMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "communityFounderBadge": "Kurucu",
+  "communityJoin": "Katıl",
+  "communityMember": "Üyesin",
+  "communityJoined": "Topluluğa katıldın.",
+  "communityLeave": "Ayrıl",
+  "joinWithCode": "Davet koduyla katıl",
+  "createCommunity": "Topluluk oluştur",
+  "inviteCodeTitle": "Davet koduyla katıl",
+  "inviteCodeHint": "Davet kodu",
+  "inviteCodeInvalid": "Bu kod geçerli değil. Kodu kontrol edip tekrar dene.",
+  "inviteCodeAlready": "Bu topluluğun zaten üyesisin.",
+  "inviteCodeSuccessTitle": "Topluluğa katıldın",
+  "inviteCodeSuccessBody": "{name} topluluğuna katıldın.",
+  "@inviteCodeSuccessBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "done": "Tamam",
+  "createCommunityTitle": "Topluluk oluştur",
+  "communityNameLabel": "Topluluk adı",
+  "communityNameHint": "Örn. Kamp Kulübü",
+  "communityNameError": "Topluluk adı en az 3 karakter olmalı.",
+  "communityDescLabel": "Açıklama (isteğe bağlı)",
+  "communityDescHint": "Bu topluluk ne için?",
+  "communityVisibilityLabel": "Görünürlük",
+  "visibilityOpen": "Açık",
+  "visibilityOpenDesc": "Aramada çıkar, herkes katılabilir.",
+  "visibilitySchool": "Okula özel",
+  "visibilitySchoolDesc": "Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.",
+  "visibilitySecret": "Gizli",
+  "visibilitySecretDesc": "Aramada çıkmaz; yalnızca davet koduyla katılınır.",
+  "communityCreated": "Topluluk oluşturuldu.",
+  "founderActionsTitle": "Topluluk işlemleri",
+  "copyInviteCode": "Davet kodunu kopyala",
+  "inviteCodeCopied": "Davet kodu kopyalandı.",
+  "deleteCommunity": "Topluluğu sil",
+  "deleteCommunityTitle": "Topluluğu silmek istiyor musun?",
+  "deleteCommunityLine1": "{name} topluluğu ve üyelikler kalıcı olarak silinir.",
+  "@deleteCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteCommunityLine2": "Bu işlem geri alınamaz.",
+  "communityDeleted": "Topluluk silindi.",
+  "leaveCommunityTitle": "Topluluktan ayrılmak istiyor musun?",
+  "leaveCommunityLine1": "{name} topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.",
+  "@leaveCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveCommunityLine2": "İstersen sonra yeniden katılabilirsin.",
+  "communityLeft": "Topluluktan ayrıldın.",
+  "emailAsciiHint": "Türkçe karakter ve büyük harfi düzelttik.",
+  "doneTitle": "Hoş geldin, {name}!",
+  "@doneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "doneSubtitle": "{community} topluluğuna katıldın.",
+  "@doneSubtitle": {
+    "placeholders": {
+      "community": {
+        "type": "String"
+      }
+    }
+  },
+  "doneSlogan": "Elinde olanı paylaş, ihtiyacın olanı bul.",
+  "doneStart": "Başla",
+  "rememberMe": "Beni hatırla",
+  "loadFailed": "Yüklenemedi. Bağlantını kontrol edip tekrar dene.",
+  "actionFailed": "İşlem tamamlanamadı.",
+  "retry": "Tekrar dene",
+  "stepSemantics": "{label} ({step}/{total})",
+  "@stepSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "inviteContinue": "Devam",
+  "helpIntro": "Takıldığın bir şey mi var? Sık sorulanlara göz at.",
+  "helpQ1": "Bir topluluğa nasıl katılırım?",
+  "helpA1": "Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.",
+  "helpQ2": "Beni hatırla ne işe yarar?",
+  "helpA2": "Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.",
+  "helpQ3": "Şifremi unuttum, ne yapmalıyım?",
+  "helpA3": "Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.",
+  "helpContact": "Hâlâ çözemedin mi? Bize yaz:",
+  "helpContactEmail": "destek@bendevar.app"
 }

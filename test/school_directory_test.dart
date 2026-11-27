@@ -107,6 +107,16 @@ void main() {
       expect(dir.find('msu')?.nameEn, 'National Defence University');
     });
 
+    test('odtu, ytu, adanabtu/atu, munzur', () {
+      expect(dir.find('odtu')?.nameTr, 'Orta Doğu Teknik Üniversitesi');
+      expect(dir.find('ytu')?.nameTr, 'Yıldız Teknik Üniversitesi');
+      expect(dir.find('adanabtu')?.id, 'atu');
+      expect(dir.find('atu')?.id, 'atu');
+      expect(dir.find('munzur')?.nameTr, 'Munzur Üniversitesi');
+      expect(dir.find('munzur')?.nameEn, 'Munzur University');
+      expect(dir.find('kyrenia')?.nameTr, 'Girne Üniversitesi');
+    });
+
     test('bilinmeyen kimlik', () {
       expect(dir.find('xyz'), isNull);
       expect(dir.find('gmail'), isNull);

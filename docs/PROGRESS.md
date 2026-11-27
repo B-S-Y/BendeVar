@@ -6,7 +6,7 @@ Kurallar: `CLAUDE.md`. Sapmalar: `docs/DEVIATIONS.md`. Ek token'lar: `docs/DESIG
 
 **Durum**
 - Branch `eda/giris-kayit-ayarlar`; PR #1 açık: https://github.com/B-S-Y/BendeVar/pull/1 (main'e).
-- 11 konu bazlı commit. 231 test geçiyor, `flutter analyze` temiz.
+- 11 konu bazlı commit. 232 test geçiyor, `flutter analyze` temiz.
 - Merge ekibin onayını bekliyor, merge edilmedi.
 
 **Bitenler (1.xx modülünün tamamı)**
@@ -114,4 +114,5 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Topluluk araması yükleme bitene kadar pasif.
 - schoolLookupDelay AppMotion token'ında.
 - Büyük yazı denetimleri 2,0× ile (taşma yok).
-- Okul listesi: `assets/data/tr_universities.json` (206 okul, alias'lı) `SchoolDirectory` ile okunur; kayıtta okul adı TR/EN; `mockKnownSchools` kalktı; Yıldız topluluk kimliği `yildiz`. Testler: test/school_directory_test.dart. Dal: eda/okul-listesi.
+- Okul listesi: `assets/data/tr_universities.json` (205 okul, alias'lı) `SchoolDirectory` ile okunur; kayıtta okul adı TR/EN; `mockKnownSchools` kalktı; Yıldız topluluk kimliği `yildiz`. Testler: test/school_directory_test.dart. Dal: eda/okul-listesi.
+- Okul listesi 2. tur: 205 okul; odtu/ytu/munzur/adanabtu alias, Munzur ve Girne adları, 8 resmî ad düzeltmesi; test eklendi.

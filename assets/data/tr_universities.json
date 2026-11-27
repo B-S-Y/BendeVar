@@ -12,12 +12,6 @@
   "name_tr": "Acıbadem Üniversitesi"
  },
  {
-  "id": "adanabtu",
-  "aliases": [],
-  "name_en": "Adana Science and Technology University",
-  "name_tr": "Adana Bilim ve Teknoloji Üniversitesi"
- },
- {
   "id": "adiyaman",
   "aliases": [],
   "name_en": "Adiyaman University",
@@ -163,7 +157,9 @@
  },
  {
   "id": "atu",
-  "aliases": [],
+  "aliases": [
+   "adanabtu"
+  ],
   "name_en": "Adana Alparslan Turkes University",
   "name_tr": "Adana Alparslan Türkeş Bilim ve Teknoloji Üniversitesi"
  },
@@ -265,7 +261,7 @@
   "id": "bilecik",
   "aliases": [],
   "name_en": "Bilecik University",
-  "name_tr": "Bilecik Üniversitesi"
+  "name_tr": "Bilecik Şeyh Edebali Üniversitesi"
  },
  {
   "id": "bilgi",
@@ -425,7 +421,7 @@
   "id": "fatihsultan",
   "aliases": [],
   "name_en": "Fatih Sultan Mehmet University",
-  "name_tr": "Fatih Sultan Mehmet Üniversitesi"
+  "name_tr": "Fatih Sultan Mehmet Vakıf Üniversitesi"
  },
  {
   "id": "fbu",
@@ -649,7 +645,7 @@
   "id": "karatay",
   "aliases": [],
   "name_en": "Karatay University",
-  "name_tr": "Karatay Üniversitesi"
+  "name_tr": "KTO Karatay Üniversitesi"
  },
  {
   "id": "karatekin",
@@ -739,7 +735,7 @@
   "id": "kyrenia",
   "aliases": [],
   "name_en": "University of Kyrenia",
-  "name_tr": "Kyrenia Üniversitesi"
+  "name_tr": "Girne Üniversitesi"
  },
  {
   "id": "maltepe",
@@ -761,7 +757,7 @@
    "cbu"
   ],
   "name_en": "Celal Bayar University",
-  "name_tr": "Celal Bayar Üniversitesi"
+  "name_tr": "Manisa Celâl Bayar Üniversitesi"
  },
  {
   "id": "medeniyet",
@@ -795,7 +791,9 @@
  },
  {
   "id": "metu",
-  "aliases": [],
+  "aliases": [
+   "odtu"
+  ],
   "name_en": "Middle East Technical University",
   "name_tr": "Orta Doğu Teknik Üniversitesi"
  },
@@ -803,7 +801,7 @@
   "id": "mku",
   "aliases": [],
   "name_en": "Mustafa Kemal University",
-  "name_tr": "Mustafa Kemal Üniversitesi"
+  "name_tr": "Hatay Mustafa Kemal Üniversitesi"
  },
  {
   "id": "msgsu",
@@ -850,7 +848,7 @@
   "id": "nku",
   "aliases": [],
   "name_en": "Namik Kemal University",
-  "name_tr": "Namık Kemal Üniversitesi"
+  "name_tr": "Tekirdağ Namık Kemal Üniversitesi"
  },
  {
   "id": "nny",
@@ -1044,9 +1042,11 @@
  },
  {
   "id": "tunceli",
-  "aliases": [],
-  "name_en": "Tunceli University",
-  "name_tr": "Tunceli Üniversitesi"
+  "aliases": [
+   "munzur"
+  ],
+  "name_en": "Munzur University",
+  "name_tr": "Munzur Üniversitesi"
  },
  {
   "id": "ufuk",
@@ -1098,7 +1098,9 @@
  },
  {
   "id": "yildiz",
-  "aliases": [],
+  "aliases": [
+   "ytu"
+  ],
   "name_en": "Yildiz Technical University",
   "name_tr": "Yıldız Teknik Üniversitesi"
  },

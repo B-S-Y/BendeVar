@@ -296,3 +296,6 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Sabancı (`sabanciuniv.edu`, `.edu.tr` değil) sabit `.edu.tr` kuralı yüzünden kayıt olamaz; kodda özel durum yok. JSON'da `note` olarak duruyor.
 - Okul adları ARB'de değil veridir; EN arayüzde okul kartı `name_en` gösterir. Ana Sayfa ve ilan detayı (başkasının modülü) hâlâ Türkçe `community.name` gösterir.
 - Ön ek (`st.`, `ogr.`, `std.`) listesi yok: okul kimliği `.edu.tr`'den önceki son etikettir, bu yüzden `st.biruni.edu.tr` → `biruni`.
+- Okul listesi 2. tur: `odtu`→`metu`, `ytu`→`yildiz`, `adanabtu`→`atu` (aynı okul, kayıt silindi, 205 okul), `munzur`→`tunceli` (Munzur Üniversitesi) alias oldu. Kyrenia "Girne Üniversitesi". Bilecik Şeyh Edebali, Fatih Sultan Mehmet Vakıf, KTO Karatay, Manisa Celâl Bayar, Hatay Mustafa Kemal, Tekirdağ Namık Kemal, İstanbul Okan, İstanbul Yeni Yüzyıl adları resmî hâline getirildi.
+- Şehir adı eksik kalan eski kısa adlar (`ibu` Abant İzzet Baysal, `dumlupinar`, `mehmetakif`, `bozok`, `adu`, `uludag`, `gop`, `sdu`, `mu`, `nevsehir`, `kku`, `kou`, `ktu`, `ahievran` ve diğerleri) bilerek değiştirilmedi; karar bekliyor.
+

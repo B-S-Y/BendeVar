@@ -46,7 +46,7 @@ void main() {
 
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
-    expect(find.text('Engellenen hesaplar'), findsOneWidget);
+    expect(find.text('Kullanım şartları'), findsOneWidget);
   });
 
   testWidgets('Yardım sayfası EN ve küçük ekranda taşmaz', (tester) async {

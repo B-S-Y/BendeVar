@@ -60,3 +60,10 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Revize 5: şifre sıfırlama ekranları sadeleştirildi.
 - Revize 10: Yardım ve destek sayfası. Revize 9: tek başına/uygulama içi ekran görüntüsüyle artık bulunamadı, kod değişmedi.
 - Revize 11: klavye açıkken panel tabanı kalktı (küçük ekranda başlık dışarı itilmez); otomatik odak yok; test/login_keyboard_test.dart.
+- Revize2 1: Ayarlar başlığı tek satır + 1,2× sınır; test/settings_title_test.dart.
+- Revize2 2: davet kodu sheet'i sadeleşti.
+- Revize2 3: Engellenenler Ayarlar ilk seviyesinde.
+- Revize2 6: okul kartı bilinen kısa kimlikler (ku, iuc), en az 2 harf kaydı.
+- Revize2 5: kısa açılış 2,4 sn, karşılama logo akışı, ilk kareden sonra; azaltılmışta 600 ms statik.
+- Revize2 4: zarf amblemi tasarım B (çizgili zarf, iki ince halka).
+- Revize2 7: Ayarlar görsel denetimi (settings_audit_test), Engellenenler satırı büyük yazıda düzeltildi.

@@ -63,17 +63,21 @@ void main() {
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
 
-    // 1.19 → 1.19a şartlar → geri.
+    // 1.19 → 1.19a şartlar → geri. Gizlilik'te Engellenenler yok (çift yol yok).
     await tester.tap(find.text('Gizlilik ve destek'));
     await tester.pumpAndSettle();
+    expect(find.text('Engellenenler'), findsNothing);
     await tester.tap(find.text('Kullanım şartları'));
     await tester.pumpAndSettle();
     expect(find.textContaining('Bende Var, aynı okulda'), findsOneWidget);
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Geri'));
+    await tester.pumpAndSettle();
 
-    // 1.20 → 1.21.
-    await tester.tap(find.text('Engellenen hesaplar'));
+    // 1.20 Ayarlar'ın ilk seviyesinden → 1.21.
+    expect(find.byKey(const Key('settings-blocked')), findsOneWidget);
+    await tester.tap(find.text('Engellenenler'));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1)); // sahte repo gecikmesi
     await tester.pumpAndSettle();
@@ -105,8 +109,6 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     await tester.pumpAndSettle();
     expect(find.text('Engellediğin hesap yok.'), findsOneWidget);
-    await tester.tap(find.byTooltip('Geri'));
-    await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Geri'));
     await tester.pumpAndSettle();
 

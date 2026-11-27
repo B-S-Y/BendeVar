@@ -532,11 +532,6 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
             l.inviteCodeTitle,
             style: AppTypography.title2.copyWith(color: c.textPrimary),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            l.inviteCodeBody,
-            style: AppTypography.body.copyWith(color: c.textSecondary),
-          ),
           const SizedBox(height: AppSpacing.lg),
           AppTextField(
             fieldKey: const Key('invite-code'),
@@ -559,15 +554,6 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
             // Kullanıcı isteği: 6 hane dolmadan bilinçli olarak pasif.
             onPressed: _complete && !vm.busy ? _continue : null,
           ),
-          if (!_complete) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              l.inviteCodeHelp,
-              key: const Key('invite-help'),
-              textAlign: TextAlign.center,
-              style: AppTypography.caption.copyWith(color: c.textSecondary),
-            ),
-          ],
         ],
       );
     }

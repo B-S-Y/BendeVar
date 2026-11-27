@@ -294,7 +294,11 @@ void main() {
       ),
     );
     expect(submit().onPressed, isNull);
-    expect(find.text('Devam etmek için 6 haneli kodu gir.'), findsOneWidget);
+    // Sade: açıklama ve yardım cümlesi yok, kısa ipucu.
+    expect(find.text('Devam etmek için 6 haneli kodu gir.'), findsNothing);
+    expect(find.textContaining('kurucusundan'), findsNothing);
+    expect(find.text('Davet kodu'), findsOneWidget);
+    expect(find.textContaining('(6 hane)'), findsNothing);
     // Harf girilmez, 6'dan fazla girilmez.
     await tester.enterText(
       find.byKey(const Key('invite-code')),

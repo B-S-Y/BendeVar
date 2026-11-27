@@ -47,62 +47,102 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  test('Zarf renkleri (tasarım C): açık ve koyu temada belgedeki rollerle', () {
+  test('Zarf renkleri (tasarım B): belgedeki rollerle', () {
     const l = AppColors.light;
     const d = AppColors.dark;
-    // Açık: daire = alt menü aktif hap, gövde = alt menü aktif ikon.
-    expect(l.envelopeDisc, l.navPill);
-    expect(l.envelopeBody, l.navPillIcon);
-    // Koyu: daire = koyu açık mavi vurgu, gövde = sayfa zemini.
-    expect(d.envelopeDisc, d.accent);
-    expect(d.envelopeBody, d.background);
-    // Koyuda zarf zeminden ayırt edilir (daire ≠ gövde).
-    expect(d.envelopeDisc, isNot(d.envelopeBody));
-    expect(l.envelopeDisc, isNot(l.envelopeBody));
-    // Halka dairenin dışında, daireden farklı.
-    expect(l.envelopeRing, isNot(l.envelopeDisc));
-    expect(d.envelopeRing, isNot(d.envelopeDisc));
+    // Açık: çizgi = alt menü aktif ikon, dolgu = yüzey.
+    expect(l.envelopeLine, l.navPillIcon);
+    expect(l.envelopeSurface, l.card);
+    // Koyu: çizgi = açık mavi vurgu, dolgu = panel/yüzey.
+    expect(d.envelopeLine, d.navLogoBg);
+    expect(d.envelopeSurface, d.card);
+    // Koyuda iç halka dıştan açık, ikisi de çizgiden farklı.
+    expect(
+      d.envelopeRingInner.computeLuminance(),
+      greaterThan(d.envelopeRingOuter.computeLuminance()),
+    );
+    expect(d.envelopeRingInner, isNot(d.envelopeLine));
+    // Zarf koyu zeminden ayırt edilir: çizgi zeminden farklı.
+    expect(d.envelopeLine, isNot(d.background));
   });
 
   for (final mode in [ThemeMode.light, ThemeMode.dark]) {
-    testWidgets('Zarf: daire ve ince halka çizilir (${mode.name})', (
+    testWidgets('Zarf: iki ince halka, dolgulu daire yok (${mode.name})', (
       tester,
     ) async {
-      useAndroidScreen(tester);
+      useAndroidScreen(tester); // azaltılmış: son kare, halkalar statik
       await tester.pumpWidget(
         wrap(const Center(child: EnvelopeAnimation()), theme: mode),
       );
       final colors = mode == ThemeMode.dark ? AppColors.dark : AppColors.light;
-      final disc = find
+      final rings = find
           .descendant(
             of: find.byType(EnvelopeAnimation),
             matching: find.byType(CustomPaint),
           )
           .first;
       expect(
-        tester.renderObject(disc),
+        tester.renderObject(rings),
         paints
-          ..circle(color: colors.envelopeDisc)
-          ..circle(color: colors.envelopeRing, style: PaintingStyle.stroke),
+          ..circle(color: colors.envelopeRingInner, style: PaintingStyle.stroke)
+          ..circle(
+            color: colors.envelopeRingOuter,
+            style: PaintingStyle.stroke,
+          ),
       );
-      // Gövde: belgedeki gövde rengi.
-      final body = tester
-          .widgetList<DecoratedBox>(
-            find.descendant(
-              of: find.byType(EnvelopeAnimation),
-              matching: find.byType(DecoratedBox),
-            ),
-          )
-          .map((b) => (b.decoration as BoxDecoration).color);
-      expect(body, contains(colors.envelopeBody));
-      // Daire zarfı çevreler: kutu halka çapında.
+      // Gövde: yüzey dolgulu, 2,5 dp çizgili.
+      final body = tester.widget<DecoratedBox>(
+        find.byKey(const Key('envelope-body')),
+      );
+      final deco = body.decoration as BoxDecoration;
+      expect(deco.color, colors.envelopeSurface);
+      expect(deco.border!.top.color, colors.envelopeLine);
+      expect(deco.border!.top.width, EnvelopeAnimation.lineStroke);
+      expect(EnvelopeAnimation.lineStroke, 2.5);
       expect(
         tester.getSize(find.byType(EnvelopeAnimation)),
         const Size(
-          EnvelopeAnimation.ringDiameter,
-          EnvelopeAnimation.ringDiameter,
+          EnvelopeAnimation.ringOuterDiameter,
+          EnvelopeAnimation.ringOuterDiameter,
         ),
       );
     });
   }
+
+  testWidgets('Halkalar içeriden dışarı sırayla belirir', (tester) async {
+    useAndroidScreen(tester);
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures();
+    await tester.pumpWidget(wrap(const Center(child: EnvelopeAnimation())));
+    final rings = find
+        .descendant(
+          of: find.byType(EnvelopeAnimation),
+          matching: find.byType(CustomPaint),
+        )
+        .first;
+    // 0,1 sn: yalnızca iç halka.
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(
+      tester.renderObject(rings),
+      paints..circle(style: PaintingStyle.stroke),
+    );
+    expect(
+      tester.renderObject(rings),
+      isNot(
+        paints
+          ..circle()
+          ..circle(),
+      ),
+    );
+    // 0,5 sn: iki halka da.
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(
+      tester.renderObject(rings),
+      paints
+        ..circle()
+        ..circle(),
+    );
+    await tester.pumpAndSettle();
+    tester.platformDispatcher.clearAccessibilityFeaturesTestValue();
+  });
 }

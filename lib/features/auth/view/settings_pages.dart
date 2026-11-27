@@ -58,6 +58,13 @@ class SettingsPage extends StatelessWidget {
             label: l.myCommunities,
             onTap: () => context.push('/communities'),
           ),
+          // Engellenenler ilk seviyede (Gizlilik içinde 3 seviye derindeydi).
+          SettingsRow(
+            key: const Key('settings-blocked'),
+            icon: LucideIcons.userX,
+            label: l.blockedAccounts,
+            onTap: () => context.push('/settings/blocked'),
+          ),
           SettingsRow(
             icon: LucideIcons.shieldCheck,
             label: l.privacySupport,
@@ -182,7 +189,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   }
 }
 
-/// 1.19 · Gizlilik ve destek. Şartlar/gizlilik (1.19a/b) ve engellenenler (1.20).
+/// 1.19 · Gizlilik ve destek: şartlar/gizlilik (1.19a/b) ve yardım.
+/// Engellenenler (1.20) Ayarlar'ın ilk seviyesinde.
 class PrivacySupportPage extends StatelessWidget {
   const PrivacySupportPage({super.key});
 
@@ -194,11 +202,6 @@ class PrivacySupportPage extends StatelessWidget {
       child: ListView(
         padding: settingsListPadding(context),
         children: staggerRows([
-          SettingsRow(
-            icon: LucideIcons.userX,
-            label: l.blockedAccounts,
-            onTap: () => context.push('/settings/blocked'),
-          ),
           SettingsRow(
             icon: LucideIcons.fileText,
             label: l.legalTermsTitle,
@@ -301,12 +304,19 @@ class _BlockedAccountsPageState extends State<BlockedAccountsPage> {
                             children: [
                               Text(
                                 u.name,
+                                key: Key('blocked-name-${u.id}'),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: AppTypography.bodyStrong.copyWith(
                                   color: c.textPrimary,
                                 ),
                               ),
                               Text(
                                 u.communityName,
+                                key: Key('blocked-community-${u.id}'),
+                                // Büyük yazıda düğme yanında 3+ satıra bölünmesin.
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: AppTypography.caption.copyWith(
                                   color: c.textSecondary,
                                 ),

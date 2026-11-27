@@ -38,11 +38,16 @@ class Validators {
     final pattern = RegExp(r'^[^\s@]+@[^\s@]+\.edu\.tr$');
     if (!pattern.hasMatch(v)) return EmailError.notEdu;
     if (isPersonalProvider(v)) return EmailError.notEdu;
+    // Okul kimliği en az 2 harf (ku = Koç); tek harf geçersiz e-posta.
+    if ((schoolId(v) ?? '').length < minSchoolIdLength) {
+      return EmailError.notEdu;
+    }
     return null;
   }
 
-  /// Okul kartı için en az bu kadar harfli okul kimliği gerekir.
-  static const int minSchoolIdLength = 3;
+  /// Kayıt/giriş için okul kimliği en az bu kadar harf (ku, iuc gibi kısa
+  /// kimlikler geçerli; tek harf geçersiz).
+  static const int minSchoolIdLength = 2;
 
   /// Okul kimliği: `.edu.tr`'den önceki son kelime
   /// (`std.yildiz.edu.tr` ve `yildiz.edu.tr` → `yildiz`). Geçersizse null.

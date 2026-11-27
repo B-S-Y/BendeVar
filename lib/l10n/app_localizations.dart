@@ -1661,7 +1661,7 @@ abstract class AppLocalizations {
   /// No description provided for @blockedAccounts.
   ///
   /// In tr, this message translates to:
-  /// **'Engellenen hesaplar'**
+  /// **'Engellenenler'**
   String get blockedAccounts;
 
   /// No description provided for @helpSupport.
@@ -1787,14 +1787,8 @@ abstract class AppLocalizations {
   /// No description provided for @inviteCodeHint.
   ///
   /// In tr, this message translates to:
-  /// **'Davet kodu (6 hane)'**
+  /// **'Davet kodu'**
   String get inviteCodeHint;
-
-  /// No description provided for @inviteCodeBody.
-  ///
-  /// In tr, this message translates to:
-  /// **'Topluluğun kurucusundan aldığın 6 haneli kodu gir.'**
-  String get inviteCodeBody;
 
   /// No description provided for @inviteCodeInvalid.
   ///
@@ -2047,12 +2041,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Devam'**
   String get inviteContinue;
-
-  /// No description provided for @inviteCodeHelp.
-  ///
-  /// In tr, this message translates to:
-  /// **'Devam etmek için 6 haneli kodu gir.'**
-  String get inviteCodeHelp;
 
   /// No description provided for @helpIntro.
   ///

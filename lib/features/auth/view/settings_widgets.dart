@@ -18,6 +18,9 @@ class SettingsScaffold extends StatelessWidget {
   final String title;
   final Widget child;
 
+  /// Üst bar başlığı için yazı ölçeği sınırı (büyük yazı / ekran boyutu).
+  static const double maxTitleTextScale = 1.2;
+
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
@@ -49,9 +52,18 @@ class SettingsScaffold extends StatelessWidget {
                   },
                 ),
                 Expanded(
-                  child: Text(
-                    title,
-                    style: AppTypography.title1.copyWith(color: c.onAppBar),
+                  // Başlık tek satır; çok büyük yazıda üst bar taşmasın diye
+                  // yazı ölçeği en fazla [maxTitleTextScale] (Ayarlar'ın tüm alt
+                  // sayfalarına uygulanır).
+                  child: MediaQuery.withClampedTextScaling(
+                    maxScaleFactor: maxTitleTextScale,
+                    child: Text(
+                      title,
+                      key: const Key('settings-title'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.title1.copyWith(color: c.onAppBar),
+                    ),
                   ),
                 ),
               ],

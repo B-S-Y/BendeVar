@@ -353,7 +353,20 @@ const Community mockOdtu = Community(
   shortName: 'ODTÜ',
 );
 
+const Community mockKoc = Community(
+  id: 'ku',
+  name: 'Koç Üniversitesi',
+  shortName: 'KU',
+);
+const Community mockIuc = Community(
+  id: 'iuc',
+  name: 'İstanbul Üniversitesi-Cerrahpaşa',
+  shortName: 'İÜC',
+);
+
 const Map<String, Community> mockKnownSchools = {
+  'ku': mockKoc,
+  'iuc': mockIuc,
   'yildiz': mockCommunity,
   'marmara': mockMarmara,
   'boun': mockBogazici,

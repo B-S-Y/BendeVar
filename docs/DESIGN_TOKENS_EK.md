@@ -35,7 +35,7 @@ STIL_STANDARTLARI.md'de olmayan, ekranlardan ölçülen değerler (PNG 2x → dp
 | Panel yüksekliği 330 → 700, köşe 28, içerik kenarı 20/30/34 | ANIMASYON_1.01.md | Karşılama → giriş büyümesi |
 | Logo 104, "Bende Var" 34/-0,4, ad boşluğu 14, slogan boşluğu 8 | ANIMASYON_1.01.md | Karşılama logo grubu |
 | Süre/eğri/gecikme sabitleri | ANIMASYON_1.01.md | `auth_motion.dart` |
-| envelopeDisc / envelopeBody / envelopeRing | 1.09 zarf, tasarım "C" | Zarfın arkasında daire (açık: navPill #E3EEFB, koyu: accent #5B8CFF), gövde (açık: navPillIcon #0B1D45, koyu: sayfa zemini #0A1226), dış halka (açık #C9D3E3, koyu #2A4A86 geçici); daire 176, halka 188 (1,5 çizgi), kapak/ön yüz çizgisi 2 dp daire renginde |
+| envelopeLine / envelopeSurface / envelopeRingInner / envelopeRingOuter | 1.09/1.06 amblem, tasarım "B" | Çizgi (açık #0B1D45 = navPillIcon, koyu #8FB0F0), dolgu (açık #FFFFFF = card, koyu #141D35 = card), iç/dış halka (açık #C8D3E4/#DCE3EE, koyu #4A6290/#22345A geçici); halkalar 152/184 dp, 1,5 çizgi; zarf çizgisi 2,5 dp |
 | Başlık → alt başlık 6 (`AppSpacing.titleGap`) | 1.08/1.09 mockup (Kayit2_1.09_mockup.html), 1.05, 1.07, 1.10 | Mockup'taki 6 dp; görünüm aynı kalsın diye 4'lük ızgaraya yuvarlanmadı |
 | Alan → kural metni 6 (`AppSpacing.hintGap`) | 1.08 mockup, 1.07 | Şifre kuralı alana yakın durur |
 | Durum hapı dikey iç boşluk 6, köşe 20 (`AppSpacing.pillPadV`, `AppRadius.pill`) | 1.09 mockup ("Bekleniyor") | Hap biçimi |

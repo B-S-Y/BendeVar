@@ -31,9 +31,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.heroBlue,
     required this.heroSilver,
     required this.heroDeep,
-    required this.envelopeDisc,
-    required this.envelopeBody,
-    required this.envelopeRing,
+    required this.envelopeLine,
+    required this.envelopeSurface,
+    required this.envelopeRingInner,
+    required this.envelopeRingOuter,
     required this.appBar,
     required this.onAppBar,
     required this.appBarFieldFill,
@@ -93,9 +94,10 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color heroBlue; // halka 1, parçacık, leke
   final Color heroSilver; // halka 2, parçacık
   final Color heroDeep; // parçacık
-  final Color envelopeDisc; // 1.09 zarfın arkasındaki daire (+ kapak çizgisi)
-  final Color envelopeBody; // zarf gövdesi
-  final Color envelopeRing; // dairenin dışındaki ince halka
+  final Color envelopeLine; // 1.09 zarf/kapak/mektup çizgisi
+  final Color envelopeSurface; // zarf ve mektup dolgusu
+  final Color envelopeRingInner; // iç ince halka (+ mektup satırları)
+  final Color envelopeRingOuter; // dış ince halka
 
   // Üst bar
   final Color appBar;
@@ -160,11 +162,12 @@ class AppColors extends ThemeExtension<AppColors> {
     heroBlue: Color(0xFF5B8CFF),
     heroSilver: Color(0xFFA9B2C2),
     heroDeep: Color(0xFF2F5FC4),
-    // Açık: daire = alt menü aktif hap (navPill), gövde = aktif ikon (navPillIcon).
-    envelopeDisc: Color(0xFFE3EEFB),
-    envelopeBody: Color(0xFF0B1D45),
-    // TODO(koyu-tema): belgede yok, geçici (açık gri-mavi ince halka; ölçülmedi)
-    envelopeRing: Color(0xFFC9D3E3),
+    // Açık: çizgi = alt menü aktif ikon (navPillIcon), dolgu = yüzey (card).
+    envelopeLine: Color(0xFF0B1D45),
+    envelopeSurface: _white,
+    // Belgede yok, geçici: açık gri-mavi halkalar (dış daha açık).
+    envelopeRingInner: Color(0xFFC8D3E4),
+    envelopeRingOuter: Color(0xFFDCE3EE),
     appBar: Color(0xFF0B1D45),
     onAppBar: _white,
     appBarFieldFill: Color(0x1AFFFFFF),
@@ -222,11 +225,14 @@ class AppColors extends ThemeExtension<AppColors> {
     heroBlue: Color(0xFF5B8CFF),
     heroSilver: Color(0xFFA9B2C2),
     heroDeep: Color(0xFF2F5FC4),
-    // Koyu: daire = belgedeki koyu açık mavi vurgu (accent), gövde = sayfa zemini.
-    envelopeDisc: Color(0xFF5B8CFF),
-    envelopeBody: Color(0xFF0A1226),
-    // TODO(koyu-tema): belgede yok, geçici (ince koyu mavi halka)
-    envelopeRing: Color(0xFF2A4A86),
+    // Koyu: çizgi = açık mavi vurgu (alt menü logo/aktif vurgusu #8FB0F0),
+    // dolgu = panel/yüzey (card).
+    envelopeLine: Color(0xFF8FB0F0),
+    envelopeSurface: Color(0xFF141D35),
+    // TODO(koyu-tema): belgede yok, geçici (iç halka: açık mavi-gri)
+    envelopeRingInner: Color(0xFF4A6290),
+    // TODO(koyu-tema): belgede yok, geçici (dış halka: koyu mavi)
+    envelopeRingOuter: Color(0xFF22345A),
     appBar: Color(0xFF141D35),
     onAppBar: Color(0xFFE8ECF4),
     // TODO(koyu-tema): belgede yok, geçici (üst bar içi alan)

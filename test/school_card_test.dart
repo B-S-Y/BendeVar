@@ -35,18 +35,53 @@ Future<void> _type(WidgetTester tester, String text) async {
 void main() {
   setUpAll(initTestEnv);
 
-  testWidgets('1-2 harfli okul kimliğinde kart çıkmaz (yeni@b.edu.tr)', (
+  testWidgets('b: tek harf → kart çıkmaz, kayıt geçersiz e-posta', (
     tester,
   ) async {
-    await _open(tester);
+    final vm = await _open(tester);
     await _type(tester, 'yeni@b.edu.tr');
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('B'), findsNothing);
     expect(find.text('Topluluğun ilk kayıtla açılacak'), findsNothing);
-    await _type(tester, 'yeni@bo.edu.tr');
-    await tester.pump(const Duration(seconds: 1));
-    expect(find.text('Bo'), findsNothing);
+    vm
+      ..setSignupPassword('sifre123')
+      ..setTermsAccepted(true);
+    expect(await vm.signUp(), isFalse);
+    expect(vm.signupEmailError, EmailError.notEdu);
+    await tester.pump();
     expect(find.text('Topluluğun ilk kayıtla açılacak'), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('ku: 2 harfli bilinen kimlik → 500 ms sonra Koç adı', (
+    tester,
+  ) async {
+    await _open(tester);
+    await _type(tester, 'ali@ku.edu.tr');
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Koç Üniversitesi'), findsNothing); // yazılıyor
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Koç Üniversitesi'), findsOneWidget);
+    expect(find.text('Okul topluluğuna katılacaksın'), findsOneWidget);
+    await _type(tester, 'ali@iuc.edu.tr');
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(find.text('İstanbul Üniversitesi-Cerrahpaşa'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('xyz: bilinmeyen → yazarken yok, odak kaybında not', (
+    tester,
+  ) async {
+    await _open(tester);
+    await tester.tap(find.byKey(const Key('signup-email-field')));
+    await tester.pump();
+    await _type(tester, 'ali@xyz.edu.tr');
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text('Topluluğun ilk kayıtla açılacak'), findsNothing);
+    await tester.tap(find.byKey(const Key('signup-password-field')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Xyz'), findsOneWidget);
+    expect(find.text('Topluluğun ilk kayıtla açılacak'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
 
@@ -95,6 +130,14 @@ void main() {
     await tester.pump();
     expect(find.text('Topluluğun ilk kayıtla açılacak'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
+  });
+
+  test('Validators: okul kimliği en az 2 harf', () {
+    expect(Validators.email('a@b.edu.tr'), EmailError.notEdu);
+    expect(Validators.email('a@std.b.edu.tr'), EmailError.notEdu);
+    expect(Validators.email('a@ku.edu.tr'), isNull);
+    expect(Validators.email('a@iuc.edu.tr'), isNull);
+    expect(Validators.minSchoolIdLength, 2);
   });
 
   test('kişisel e-posta sağlayıcıları reddedilir (kayıt ve giriş)', () async {

@@ -842,7 +842,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Topluluğunla ilgili önemli gelişmeleri haber ver.';
 
   @override
-  String get blockedAccounts => 'Engellenen hesaplar';
+  String get blockedAccounts => 'Engellenenler';
 
   @override
   String get helpSupport => 'Yardım ve destek';
@@ -910,11 +910,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get inviteCodeTitle => 'Davet koduyla katıl';
 
   @override
-  String get inviteCodeHint => 'Davet kodu (6 hane)';
-
-  @override
-  String get inviteCodeBody =>
-      'Topluluğun kurucusundan aldığın 6 haneli kodu gir.';
+  String get inviteCodeHint => 'Davet kodu';
 
   @override
   String get inviteCodeInvalid =>
@@ -1058,9 +1054,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get inviteContinue => 'Devam';
-
-  @override
-  String get inviteCodeHelp => 'Devam etmek için 6 haneli kodu gir.';
 
   @override
   String get helpIntro => 'Takıldığın bir şey mi var? Sık sorulanlara göz at.';

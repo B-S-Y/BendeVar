@@ -40,6 +40,7 @@ Future<void> pumpApp(
   Map<String, Object> prefsValues = const {},
   AppDependencies? deps,
   bool animations = false,
+  bool settle = true,
 }) async {
   useAndroidScreen(tester);
   SharedPreferences.setMockInitialValues(prefsValues);
@@ -64,7 +65,7 @@ Future<void> pumpApp(
     ),
   );
   // Animasyonlar açıksa sürekli animasyon (yıldızlar) settle'ı bekletir.
-  if (animations) {
+  if (animations || !settle) {
     await tester.pump();
   } else {
     await tester.pumpAndSettle();

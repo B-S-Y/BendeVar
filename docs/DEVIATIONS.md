@@ -27,7 +27,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 | scrim | siyah %70 | Alt sayfa arka perdesi |
 | unreadTint | #18233F | Okunmamış satır zemini |
 | heroTop | #050A18 | Karşılama/giriş zemini gradyanının üstü (1.01; açıkta #06112B) |
-| envelopeDisc / envelopeBody / envelopeRing | #5B8CFF / #0A1226 / #2A4A86 | 1.09/1.06 zarf dairesi (accent), gövde (sayfa zemini), dış halka (halka geçici). Eski `envelopeFront` kaldırıldı |
+| envelopeRingInner / envelopeRingOuter | #4A6290 / #22345A | 1.09/1.06 amblem halkaları (tasarım B). Açık temadaki #C8D3E4 / #DCE3EE de belgede yok (geçici). `envelopeDisc/Body/Ring` kaldırıldı |
 
 ## 1.01 Karşılama animasyonu (ANIMASYON_1.01.md)
 - Toplam süre 3,52 sn: belge "≈3,5 sn" diyor ama son öğe (panel içeriği) 3,52'de bitiyor; Interval 1'i aşmasın diye controller 3,52 sn.
@@ -176,11 +176,11 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 
 ## Revize turu · 8 (davet kodu)
 - Kod 6 haneli, yalnızca rakam, ön ek yok (`kInviteCodeLength`). Seed: Proje Ekibi `482913`; yeni Gizli topluluğa üretilen kod da 6 haneli rakam, mevcutlarla çakışmaz. Kurucu sheet'inde ve kopyalamada ön ek yok.
-- Kod alanı: sayısal klavye + `digitsOnly` + `maxLength 6` (ortak `AppTextField`'a `inputFormatters`/`maxLength` eklendi). "Devam" 6 hane dolana kadar BİLİNÇLİ olarak pasif (kullanıcı isteği); neden pasif olduğu alan altında "Devam etmek için 6 haneli kodu gir." metniyle görünür.
+- Kod alanı: sayısal klavye + `digitsOnly` + `maxLength 6` (ortak `AppTextField`'a `inputFormatters`/`maxLength` eklendi). "Devam" 6 hane dolana kadar BİLİNÇLİ olarak pasif (kullanıcı isteği); (Revize 2. tur · 2: alan altındaki yardım cümlesi kaldırıldı; buton açıklamasız pasif.)
 - Akış: kod → Devam → topluluk önizlemesi (ad, baş harf avatarı, üye sayısı · tür; henüz üye değil) → "Katıl" (üye olur, 1.16b) ya da "Vazgeç". Yanlış kodda mevcut hata durumu (1.16c); zaten üyeyse "Bu topluluğun zaten üyesisin." (`CommunityRepository.previewByCode`).
 
 ## Revize turu · 3 (okul kartı ve kişisel e-posta)
-- Okul kartı yazarken çıkmaz: yazma durduktan `AuthViewModel.schoolLookupDelay` (500 ms) sonra ve okul kimliği en az 3 harfse (`Validators.minSchoolIdLength`) aranır; 1-2 harfte kart yok. Bilinen okulda (mock `mockKnownSchools`: yildiz → Yıldız Teknik, marmara, boun/bogazici → Boğaziçi, itu, msgsu, odtu/metu) okulun adı + "Okul topluluğuna katılacaksın". Bilinmeyen okulda "Topluluğun ilk kayıtla açılacak" notu yalnızca e-posta alanı odağı kaybedince ya da Kayıt ol'a basılınca gelir (`SignupBody` odak dinleyicisi).
+- Okul kartı yazarken çıkmaz: yazma durduktan `AuthViewModel.schoolLookupDelay` (500 ms) sonra aranır. (Revize 2. tur · 6: 3 harf kuralı kaldırıldı, aşağıya bak.) Bilinen okulda (mock `mockKnownSchools`: yildiz → Yıldız Teknik, marmara, boun/bogazici → Boğaziçi, itu, msgsu, odtu/metu) okulun adı + "Okul topluluğuna katılacaksın". Bilinmeyen okulda "Topluluğun ilk kayıtla açılacak" notu yalnızca e-posta alanı odağı kaybedince ya da Kayıt ol'a basılınca gelir (`SignupBody` odak dinleyicisi).
 - Kişisel e-posta engeli: okul kimliği gmail, hotmail, outlook, yahoo, icloud, yandex, proton, protonmail, live, msn ise (`Validators.personalProviders`) `Validators.email` mevcut "kurum dışı e-posta" hatasını (`EmailError.notEdu`, 1.03a/1.08a) döndürür; kayıt ve giriş reddedilir. Kayıtta alandan çıkınca da hata görünür; kişisel e-postada okul kartı çıkmaz. Yalnızca tam ad eşleşir (`gmailx.edu.tr` geçerli).
 - `AppTextField` ve `InstitutionEmailField`'a `focusNode` eklendi (odak kaybını dinlemek için).
 
@@ -201,3 +201,31 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Odak yönetimi: uygulamada `autofocus` ya da `requestFocus` hiç yok; giriş/kayıt formu açılınca hiçbir alan odak almaz, klavye yalnızca kullanıcı alana dokununca açılır (testle doğrulandı). Odak yalnızca form kapanırken/değişirken `unfocus` ile bırakılır.
 - Bulunan kusur: açık panelin yüksekliği klavye açıkken de "ana panelden küçük olmaz" tabanına ve küçük logo payına (130 dp) bağlıydı. Küçük ekranda (ör. 320×568) klavye açılınca panel ekranın üstüne itiliyor, başlık/geri düğmesi dışarıda kalıyordu. Klavye açıkken taban kalktı ve panel logo alanını da kullanabiliyor (yalnızca durum çubuğu payı kalır); taşan içerik formun kendi kaydırmasıyla görünür. Klavye kapalıyken düzen aynı.
 - 412×917'de (A23) kademeli klavye açılışı testte tek yönlü ve odak kaybı olmadan çalışıyor; telefonda görülen "ilk seferde sekme" testte birebir üretilemedi (bkz. rapor).
+
+## Revize 2. tur · 1 (Ayarlar başlığı kesilmesi)
+- Kök neden (Eda'nın telefonunda, büyük yazı/ekran boyutu): `SettingsScaffold` üst bar başlığı satır sınırı olmadan büyük yazı ölçeğiyle iki satıra bölünüyor, sabit yükseklikli üst barın altında ikinci satırın üst kısımları "iki kısa çizgi" gibi görünüyordu. Önceki turda testler 1,3× ile çalıştığı için üretilemedi.
+- Düzeltme: başlık tek satır (`maxLines: 1`, `ellipsis`), başlığın yazı ölçeği en fazla 1,2× (`MediaQuery.withClampedTextScaling`, `SettingsScaffold.maxTitleTextScale`); ortak iskelette olduğu için Ayarlar'ın tüm alt sayfalarına uygulanır. "Engellenen hesaplar" → "Engellenenler" (EN "Blocked").
+
+## Revize 2. tur · 2 (davet kodu sheet'i sade)
+- Başlık "Davet koduyla katıl" kalır; altındaki açıklama cümlesi ve "Devam"ın altındaki yardım cümlesi kalktı. Alan ipucu "Davet kodu" (EN "Invite code"). "Devam" 6 hane dolmadan açıklamasız pasif. Hata durumları (yanlış kod, zaten üye) aynı. ARB: `inviteCodeBody`, `inviteCodeHelp` silindi.
+
+## Revize 2. tur · 3 (Engellenenler ilk seviyede)
+- Figma'dan sapma: "Engellenenler" Ayarlar'ın ilk seviyesinde (Topluluklarım'ın altında) doğrudan satır; Gizlilik ve destek içindeki satır kaldırıldı (çift yol yok). Neden: Profil → Ayarlar → Gizlilik → Engellenen olarak 3 seviye içteydi, telefonda bulunamıyordu. Rota aynı (`/settings/blocked`), yalnızca giriş noktası değişti.
+
+## Revize 2. tur · 6 (okul kartı kuralı)
+- "En az 3 harf" kuralı kalktı (Koç = `ku.edu.tr` gibi 2 harfli kimlikleri engelliyordu). Bilinen okulda (mock listesi, alias'lar dahil; eklenenler: `ku` → Koç Üniversitesi, `iuc` → İstanbul Üniversitesi-Cerrahpaşa) harf sayısına bakılmadan 500 ms sonra okul adı çıkar. Bilinmeyen okulda yazarken kart yok; "Topluluğun ilk kayıtla açılacak" notu yalnızca alan odağı kaybedince ya da Kayıt ol'a basılınca.
+- Kayıt/giriş için okul kimliği en az 2 harf (`Validators.minSchoolIdLength = 2`); tek harf (`a@b.edu.tr`) mevcut "kurum dışı e-posta" hatası. Kişisel e-posta engeli aynı.
+
+## Revize 2. tur · 5 (Beni hatırla açılışı)
+- Kök neden: 1,2 sn'lik açılış, karşılamanın halka bölümünü 1,2 sn'ye sıkıştırıyordu ve sayaç sayfa kurulurken (`didChangeDependencies`) başlıyordu; ilk kare çizilene kadar geçen süre de sayıldığı için release'te neredeyse anlık bitiyordu.
+- Yeni: açılış, karşılamadaki logo girişinin aynısı ve gerçek hızda (aynı `AuthMotion` sabitleri: logo 0–1,04 sn büyüyüp oturur, "Bende Var" 0,96–1,52 sn belirir, halkalar 0,64–2,40 sn). Süre `AppMotion.splash` = 2,4 sn (halka 2'nin bitişi) ve ilk kare çizildikten sonra başlar. Oturum geri yükleme önce bitse de animasyon tamamlanmadan Ana Sayfa'ya geçilmez; bitince solma + büyüme geçişi. "Animasyonları azalt" açıkken `AppMotion.splashReduced` = 600 ms statik son kare (halka yok), sonra doğrudan Ana Sayfa. Önceki `splashLogoFrom/End`, `splashTextStart/End` token'ları kaldırıldı. (Bu bölüm önceki "1,2 sn" notlarının yerine geçer.)
+
+## Revize 2. tur · 4 (zarf amblemi, tasarım "B")
+- Dolgulu daire kalktı. Zarfın arkasında iki ince eş merkezli halka (152/184 dp, 1,5 çizgi, dolgu yok); zarf zarf yüzey dolgulu, 2,5 dp çizgili gövde + üst kenardan ortaya inen V kapak; mektup da yüzey dolgulu ve çizgili, satırlar iç halka renginde; onay rozeti mevcut (dolu vurgu daire + tik).
+- Renkler (`AppColors`): `envelopeLine` (açık: alt menü aktif ikon #0B1D45; koyu: açık mavi vurgu #8FB0F0), `envelopeSurface` (açık: card #FFFFFF; koyu: card/panel #141D35), `envelopeRingInner` / `envelopeRingOuter` (açık #C8D3E4 / #DCE3EE, koyu #4A6290 / #22345A; belgede yok, geçici, koyular `TODO(koyu-tema)`). Önceki `envelopeDisc`, `envelopeBody`, `envelopeRing` silindi.
+- Akış aynı (kapak 0,32–0,88 sn, mektup 0,8–1,52 sn, rozet 1,52–2,08 sn); ek olarak halkalar zarf belirirken içeriden dışarı sırayla belirir (iç 0–0,30 sn, dış 0,15–0,45 sn; opaklık + %90→%100 ölçek). "Animasyonları azalt" açıkken son kare (halkalar statik). Kutu 184×184 dp. (Revize turu · 2'deki "C" tasarımının yerine geçer.)
+
+## Revize 2. tur · 7 (Ayarlar genel görsel kontrol)
+- Ayarlar, Bildirim ayarları, Gizlilik ve destek, Engellenenler, Yardım, Topluluklarım, Topluluk oluştur, Kullanım şartları ve Tema/dil sheet'i; 360×800 ve 412×917, 1,3× ve 1,5× yazı, açık ve koyu temada (üst 32 dp, alt 48 dp sistem çubuğu) tarandı. Taşma, başlık kesilmesi ve alt güvenli alan sorunu bulunmadı (otomatik denetim: `test/settings_audit_test.dart`).
+- Bulunan tek görsel sorun: Engellenenler satırında büyük yazıda okul adı "Engeli kaldır" düğmesinin yanında 3 satıra bölünüyordu; ad tek satır, okul en fazla 2 satır (üç nokta) yapıldı.
+- Ayarlar'da ayrı bir "Şifre" ya da "Dil/Tema" sayfası yok: şifre değiştirme Ayarlar'da bulunmuyor (şifre sıfırlama giriş akışında, 1.05–1.07); Dil/Tema bir sheet (ortak `ThemeLanguageSheet`), o da tarandı.

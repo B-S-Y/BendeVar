@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_motion.dart';
-import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_logo.dart';
 import '../../../l10n/app_localizations.dart';
@@ -13,13 +12,15 @@ import 'auth_backdrop.dart';
 import 'auth_burst.dart';
 import 'auth_motion.dart';
 
-/// Açılış kapısı. Oturum kontrolü (shared_preferences) burada, animasyon
-/// süresi içinde yapılır:
+/// Açılış kapısı. Oturum kontrolü (shared_preferences) burada yapılır:
 /// - oturum yok → hemen Karşılama (tam açılış animasyonu orada oynar);
-/// - oturum var (Beni hatırla) → ~1,2 sn kısa açılış (logo büyür, "Bende Var"),
-///   sonra giriş sonrası geçişle (solma + büyüme) Ana Sayfa;
-/// - "animasyonları azalt" açıksa açılış atlanır, doğrudan Ana Sayfa.
-/// Kontrol 1,2 sn'den uzun sürerse animasyon bitince hemen geçilir.
+/// - oturum var (Beni hatırla) → karşılamadaki logo girişinin aynısı
+///   ([AppMotion.splash]: logo büyür, halkalar açılır, "Bende Var" belirir),
+///   bitince giriş sonrası geçişle (solma + büyüme) Ana Sayfa;
+/// - "animasyonları azalt" açıksa kısa ([AppMotion.splashReduced]) ve statik.
+/// Süre ilk kare çizildikten sonra başlar; oturum geri yükleme daha önce
+/// bitse de animasyon tamamlanmadan Ana Sayfa'ya geçilmez. Kontrol uzun
+/// sürerse animasyon bitince, kontrol biter bitmez geçilir.
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -27,68 +28,68 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+  /// Karşılama zaman çizelgesinin ilk [AppMotion.splash]'ı (gerçek hızda).
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
     duration: AppMotion.splash,
   );
-  late final AuthViewModel _auth = context.read<AuthViewModel>();
-  // Bir kez kurulur, dispose'da bırakılır.
-  late final CurvedAnimation _logoT = CurvedAnimation(
-    parent: _ctrl,
-    curve: const Interval(
-      0,
-      AppMotion.splashLogoEnd,
-      curve: AppMotion.standard,
-    ),
-  );
-  late final CurvedAnimation _textT = CurvedAnimation(
-    parent: _ctrl,
-    curve: const Interval(
-      AppMotion.splashTextStart,
-      AppMotion.splashTextEnd,
-      curve: AppMotion.standard,
-    ),
+
+  /// Animasyonlar azaltılmışken kısa statik bekleme. `preserve`: sistem
+  /// "animasyonları kapat" ayarında süre sıfıra indirilmesin.
+  late final AnimationController _hold = AnimationController(
+    vsync: this,
+    duration: AppMotion.splashReduced,
+    animationBehavior: AnimationBehavior.preserve,
   );
 
-  /// Karşılamadaki halkalar: açılış zaman çizelgesinin (3,52 sn) halka
-  /// bölümü (ring1 başı → ring2 sonu) bu 1,2 sn'ye sıkıştırılır.
-  late final Animation<double> _ringT = Tween<double>(
-    begin: AuthMotion.ring1.$1 / AuthMotion.introSeconds,
-    end: AuthMotion.ring2.$2 / AuthMotion.introSeconds,
+  /// [_ctrl] 0..1 → karşılama açılışının kesri (BurstPainter ile aynı ölçek).
+  late final Animation<double> _introT = Tween<double>(
+    begin: 0,
+    end:
+        AppMotion.splash.inMicroseconds /
+        Duration.microsecondsPerSecond /
+        AuthMotion.introSeconds,
   ).animate(_ctrl);
-  bool _animated = false;
+
+  late final AuthViewModel _auth = context.read<AuthViewModel>();
+  bool _started = false;
+  bool _reduce = false;
   bool _left = false;
+
+  static const double _total = AuthMotion.introSeconds;
 
   @override
   void initState() {
     super.initState();
     _auth.addListener(_decide);
-    _ctrl.addStatusListener((s) {
+    void onDone(AnimationStatus s) {
       if (s == AnimationStatus.completed) _decide();
-    });
-    // İlk kareden sonra: kontrol bitmişse hemen karar ver.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _decide());
+    }
+
+    _ctrl.addStatusListener(onDone);
+    _hold.addStatusListener(onDone);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Animasyon sayaç olarak sayfa açılır açılmaz başlar (kontrol süresi bu
-    // 1,2 sn'nin içinde geçer); logo yalnızca oturum varsa görünür.
-    if (!_animated && !AppMotion.reduce(context)) {
-      _animated = true;
-      _ctrl.forward();
-    }
+    if (_started) return;
+    _started = true;
+    _reduce = AppMotion.reduce(context);
+    // Süre ilk kare çizildikten sonra başlar (öncesinde geçen zaman sayılmaz).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      (_reduce ? _hold : _ctrl).forward();
+      _decide();
+    });
   }
 
   @override
   void dispose() {
     _auth.removeListener(_decide);
-    _logoT.dispose();
-    _textT.dispose();
     _ctrl.dispose();
+    _hold.dispose();
     super.dispose();
   }
 
@@ -100,12 +101,13 @@ class _SplashPageState extends State<SplashPage>
       context.go('/welcome');
       return;
     }
-    if (AppMotion.reduce(context)) {
+    if (_reduce) {
+      if (!_hold.isCompleted) return; // kısa statik açılış
       _left = true;
       context.go('/home');
       return;
     }
-    if (_ctrl.status != AnimationStatus.completed) return; // süre dolsun
+    if (!_ctrl.isCompleted) return; // açılış animasyonu tamamlansın
     _left = true;
     _auth.requestFadeToHome(); // giriş sonrası geçişin aynısı
     context.go('/home');
@@ -119,9 +121,6 @@ class _SplashPageState extends State<SplashPage>
       (a) => a.restored && a.isSignedIn,
     );
 
-    final logoT = _logoT;
-    final textT = _textT;
-
     return Scaffold(
       backgroundColor: c.hero,
       body: Stack(
@@ -130,64 +129,97 @@ class _SplashPageState extends State<SplashPage>
           const Positioned.fill(child: AuthBackdrop(ambient: null)),
           if (show)
             Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox.square(
-                    dimension: AuthMotion.logoSize,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        // Karşılamadaki logo halkaları (parçacıksız).
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: CustomPaint(
-                              key: const Key('splash-rings'),
-                              painter: BurstPainter(
-                                intro: _ringT,
-                                mode: const AlwaysStoppedAnimation<double>(0),
-                                shift: 0,
-                                center: const Offset(
-                                  AuthMotion.logoSize / 2,
-                                  AuthMotion.logoSize / 2,
+              child: AnimatedBuilder(
+                animation: _introT,
+                builder: (context, _) {
+                  // Azaltılmış: son kare (logo 1, ad görünür, halka yok).
+                  final t = _reduce ? 1.0 : _introT.value;
+                  // Karşılamadaki logo girişinin aynısı (AuthStage).
+                  final popP = span(
+                    t,
+                    _total,
+                    AuthMotion.logoPop,
+                    AuthMotion.pop,
+                  );
+                  final settleP = span(
+                    t,
+                    _total,
+                    AuthMotion.logoSettle,
+                    AuthMotion.pop,
+                  );
+                  final logoScale = t < AuthMotion.logoSettle.$1 / _total
+                      ? lerpD(
+                          AuthMotion.logoFrom,
+                          AuthMotion.logoOvershoot,
+                          popP,
+                        )
+                      : lerpD(AuthMotion.logoOvershoot, 1, settleP);
+                  final logoOpacity = popP.clamp(0.0, 1.0);
+                  final nameP = span(
+                    t,
+                    _total,
+                    AuthMotion.name,
+                    AuthMotion.ease,
+                  );
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox.square(
+                        dimension: AuthMotion.logoSize,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            if (!_reduce)
+                              // Karşılamadaki logo halkaları (parçacıksız).
+                              Positioned.fill(
+                                child: IgnorePointer(
+                                  child: CustomPaint(
+                                    key: const Key('splash-rings'),
+                                    painter: BurstPainter(
+                                      intro: _introT,
+                                      mode:
+                                          const AlwaysStoppedAnimation<double>(
+                                            0,
+                                          ),
+                                      shift: 0,
+                                      center: const Offset(
+                                        AuthMotion.logoSize / 2,
+                                        AuthMotion.logoSize / 2,
+                                      ),
+                                      colors: c,
+                                      particles: false,
+                                    ),
+                                  ),
                                 ),
-                                colors: c,
-                                particles: false,
+                              ),
+                            Opacity(
+                              key: const Key('splash-logo'),
+                              opacity: logoOpacity,
+                              child: Transform.scale(
+                                scale: logoScale,
+                                child: const AppLogo(
+                                  size: AuthMotion.logoSize,
+                                  tile: AppColors.logoSourceTile,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: AuthMotion.nameGap),
+                      Opacity(
+                        opacity: nameP,
+                        child: Text(
+                          l.brandName,
+                          key: const Key('splash-brand'),
+                          style: AppTypography.brandHero.copyWith(
+                            color: c.onHero,
                           ),
                         ),
-                        AnimatedBuilder(
-                          animation: logoT,
-                          builder: (context, child) => Opacity(
-                            opacity: logoT.value,
-                            child: Transform.scale(
-                              scale:
-                                  AppMotion.splashLogoFrom +
-                                  (1 - AppMotion.splashLogoFrom) * logoT.value,
-                              child: child,
-                            ),
-                          ),
-                          child: const AppLogo(
-                            size: AuthMotion.logoSize,
-                            tile: AppColors.logoSourceTile,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  AnimatedBuilder(
-                    animation: textT,
-                    builder: (context, child) =>
-                        Opacity(opacity: textT.value, child: child),
-                    child: Text(
-                      l.brandName,
-                      key: const Key('splash-brand'),
-                      style: AppTypography.title1.copyWith(color: c.onHero),
-                    ),
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
         ],

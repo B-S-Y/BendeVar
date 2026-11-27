@@ -187,10 +187,10 @@ class AuthViewModel extends ChangeNotifier {
   /// Geçerli kurum e-postası girildi mi? (Okul kartını gösterir.)
   bool get signupEmailValid => Validators.email(_signupEmail) == null;
 
-  /// Okul kartı görünür mü:
-  /// - yazma durmuş (debounce) ve okul kimliği en az 3 harf,
-  /// - bilinen okulda hemen, bilinmeyen okulda ("topluluğun ilk kayıtla
-  ///   açılacak") yalnızca alan odağı kaybedince ya da Kayıt ol'a basılınca.
+  /// Okul kartı görünür mü (yazma durduktan [schoolLookupDelay] sonra):
+  /// - bilinen okulda (alias'lar dahil, harf sayısına bakmadan) okul adı;
+  /// - bilinmeyen okulda "topluluğun ilk kayıtla açılacak" notu yalnızca alan
+  ///   odağı kaybedince ya da Kayıt ol'a basılınca (yazarken yok).
   bool get showSchoolCard =>
       signupEmailValid &&
       _schoolLookedUp &&

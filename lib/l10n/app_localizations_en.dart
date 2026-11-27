@@ -856,7 +856,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notify me about important news in my community.';
 
   @override
-  String get blockedAccounts => 'Blocked accounts';
+  String get blockedAccounts => 'Blocked';
 
   @override
   String get helpSupport => 'Help and support';
@@ -923,11 +923,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inviteCodeTitle => 'Join with invite code';
 
   @override
-  String get inviteCodeHint => 'Invite code (6 digits)';
-
-  @override
-  String get inviteCodeBody =>
-      'Enter the 6-digit code you got from the community\'s founder.';
+  String get inviteCodeHint => 'Invite code';
 
   @override
   String get inviteCodeInvalid =>
@@ -1073,9 +1069,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inviteContinue => 'Continue';
-
-  @override
-  String get inviteCodeHelp => 'Enter the 6-digit code to continue.';
 
   @override
   String get helpIntro =>

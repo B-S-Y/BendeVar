@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import '../../../core/utils/validators.dart';
@@ -5,8 +7,14 @@ import '../../../data/models/models.dart';
 import '../../../data/repositories/repositories.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  AuthViewModel(this._repo, {required this._communities})
-    : _user = _repo.currentUser;
+  AuthViewModel(
+    this._repo, {
+    required this._communities,
+    this.schoolLookupDelay = const Duration(milliseconds: 500),
+  }) : _user = _repo.currentUser;
+
+  /// Yazma durduktan bu kadar sonra okul kartı aranır (kart yazarken çıkmaz).
+  final Duration schoolLookupDelay;
 
   final AuthRepository _repo;
   final CommunityRepository _communities;
@@ -148,6 +156,8 @@ class AuthViewModel extends ChangeNotifier {
   DateTime? _linkSentAt;
   bool _completing = false;
   int _lookupToken = 0;
+  Timer? _lookupTimer;
+  bool _emailBlurred = false;
 
   String get signupEmail => _signupEmail;
   String get signupPassword => _signupPassword;
@@ -158,7 +168,10 @@ class AuthViewModel extends ChangeNotifier {
 
   /// 1.08'de e-posta hatası (1.08a: kurum dışı e-posta).
   EmailError? get signupEmailError =>
-      _signupShowErrors ? Validators.email(_signupEmail) : null;
+      _signupShowErrors ||
+          (_emailBlurred && Validators.isPersonalProvider(_signupEmail))
+      ? Validators.email(_signupEmail)
+      : null;
   NewPasswordError? get signupPasswordError =>
       _signupShowErrors ? Validators.newPassword(_signupPassword) : null;
   bool get termsError => _signupShowErrors && !_termsAccepted;
@@ -174,11 +187,49 @@ class AuthViewModel extends ChangeNotifier {
   /// Geçerli kurum e-postası girildi mi? (Okul kartını gösterir.)
   bool get signupEmailValid => Validators.email(_signupEmail) == null;
 
+  /// Okul kartı görünür mü:
+  /// - yazma durmuş (debounce) ve okul kimliği en az 3 harf,
+  /// - bilinen okulda hemen, bilinmeyen okulda ("topluluğun ilk kayıtla
+  ///   açılacak") yalnızca alan odağı kaybedince ya da Kayıt ol'a basılınca.
+  bool get showSchoolCard =>
+      signupEmailValid &&
+      _schoolLookedUp &&
+      ((_schoolCommunity != null) || _emailBlurred || _signupShowErrors);
+
   void setSignupEmail(String v) {
     _signupEmail = v;
     _signupFailure = null;
-    _lookupSchool();
+    _emailBlurred = false;
+    _scheduleLookup();
     notifyListeners();
+  }
+
+  /// E-posta alanı odağı kaybetti.
+  void signupEmailBlurred() {
+    if (_emailBlurred) return;
+    _emailBlurred = true;
+    notifyListeners();
+  }
+
+  /// Yazarken kart gizlenir; yazma durunca ([schoolLookupDelay]) aranır.
+  void _scheduleLookup() {
+    _lookupTimer?.cancel();
+    _lookupToken++;
+    _schoolLookedUp = false;
+    _schoolCommunity = null;
+    final id = Validators.schoolId(_signupEmail);
+    if (id == null ||
+        id.length < Validators.minSchoolIdLength ||
+        Validators.isPersonalProvider(_signupEmail)) {
+      return;
+    }
+    _lookupTimer = Timer(schoolLookupDelay, _lookupSchool);
+  }
+
+  @override
+  void dispose() {
+    _lookupTimer?.cancel();
+    super.dispose();
   }
 
   void setSignupPassword(String v) {
@@ -199,7 +250,7 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> _lookupSchool() async {
     final token = ++_lookupToken;
     final id = Validators.schoolId(_signupEmail);
-    if (id == null) {
+    if (id == null || id.length < Validators.minSchoolIdLength) {
       _schoolCommunity = null;
       _schoolLookedUp = false;
       return;
@@ -288,6 +339,8 @@ class AuthViewModel extends ChangeNotifier {
     _signupFailure = null;
     _schoolCommunity = null;
     _schoolLookedUp = false;
+    _emailBlurred = false;
+    _lookupTimer?.cancel();
     _linkSentAt = null;
     notifyListeners();
   }

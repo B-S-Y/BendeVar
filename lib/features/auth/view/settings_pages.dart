@@ -7,7 +7,6 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
-import '../../../core/widgets/coming_soon_page.dart';
 import '../../../core/widgets/sheets.dart';
 import '../../../core/widgets/small_widgets.dart';
 import '../../../data/models/settings_models.dart';
@@ -213,7 +212,7 @@ class PrivacySupportPage extends StatelessWidget {
           SettingsRow(
             icon: LucideIcons.lifeBuoy,
             label: l.helpSupport,
-            onTap: () => showComingSoonSnack(context),
+            onTap: () => context.push('/settings/help'),
           ),
         ]),
       ),

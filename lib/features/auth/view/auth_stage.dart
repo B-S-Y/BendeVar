@@ -314,20 +314,28 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
     final c = context.colors;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final homeHeight = _homeHeight(context, size.width, bottomInset);
-    // Açık panel, ekrana sığdığı kadar büyür ama ana panelden küçük olmaz.
+    // Açık panel, klavyenin üstünde kalan alana sığdığı kadar büyür. Klavye
+    // kapalıyken ana panelden küçük olmaz; klavye açıkken bu taban YOK: aksi
+    // halde küçük ekranda panel ekranın üstüne itilip başlık/geri düğmesi
+    // dışarıda kalıyor ve alan klavye her karede yeniden konumlanıyordu
+    // (klavye "sekmesi"). Taşan içerik formun kendi kaydırmasıyla görünür.
     final openHeight = math.max(
-      homeHeight,
+      keyboard > 0 ? 0.0 : homeHeight,
       math.min(
         AuthMotion.panelOpen,
         size.height -
             keyboard -
-            math.max(
-              AuthMotion.panelTopReserve,
-              MediaQuery.paddingOf(context).top +
-                  AuthMotion.logoTopGap +
-                  AuthMotion.miniGroupHeight +
-                  AuthMotion.miniGroupGap,
-            ),
+            (keyboard > 0
+                // Klavye açıkken panel küçük logo alanını da kullanır (yalnızca
+                // durum çubuğu payı kalır); başlık + alt düğme sığsın.
+                ? MediaQuery.paddingOf(context).top + AppSpacing.sm
+                : math.max(
+                    AuthMotion.panelTopReserve,
+                    MediaQuery.paddingOf(context).top +
+                        AuthMotion.logoTopGap +
+                        AuthMotion.miniGroupHeight +
+                        AuthMotion.miniGroupGap,
+                  )),
       ),
     );
 

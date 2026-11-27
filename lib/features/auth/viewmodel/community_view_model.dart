@@ -142,6 +142,26 @@ class CommunityViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Kodun topluluğunu katılmadan getirir (önizleme). Başarısızsa null
+  /// ([codeFailure]).
+  Future<CommunityInfo?> previewByCode(String code) async {
+    _codeFailure = null;
+    _busy = true;
+    notifyListeners();
+    try {
+      return await _repo.previewByCode(code);
+    } on CommunityException catch (e) {
+      _codeFailure = e.failure;
+      return null;
+    } catch (_) {
+      _codeFailure = CommunityFailure.unknown;
+      return null;
+    } finally {
+      _busy = false;
+      notifyListeners();
+    }
+  }
+
   /// 1.16b/1.16c · Başarılıysa topluluğu, değilse null döner ([codeFailure]).
   Future<CommunityInfo?> joinByCode(String code) async {
     _codeFailure = null;

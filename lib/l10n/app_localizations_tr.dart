@@ -768,19 +768,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get forgotTitle => 'Şifreni mi unuttun?';
 
   @override
-  String get forgotSubtitle =>
-      'Kurum e-postanı yaz, şifreni yenilemen için sana bir bağlantı gönderelim.';
+  String get forgotSubtitle => 'E-postanı yaz, sana bir bağlantı gönderelim.';
 
   @override
   String get sendResetLink => 'Bağlantı gönder';
 
   @override
-  String get resetSentSubtitle =>
-      'Şifre yenileme bağlantısını şu adrese gönderdik:';
-
-  @override
-  String get resetSentInstruction =>
-      'E-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.';
+  String get resetSentInstruction => 'Bağlantıya tıkla, sonra buraya dön.';
 
   @override
   String get resetExpired =>
@@ -788,9 +782,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get newPasswordTitle => 'Yeni şifre belirle';
-
-  @override
-  String get newPasswordSubtitle => 'Hesabın için yeni bir şifre seç.';
 
   @override
   String get newPasswordLabel => 'Yeni şifre';
@@ -895,9 +886,6 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get communitySchoolBadge => 'Okulun';
-
-  @override
   String get communityFounderBadge => 'Kurucu';
 
   @override
@@ -922,10 +910,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get inviteCodeTitle => 'Davet koduyla katıl';
 
   @override
-  String get inviteCodeHint => 'Davet kodu';
+  String get inviteCodeHint => 'Davet kodu (6 hane)';
 
   @override
-  String get inviteCodeBody => 'Topluluğun kurucusundan aldığın kodu gir.';
+  String get inviteCodeBody =>
+      'Topluluğun kurucusundan aldığın 6 haneli kodu gir.';
 
   @override
   String get inviteCodeInvalid =>
@@ -1066,4 +1055,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String stepSemantics(String label, int step, int total) {
     return '$label ($step/$total)';
   }
+
+  @override
+  String get inviteContinue => 'Devam';
+
+  @override
+  String get inviteCodeHelp => 'Devam etmek için 6 haneli kodu gir.';
+
+  @override
+  String get helpIntro => 'Takıldığın bir şey mi var? Sık sorulanlara göz at.';
+
+  @override
+  String get helpQ1 => 'Bir topluluğa nasıl katılırım?';
+
+  @override
+  String get helpA1 =>
+      'Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım\'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.';
+
+  @override
+  String get helpQ2 => 'Beni hatırla ne işe yarar?';
+
+  @override
+  String get helpA2 =>
+      'Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.';
+
+  @override
+  String get helpQ3 => 'Şifremi unuttum, ne yapmalıyım?';
+
+  @override
+  String get helpA3 =>
+      'Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.';
+
+  @override
+  String get helpContact => 'Hâlâ çözemedin mi? Bize yaz:';
+
+  @override
+  String get helpContactEmail => 'destek@bendevar.app';
 }

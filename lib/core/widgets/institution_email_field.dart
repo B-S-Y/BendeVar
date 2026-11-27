@@ -150,6 +150,7 @@ class InstitutionEmailField extends StatefulWidget {
     this.textInputAction,
     this.label,
     this.errorSignal,
+    this.focusNode,
   });
 
   final Key? fieldKey;
@@ -162,6 +163,7 @@ class InstitutionEmailField extends StatefulWidget {
   /// Verilmezse "Kurum e-postası".
   final String? label;
   final Object? errorSignal;
+  final FocusNode? focusNode;
 
   @override
   State<InstitutionEmailField> createState() => _InstitutionEmailFieldState();
@@ -217,6 +219,7 @@ class _InstitutionEmailFieldState extends State<InstitutionEmailField> {
           onSubmitted: widget.onSubmitted,
           errorText: widget.errorText,
           errorSignal: widget.errorSignal,
+          focusNode: widget.focusNode,
         );
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

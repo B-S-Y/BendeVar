@@ -2,6 +2,7 @@ import 'package:bende_var/app/di.dart';
 import 'package:bende_var/core/theme/app_motion.dart';
 import 'package:bende_var/data/mock/mock_repositories.dart';
 import 'package:bende_var/data/models/models.dart';
+import 'package:bende_var/features/auth/view/auth_burst.dart';
 import 'package:bende_var/features/auth/view/auth_stage.dart';
 import 'package:bende_var/features/auth/view/splash_page.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -62,6 +63,40 @@ void main() {
       GoRouter.of(tester.element(find.byType(Scaffold).first)).canPop(),
       isFalse,
     );
+    await tester.pump(const Duration(seconds: 1));
+  });
+
+  testWidgets('Kısa açılışta logonun etrafında karşılamadaki halkalar çıkar', (
+    tester,
+  ) async {
+    await pumpApp(tester, prefsValues: _remembered, animations: true);
+    await tester.pump(const Duration(milliseconds: 100));
+    final rings = find.byKey(const Key('splash-rings'));
+    expect(rings, findsOneWidget);
+    final paint = tester.widget<CustomPaint>(rings);
+    expect(paint.painter, isA<BurstPainter>());
+    expect((paint.painter! as BurstPainter).particles, isFalse); // parçacıksız
+    // Halka çizimi: ilerledikçe çizgi (stroke) daireleri belirir.
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(
+      tester.renderObject(rings),
+      paints..circle(style: PaintingStyle.stroke),
+    );
+    // Halkalar logo ile birlikte açılış süresince ilerler (0 → 1).
+    final p0 = (tester.widget<CustomPaint>(rings).painter! as BurstPainter)
+        .intro
+        .value;
+    await tester.pump(const Duration(milliseconds: 300));
+    final p1 = (tester.widget<CustomPaint>(rings).painter! as BurstPainter)
+        .intro
+        .value;
+    expect(p1, greaterThan(p0));
+    await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('Animasyonları azalt: açılış da halkalar da yok', (tester) async {
+    await pumpApp(tester, prefsValues: _remembered);
+    expect(find.byKey(const Key('splash-rings')), findsNothing);
     await tester.pump(const Duration(seconds: 1));
   });
 

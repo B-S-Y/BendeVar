@@ -31,7 +31,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.heroBlue,
     required this.heroSilver,
     required this.heroDeep,
-    required this.envelopeFront,
+    required this.envelopeDisc,
+    required this.envelopeBody,
+    required this.envelopeRing,
     required this.appBar,
     required this.onAppBar,
     required this.appBarFieldFill,
@@ -91,7 +93,9 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color heroBlue; // halka 1, parçacık, leke
   final Color heroSilver; // halka 2, parçacık
   final Color heroDeep; // parçacık
-  final Color envelopeFront; // 1.09 zarfın ön yüzü
+  final Color envelopeDisc; // 1.09 zarfın arkasındaki daire (+ kapak çizgisi)
+  final Color envelopeBody; // zarf gövdesi
+  final Color envelopeRing; // dairenin dışındaki ince halka
 
   // Üst bar
   final Color appBar;
@@ -156,7 +160,11 @@ class AppColors extends ThemeExtension<AppColors> {
     heroBlue: Color(0xFF5B8CFF),
     heroSilver: Color(0xFFA9B2C2),
     heroDeep: Color(0xFF2F5FC4),
-    envelopeFront: Color(0xFF163066),
+    // Açık: daire = alt menü aktif hap (navPill), gövde = aktif ikon (navPillIcon).
+    envelopeDisc: Color(0xFFE3EEFB),
+    envelopeBody: Color(0xFF0B1D45),
+    // TODO(koyu-tema): belgede yok, geçici (açık gri-mavi ince halka; ölçülmedi)
+    envelopeRing: Color(0xFFC9D3E3),
     appBar: Color(0xFF0B1D45),
     onAppBar: _white,
     appBarFieldFill: Color(0x1AFFFFFF),
@@ -214,8 +222,11 @@ class AppColors extends ThemeExtension<AppColors> {
     heroBlue: Color(0xFF5B8CFF),
     heroSilver: Color(0xFFA9B2C2),
     heroDeep: Color(0xFF2F5FC4),
-    // TODO(koyu-tema): belgede yok, geçici (1.09 zarf ön yüzü)
-    envelopeFront: Color(0xFF6F94DB),
+    // Koyu: daire = belgedeki koyu açık mavi vurgu (accent), gövde = sayfa zemini.
+    envelopeDisc: Color(0xFF5B8CFF),
+    envelopeBody: Color(0xFF0A1226),
+    // TODO(koyu-tema): belgede yok, geçici (ince koyu mavi halka)
+    envelopeRing: Color(0xFF2A4A86),
     appBar: Color(0xFF141D35),
     onAppBar: Color(0xFFE8ECF4),
     // TODO(koyu-tema): belgede yok, geçici (üst bar içi alan)

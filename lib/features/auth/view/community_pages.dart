@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
@@ -197,12 +198,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
                 key: Key('mine-${m.id}'),
                 community: m,
                 trailing: m.isSchool
-                    ? Text(
-                        l.communitySchoolBadge,
-                        style: AppTypography.captionStrong.copyWith(
-                          color: c.textSecondary,
-                        ),
-                      )
+                    ? null
                     : m.isFounder
                     ? AppIconButton(
                         key: Key('founder-${m.id}'),
@@ -269,40 +265,53 @@ class _CommunityRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final l = AppLocalizations.of(context);
+    // Okul topluluğu: tür/"Okulun" etiketi yok; daha koyu çerçeveyle ayrılır.
     final info = [
       l.communityMembers(community.memberCount),
-      _visibilityLabel(l, community.visibility),
+      if (!community.isSchool) _visibilityLabel(l, community.visibility),
       if (community.isFounder) l.communityFounderBadge,
     ].join(' · ');
+    final row = Row(
+      children: [
+        AppAvatar(initials: community.initials, tone: AvatarTone.info),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                community.name,
+                style: AppTypography.bodyStrong.copyWith(color: c.textPrimary),
+              ),
+              Text(
+                info,
+                style: AppTypography.caption.copyWith(color: c.textSecondary),
+              ),
+            ],
+          ),
+        ),
+        if (trailing != null) ...[
+          const SizedBox(width: AppSpacing.sm),
+          trailing!,
+        ],
+      ],
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      child: Row(
-        children: [
-          AppAvatar(initials: community.initials, tone: AvatarTone.info),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  community.name,
-                  style: AppTypography.bodyStrong.copyWith(
-                    color: c.textPrimary,
-                  ),
+      child: community.isSchool
+          ? Container(
+              key: const Key('school-row-frame'),
+              padding: const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                borderRadius: AppRadius.cardLargeR,
+                border: Border.all(
+                  color: c.secondaryBorder,
+                  width: AppSizes.borderStrong,
                 ),
-                Text(
-                  info,
-                  style: AppTypography.caption.copyWith(color: c.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          if (trailing != null) ...[
-            const SizedBox(width: AppSpacing.sm),
-            trailing!,
-          ],
-        ],
-      ),
+              ),
+              child: row,
+            )
+          : row,
     );
   }
 }
@@ -376,7 +385,13 @@ class _InviteCodeSheet extends StatefulWidget {
 
 class _InviteCodeSheetState extends State<_InviteCodeSheet> {
   final _controller = TextEditingController();
+
+  /// Kod girildi, önizleme gösteriliyor (henüz katılınmadı).
+  CommunityInfo? _preview;
+
+  /// Katılındı (1.16b).
   CommunityInfo? _joined;
+  bool _complete = false;
 
   @override
   void dispose() {
@@ -384,10 +399,35 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    final vm = context.read<CommunityViewModel>();
-    final info = await vm.joinByCode(_controller.text);
-    if (info != null && mounted) setState(() => _joined = info);
+  void _onChanged(String v) {
+    context.read<CommunityViewModel>().clearCodeFailure();
+    final complete = v.length == kInviteCodeLength;
+    if (complete != _complete) setState(() => _complete = complete);
+  }
+
+  /// Devam: önce topluluk önizlemesi.
+  Future<void> _continue() async {
+    final info = await context.read<CommunityViewModel>().previewByCode(
+      _controller.text,
+    );
+    if (info != null && mounted) setState(() => _preview = info);
+  }
+
+  /// Önizlemede Katıl: üye ol.
+  Future<void> _join() async {
+    final info = await context.read<CommunityViewModel>().joinByCode(
+      _controller.text,
+    );
+    if (!mounted) return;
+    if (info != null) {
+      setState(() {
+        _joined = info;
+        _preview = null;
+      });
+    } else {
+      // Kod arada geçersizleşti / hata: koda dön, hata görünür.
+      setState(() => _preview = null);
+    }
   }
 
   @override
@@ -395,14 +435,142 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
     final c = context.colors;
     final l = AppLocalizations.of(context);
     final vm = context.watch<CommunityViewModel>();
-    final failure = vm.codeFailure;
-    final error = switch (failure) {
+    final error = switch (vm.codeFailure) {
       CommunityFailure.invalidCode => l.inviteCodeInvalid,
       CommunityFailure.alreadyMember => l.inviteCodeAlready,
       CommunityFailure.unknown => l.actionFailed,
       null => null,
     };
     final joined = _joined;
+    final preview = _preview;
+
+    Widget body;
+    if (joined != null) {
+      // 1.16b · Katıldın.
+      body = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: AppAvatar(
+              size: AppSizes.avatarLg,
+              tone: AvatarTone.success,
+              initials: joined.initials,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            l.inviteCodeSuccessTitle,
+            textAlign: TextAlign.center,
+            style: AppTypography.title2.copyWith(color: c.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            l.inviteCodeSuccessBody(joined.name),
+            textAlign: TextAlign.center,
+            style: AppTypography.body.copyWith(color: c.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          PrimaryButton(
+            key: const Key('invite-done'),
+            label: l.done,
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    } else if (preview != null) {
+      // Önizleme: ad, baş harf, üye sayısı, tür; altında Katıl ve Vazgeç.
+      body = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: AppAvatar(
+              size: AppSizes.avatarLg,
+              tone: AvatarTone.info,
+              initials: preview.initials,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            preview.name,
+            key: const Key('invite-preview-name'),
+            textAlign: TextAlign.center,
+            style: AppTypography.title2.copyWith(color: c.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            [
+              l.communityMembers(preview.memberCount),
+              _visibilityLabel(l, preview.visibility),
+            ].join(' · '),
+            key: const Key('invite-preview-meta'),
+            textAlign: TextAlign.center,
+            style: AppTypography.body.copyWith(color: c.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          PrimaryButton(
+            key: const Key('invite-join'),
+            label: l.communityJoin,
+            loading: vm.busy,
+            onPressed: vm.busy ? null : _join,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          SecondaryButton(
+            key: const Key('invite-cancel'),
+            label: l.cancel,
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    } else {
+      body = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l.inviteCodeTitle,
+            style: AppTypography.title2.copyWith(color: c.textPrimary),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            l.inviteCodeBody,
+            style: AppTypography.body.copyWith(color: c.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          AppTextField(
+            fieldKey: const Key('invite-code'),
+            controller: _controller,
+            hint: l.inviteCodeHint,
+            prefixIcon: LucideIcons.keyRound,
+            errorText: error, // 1.16c
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            maxLength: kInviteCodeLength,
+            textInputAction: TextInputAction.done,
+            onChanged: _onChanged,
+            onSubmitted: (_) => _complete && !vm.busy ? _continue() : null,
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          PrimaryButton(
+            key: const Key('invite-submit'),
+            label: l.inviteContinue,
+            loading: vm.busy,
+            // Kullanıcı isteği: 6 hane dolmadan bilinçli olarak pasif.
+            onPressed: _complete && !vm.busy ? _continue : null,
+          ),
+          if (!_complete) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              l.inviteCodeHelp,
+              key: const Key('invite-help'),
+              textAlign: TextAlign.center,
+              style: AppTypography.caption.copyWith(color: c.textSecondary),
+            ),
+          ],
+        ],
+      );
+    }
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -415,65 +583,7 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SheetHandle(),
-            if (joined != null) ...[
-              // 1.16b · Katıldın.
-              Center(
-                child: AppAvatar(
-                  size: AppSizes.avatarLg,
-                  tone: AvatarTone.success,
-                  initials: joined.initials,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l.inviteCodeSuccessTitle,
-                textAlign: TextAlign.center,
-                style: AppTypography.title2.copyWith(color: c.textPrimary),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                l.inviteCodeSuccessBody(joined.name),
-                textAlign: TextAlign.center,
-                style: AppTypography.body.copyWith(color: c.textSecondary),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              PrimaryButton(
-                key: const Key('invite-done'),
-                label: l.done,
-                onPressed: () => Navigator.pop(context),
-              ),
-            ] else ...[
-              Text(
-                l.inviteCodeTitle,
-                style: AppTypography.title2.copyWith(color: c.textPrimary),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                l.inviteCodeBody,
-                style: AppTypography.body.copyWith(color: c.textSecondary),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              AppTextField(
-                fieldKey: const Key('invite-code'),
-                controller: _controller,
-                hint: l.inviteCodeHint,
-                prefixIcon: LucideIcons.keyRound,
-                errorText: error, // 1.16c
-                textInputAction: TextInputAction.done,
-                onChanged: (_) => vm.clearCodeFailure(),
-                onSubmitted: (_) => _submit(),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              PrimaryButton(
-                key: const Key('invite-submit'),
-                label: l.communityJoin,
-                loading: vm.busy,
-                onPressed: vm.busy ? null : _submit,
-              ),
-            ],
-          ],
+          children: [const SheetHandle(), body],
         ),
       ),
     );

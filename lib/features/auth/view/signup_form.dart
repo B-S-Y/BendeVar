@@ -57,7 +57,7 @@ class SignupHeader extends StatelessWidget {
 }
 
 /// 1.08 gövde: e-posta, okul kartı, şifre, şartlar.
-class SignupBody extends StatelessWidget {
+class SignupBody extends StatefulWidget {
   const SignupBody({super.key, required this.emailController});
 
   /// Ortak kurum e-postası denetleyicisi (sahne tutar; Türkçe karakter ve
@@ -65,7 +65,38 @@ class SignupBody extends StatelessWidget {
   final InstitutionEmailController emailController;
 
   @override
+  State<SignupBody> createState() => _SignupBodyState();
+}
+
+class _SignupBodyState extends State<SignupBody> {
+  final FocusNode _emailFocus = FocusNode();
+  bool _hadFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocus.addListener(_onFocus);
+  }
+
+  /// Alan odağı kaybedince bilinmeyen okulun "ilk kayıtla açılacak" notu gelir.
+  void _onFocus() {
+    if (_emailFocus.hasFocus) {
+      _hadFocus = true;
+    } else if (_hadFocus) {
+      context.read<AuthViewModel>().signupEmailBlurred();
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailFocus.removeListener(_onFocus);
+    _emailFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final emailController = widget.emailController;
     final c = context.colors;
     final l = AppLocalizations.of(context);
     final vm = context.watch<AuthViewModel>();
@@ -105,11 +136,12 @@ class SignupBody extends StatelessWidget {
           InstitutionEmailField(
             fieldKey: const Key('signup-email-field'),
             controller: emailController,
+            focusNode: _emailFocus,
             textInputAction: TextInputAction.next,
             onChanged: vm.setSignupEmail,
             errorText: emailError,
           ),
-          if (vm.signupEmailValid && vm.schoolLookedUp) ...[
+          if (vm.showSchoolCard) ...[
             const SizedBox(height: AppSpacing.sm),
             _SchoolCard(
               name:

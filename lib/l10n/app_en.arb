@@ -342,13 +342,11 @@
   "legalTermsBody": "Bende Var is a community app where people in the same school or dorm meet each other's needs by lending and borrowing.\n\n1. Account\nYou sign up with your institutional email and join your school's community. You are responsible for your account's security.\n\n2. Listings and needs\nListings are for lending your items, needs are for looking for an item. The information you share must be accurate.\n\n3. Borrowing and lending\nThe parties agree on the handover place, duration and conditions by messaging. No payments are taken in the app. The borrower is responsible for returning the item on time and in the condition received.\n\n4. Conduct\nYou treat other users with respect. You may not share illegal, dangerous or other people's items.\n\n5. Closing accounts\nAccounts that violate these terms may be closed.\n\nThis text is a placeholder and not the final legal text.",
   "legalPrivacyBody": "This policy explains what information Bende Var uses and why.\n\n1. Information we collect\nYour institutional email address, your name, the listings and needs you share, your messages and ratings.\n\n2. How we use it\nTo match you with your school's community, run borrowing and lending, send return reminders and improve the app.\n\n3. Sharing\nYour name and listings are visible only to users in your community. We don't sell your information to third parties.\n\n4. Retention and deletion\nYour personal information is deleted when you close your account.\n\n5. Your rights\nYou can ask to access, correct or delete your information.\n\nThis text is a placeholder and not the final legal text.",
   "forgotTitle": "Forgot your password?",
-  "forgotSubtitle": "Enter your institutional email and we'll send you a link to reset your password.",
+  "forgotSubtitle": "Enter your email and we'll send you a link.",
   "sendResetLink": "Send link",
-  "resetSentSubtitle": "We sent the password reset link to this address:",
-  "resetSentInstruction": "Tap the link in your email, then come back and press \"I tapped the link\". The link is valid for 24 hours.",
+  "resetSentInstruction": "Tap the link, then come back here.",
   "resetExpired": "The link has expired. Request a new one.",
   "newPasswordTitle": "Set a new password",
-  "newPasswordSubtitle": "Choose a new password for your account.",
   "newPasswordLabel": "New password",
   "newPasswordHint": "Enter your new password",
   "confirmPasswordLabel": "Repeat the new password",
@@ -394,7 +392,6 @@
       }
     }
   },
-  "communitySchoolBadge": "Your school",
   "communityFounderBadge": "Founder",
   "communityJoin": "Join",
   "communityMember": "Member",
@@ -403,8 +400,8 @@
   "joinWithCode": "Join with invite code",
   "createCommunity": "Create community",
   "inviteCodeTitle": "Join with invite code",
-  "inviteCodeHint": "Invite code",
-  "inviteCodeBody": "Enter the code you got from the community's founder.",
+  "inviteCodeHint": "Invite code (6 digits)",
+  "inviteCodeBody": "Enter the 6-digit code you got from the community's founder.",
   "inviteCodeInvalid": "This code isn't valid. Check it and try again.",
   "inviteCodeAlready": "You're already a member of this community.",
   "inviteCodeSuccessTitle": "You joined the community",
@@ -493,5 +490,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "inviteContinue": "Continue",
+  "inviteCodeHelp": "Enter the 6-digit code to continue.",
+  "helpIntro": "Stuck on something? Have a look at the common questions.",
+  "helpQ1": "How do I join a community?",
+  "helpA1": "You join your school community automatically with your institutional email. Search for others in My communities, or join with a 6-digit invite code.",
+  "helpQ2": "What does Remember me do?",
+  "helpA2": "When on, you'll skip signing in after closing and reopening the app. Signing out forgets you.",
+  "helpQ3": "I forgot my password. What now?",
+  "helpA3": "Tap \"Forgot password\" on the sign-in screen and we'll email you a reset link.",
+  "helpContact": "Still stuck? Write to us:",
+  "helpContactEmail": "support@bendevar.app"
 }

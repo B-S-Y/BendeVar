@@ -783,28 +783,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotTitle => 'Forgot your password?';
 
   @override
-  String get forgotSubtitle =>
-      'Enter your institutional email and we\'ll send you a link to reset your password.';
+  String get forgotSubtitle => 'Enter your email and we\'ll send you a link.';
 
   @override
   String get sendResetLink => 'Send link';
 
   @override
-  String get resetSentSubtitle =>
-      'We sent the password reset link to this address:';
-
-  @override
-  String get resetSentInstruction =>
-      'Tap the link in your email, then come back and press \"I tapped the link\". The link is valid for 24 hours.';
+  String get resetSentInstruction => 'Tap the link, then come back here.';
 
   @override
   String get resetExpired => 'The link has expired. Request a new one.';
 
   @override
   String get newPasswordTitle => 'Set a new password';
-
-  @override
-  String get newPasswordSubtitle => 'Choose a new password for your account.';
 
   @override
   String get newPasswordLabel => 'New password';
@@ -908,9 +899,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get communitySchoolBadge => 'Your school';
-
-  @override
   String get communityFounderBadge => 'Founder';
 
   @override
@@ -935,11 +923,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inviteCodeTitle => 'Join with invite code';
 
   @override
-  String get inviteCodeHint => 'Invite code';
+  String get inviteCodeHint => 'Invite code (6 digits)';
 
   @override
   String get inviteCodeBody =>
-      'Enter the code you got from the community\'s founder.';
+      'Enter the 6-digit code you got from the community\'s founder.';
 
   @override
   String get inviteCodeInvalid =>
@@ -1082,4 +1070,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String stepSemantics(String label, int step, int total) {
     return '$label (step $step of $total)';
   }
+
+  @override
+  String get inviteContinue => 'Continue';
+
+  @override
+  String get inviteCodeHelp => 'Enter the 6-digit code to continue.';
+
+  @override
+  String get helpIntro =>
+      'Stuck on something? Have a look at the common questions.';
+
+  @override
+  String get helpQ1 => 'How do I join a community?';
+
+  @override
+  String get helpA1 =>
+      'You join your school community automatically with your institutional email. Search for others in My communities, or join with a 6-digit invite code.';
+
+  @override
+  String get helpQ2 => 'What does Remember me do?';
+
+  @override
+  String get helpA2 =>
+      'When on, you\'ll skip signing in after closing and reopening the app. Signing out forgets you.';
+
+  @override
+  String get helpQ3 => 'I forgot my password. What now?';
+
+  @override
+  String get helpA3 =>
+      'Tap \"Forgot password\" on the sign-in screen and we\'ll email you a reset link.';
+
+  @override
+  String get helpContact => 'Still stuck? Write to us:';
+
+  @override
+  String get helpContactEmail => 'support@bendevar.app';
 }

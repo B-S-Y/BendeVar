@@ -11,14 +11,38 @@ enum RequiredError { empty }
 class Validators {
   const Validators._();
 
-  /// Kurum e-postası `.edu.tr` ile bitmeli.
+  /// Kişisel e-posta sağlayıcıları: alan sabit `.edu.tr` eklediği için
+  /// "gmail.edu.tr" gibi adresler geçmesin diye okul kimliği olarak reddedilir.
+  static const Set<String> personalProviders = {
+    'gmail',
+    'hotmail',
+    'outlook',
+    'yahoo',
+    'icloud',
+    'yandex',
+    'proton',
+    'protonmail',
+    'live',
+    'msn',
+  };
+
+  /// Okul kimliği kişisel e-posta sağlayıcısı mı (gmail, hotmail...).
+  static bool isPersonalProvider(String? email) =>
+      personalProviders.contains(schoolId(email));
+
+  /// Kurum e-postası `.edu.tr` ile bitmeli; kişisel sağlayıcı adı olmamalı.
+  /// İkisi de aynı hata durumudur ([EmailError.notEdu]: "kurum dışı e-posta").
   static EmailError? email(String? value) {
     final v = (value ?? '').trim().toLowerCase();
     if (v.isEmpty) return EmailError.empty;
     final pattern = RegExp(r'^[^\s@]+@[^\s@]+\.edu\.tr$');
     if (!pattern.hasMatch(v)) return EmailError.notEdu;
+    if (isPersonalProvider(v)) return EmailError.notEdu;
     return null;
   }
+
+  /// Okul kartı için en az bu kadar harfli okul kimliği gerekir.
+  static const int minSchoolIdLength = 3;
 
   /// Okul kimliği: `.edu.tr`'den önceki son kelime
   /// (`std.yildiz.edu.tr` ve `yildiz.edu.tr` → `yildiz`). Geçersizse null.

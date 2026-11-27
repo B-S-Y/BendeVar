@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// No description provided for @forgotSubtitle.
   ///
   /// In tr, this message translates to:
-  /// **'Kurum e-postanı yaz, şifreni yenilemen için sana bir bağlantı gönderelim.'**
+  /// **'E-postanı yaz, sana bir bağlantı gönderelim.'**
   String get forgotSubtitle;
 
   /// No description provided for @sendResetLink.
@@ -1532,16 +1532,10 @@ abstract class AppLocalizations {
   /// **'Bağlantı gönder'**
   String get sendResetLink;
 
-  /// No description provided for @resetSentSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Şifre yenileme bağlantısını şu adrese gönderdik:'**
-  String get resetSentSubtitle;
-
   /// No description provided for @resetSentInstruction.
   ///
   /// In tr, this message translates to:
-  /// **'E-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.'**
+  /// **'Bağlantıya tıkla, sonra buraya dön.'**
   String get resetSentInstruction;
 
   /// No description provided for @resetExpired.
@@ -1555,12 +1549,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yeni şifre belirle'**
   String get newPasswordTitle;
-
-  /// No description provided for @newPasswordSubtitle.
-  ///
-  /// In tr, this message translates to:
-  /// **'Hesabın için yeni bir şifre seç.'**
-  String get newPasswordSubtitle;
 
   /// No description provided for @newPasswordLabel.
   ///
@@ -1748,12 +1736,6 @@ abstract class AppLocalizations {
   /// **'{count} üye'**
   String communityMembers(int count);
 
-  /// No description provided for @communitySchoolBadge.
-  ///
-  /// In tr, this message translates to:
-  /// **'Okulun'**
-  String get communitySchoolBadge;
-
   /// No description provided for @communityFounderBadge.
   ///
   /// In tr, this message translates to:
@@ -1805,13 +1787,13 @@ abstract class AppLocalizations {
   /// No description provided for @inviteCodeHint.
   ///
   /// In tr, this message translates to:
-  /// **'Davet kodu'**
+  /// **'Davet kodu (6 hane)'**
   String get inviteCodeHint;
 
   /// No description provided for @inviteCodeBody.
   ///
   /// In tr, this message translates to:
-  /// **'Topluluğun kurucusundan aldığın kodu gir.'**
+  /// **'Topluluğun kurucusundan aldığın 6 haneli kodu gir.'**
   String get inviteCodeBody;
 
   /// No description provided for @inviteCodeInvalid.
@@ -2059,6 +2041,72 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{label} ({step}/{total})'**
   String stepSemantics(String label, int step, int total);
+
+  /// No description provided for @inviteContinue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam'**
+  String get inviteContinue;
+
+  /// No description provided for @inviteCodeHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için 6 haneli kodu gir.'**
+  String get inviteCodeHelp;
+
+  /// No description provided for @helpIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takıldığın bir şey mi var? Sık sorulanlara göz at.'**
+  String get helpIntro;
+
+  /// No description provided for @helpQ1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir topluluğa nasıl katılırım?'**
+  String get helpQ1;
+
+  /// No description provided for @helpA1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım\'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.'**
+  String get helpA1;
+
+  /// No description provided for @helpQ2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beni hatırla ne işe yarar?'**
+  String get helpQ2;
+
+  /// No description provided for @helpA2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.'**
+  String get helpA2;
+
+  /// No description provided for @helpQ3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifremi unuttum, ne yapmalıyım?'**
+  String get helpQ3;
+
+  /// No description provided for @helpA3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.'**
+  String get helpA3;
+
+  /// No description provided for @helpContact.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hâlâ çözemedin mi? Bize yaz:'**
+  String get helpContact;
+
+  /// No description provided for @helpContactEmail.
+  ///
+  /// In tr, this message translates to:
+  /// **'destek@bendevar.app'**
+  String get helpContactEmail;
 }
 
 class _AppLocalizationsDelegate

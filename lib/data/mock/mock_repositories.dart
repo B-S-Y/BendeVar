@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/utils/text_search.dart';
 import '../models/community_models.dart';
 import '../models/models.dart';
 import '../models/settings_models.dart';
@@ -218,7 +219,7 @@ class MockAuthRepository implements AuthRepository {
         ? '${parts.first} ${parts.last[0].toUpperCase()}.'
         : parts.first;
     final user = AppUser(
-      id: 'u-${key.split('@').first}',
+      id: 'u-$key', // tam e-posta: aynı yerel kısımlı hesaplar çakışmasın
       displayName: displayName.trim(),
       shortName: short,
       email: key,
@@ -242,8 +243,7 @@ class MockAuthRepository implements AuthRepository {
 }
 
 class MockCommunityRepository implements CommunityRepository {
-  MockCommunityRepository()
-    : _bySchool = {'yildiz': mockCommunity, 'marmara': mockMarmara};
+  MockCommunityRepository() : _bySchool = {...mockKnownSchools};
 
   final Map<String, Community> _bySchool;
 
@@ -270,12 +270,24 @@ class MockCommunityRepository implements CommunityRepository {
       memberCount: 18,
       visibility: CommunityVisibility.open,
     ),
+    'istanbul': const CommunityInfo(
+      id: 'istanbul',
+      name: 'İstanbul Gezginleri',
+      memberCount: 27,
+      visibility: CommunityVisibility.open,
+    ),
+    'acik': const CommunityInfo(
+      id: 'acik',
+      name: 'Açık Hava Sporları',
+      memberCount: 33,
+      visibility: CommunityVisibility.open,
+    ),
     'proje': const CommunityInfo(
       id: 'proje',
       name: 'Proje Ekibi',
       memberCount: 6,
       visibility: CommunityVisibility.secret,
-      inviteCode: 'PROJE-24',
+      inviteCode: '482913',
     ),
   };
 
@@ -344,10 +356,9 @@ class MockCommunityRepository implements CommunityRepository {
   @override
   Future<List<CommunityInfo>> search(String query) async {
     await Future<void>.delayed(_latency);
-    final q = query.trim().toLowerCase();
-    if (q.isEmpty) return const [];
+    if (query.trim().isEmpty) return const [];
     return _all.values
-        .where((c) => _visibleToMe(c) && c.name.toLowerCase().contains(q))
+        .where((c) => _visibleToMe(c) && TextSearch.matches(c.name, query))
         .map(_view)
         .toList();
   }
@@ -372,17 +383,39 @@ class MockCommunityRepository implements CommunityRepository {
     return _add(c);
   }
 
-  @override
-  Future<CommunityInfo> joinByCode(String code) async {
-    await Future<void>.delayed(_latency);
-    final key = code.trim().toLowerCase();
-    final found = _all.values.where(
-      (c) => c.inviteCode != null && c.inviteCode!.toLowerCase() == key,
-    );
+  /// 6 haneli, yalnızca rakam; mevcut kodlarla çakışmaz.
+  String _newCode() {
+    var n = 100000 + (_seq * 7919 + 13579) % 900000;
+    final used = _all.values.map((c) => c.inviteCode).toSet();
+    while (used.contains('$n')) {
+      n = 100000 + (n + 1) % 900000;
+    }
+    return '$n';
+  }
+
+  CommunityInfo _byCode(String code) {
+    final key = code.trim();
+    final found = _all.values.where((c) => c.inviteCode == key);
     if (key.isEmpty || found.isEmpty) {
       throw const CommunityException(CommunityFailure.invalidCode);
     }
-    final c = found.first;
+    return found.first;
+  }
+
+  @override
+  Future<CommunityInfo> previewByCode(String code) async {
+    await Future<void>.delayed(_latency);
+    final c = _byCode(code);
+    if (_mine.contains(c.id)) {
+      throw const CommunityException(CommunityFailure.alreadyMember);
+    }
+    return _view(c);
+  }
+
+  @override
+  Future<CommunityInfo> joinByCode(String code) async {
+    await Future<void>.delayed(_latency);
+    final c = _byCode(code);
     if (_mine.contains(c.id)) {
       throw const CommunityException(CommunityFailure.alreadyMember);
     }
@@ -407,9 +440,7 @@ class MockCommunityRepository implements CommunityRepository {
       schoolId: visibility == CommunityVisibility.schoolOnly ? _schoolId : null,
       // Davet kodu yalnızca gizli topluluklarda var; açık ve okula özel
       // topluluklara kodsuz katılınır.
-      inviteCode: visibility == CommunityVisibility.secret
-          ? 'BV-${1000 + _seq * 7}'
-          : null,
+      inviteCode: visibility == CommunityVisibility.secret ? _newCode() : null,
     );
     _founders[id] = _userId;
     _mine.add(id);

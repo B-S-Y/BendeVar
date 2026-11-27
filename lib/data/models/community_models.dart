@@ -64,6 +64,9 @@ class CommunityInfo {
       );
 }
 
+/// Davet kodu: yalnızca rakam, 6 hane (ön ek yok).
+const int kInviteCodeLength = 6;
+
 enum CommunityFailure {
   invalidCode,
   alreadyMember,

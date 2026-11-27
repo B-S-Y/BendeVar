@@ -27,7 +27,7 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 | scrim | siyah %70 | Alt sayfa arka perdesi |
 | unreadTint | #18233F | Okunmamış satır zemini |
 | heroTop | #050A18 | Karşılama/giriş zemini gradyanının üstü (1.01; açıkta #06112B) |
-| envelopeFront | #6F94DB | 1.09/1.06 zarf ön yüzü (açıkta #163066) |
+| envelopeDisc / envelopeBody / envelopeRing | #5B8CFF / #0A1226 / #2A4A86 | 1.09/1.06 zarf dairesi (accent), gövde (sayfa zemini), dış halka (halka geçici). Eski `envelopeFront` kaldırıldı |
 
 ## 1.01 Karşılama animasyonu (ANIMASYON_1.01.md)
 - Toplam süre 3,52 sn: belge "≈3,5 sn" diyor ama son öğe (panel içeriği) 3,52'de bitiyor; Interval 1'i aşmasın diye controller 3,52 sn.
@@ -91,9 +91,9 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - 1.16 Topluluklarım: üstte arama kutusu, altında üyesi olunan topluluklar, "Davet koduyla katıl" ve "Topluluk oluştur" düğmeleri. Arama yazılınca liste 1.16g sonuçlarına döner (Katıl / Üyesin).
 - Okul topluluğu kayıtta otomatik katılınan topluluktur: listenin başında "Okulun" etiketiyle durur, ayrılma düğmesi yoktur (ayrılınamaz). Figma'da farklıysa bu bilinçli sapmadır.
 - Görünürlük: Açık (aramada çıkar, herkes katılır), Okula özel (aramada yalnızca aynı okulun üyelerine çıkar), Gizli (aramada çıkmaz, yalnızca davet koduyla).
-- 1.16b/1.16c davet kodu ayrı sayfa değil alt sayfa (bottom sheet): hata kodun altında, başarıda aynı sheet "Topluluğa katıldın" özetine döner. Mock kod: `PROJE-24` (Gizli "Proje Ekibi"); büyük/küçük harf ve boşluk önemsiz. Zaten üye olunan topluluğun kodu ayrı bir mesaj verir.
+- 1.16b/1.16c davet kodu ayrı sayfa değil alt sayfa (bottom sheet): hata kodun altında, başarıda aynı sheet "Topluluğa katıldın" özetine döner. Mock kod: `482913` (Gizli "Proje Ekibi"; eski `PROJE-24` geçersiz, bkz. Revize 8); büyük/küçük harf ve boşluk önemsiz. Zaten üye olunan topluluğun kodu ayrı bir mesaj verir.
 - 1.16e kurucu işlemleri: kurucu olunan satırda "⋯" düğmesi → sheet (Davet kodunu kopyala, Topluluğu sil). 1.16f silme onayı ve 1.17 ayrılma onayı mevcut `showConfirmSheet` ile.
-- Oluşturulan her topluluğa mock davet kodu (`BV-xxxx`) üretilir; üyeler listesi/üye çıkarma bu görevde yok.
+- Oluşturulan her topluluğa mock davet kodu üretilir (artık 6 haneli rakam, bkz. Revize 8); üyeler listesi/üye çıkarma bu görevde yok.
 - Mock topluluklar: Yıldız Yurt Topluluğu (okula özel), Kamp Kulübü, Yoga ve Esneme (açık), Proje Ekibi (gizli). Üye sayıları örnektir.
 - Ayarlar → "Topluluklarım" artık `/communities` rotasına gider.
 
@@ -164,3 +164,40 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Okul kimliği = e-postanın SONUNDAKİ `.edu.tr`'den önceki son kelime (`Validators.schoolId`): `boun.edu.tr` → `boun`, `std.bogazici.edu.tr` → `bogazici`, `ogr.msgsu.edu.tr` → `msgsu`. Yerel kısımdaki rakam kimliği etkilemez. `.edu.tr` sonekten başka yerde geçerse (`boun.edu.tr.com`, `boun.edu.trx`), okul adı yoksa (`@edu.tr`), boşluk ya da çift `@` varsa kimlik yoktur (null). Aynı okulun alt alan adları (`std.`, `ogr.`) aynı kimliğe düşer.
 - Sınır notu: yalnızca `.edu.tr` sonekli adresler kabul edilir; `.edu` ya da `.ac.uk` gibi kurum alanları bu MVP'de desteklenmez.
 - Okula özel topluluğa yalnızca aynı okulun üyeleri katılır: arama başka okula göstermez ve doğrudan katılma isteği de (`MockCommunityRepository.join`) reddedilir.
+
+## Revize turu · 4 (topluluk sızıntısı)
+- Kök neden: `MockAuthRepository.completeSignUp` kullanıcı kimliğini `'u-' + e-postanın @ öncesi` yapıyordu; `yeni@marmara.edu.tr` ve `yeni@boun.edu.tr` ikisi de `u-yeni` oldu ve `MockCommunityRepository` üyelikleri kimliğe göre tuttuğu için Marmara üyeliği Boun hesabına sızdı. Kimlik artık tam e-postadan (`u-<e-posta>`). Çıkışta VM sıfırlaması önceki turda zaten vardı.
+
+## Revize turu · 7 (Türkçe duyarlı arama)
+- `lib/core/utils/text_search.dart` (`TextSearch.normalize/matches`): `İ→i`, `I→ı`, sonra `ı ç ğ ö ş ü → i c g o s u`; aranan ve hedef metin aynı fonksiyondan geçer. Topluluk araması bunu kullanır ("T", "t", "AÇIK", "acik", "İstanbul"). Mock'a "İstanbul Gezginleri" ve "Açık Hava Sporları" açık toplulukları eklendi.
+
+## Revize turu · 6 (okul topluluğu satırı)
+- Otomatik katılınan okul topluluğu satırında "Okulun" ve "Okula özel" etiketleri yok; satır, ikincil düğme kenarıyla aynı daha koyu çerçeveyle (`secondaryBorder`, `AppSizes.borderStrong`, köşe `cardLarge`) ayrılır. Belgede ayrı bir "border-strong" rolü olmadığı için bu mevcut token kullanıldı (iki temada da belgede var). Diğer topluluklarda tür etiketi (Açık / Okula özel / Gizli) kalır. (Önceki "Okulun" etiketi notu geçersiz.)
+
+## Revize turu · 8 (davet kodu)
+- Kod 6 haneli, yalnızca rakam, ön ek yok (`kInviteCodeLength`). Seed: Proje Ekibi `482913`; yeni Gizli topluluğa üretilen kod da 6 haneli rakam, mevcutlarla çakışmaz. Kurucu sheet'inde ve kopyalamada ön ek yok.
+- Kod alanı: sayısal klavye + `digitsOnly` + `maxLength 6` (ortak `AppTextField`'a `inputFormatters`/`maxLength` eklendi). "Devam" 6 hane dolana kadar BİLİNÇLİ olarak pasif (kullanıcı isteği); neden pasif olduğu alan altında "Devam etmek için 6 haneli kodu gir." metniyle görünür.
+- Akış: kod → Devam → topluluk önizlemesi (ad, baş harf avatarı, üye sayısı · tür; henüz üye değil) → "Katıl" (üye olur, 1.16b) ya da "Vazgeç". Yanlış kodda mevcut hata durumu (1.16c); zaten üyeyse "Bu topluluğun zaten üyesisin." (`CommunityRepository.previewByCode`).
+
+## Revize turu · 3 (okul kartı ve kişisel e-posta)
+- Okul kartı yazarken çıkmaz: yazma durduktan `AuthViewModel.schoolLookupDelay` (500 ms) sonra ve okul kimliği en az 3 harfse (`Validators.minSchoolIdLength`) aranır; 1-2 harfte kart yok. Bilinen okulda (mock `mockKnownSchools`: yildiz → Yıldız Teknik, marmara, boun/bogazici → Boğaziçi, itu, msgsu, odtu/metu) okulun adı + "Okul topluluğuna katılacaksın". Bilinmeyen okulda "Topluluğun ilk kayıtla açılacak" notu yalnızca e-posta alanı odağı kaybedince ya da Kayıt ol'a basılınca gelir (`SignupBody` odak dinleyicisi).
+- Kişisel e-posta engeli: okul kimliği gmail, hotmail, outlook, yahoo, icloud, yandex, proton, protonmail, live, msn ise (`Validators.personalProviders`) `Validators.email` mevcut "kurum dışı e-posta" hatasını (`EmailError.notEdu`, 1.03a/1.08a) döndürür; kayıt ve giriş reddedilir. Kayıtta alandan çıkınca da hata görünür; kişisel e-postada okul kartı çıkmaz. Yalnızca tam ad eşleşir (`gmailx.edu.tr` geçerli).
+- `AppTextField` ve `InstitutionEmailField`'a `focusNode` eklendi (odak kaybını dinlemek için).
+
+## Revize turu · 1 (kısa açılışta halkalar)
+- Kısa açılışta karşılamadaki logo halkaları da gösterilir: aynı `BurstPainter` (halka 1 ve 2, aynı renk/çizgi/ölçek sabitleri), parçacıksız (`particles: false`). Karşılama zaman çizelgesinin halka bölümü (0,64 → 2,40 sn) 1,2 sn'ye sıkıştırılarak oynatılır. "Animasyonları azalt" açıkken kısa açılış zaten atlandığı için halka da yoktur.
+
+## Revize turu · 2 (zarf, tasarım "C")
+- Bağlantı gönderildi zarfının arkasına daire + dışında ince halka eklendi (daire 176 dp, halka 188 dp / 1,5 çizgi). Açık tema: daire = alt menü aktif hap (`navPill` değeri), gövde = alt menü aktif ikon (`navPillIcon` değeri), kapak/ön yüz çizgisi = daire rengi, halka açık gri-mavi (#C9D3E3). Koyu tema: daire = belgedeki koyu açık mavi vurgu (#5B8CFF), gövde = sayfa zemini (#0A1226), çizgi = daire rengi, halka ince koyu mavi (#2A4A86; belgede yok, geçici, `TODO(koyu-tema)`). Yeni token'lar: `envelopeDisc`, `envelopeBody`, `envelopeRing`; `envelopeFront` kaldırıldı. Animasyon akışı (kapak açılışı, mektup, rozet; süre ve aralıklar) aynı. Widget kutusu 150×120 yerine 188×188 oldu.
+
+## Revize turu · 5 (şifre ekranlarını sadeleştirme)
+- 1.05: başlık + tek kısa cümle ("E-postanı yaz, sana bir bağlantı gönderelim."). 1.06: başlık, e-posta ve tek kısa yönerge ("Bağlantıya tıkla, sonra buraya dön."); "şu adrese gönderdik" satırı ve "24 saat geçerli" notu kalktı. 1.07: alt başlık kalktı (başlık yeterli); şifre kuralı ve iki alan aynı. İşlev değişmedi. ARB: `resetSentSubtitle`, `newPasswordSubtitle` silindi; `forgotSubtitle`, `resetSentInstruction` kısaltıldı (TR/EN).
+
+## Revize turu · 10 (Yardım ve destek sayfası) ve 9 (Engellenenler)
+- Yardım ve destek artık gerçek sayfa (`/settings/help`, `HelpPage`): başlık, kısa açıklama, 3 soru-cevap (ExpansionTile; topluluğa katılma, Beni hatırla, şifremi unuttum) ve altta iletişim e-postası (mock: destek@bendevar.app / EN support@bendevar.app). Figma'da bu ekran yok; en yakın örnek Ayarlar kart satırları + ExpansionTile. Metinler ARB (TR/EN). "Animasyonları azalt" açıkken açılıp kapanma animasyonsuz. Ayarlar'da artık "Yakında"ya giden satır yok.
+- 9 (Engellenenler sayfasında başlık altında çizgi artıkları): sayfa benim modülümde (`lib/features/auth/view/settings_pages.dart` → `BlockedAccountsPage`, iskelet `SettingsScaffold` / `settings_widgets.dart`). Açık ve koyu temada, 412×917 ve çentikli (üst 50 dp, alt 48 dp) + 1,3× yazıda, hem tek başına hem uygulama içinden (Profil → Ayarlar → Gizlilik → Engellenen) ekran görüntüsü alındı; başlığın altında artık çizgi görülmedi. Sayfada TabBar, `PreferredSize bottom`, Divider ya da taşan çubuk yok; taşma testleri temiz. Kök neden bulunamadı, kod değiştirilmedi (bkz. rapor).
+
+## Revize turu · 11 (giriş ekranında klavye)
+- Odak yönetimi: uygulamada `autofocus` ya da `requestFocus` hiç yok; giriş/kayıt formu açılınca hiçbir alan odak almaz, klavye yalnızca kullanıcı alana dokununca açılır (testle doğrulandı). Odak yalnızca form kapanırken/değişirken `unfocus` ile bırakılır.
+- Bulunan kusur: açık panelin yüksekliği klavye açıkken de "ana panelden küçük olmaz" tabanına ve küçük logo payına (130 dp) bağlıydı. Küçük ekranda (ör. 320×568) klavye açılınca panel ekranın üstüne itiliyor, başlık/geri düğmesi dışarıda kalıyordu. Klavye açıkken taban kalktı ve panel logo alanını da kullanabiliyor (yalnızca durum çubuğu payı kalır); taşan içerik formun kendi kaydırmasıyla görünür. Klavye kapalıyken düzen aynı.
+- 412×917'de (A23) kademeli klavye açılışı testte tek yönlü ve odak kaybı olmadan çalışıyor; telefonda görülen "ilk seferde sekme" testte birebir üretilemedi (bkz. rapor).

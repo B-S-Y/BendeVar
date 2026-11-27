@@ -18,9 +18,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'test_helpers.dart';
 
-AuthViewModel _vm({Duration verifyAfter = Duration.zero}) => AuthViewModel(
+AuthViewModel _vm({
+  Duration verifyAfter = Duration.zero,
+  Duration schoolDelay = Duration.zero,
+}) => AuthViewModel(
   MockAuthRepository(verifyAfter: verifyAfter),
   communities: MockCommunityRepository(),
+  schoolLookupDelay: schoolDelay,
 );
 
 void main() {
@@ -65,14 +69,15 @@ void main() {
 
     test('std.yildiz ve yildiz aynı topluluğu bulur', () async {
       final vm = _vm();
+      const settle = Duration(milliseconds: 20);
       vm.setSignupEmail('a@std.yildiz.edu.tr');
-      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(settle);
       expect(vm.schoolCommunity?.name, 'Yıldız Teknik Üniversitesi');
       vm.setSignupEmail('a@yildiz.edu.tr');
-      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(settle);
       expect(vm.schoolCommunity?.name, 'Yıldız Teknik Üniversitesi');
       vm.setSignupEmail('a@std.yeni.edu.tr');
-      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(settle);
       expect(vm.schoolCommunity, isNull);
       expect(vm.schoolLookedUp, isTrue);
     });
@@ -155,6 +160,9 @@ void main() {
       find.byKey(const Key('signup-email-field')),
     );
     expect(field.controller!.text, 'sule.celik@std.yildiz.edu.tr');
+    // Okul kartı yazma durduktan ~500 ms sonra gelir.
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pumpAndSettle();
     expect(find.text('Yıldız Teknik Üniversitesi'), findsOneWidget);
 
     // Şartlar kabul edilmeden kayıt olunmaz.

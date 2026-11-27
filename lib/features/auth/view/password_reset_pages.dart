@@ -237,12 +237,6 @@ class _ResetSentPageState extends State<ResetSentPage>
               ),
               const SizedBox(height: AppSpacing.sentGap),
               Text(
-                l.resetSentSubtitle,
-                textAlign: TextAlign.center,
-                style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
-              ),
-              const SizedBox(height: AppSpacing.sentGap),
-              Text(
                 vm.resetEmail,
                 textAlign: TextAlign.center,
                 style: AppTypography.bodyStrong.copyWith(
@@ -317,11 +311,6 @@ class ResetNewPasswordPage extends StatelessWidget {
             Text(
               l.newPasswordTitle,
               style: AppTypography.title1.copyWith(color: c.textPrimary),
-            ),
-            const SizedBox(height: AppSpacing.titleGap),
-            Text(
-              l.newPasswordSubtitle,
-              style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
             ),
             const SizedBox(height: AppSpacing.xl),
             AppTextField(

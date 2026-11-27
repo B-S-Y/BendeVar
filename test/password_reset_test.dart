@@ -120,6 +120,12 @@ void main() {
     await tester.tap(find.text('Şifremi unuttum'));
     await tester.pumpAndSettle();
     expect(find.text('Şifreni mi unuttun?'), findsOneWidget);
+    // Sade: başlık + tek kısa cümle.
+    expect(
+      find.text('E-postanı yaz, sana bir bağlantı gönderelim.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Kurum e-postanı yaz'), findsNothing);
 
     // Boş e-posta: hata.
     await tester.tap(find.text('Bağlantı gönder'));
@@ -136,11 +142,16 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Bağlantıyı gönderdik'), findsOneWidget);
     expect(find.text('eda@std.yildiz.edu.tr'), findsOneWidget);
+    // Sade: tek kısa yönerge; uzun açıklama ve 24 saat notu yok.
+    expect(find.text('Bağlantıya tıkla, sonra buraya dön.'), findsOneWidget);
+    expect(find.textContaining('24 saat'), findsNothing);
+    expect(find.textContaining('şu adrese gönderdik'), findsNothing);
 
     await tester.tap(find.text('Bağlantıya tıkladım'));
     await tester.pump(const Duration(seconds: 1));
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Yeni şifre belirle'), findsOneWidget);
+    expect(find.text('Hesabın için yeni bir şifre seç.'), findsNothing);
 
     await tester.enterText(
       find.byKey(const Key('new-password-field')),

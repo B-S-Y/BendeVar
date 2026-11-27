@@ -1,3 +1,4 @@
+import 'package:bende_var/core/theme/app_colors.dart';
 import 'package:bende_var/core/widgets/envelope_animation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -45,4 +46,63 @@ void main() {
     expect(_badgeScale(tester), closeTo(1, 1e-6));
     expect(tester.takeException(), isNull);
   });
+
+  test('Zarf renkleri (tasarım C): açık ve koyu temada belgedeki rollerle', () {
+    const l = AppColors.light;
+    const d = AppColors.dark;
+    // Açık: daire = alt menü aktif hap, gövde = alt menü aktif ikon.
+    expect(l.envelopeDisc, l.navPill);
+    expect(l.envelopeBody, l.navPillIcon);
+    // Koyu: daire = koyu açık mavi vurgu, gövde = sayfa zemini.
+    expect(d.envelopeDisc, d.accent);
+    expect(d.envelopeBody, d.background);
+    // Koyuda zarf zeminden ayırt edilir (daire ≠ gövde).
+    expect(d.envelopeDisc, isNot(d.envelopeBody));
+    expect(l.envelopeDisc, isNot(l.envelopeBody));
+    // Halka dairenin dışında, daireden farklı.
+    expect(l.envelopeRing, isNot(l.envelopeDisc));
+    expect(d.envelopeRing, isNot(d.envelopeDisc));
+  });
+
+  for (final mode in [ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('Zarf: daire ve ince halka çizilir (${mode.name})', (
+      tester,
+    ) async {
+      useAndroidScreen(tester);
+      await tester.pumpWidget(
+        wrap(const Center(child: EnvelopeAnimation()), theme: mode),
+      );
+      final colors = mode == ThemeMode.dark ? AppColors.dark : AppColors.light;
+      final disc = find
+          .descendant(
+            of: find.byType(EnvelopeAnimation),
+            matching: find.byType(CustomPaint),
+          )
+          .first;
+      expect(
+        tester.renderObject(disc),
+        paints
+          ..circle(color: colors.envelopeDisc)
+          ..circle(color: colors.envelopeRing, style: PaintingStyle.stroke),
+      );
+      // Gövde: belgedeki gövde rengi.
+      final body = tester
+          .widgetList<DecoratedBox>(
+            find.descendant(
+              of: find.byType(EnvelopeAnimation),
+              matching: find.byType(DecoratedBox),
+            ),
+          )
+          .map((b) => (b.decoration as BoxDecoration).color);
+      expect(body, contains(colors.envelopeBody));
+      // Daire zarfı çevreler: kutu halka çapında.
+      expect(
+        tester.getSize(find.byType(EnvelopeAnimation)),
+        const Size(
+          EnvelopeAnimation.ringDiameter,
+          EnvelopeAnimation.ringDiameter,
+        ),
+      );
+    });
+  }
 }

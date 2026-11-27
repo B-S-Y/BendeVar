@@ -342,13 +342,11 @@
   "legalTermsBody": "Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.",
   "legalPrivacyBody": "Bu politika, Bende Var'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.",
   "forgotTitle": "Şifreni mi unuttun?",
-  "forgotSubtitle": "Kurum e-postanı yaz, şifreni yenilemen için sana bir bağlantı gönderelim.",
+  "forgotSubtitle": "E-postanı yaz, sana bir bağlantı gönderelim.",
   "sendResetLink": "Bağlantı gönder",
-  "resetSentSubtitle": "Şifre yenileme bağlantısını şu adrese gönderdik:",
-  "resetSentInstruction": "E-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.",
+  "resetSentInstruction": "Bağlantıya tıkla, sonra buraya dön.",
   "resetExpired": "Bağlantının süresi doldu. Yeni bir bağlantı iste.",
   "newPasswordTitle": "Yeni şifre belirle",
-  "newPasswordSubtitle": "Hesabın için yeni bir şifre seç.",
   "newPasswordLabel": "Yeni şifre",
   "newPasswordHint": "Yeni şifreni gir",
   "confirmPasswordLabel": "Yeni şifreyi tekrar gir",
@@ -394,7 +392,6 @@
       }
     }
   },
-  "communitySchoolBadge": "Okulun",
   "communityFounderBadge": "Kurucu",
   "communityJoin": "Katıl",
   "communityMember": "Üyesin",
@@ -403,8 +400,8 @@
   "joinWithCode": "Davet koduyla katıl",
   "createCommunity": "Topluluk oluştur",
   "inviteCodeTitle": "Davet koduyla katıl",
-  "inviteCodeHint": "Davet kodu",
-  "inviteCodeBody": "Topluluğun kurucusundan aldığın kodu gir.",
+  "inviteCodeHint": "Davet kodu (6 hane)",
+  "inviteCodeBody": "Topluluğun kurucusundan aldığın 6 haneli kodu gir.",
   "inviteCodeInvalid": "Bu kod geçerli değil. Kodu kontrol edip tekrar dene.",
   "inviteCodeAlready": "Bu topluluğun zaten üyesisin.",
   "inviteCodeSuccessTitle": "Topluluğa katıldın",
@@ -493,5 +490,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "inviteContinue": "Devam",
+  "inviteCodeHelp": "Devam etmek için 6 haneli kodu gir.",
+  "helpIntro": "Takıldığın bir şey mi var? Sık sorulanlara göz at.",
+  "helpQ1": "Bir topluluğa nasıl katılırım?",
+  "helpA1": "Okul topluluğuna kurum e-postanla otomatik katılırsın. Diğerlerini Topluluklarım'da arayabilir ya da 6 haneli davet koduyla katılabilirsin.",
+  "helpQ2": "Beni hatırla ne işe yarar?",
+  "helpA2": "Açıkken uygulamayı kapatıp açınca giriş yapmadan devam edersin. Çıkış yapınca unutulur.",
+  "helpQ3": "Şifremi unuttum, ne yapmalıyım?",
+  "helpA3": "Giriş ekranında \"Şifremi unuttum\"a dokun; e-postana bir yenileme bağlantısı gönderelim.",
+  "helpContact": "Hâlâ çözemedin mi? Bize yaz:",
+  "helpContactEmail": "destek@bendevar.app"
 }

@@ -27,7 +27,11 @@ class BurstPainter extends CustomPainter {
     required this.center,
     required this.shift,
     required this.colors,
+    this.particles = true,
   }) : super(repaint: Listenable.merge([intro, mode]));
+
+  /// false ise yalnızca halkalar çizilir (kısa açılış).
+  final bool particles;
 
   final Animation<double> intro;
   final Animation<double> mode;
@@ -71,6 +75,7 @@ class BurstPainter extends CustomPainter {
       modeFade,
     );
 
+    if (!particles) return;
     final fly = span(t, _total, AuthMotion.particleFly, AuthMotion.burst);
     final drift = span(t, _total, AuthMotion.particleDrift, AuthMotion.burst);
     if (t <= AuthMotion.particleFly.$1 / _total) return;
@@ -131,5 +136,8 @@ class BurstPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(BurstPainter old) =>
-      old.center != center || old.shift != shift || old.colors != colors;
+      old.center != center ||
+      old.shift != shift ||
+      old.colors != colors ||
+      old.particles != particles;
 }

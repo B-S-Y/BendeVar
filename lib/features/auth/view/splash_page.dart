@@ -10,6 +10,7 @@ import '../../../core/widgets/app_logo.dart';
 import '../../../l10n/app_localizations.dart';
 import '../viewmodel/auth_view_model.dart';
 import 'auth_backdrop.dart';
+import 'auth_burst.dart';
 import 'auth_motion.dart';
 
 /// Açılış kapısı. Oturum kontrolü (shared_preferences) burada, animasyon
@@ -50,6 +51,13 @@ class _SplashPageState extends State<SplashPage>
       curve: AppMotion.standard,
     ),
   );
+
+  /// Karşılamadaki halkalar: açılış zaman çizelgesinin (3,52 sn) halka
+  /// bölümü (ring1 başı → ring2 sonu) bu 1,2 sn'ye sıkıştırılır.
+  late final Animation<double> _ringT = Tween<double>(
+    begin: AuthMotion.ring1.$1 / AuthMotion.introSeconds,
+    end: AuthMotion.ring2.$2 / AuthMotion.introSeconds,
+  ).animate(_ctrl);
   bool _animated = false;
   bool _left = false;
 
@@ -125,20 +133,47 @@ class _SplashPageState extends State<SplashPage>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AnimatedBuilder(
-                    animation: logoT,
-                    builder: (context, child) => Opacity(
-                      opacity: logoT.value,
-                      child: Transform.scale(
-                        scale:
-                            AppMotion.splashLogoFrom +
-                            (1 - AppMotion.splashLogoFrom) * logoT.value,
-                        child: child,
-                      ),
-                    ),
-                    child: const AppLogo(
-                      size: AuthMotion.logoSize,
-                      tile: AppColors.logoSourceTile,
+                  SizedBox.square(
+                    dimension: AuthMotion.logoSize,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Karşılamadaki logo halkaları (parçacıksız).
+                        Positioned.fill(
+                          child: IgnorePointer(
+                            child: CustomPaint(
+                              key: const Key('splash-rings'),
+                              painter: BurstPainter(
+                                intro: _ringT,
+                                mode: const AlwaysStoppedAnimation<double>(0),
+                                shift: 0,
+                                center: const Offset(
+                                  AuthMotion.logoSize / 2,
+                                  AuthMotion.logoSize / 2,
+                                ),
+                                colors: c,
+                                particles: false,
+                              ),
+                            ),
+                          ),
+                        ),
+                        AnimatedBuilder(
+                          animation: logoT,
+                          builder: (context, child) => Opacity(
+                            opacity: logoT.value,
+                            child: Transform.scale(
+                              scale:
+                                  AppMotion.splashLogoFrom +
+                                  (1 - AppMotion.splashLogoFrom) * logoT.value,
+                              child: child,
+                            ),
+                          ),
+                          child: const AppLogo(
+                            size: AuthMotion.logoSize,
+                            tile: AppColors.logoSourceTile,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),

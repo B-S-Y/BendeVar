@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -28,6 +29,9 @@ class AppTextField extends StatelessWidget {
     this.initialValue,
     this.fieldKey,
     this.errorSignal,
+    this.inputFormatters,
+    this.maxLength,
+    this.focusNode,
   });
 
   final String? label;
@@ -48,6 +52,14 @@ class AppTextField extends StatelessWidget {
 
   /// Aynı hata metni tekrar geldiğinde de titremesi için (örn. deneme sayacı).
   final Object? errorSignal;
+
+  final List<TextInputFormatter>? inputFormatters;
+
+  /// Verilirse sayaç gösterilmez, yalnızca sınır uygulanır.
+  final int? maxLength;
+
+  /// Odak denetimi (kayıp/kazanç dinlemek için); verilmezse alan kendi odağını yönetir.
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) => ShakeOnError(
@@ -77,10 +89,14 @@ class AppTextField extends StatelessWidget {
         TextFormField(
           key: fieldKey,
           controller: controller,
+          focusNode: focusNode,
           initialValue: controller == null ? initialValue : null,
           onChanged: onChanged,
           onFieldSubmitted: onSubmitted,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          maxLength: maxLength,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
           obscureText: obscureText,
           minLines: minLines,
           maxLines: obscureText ? 1 : maxLines,
@@ -88,6 +104,7 @@ class AppTextField extends StatelessWidget {
           style: AppTypography.body.copyWith(color: c.textPrimary),
           cursorColor: c.accent,
           decoration: InputDecoration(
+            counterText: '',
             hintText: hint,
             hintStyle: AppTypography.body.copyWith(color: c.textSecondary),
             filled: true,

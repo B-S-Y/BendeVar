@@ -10,6 +10,7 @@ import '../features/auth/view/legal_page.dart';
 import '../features/auth/view/login_page.dart';
 import '../features/auth/view/password_reset_pages.dart';
 import '../features/auth/view/community_pages.dart';
+import '../features/auth/view/help_page.dart';
 import '../features/auth/view/settings_pages.dart';
 import '../features/auth/view/signup_done_page.dart';
 import '../features/auth/view/splash_page.dart';
@@ -196,6 +197,11 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
         parentNavigatorKey: rootKey,
         builder: (_, _) =>
             const LegalPage(kind: LegalKind.terms, inSettings: true),
+      ),
+      GoRoute(
+        path: '/settings/help',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const HelpPage(),
       ),
       GoRoute(
         path: '/settings/privacy-policy',

@@ -97,6 +97,10 @@ abstract class CommunityRepository {
   /// 1.16b/1.16c · Davet koduyla katılır; geçersizse [CommunityException].
   Future<CommunityInfo> joinByCode(String code);
 
+  /// Kodun topluluğunu KATILMADAN gösterir (önizleme). Geçersizse
+  /// [CommunityFailure.invalidCode], zaten üyeyse [CommunityFailure.alreadyMember].
+  Future<CommunityInfo> previewByCode(String code);
+
   /// 1.16d · Topluluk açar; açan kişi kurucu olur.
   Future<CommunityInfo> create({
     required String name,

@@ -53,11 +53,11 @@ void main() {
       await vm.load(mockUser);
       expect(await vm.joinByCode('yanlis'), isNull);
       expect(vm.codeFailure, CommunityFailure.invalidCode);
-      final info = await vm.joinByCode(' proje-24 ');
+      final info = await vm.joinByCode(' 482913 ');
       expect(info?.name, 'Proje Ekibi');
       expect(vm.codeFailure, isNull);
       expect(vm.mine.map((c) => c.id), contains('proje'));
-      expect(await vm.joinByCode('PROJE-24'), isNull);
+      expect(await vm.joinByCode('482913'), isNull);
       expect(vm.codeFailure, CommunityFailure.alreadyMember);
     });
 
@@ -124,9 +124,45 @@ void main() {
         }
       }
       expect(
-        (await repo.joinByCode('PROJE-24')).visibility,
+        (await repo.joinByCode('482913')).visibility,
         CommunityVisibility.secret,
       );
+    });
+
+    test('kodlar 6 haneli rakam, ön ek yok; önizleme katılmaz', () async {
+      final repo = MockCommunityRepository();
+      final vm = CommunityViewModel(repo);
+      await vm.load(mockUser);
+      final c = (await vm.create(
+        name: 'Gizli Grup',
+        description: '',
+        visibility: CommunityVisibility.secret,
+      ))!;
+      expect(c.inviteCode, matches(RegExp(r'^\d{6}$')));
+      expect(c.inviteCode, isNot(contains('BV')));
+      final other = (await vm.create(
+        name: 'Gizli Grup 2',
+        description: '',
+        visibility: CommunityVisibility.secret,
+      ))!;
+      expect(other.inviteCode, isNot(c.inviteCode));
+      // Seed kodu da 6 haneli rakam.
+      final preview = await CommunityViewModel(MockCommunityRepository())
+          .previewByCode('482913');
+      expect(preview?.name, 'Proje Ekibi');
+      expect(preview?.inviteCode, matches(RegExp(r'^\d{6}$')));
+    });
+
+    test('önizleme üye yapmaz; geçersiz ve zaten üye hataları', () async {
+      final vm = CommunityViewModel(MockCommunityRepository());
+      await vm.load(mockUser);
+      expect((await vm.previewByCode('482913'))?.joined, isFalse);
+      expect(vm.mine.map((c) => c.id), isNot(contains('proje')));
+      expect(await vm.previewByCode('111111'), isNull);
+      expect(vm.codeFailure, CommunityFailure.invalidCode);
+      await vm.joinByCode('482913');
+      expect(await vm.previewByCode('482913'), isNull);
+      expect(vm.codeFailure, CommunityFailure.alreadyMember);
     });
 
     test('açık ve okula özel topluluğa kodsuz doğrudan katılınır', () async {
@@ -212,7 +248,10 @@ void main() {
     await settle();
     expect(find.text('Yakında'), findsNothing);
     expect(find.text('Yıldız Teknik Üniversitesi'), findsOneWidget);
-    expect(find.text('Okulun'), findsOneWidget);
+    // Okul satırı: "Okulun"/"Okula özel" etiketi yok, koyu çerçeve var.
+    expect(find.text('Okulun'), findsNothing);
+    expect(find.byKey(const Key('school-row-frame')), findsOneWidget);
+    expect(find.textContaining('Okula özel'), findsNothing);
 
     // 1.16g arama → katıl.
     await tester.enterText(find.byKey(const Key('community-search')), 'kamp');
@@ -238,20 +277,75 @@ void main() {
     await settle();
     expect(find.byKey(const Key('mine-kamp')), findsNothing);
 
-    // 1.16c yanlış kod, 1.16b doğru kod.
+    // Davet kodu: sayısal alan, 6 hane dolmadan Devam pasif.
     await tapKey('join-with-code');
-    await tester.enterText(find.byKey(const Key('invite-code')), 'yanlis');
+    final field = tester.widget<TextField>(
+      find.descendant(
+        of: find.byKey(const Key('invite-code')),
+        matching: find.byType(TextField),
+      ),
+    );
+    expect(field.keyboardType, TextInputType.number);
+    expect(field.maxLength, 6);
+    ElevatedButton submit() => tester.widget<ElevatedButton>(
+      find.descendant(
+        of: find.byKey(const Key('invite-submit')),
+        matching: find.byType(ElevatedButton),
+      ),
+    );
+    expect(submit().onPressed, isNull);
+    expect(find.text('Devam etmek için 6 haneli kodu gir.'), findsOneWidget);
+    // Harf girilmez, 6'dan fazla girilmez.
+    await tester.enterText(
+      find.byKey(const Key('invite-code')),
+      'ab12cd3456789',
+    );
+    await tester.pump();
+    expect(
+      tester
+          .widget<TextField>(
+            find.descendant(
+              of: find.byKey(const Key('invite-code')),
+              matching: find.byType(TextField),
+            ),
+          )
+          .controller!
+          .text,
+      '123456',
+    );
+    // 1.16c: yanlış (ama 6 haneli) kod.
+    await tester.enterText(find.byKey(const Key('invite-code')), '000000');
+    await tester.pump();
+    expect(submit().onPressed, isNotNull);
     await tapKey('invite-submit');
     expect(
       find.text('Bu kod geçerli değil. Kodu kontrol edip tekrar dene.'),
       findsOneWidget,
     );
-    await tester.enterText(find.byKey(const Key('invite-code')), 'PROJE-24');
+    // Doğru kod: önce önizleme (henüz katılınmadı), Vazgeç → üye değil.
+    await tester.enterText(find.byKey(const Key('invite-code')), '482913');
     await tapKey('invite-submit');
+    expect(find.byKey(const Key('invite-preview-name')), findsOneWidget);
+    expect(find.text('Proje Ekibi'), findsOneWidget);
+    expect(find.text('6 üye · Gizli'), findsOneWidget);
+    await tapKey('invite-cancel');
+    expect(find.byKey(const Key('mine-proje')), findsNothing);
+    // Tekrar kodla: önizleme → Katıl → 1.16b.
+    await tapKey('join-with-code');
+    await tester.enterText(find.byKey(const Key('invite-code')), '482913');
+    await tapKey('invite-submit');
+    await tapKey('invite-join');
     expect(find.text('Topluluğa katıldın'), findsOneWidget);
     expect(find.text('Proje Ekibi topluluğuna katıldın.'), findsOneWidget);
     await tapKey('invite-done');
     expect(find.byKey(const Key('mine-proje')), findsOneWidget);
+    // Zaten üyeyse: "Zaten üyesin" bilgisi.
+    await tapKey('join-with-code');
+    await tester.enterText(find.byKey(const Key('invite-code')), '482913');
+    await tapKey('invite-submit');
+    expect(find.text('Bu topluluğun zaten üyesisin.'), findsOneWidget);
+    await tester.tapAt(const Offset(10, 10)); // sheet'i kapat
+    await settle();
 
     // 1.16d oluştur: boş ad hata verir, gizli seçilir.
     await tapKey('create-community');

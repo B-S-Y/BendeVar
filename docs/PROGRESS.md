@@ -50,3 +50,13 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Kontrol turu commit 2: yükleniyor/hata/Tekrar dene, alt güvenli alan; test/error_states_test.dart.
 - Kontrol turu commit 3: emailHint silindi, adım etiketi ARB'de, sihirli sayılar token'da (DESIGN_TOKENS_EK.md), koyu tema tablosu tamamlandı, nameFromEmail testi, IDE/derleme dosyaları git takibinden çıktı.
 - Okul kimliği testleri (boun, std.bogazici, ogr.msgsu, rakamlı, .edu.tr sınırı) ve okula özel doğrudan katılma denetimi.
+- Revize 4: kullanıcı kimliği tam e-posta (topluluk sızıntısı kök nedeni); test/community_leak_test.dart.
+- Revize 7: TextSearch (Türkçe duyarlı arama); test/text_search_test.dart.
+- Revize 6: okul topluluğu satırı etiketsiz, koyu çerçeveli.
+- Revize 8: 6 haneli rakam davet kodu, sayısal alan, pasif Devam, önizleme + Katıl/Vazgeç.
+- Revize 3: okul kartı debounce (500 ms, >=3 harf), bilinen okul listesi, kişisel e-posta engeli; test/school_card_test.dart.
+- Revize 1: kısa açılışta halkalar (BurstPainter, parçacıksız).
+- Revize 2: zarf tasarım C (daire + halka, envelopeDisc/Body/Ring tokenları).
+- Revize 5: şifre sıfırlama ekranları sadeleştirildi.
+- Revize 10: Yardım ve destek sayfası. Revize 9: tek başına/uygulama içi ekran görüntüsüyle artık bulunamadı, kod değişmedi.
+- Revize 11: klavye açıkken panel tabanı kalktı (küçük ekranda başlık dışarı itilmez); otomatik odak yok; test/login_keyboard_test.dart.

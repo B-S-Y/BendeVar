@@ -162,7 +162,7 @@ void main() {
       repo.failJoin = true;
       expect(await vm.join('kamp'), isFalse);
       expect(vm.mine.map((c) => c.id), isNot(contains('kamp')));
-      expect(await vm.joinByCode('PROJE-24'), isNull);
+      expect(await vm.joinByCode('482913'), isNull);
       expect(vm.codeFailure, CommunityFailure.unknown);
     },
   );

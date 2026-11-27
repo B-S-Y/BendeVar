@@ -3,6 +3,7 @@ import 'package:bende_var/app/di.dart';
 import 'package:bende_var/app/locale_controller.dart';
 import 'package:bende_var/app/theme_controller.dart';
 import 'package:bende_var/core/theme/app_theme.dart';
+import 'package:bende_var/data/school_directory.dart';
 import 'package:bende_var/l10n/app_localizations.dart';
 import 'package:flutter/services.dart' show FontLoader, rootBundle;
 import 'package:flutter_test/flutter_test.dart';
@@ -24,6 +25,8 @@ void useAndroidScreen(WidgetTester tester) {
 Future<void> initTestEnv() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
+  // Okul rehberi (JSON) bir kez yüklenir; testlerde sahte zamandan önce hazır.
+  await SchoolDirectory.loadShared();
   // Cihazdaki gibi Inter ölçüleriyle test için yazı tipini yükle.
   final loader = FontLoader('Inter');
   for (final f in ['Regular', 'Medium', 'SemiBold', 'Bold']) {

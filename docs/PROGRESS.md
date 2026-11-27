@@ -6,7 +6,7 @@ Kurallar: `CLAUDE.md`. Sapmalar: `docs/DEVIATIONS.md`. Ek token'lar: `docs/DESIG
 
 **Durum**
 - Branch `eda/giris-kayit-ayarlar`; PR #1 açık: https://github.com/B-S-Y/BendeVar/pull/1 (main'e).
-- 11 konu bazlı commit. 218 test geçiyor, `flutter analyze` temiz.
+- 11 konu bazlı commit. 232 test geçiyor, `flutter analyze` temiz.
 - Merge ekibin onayını bekliyor, merge edilmedi.
 
 **Bitenler (1.xx modülünün tamamı)**
@@ -18,7 +18,7 @@ Kurallar: `CLAUDE.md`. Sapmalar: `docs/DEVIATIONS.md`. Ek token'lar: `docs/DESIG
 - Kullanıcıya göre state (topluluk üyelikleri, engellenenler, bildirim tercihleri hesaplar arası sızmaz).
 
 **Bekleyenler**
-1. Kayıtta okul adını otomatik göstermek için 187 üniversitelik JSON (`assets/data`) + alias eşlemesi (şimdilik mock'ta küçük liste: `mockKnownSchools`).
+1. ~~Okul listesi JSON~~ yapıldı (dal `eda/okul-listesi`, bkz. aşağıdaki son satır).
 2. Onboarding (tanıtım ekranı).
 3. `Firebase*Repository`'ler (DI'da tek satırla takılabilir kurulu, `lib/app/di.dart`).
 4. PR'ın merge'ü ve ekip entegrasyonu.
@@ -114,3 +114,5 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Topluluk araması yükleme bitene kadar pasif.
 - schoolLookupDelay AppMotion token'ında.
 - Büyük yazı denetimleri 2,0× ile (taşma yok).
+- Okul listesi: `assets/data/tr_universities.json` (205 okul, alias'lı) `SchoolDirectory` ile okunur; kayıtta okul adı TR/EN; `mockKnownSchools` kalktı; Yıldız topluluk kimliği `yildiz`. Testler: test/school_directory_test.dart. Dal: eda/okul-listesi.
+- Okul listesi 2. tur: 205 okul; odtu/ytu/munzur/adanabtu alias, Munzur ve Girne adları, 8 resmî ad düzeltmesi; test eklendi.

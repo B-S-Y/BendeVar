@@ -29,6 +29,7 @@ flutter:
   generate: true
   assets:
     - assets/logo.svg
+    - assets/data/tr_universities.json
   fonts:
     - family: Inter
       fonts:

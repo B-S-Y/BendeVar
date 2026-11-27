@@ -4,7 +4,7 @@ library;
 import '../models/models.dart';
 
 const Community mockCommunity = Community(
-  id: 'ytu',
+  id: 'yildiz',
   name: 'Yıldız Teknik Üniversitesi',
   shortName: 'YTÜ',
 );
@@ -330,53 +330,7 @@ List<Loan> seedLoans() => [
 
 // ── Giriş için mock hesaplar (sadece bunlar giriş yapabilir) ──
 
-/// Bilinen okullar (mock). Anahtar = okul kimliği (`.edu.tr`'den önceki kelime).
-/// Aynı okulun birden çok kimliği olabilir (boun / bogazici).
-const Community mockBogazici = Community(
-  id: 'bogazici',
-  name: 'Boğaziçi Üniversitesi',
-  shortName: 'BÜ',
-);
-const Community mockItu = Community(
-  id: 'itu',
-  name: 'İstanbul Teknik Üniversitesi',
-  shortName: 'İTÜ',
-);
-const Community mockMsgsu = Community(
-  id: 'msgsu',
-  name: 'Mimar Sinan Güzel Sanatlar Üniversitesi',
-  shortName: 'MSGSÜ',
-);
-const Community mockOdtu = Community(
-  id: 'odtu',
-  name: 'Orta Doğu Teknik Üniversitesi',
-  shortName: 'ODTÜ',
-);
-
-const Community mockKoc = Community(
-  id: 'ku',
-  name: 'Koç Üniversitesi',
-  shortName: 'KU',
-);
-const Community mockIuc = Community(
-  id: 'iuc',
-  name: 'İstanbul Üniversitesi-Cerrahpaşa',
-  shortName: 'İÜC',
-);
-
-const Map<String, Community> mockKnownSchools = {
-  'ku': mockKoc,
-  'iuc': mockIuc,
-  'yildiz': mockCommunity,
-  'marmara': mockMarmara,
-  'boun': mockBogazici,
-  'bogazici': mockBogazici,
-  'itu': mockItu,
-  'msgsu': mockMsgsu,
-  'odtu': mockOdtu,
-  'metu': mockOdtu,
-};
-
+/// Test hesabı için okul (diğer okullar `assets/data/tr_universities.json`).
 const Community mockMarmara = Community(
   id: 'marmara',
   name: 'Marmara Üniversitesi',

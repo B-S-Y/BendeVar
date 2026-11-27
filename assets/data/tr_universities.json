@@ -1,0 +1,1276 @@
+[
+ {
+  "id": "29mayis",
+  "aliases": [],
+  "name_en": "Istanbul 29 Mayis University",
+  "name_tr": "İstanbul 29 Mayıs Üniversitesi"
+ },
+ {
+  "id": "acibadem",
+  "aliases": [],
+  "name_en": "Acibadem University",
+  "name_tr": "Acıbadem Üniversitesi"
+ },
+ {
+  "id": "adiyaman",
+  "aliases": [],
+  "name_en": "Adiyaman University",
+  "name_tr": "Adıyaman Üniversitesi"
+ },
+ {
+  "id": "adu",
+  "aliases": [],
+  "name_en": "Aydin Adnan Menderes University",
+  "name_tr": "Aydın Adnan Menderes Üniversitesi"
+ },
+ {
+  "id": "agri",
+  "aliases": [],
+  "name_en": "Agri Ibrahim Cecen University",
+  "name_tr": "Ağrı İbrahim Çeçen Üniversitesi"
+ },
+ {
+  "id": "agu",
+  "aliases": [],
+  "name_en": "Abdullah Gul University",
+  "name_tr": "Abdullah Gül Üniversitesi"
+ },
+ {
+  "id": "ahap",
+  "aliases": [],
+  "name_en": "Alanya Hamdullah Emin Pasa University",
+  "name_tr": "Alanya Hamdullah Emin Paşa Üniversitesi"
+ },
+ {
+  "id": "ahievran",
+  "aliases": [],
+  "name_en": "Kirsehir Ahi Evran University",
+  "name_tr": "Kırşehir Ahi Evran Üniversitesi"
+ },
+ {
+  "id": "akdeniz",
+  "aliases": [],
+  "name_en": "Akdeniz University",
+  "name_tr": "Akdeniz Üniversitesi"
+ },
+ {
+  "id": "aksaray",
+  "aliases": [],
+  "name_en": "Aksaray University",
+  "name_tr": "Aksaray Üniversitesi"
+ },
+ {
+  "id": "aku",
+  "aliases": [],
+  "name_en": "Afyon Kocatepe University",
+  "name_tr": "Afyon Kocatepe Üniversitesi"
+ },
+ {
+  "id": "alanyaaku",
+  "aliases": [],
+  "name_en": "Alanya Alaaddin Keykubat University",
+  "name_tr": "Alanya Alaaddin Keykubat Üniversitesi"
+ },
+ {
+  "id": "alparslan",
+  "aliases": [],
+  "name_en": "Mus Alparslan University",
+  "name_tr": "Muş Alparslan Üniversitesi"
+ },
+ {
+  "id": "amasya",
+  "aliases": [],
+  "name_en": "Amasya University",
+  "name_tr": "Amasya Üniversitesi"
+ },
+ {
+  "id": "anadolu",
+  "aliases": [],
+  "name_en": "Anadolu University",
+  "name_tr": "Anadolu Üniversitesi"
+ },
+ {
+  "id": "ankara",
+  "aliases": [],
+  "name_en": "Ankara University",
+  "name_tr": "Ankara Üniversitesi"
+ },
+ {
+  "id": "ankarabilim",
+  "aliases": [],
+  "name_en": "Ankara Science University",
+  "name_tr": "Ankara Bilim Üniversitesi"
+ },
+ {
+  "id": "ankaramedipol",
+  "aliases": [],
+  "name_en": "Ankara Medipol University",
+  "name_tr": "Ankara Medipol Üniversitesi"
+ },
+ {
+  "id": "antalya",
+  "aliases": [],
+  "name_en": "Antalya Bilim University",
+  "name_tr": "Antalya Bilim Üniversitesi"
+ },
+ {
+  "id": "ardahan",
+  "aliases": [],
+  "name_en": "Ardahan University",
+  "name_tr": "Ardahan Üniversitesi"
+ },
+ {
+  "id": "arel",
+  "aliases": [],
+  "name_en": "Istanbul Arel University",
+  "name_tr": "İstanbul Arel Üniversitesi"
+ },
+ {
+  "id": "artuklu",
+  "aliases": [],
+  "name_en": "Mardin Artuklu University",
+  "name_tr": "Mardin Artuklu Üniversitesi"
+ },
+ {
+  "id": "artvin",
+  "aliases": [],
+  "name_en": "Artvin Coruh University",
+  "name_tr": "Artvin Çoruh Üniversitesi"
+ },
+ {
+  "id": "asbu",
+  "aliases": [],
+  "name_en": "Ankara Social Science University",
+  "name_tr": "Ankara Sosyal Bilimler Üniversitesi"
+ },
+ {
+  "id": "atauni",
+  "aliases": [],
+  "name_en": "Atatürk University",
+  "name_tr": "Atatürk Üniversitesi"
+ },
+ {
+  "id": "atilim",
+  "aliases": [],
+  "name_en": "Atilim University",
+  "name_tr": "Atılım Üniversitesi"
+ },
+ {
+  "id": "atu",
+  "aliases": [
+   "adanabtu"
+  ],
+  "name_en": "Adana Alparslan Turkes University",
+  "name_tr": "Adana Alparslan Türkeş Bilim ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "avrasya",
+  "aliases": [],
+  "name_en": "Avrasya University",
+  "name_tr": "Avrasya Üniversitesi"
+ },
+ {
+  "id": "aybu",
+  "aliases": [
+   "ybu"
+  ],
+  "name_en": "Ankara Yildirim Beyazit University",
+  "name_tr": "Ankara Yıldırım Beyazıt Üniversitesi"
+ },
+ {
+  "id": "aydin",
+  "aliases": [],
+  "name_en": "Istanbul Aydin University",
+  "name_tr": "İstanbul Aydın Üniversitesi"
+ },
+ {
+  "id": "bahcesehir",
+  "aliases": [],
+  "name_en": "Bahcesehir University",
+  "name_tr": "Bahçeşehir Üniversitesi"
+ },
+ {
+  "id": "bakircay",
+  "aliases": [],
+  "name_en": "Izmir Bakırçay University",
+  "name_tr": "İzmir Bakırçay Üniversitesi"
+ },
+ {
+  "id": "balikesir",
+  "aliases": [],
+  "name_en": "Balikesir University",
+  "name_tr": "Balıkesir Üniversitesi"
+ },
+ {
+  "id": "bandirma",
+  "aliases": [],
+  "name_en": "Bandirma ONYEDI Eylul University",
+  "name_tr": "Bandırma Onyedi Eylül Üniversitesi"
+ },
+ {
+  "id": "bartin",
+  "aliases": [],
+  "name_en": "Bartin University",
+  "name_tr": "Bartın Üniversitesi"
+ },
+ {
+  "id": "baskent",
+  "aliases": [],
+  "name_en": "Baskent University",
+  "name_tr": "Başkent Üniversitesi"
+ },
+ {
+  "id": "batman",
+  "aliases": [],
+  "name_en": "Batman University",
+  "name_tr": "Batman Üniversitesi"
+ },
+ {
+  "id": "bayburt",
+  "aliases": [],
+  "name_en": "Bayburt University",
+  "name_tr": "Bayburt Üniversitesi"
+ },
+ {
+  "id": "beu",
+  "aliases": [],
+  "name_en": "Bitlis Eren University",
+  "name_tr": "Bitlis Eren Üniversitesi"
+ },
+ {
+  "id": "beun",
+  "aliases": [
+   "karaelmas"
+  ],
+  "name_en": "Zonguldak Bülent Ecevit University",
+  "name_tr": "Zonguldak Bülent Ecevit Üniversitesi"
+ },
+ {
+  "id": "beykent",
+  "aliases": [],
+  "name_en": "Beykent University",
+  "name_tr": "Beykent Üniversitesi"
+ },
+ {
+  "id": "bezmialem",
+  "aliases": [],
+  "name_en": "Bezmialem Vakif University",
+  "name_tr": "Bezmialem Vakıf Üniversitesi"
+ },
+ {
+  "id": "bilecik",
+  "aliases": [],
+  "name_en": "Bilecik University",
+  "name_tr": "Bilecik Şeyh Edebali Üniversitesi"
+ },
+ {
+  "id": "bilgi",
+  "aliases": [],
+  "name_en": "Istanbul Bilgi University",
+  "name_tr": "İstanbul Bilgi Üniversitesi"
+ },
+ {
+  "id": "bilkent",
+  "aliases": [],
+  "name_en": "Bilkent University",
+  "name_tr": "Bilkent Üniversitesi"
+ },
+ {
+  "id": "bingol",
+  "aliases": [],
+  "name_en": "Bingol University",
+  "name_tr": "Bingöl Üniversitesi"
+ },
+ {
+  "id": "biruni",
+  "aliases": [],
+  "name_en": "Biruni University",
+  "name_tr": "Biruni Üniversitesi"
+ },
+ {
+  "id": "bogazici",
+  "aliases": [
+   "boun"
+  ],
+  "name_en": "Boğaziçi University",
+  "name_tr": "Boğaziçi Üniversitesi"
+ },
+ {
+  "id": "bozok",
+  "aliases": [],
+  "name_en": "Yozgat Bozok University",
+  "name_tr": "Yozgat Bozok Üniversitesi"
+ },
+ {
+  "id": "btu",
+  "aliases": [],
+  "name_en": "Bursa Technical University",
+  "name_tr": "Bursa Teknik Üniversitesi"
+ },
+ {
+  "id": "cag",
+  "aliases": [],
+  "name_en": "Cag University",
+  "name_tr": "Çağ Üniversitesi"
+ },
+ {
+  "id": "cankaya",
+  "aliases": [],
+  "name_en": "Cankaya University",
+  "name_tr": "Çankaya Üniversitesi"
+ },
+ {
+  "id": "comu",
+  "aliases": [],
+  "name_en": "Canakkale (18th March) University",
+  "name_tr": "Çanakkale Onsekiz Mart Üniversitesi"
+ },
+ {
+  "id": "cu",
+  "aliases": [],
+  "name_en": "Cukurova University",
+  "name_tr": "Çukurova Üniversitesi"
+ },
+ {
+  "id": "cumhuriyet",
+  "aliases": [],
+  "name_en": "Sivas Cumhuriyet University",
+  "name_tr": "Sivas Cumhuriyet Üniversitesi"
+ },
+ {
+  "id": "deu",
+  "aliases": [],
+  "name_en": "Dokuz Eylül University",
+  "name_tr": "Dokuz Eylül Üniversitesi"
+ },
+ {
+  "id": "dicle",
+  "aliases": [],
+  "name_en": "Dicle (Tigris) University",
+  "name_tr": "Dicle Üniversitesi"
+ },
+ {
+  "id": "dogus",
+  "aliases": [],
+  "name_en": "Dogus University",
+  "name_tr": "Doğuş Üniversitesi"
+ },
+ {
+  "id": "dumlupinar",
+  "aliases": [
+   "dpu"
+  ],
+  "name_en": "Kutahya Dumlupinar University",
+  "name_tr": "Kütahya Dumlupınar Üniversitesi"
+ },
+ {
+  "id": "duzce",
+  "aliases": [],
+  "name_en": "Duzce University",
+  "name_tr": "Düzce Üniversitesi"
+ },
+ {
+  "id": "ebyu",
+  "aliases": [],
+  "name_en": "Erzincan Binali Yildirim University",
+  "name_tr": "Erzincan Binali Yıldırım Üniversitesi"
+ },
+ {
+  "id": "ege",
+  "aliases": [],
+  "name_en": "Ege University",
+  "name_tr": "Ege Üniversitesi"
+ },
+ {
+  "id": "erciyes",
+  "aliases": [],
+  "name_en": "Erciyes University",
+  "name_tr": "Erciyes Üniversitesi"
+ },
+ {
+  "id": "erdogan",
+  "aliases": [],
+  "name_en": "Recep Tayyip Erdogan University",
+  "name_tr": "Recep Tayyip Erdoğan Üniversitesi"
+ },
+ {
+  "id": "erzurum",
+  "aliases": [],
+  "name_en": "Erzurum Technical University",
+  "name_tr": "Erzurum Teknik Üniversitesi"
+ },
+ {
+  "id": "esenyurt",
+  "aliases": [],
+  "name_en": "Istanbul Esenyurt University",
+  "name_tr": "İstanbul Esenyurt Üniversitesi"
+ },
+ {
+  "id": "eskisehir",
+  "aliases": [],
+  "name_en": "Eskisehir Technical University",
+  "name_tr": "Eskişehir Teknik Üniversitesi"
+ },
+ {
+  "id": "etu",
+  "aliases": [],
+  "name_en": "Tobb Economics and Technology University",
+  "name_tr": "TOBB Ekonomi ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "fatihsultan",
+  "aliases": [],
+  "name_en": "Fatih Sultan Mehmet University",
+  "name_tr": "Fatih Sultan Mehmet Vakıf Üniversitesi"
+ },
+ {
+  "id": "fbu",
+  "aliases": [],
+  "name_en": "Fenerbahce University",
+  "name_tr": "Fenerbahçe Üniversitesi"
+ },
+ {
+  "id": "firat",
+  "aliases": [],
+  "name_en": "Firat (Euphrates) University",
+  "name_tr": "Fırat Üniversitesi"
+ },
+ {
+  "id": "gantep",
+  "aliases": [],
+  "name_en": "Gaziantep University",
+  "name_tr": "Gaziantep Üniversitesi"
+ },
+ {
+  "id": "gazi",
+  "aliases": [],
+  "name_en": "Gazi University Ankara",
+  "name_tr": "Gazi Üniversitesi"
+ },
+ {
+  "id": "gedik",
+  "aliases": [],
+  "name_en": "Istanbul Gedik University",
+  "name_tr": "İstanbul Gedik Üniversitesi"
+ },
+ {
+  "id": "gelisim",
+  "aliases": [],
+  "name_en": "Istanbul Gelisim University",
+  "name_tr": "İstanbul Gelişim Üniversitesi"
+ },
+ {
+  "id": "gidatarim",
+  "aliases": [],
+  "name_en": "Konya Gida Tarim University",
+  "name_tr": "Konya Gıda ve Tarım Üniversitesi"
+ },
+ {
+  "id": "giresun",
+  "aliases": [],
+  "name_en": "Giresun University",
+  "name_tr": "Giresun Üniversitesi"
+ },
+ {
+  "id": "gop",
+  "aliases": [],
+  "name_en": "Tokat Gaziosmanpasa University",
+  "name_tr": "Tokat Gaziosmanpaşa Üniversitesi"
+ },
+ {
+  "id": "gsu",
+  "aliases": [],
+  "name_en": "Galatasaray University",
+  "name_tr": "Galatasaray Üniversitesi"
+ },
+ {
+  "id": "gtu",
+  "aliases": [
+   "gyte"
+  ],
+  "name_en": "Gebze Technical University",
+  "name_tr": "Gebze Teknik Üniversitesi"
+ },
+ {
+  "id": "gumushane",
+  "aliases": [],
+  "name_en": "Gumushane University",
+  "name_tr": "Gümüşhane Üniversitesi"
+ },
+ {
+  "id": "hakkari",
+  "aliases": [],
+  "name_en": "Hakkari University",
+  "name_tr": "Hakkari Üniversitesi"
+ },
+ {
+  "id": "halic",
+  "aliases": [],
+  "name_en": "Halic University",
+  "name_tr": "Haliç Üniversitesi"
+ },
+ {
+  "id": "harran",
+  "aliases": [],
+  "name_en": "Harran University",
+  "name_tr": "Harran Üniversitesi"
+ },
+ {
+  "id": "hbv",
+  "aliases": [],
+  "name_en": "Ankara Haci Bayram Veli University",
+  "name_tr": "Ankara Hacı Bayram Veli Üniversitesi"
+ },
+ {
+  "id": "hitit",
+  "aliases": [],
+  "name_en": "Hitit University",
+  "name_tr": "Hitit Üniversitesi"
+ },
+ {
+  "id": "hku",
+  "aliases": [],
+  "name_en": "Hasan Kalyoncu University",
+  "name_tr": "Hasan Kalyoncu Üniversitesi"
+ },
+ {
+  "id": "hun",
+  "aliases": [
+   "hacettepe"
+  ],
+  "name_en": "Hacettepe University",
+  "name_tr": "Hacettepe Üniversitesi"
+ },
+ {
+  "id": "ibu",
+  "aliases": [],
+  "name_en": "Bolu Abant Izzet Baysal University",
+  "name_tr": "Bolu Abant İzzet Baysal Üniversitesi"
+ },
+ {
+  "id": "idu",
+  "aliases": [],
+  "name_en": "Izmir Democracy University",
+  "name_tr": "İzmir Demokrasi Üniversitesi"
+ },
+ {
+  "id": "ieu",
+  "aliases": [],
+  "name_en": "İzmir University of Economics",
+  "name_tr": "İzmir Ekonomi Üniversitesi"
+ },
+ {
+  "id": "igdir",
+  "aliases": [],
+  "name_en": "Igdir University",
+  "name_tr": "Iğdır Üniversitesi"
+ },
+ {
+  "id": "ikc",
+  "aliases": [
+   "ikcu"
+  ],
+  "name_en": "Izmir Katip Celebi University",
+  "name_tr": "İzmir Katip Çelebi Üniversitesi"
+ },
+ {
+  "id": "iku",
+  "aliases": [],
+  "name_en": "Istanbul Kultur University",
+  "name_tr": "İstanbul Kültür Üniversitesi"
+ },
+ {
+  "id": "inonu",
+  "aliases": [],
+  "name_en": "Inönü University",
+  "name_tr": "İnönü Üniversitesi"
+ },
+ {
+  "id": "isikun",
+  "aliases": [],
+  "name_en": "Isik University",
+  "name_tr": "Işık Üniversitesi"
+ },
+ {
+  "id": "istanbul",
+  "aliases": [
+   "iu"
+  ],
+  "name_en": "Istanbul University",
+  "name_tr": "İstanbul Üniversitesi"
+ },
+ {
+  "id": "iste",
+  "aliases": [],
+  "name_en": "Iskenderun Technical University",
+  "name_tr": "İskenderun Teknik Üniversitesi"
+ },
+ {
+  "id": "istinye",
+  "aliases": [],
+  "name_en": "Istinye University",
+  "name_tr": "İstinye Üniversitesi"
+ },
+ {
+  "id": "iszu",
+  "aliases": [],
+  "name_en": "Istanbul Sabahattin Zaim University",
+  "name_tr": "İstanbul Sabahattin Zaim Üniversitesi"
+ },
+ {
+  "id": "itu",
+  "aliases": [],
+  "name_en": "Istanbul Technical University",
+  "name_tr": "İstanbul Teknik Üniversitesi"
+ },
+ {
+  "id": "iyte",
+  "aliases": [],
+  "name_en": "Izmir Institute of Technology",
+  "name_tr": "İzmir Yüksek Teknoloji Enstitüsü"
+ },
+ {
+  "id": "kafkas",
+  "aliases": [],
+  "name_en": "Kafkas University",
+  "name_tr": "Kafkas Üniversitesi"
+ },
+ {
+  "id": "karabuk",
+  "aliases": [],
+  "name_en": "Karabuk University",
+  "name_tr": "Karabük Üniversitesi"
+ },
+ {
+  "id": "karatay",
+  "aliases": [],
+  "name_en": "Karatay University",
+  "name_tr": "KTO Karatay Üniversitesi"
+ },
+ {
+  "id": "karatekin",
+  "aliases": [],
+  "name_en": "Cankiri Karatekin University",
+  "name_tr": "Çankırı Karatekin Üniversitesi"
+ },
+ {
+  "id": "kastamonu",
+  "aliases": [],
+  "name_en": "Kastamonu University",
+  "name_tr": "Kastamonu Üniversitesi"
+ },
+ {
+  "id": "kemerburgaz",
+  "aliases": [],
+  "name_en": "Istanbul Kemerburgaz University",
+  "name_tr": "İstanbul Kemerburgaz Üniversitesi"
+ },
+ {
+  "id": "khas",
+  "aliases": [],
+  "name_en": "Kadir Has University",
+  "name_tr": "Kadir Has Üniversitesi"
+ },
+ {
+  "id": "kilis",
+  "aliases": [],
+  "name_en": "Kilis 7 Aralık University",
+  "name_tr": "Kilis 7 Aralık Üniversitesi"
+ },
+ {
+  "id": "kirklareli",
+  "aliases": [],
+  "name_en": "Kirklareli University",
+  "name_tr": "Kırklareli Üniversitesi"
+ },
+ {
+  "id": "kku",
+  "aliases": [],
+  "name_en": "Kirikkale University",
+  "name_tr": "Kırıkkale Üniversitesi"
+ },
+ {
+  "id": "kmu",
+  "aliases": [],
+  "name_en": "Karamanoglu Mehmetbey University",
+  "name_tr": "Karamanoğlu Mehmetbey Üniversitesi"
+ },
+ {
+  "id": "konya",
+  "aliases": [],
+  "name_en": "Necmettin Erbakan University",
+  "name_tr": "Necmettin Erbakan Üniversitesi"
+ },
+ {
+  "id": "kou",
+  "aliases": [],
+  "name_en": "Kocaeli University",
+  "name_tr": "Kocaeli Üniversitesi"
+ },
+ {
+  "id": "ksu",
+  "aliases": [],
+  "name_en": "Kahramanmaras Sutcu İmam University",
+  "name_tr": "Kahramanmaraş Sütçü İmam Üniversitesi"
+ },
+ {
+  "id": "ktu",
+  "aliases": [],
+  "name_en": "Karadeniz Technical University",
+  "name_tr": "Karadeniz Teknik Üniversitesi"
+ },
+ {
+  "id": "ktun",
+  "aliases": [],
+  "name_en": "Konya Technical University",
+  "name_tr": "Konya Teknik Üniversitesi"
+ },
+ {
+  "id": "ku",
+  "aliases": [],
+  "name_en": "Koç University",
+  "name_tr": "Koç Üniversitesi"
+ },
+ {
+  "id": "kyrenia",
+  "aliases": [],
+  "name_en": "University of Kyrenia",
+  "name_tr": "Girne Üniversitesi"
+ },
+ {
+  "id": "maltepe",
+  "aliases": [],
+  "name_en": "Maltepe University",
+  "name_tr": "Maltepe Üniversitesi"
+ },
+ {
+  "id": "marmara",
+  "aliases": [
+   "marun"
+  ],
+  "name_en": "Marmara University",
+  "name_tr": "Marmara Üniversitesi"
+ },
+ {
+  "id": "mcbu",
+  "aliases": [
+   "cbu"
+  ],
+  "name_en": "Celal Bayar University",
+  "name_tr": "Manisa Celâl Bayar Üniversitesi"
+ },
+ {
+  "id": "medeniyet",
+  "aliases": [],
+  "name_en": "Istanbul Medeniyet University",
+  "name_tr": "İstanbul Medeniyet Üniversitesi"
+ },
+ {
+  "id": "medipol",
+  "aliases": [],
+  "name_en": "Istanbul Medipol University",
+  "name_tr": "İstanbul Medipol Üniversitesi"
+ },
+ {
+  "id": "mef",
+  "aliases": [],
+  "name_en": "MEF University",
+  "name_tr": "MEF Üniversitesi"
+ },
+ {
+  "id": "mehmetakif",
+  "aliases": [],
+  "name_en": "Burdur Mehmet Akif Ersoy University",
+  "name_tr": "Burdur Mehmet Akif Ersoy Üniversitesi"
+ },
+ {
+  "id": "mersin",
+  "aliases": [],
+  "name_en": "Mersin University",
+  "name_tr": "Mersin Üniversitesi"
+ },
+ {
+  "id": "metu",
+  "aliases": [
+   "odtu"
+  ],
+  "name_en": "Middle East Technical University",
+  "name_tr": "Orta Doğu Teknik Üniversitesi"
+ },
+ {
+  "id": "mku",
+  "aliases": [],
+  "name_en": "Mustafa Kemal University",
+  "name_tr": "Hatay Mustafa Kemal Üniversitesi"
+ },
+ {
+  "id": "msgsu",
+  "aliases": [],
+  "name_en": "Mimar Sinan Fine Arts University",
+  "name_tr": "Mimar Sinan Güzel Sanatlar Üniversitesi"
+ },
+ {
+  "id": "msu",
+  "aliases": [
+   "dho",
+   "hho"
+  ],
+  "name_en": "National Defence University",
+  "name_tr": "Millî Savunma Üniversitesi"
+ },
+ {
+  "id": "mu",
+  "aliases": [],
+  "name_en": "Mugla Sitki Kocman University",
+  "name_tr": "Muğla Sıtkı Koçman Üniversitesi"
+ },
+ {
+  "id": "nevsehir",
+  "aliases": [],
+  "name_en": "Nevsehir Haci Bektas Veli University",
+  "name_tr": "Nevşehir Hacı Bektaş Veli Üniversitesi"
+ },
+ {
+  "id": "nigde",
+  "aliases": [
+   "ohu"
+  ],
+  "name_en": "Nigde Omer Halisdemir University",
+  "name_tr": "Niğde Ömer Halisdemir Üniversitesi"
+ },
+ {
+  "id": "nisantasi",
+  "aliases": [],
+  "name_en": "Nisantasi University",
+  "name_tr": "Nişantaşı Üniversitesi"
+ },
+ {
+  "id": "nku",
+  "aliases": [],
+  "name_en": "Namik Kemal University",
+  "name_tr": "Tekirdağ Namık Kemal Üniversitesi"
+ },
+ {
+  "id": "nny",
+  "aliases": [],
+  "name_en": "Nuh Naci Yazgan University",
+  "name_tr": "Nuh Naci Yazgan Üniversitesi"
+ },
+ {
+  "id": "odu",
+  "aliases": [],
+  "name_en": "Ordu University",
+  "name_tr": "Ordu Üniversitesi"
+ },
+ {
+  "id": "ogu",
+  "aliases": [],
+  "name_en": "Eskisehir Osmangazi University",
+  "name_tr": "Eskişehir Osmangazi Üniversitesi"
+ },
+ {
+  "id": "okan",
+  "aliases": [],
+  "name_en": "Okan University",
+  "name_tr": "İstanbul Okan Üniversitesi"
+ },
+ {
+  "id": "omu",
+  "aliases": [],
+  "name_en": "Ondokuz Mayıs University",
+  "name_tr": "Ondokuz Mayıs Üniversitesi"
+ },
+ {
+  "id": "osmaniye",
+  "aliases": [],
+  "name_en": "Osmaniye Korkut Ata University",
+  "name_tr": "Osmaniye Korkut Ata Üniversitesi"
+ },
+ {
+  "id": "ostimteknik",
+  "aliases": [],
+  "name_en": "OSTIM Technical University",
+  "name_tr": "OSTİM Teknik Üniversitesi"
+ },
+ {
+  "id": "ozyegin",
+  "aliases": [
+   "ozu"
+  ],
+  "name_en": "Ozyegin University",
+  "name_tr": "Özyeğin Üniversitesi"
+ },
+ {
+  "id": "pau",
+  "aliases": [],
+  "name_en": "Pamukkale University",
+  "name_tr": "Pamukkale Üniversitesi"
+ },
+ {
+  "id": "pirireis",
+  "aliases": [],
+  "name_en": "Piri Reis University",
+  "name_tr": "Piri Reis Üniversitesi"
+ },
+ {
+  "id": "rumeli",
+  "aliases": [],
+  "name_en": "Istanbul Rumeli University",
+  "name_tr": "İstanbul Rumeli Üniversitesi"
+ },
+ {
+  "id": "samsun",
+  "aliases": [],
+  "name_en": "Samsun University",
+  "name_tr": "Samsun Üniversitesi"
+ },
+ {
+  "id": "sanko",
+  "aliases": [],
+  "name_en": "Sanko University",
+  "name_tr": "Sanko Üniversitesi"
+ },
+ {
+  "id": "sau",
+  "aliases": [
+   "sakarya"
+  ],
+  "name_en": "Sakarya University",
+  "name_tr": "Sakarya Üniversitesi"
+ },
+ {
+  "id": "sbu",
+  "aliases": [
+   "gata"
+  ],
+  "name_en": "Health Sciences University",
+  "name_tr": "Sağlık Bilimleri Üniversitesi"
+ },
+ {
+  "id": "sdu",
+  "aliases": [],
+  "name_en": "Suleyman Demirel University",
+  "name_tr": "Süleyman Demirel Üniversitesi"
+ },
+ {
+  "id": "selcuk",
+  "aliases": [],
+  "name_en": "Selcuk University",
+  "name_tr": "Selçuk Üniversitesi"
+ },
+ {
+  "id": "siirt",
+  "aliases": [],
+  "name_en": "Siirt University",
+  "name_tr": "Siirt Üniversitesi"
+ },
+ {
+  "id": "sinop",
+  "aliases": [],
+  "name_en": "Sinop University",
+  "name_tr": "Sinop Üniversitesi"
+ },
+ {
+  "id": "sirnak",
+  "aliases": [],
+  "name_en": "Sirnak University",
+  "name_tr": "Şırnak Üniversitesi"
+ },
+ {
+  "id": "subu",
+  "aliases": [],
+  "name_en": "Sakarya Uygulamalı Bilimler Üniversitesi",
+  "name_tr": "Sakarya Uygulamalı Bilimler Üniversitesi"
+ },
+ {
+  "id": "tarsus",
+  "aliases": [],
+  "name_en": "Tarsus University",
+  "name_tr": "Tarsus Üniversitesi"
+ },
+ {
+  "id": "tau",
+  "aliases": [],
+  "name_en": "Türkisch-Deutsche Universität",
+  "name_tr": "Türk-Alman Üniversitesi"
+ },
+ {
+  "id": "tedu",
+  "aliases": [],
+  "name_en": "TED University",
+  "name_tr": "TED Üniversitesi"
+ },
+ {
+  "id": "thk",
+  "aliases": [],
+  "name_en": "University of Turkish Aeronautical Association",
+  "name_tr": "Türk Hava Kurumu Üniversitesi"
+ },
+ {
+  "id": "ticaret",
+  "aliases": [
+   "istanbulticaret"
+  ],
+  "name_en": "Istanbul Ticaret University",
+  "name_tr": "İstanbul Ticaret Üniversitesi"
+ },
+ {
+  "id": "tinaztepe",
+  "aliases": [],
+  "name_en": "Izmir Tınaztepe University",
+  "name_tr": "İzmir Tınaztepe Üniversitesi"
+ },
+ {
+  "id": "topkapi",
+  "aliases": [
+   "ayvansaray"
+  ],
+  "name_en": "Istanbul Topkapi University",
+  "name_tr": "İstanbul Topkapı Üniversitesi"
+ },
+ {
+  "id": "toros",
+  "aliases": [],
+  "name_en": "Toros University",
+  "name_tr": "Toros Üniversitesi"
+ },
+ {
+  "id": "trakya",
+  "aliases": [],
+  "name_en": "Trakya University",
+  "name_tr": "Trakya Üniversitesi"
+ },
+ {
+  "id": "tunceli",
+  "aliases": [
+   "munzur"
+  ],
+  "name_en": "Munzur University",
+  "name_tr": "Munzur Üniversitesi"
+ },
+ {
+  "id": "ufuk",
+  "aliases": [],
+  "name_en": "Ufuk University",
+  "name_tr": "Ufuk Üniversitesi"
+ },
+ {
+  "id": "uludag",
+  "aliases": [],
+  "name_en": "Bursa Uludag University",
+  "name_tr": "Bursa Uludağ Üniversitesi"
+ },
+ {
+  "id": "usak",
+  "aliases": [],
+  "name_en": "Usak University",
+  "name_tr": "Uşak Üniversitesi"
+ },
+ {
+  "id": "uskudar",
+  "aliases": [],
+  "name_en": "Uskudar University",
+  "name_tr": "Üsküdar Üniversitesi"
+ },
+ {
+  "id": "yalova",
+  "aliases": [],
+  "name_en": "Yalova University",
+  "name_tr": "Yalova Üniversitesi"
+ },
+ {
+  "id": "yasar",
+  "aliases": [],
+  "name_en": "Yasar University",
+  "name_tr": "Yaşar Üniversitesi"
+ },
+ {
+  "id": "yeditepe",
+  "aliases": [],
+  "name_en": "Yeditepe University",
+  "name_tr": "Yeditepe Üniversitesi"
+ },
+ {
+  "id": "yeniyuzyil",
+  "aliases": [],
+  "name_en": "Yeni Yuzyil University",
+  "name_tr": "İstanbul Yeni Yüzyıl Üniversitesi"
+ },
+ {
+  "id": "yildiz",
+  "aliases": [
+   "ytu"
+  ],
+  "name_en": "Yildiz Technical University",
+  "name_tr": "Yıldız Teknik Üniversitesi"
+ },
+ {
+  "id": "yuksekihtisasuniversitesi",
+  "aliases": [],
+  "name_en": "Yuksek Ihtisas University",
+  "name_tr": "Yüksek İhtisas Üniversitesi"
+ },
+ {
+  "id": "yyu",
+  "aliases": [],
+  "name_en": "Yüzüncü Yil (Centennial) University",
+  "name_tr": "Yüzüncü Yıl Üniversitesi"
+ },
+ {
+  "id": "iuc",
+  "aliases": [],
+  "name_en": "Istanbul University-Cerrahpasa",
+  "name_tr": "İstanbul Üniversitesi-Cerrahpaşa"
+ },
+ {
+  "id": "trabzon",
+  "aliases": [],
+  "name_en": "Trabzon University",
+  "name_tr": "Trabzon Üniversitesi"
+ },
+ {
+  "id": "kayseri",
+  "aliases": [],
+  "name_en": "Kayseri University",
+  "name_tr": "Kayseri Üniversitesi"
+ },
+ {
+  "id": "istiklal",
+  "aliases": [],
+  "name_en": "Kahramanmaras Istiklal University",
+  "name_tr": "Kahramanmaraş İstiklal Üniversitesi"
+ },
+ {
+  "id": "ozal",
+  "aliases": [],
+  "name_en": "Malatya Turgut Ozal University",
+  "name_tr": "Malatya Turgut Özal Üniversitesi"
+ },
+ {
+  "id": "gibtu",
+  "aliases": [],
+  "name_en": "Gaziantep Islam Science and Technology University",
+  "name_tr": "Gaziantep İslam Bilim ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "afsu",
+  "aliases": [],
+  "name_en": "Afyonkarahisar Health Sciences University",
+  "name_tr": "Afyonkarahisar Sağlık Bilimleri Üniversitesi"
+ },
+ {
+  "id": "ksbu",
+  "aliases": [],
+  "name_en": "Kutahya Health Sciences University",
+  "name_tr": "Kütahya Sağlık Bilimleri Üniversitesi"
+ },
+ {
+  "id": "isparta",
+  "aliases": [],
+  "name_en": "Isparta University of Applied Sciences",
+  "name_tr": "Isparta Uygulamalı Bilimler Üniversitesi"
+ },
+ {
+  "id": "sivas",
+  "aliases": [],
+  "name_en": "Sivas University of Science and Technology",
+  "name_tr": "Sivas Bilim ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "sabanci",
+  "aliases": [],
+  "name_en": "Sabanci University",
+  "name_tr": "Sabancı Üniversitesi",
+  "note": "alan adi sabanciuniv.edu (edu.tr degil); mevcut kuralla kayit olamaz"
+ },
+ {
+  "id": "altinbas",
+  "aliases": [],
+  "name_en": "Altinbas University",
+  "name_tr": "Altınbaş Üniversitesi"
+ },
+ {
+  "id": "ihu",
+  "aliases": [],
+  "name_en": "Ibn Haldun University",
+  "name_tr": "İbn Haldun Üniversitesi"
+ },
+ {
+  "id": "beykoz",
+  "aliases": [],
+  "name_en": "Beykoz University",
+  "name_tr": "Beykoz Üniversitesi"
+ },
+ {
+  "id": "lokmanhekim",
+  "aliases": [],
+  "name_en": "Lokman Hekim University",
+  "name_tr": "Lokman Hekim Üniversitesi"
+ },
+ {
+  "id": "kapadokya",
+  "aliases": [],
+  "name_en": "Cappadocia University",
+  "name_tr": "Kapadokya Üniversitesi"
+ },
+ {
+  "id": "atlas",
+  "aliases": [],
+  "name_en": "Istanbul Atlas University",
+  "name_tr": "İstanbul Atlas Üniversitesi"
+ },
+ {
+  "id": "galata",
+  "aliases": [],
+  "name_en": "Istanbul Galata University",
+  "name_tr": "İstanbul Galata Üniversitesi"
+ },
+ {
+  "id": "kent",
+  "aliases": [],
+  "name_en": "Istanbul Kent University",
+  "name_tr": "İstanbul Kent Üniversitesi"
+ },
+ {
+  "id": "istun",
+  "aliases": [],
+  "name_en": "Istanbul Health and Technology University",
+  "name_tr": "İstanbul Sağlık ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "mgu",
+  "aliases": [],
+  "name_en": "Ankara Music and Fine Arts University",
+  "name_tr": "Ankara Müzik ve Güzel Sanatlar Üniversitesi"
+ },
+ {
+  "id": "pa",
+  "aliases": [],
+  "name_en": "Police Academy",
+  "name_tr": "Polis Akademisi"
+ },
+ {
+  "id": "kocaelisaglik",
+  "aliases": [],
+  "name_en": "Kocaeli Health and Technology University",
+  "name_tr": "Kocaeli Sağlık ve Teknoloji Üniversitesi"
+ },
+ {
+  "id": "belek",
+  "aliases": [],
+  "name_en": "Antalya Belek University",
+  "name_tr": "Antalya Belek Üniversitesi"
+ },
+ {
+  "id": "mudanya",
+  "aliases": [],
+  "name_en": "Mudanya University",
+  "name_tr": "Mudanya Üniversitesi"
+ },
+ {
+  "id": "tju",
+  "aliases": [],
+  "name_en": "Turkish-Japanese University of Science and Technology",
+  "name_tr": "Türk-Japon Bilim ve Teknoloji Üniversitesi"
+ }
+]

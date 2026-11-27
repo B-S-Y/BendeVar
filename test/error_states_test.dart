@@ -218,7 +218,7 @@ void main() {
     await tester.tap(find.text('Tekrar dene'));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
-    expect(find.byKey(const Key('mine-ytu')), findsOneWidget);
+    expect(find.byKey(const Key('mine-yildiz')), findsOneWidget);
   });
 
   for (final page in const [BlockedAccountsPage(), CommunitiesPage()]) {

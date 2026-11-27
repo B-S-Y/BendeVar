@@ -75,3 +75,22 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Kilit (3 yanlış şifre) artık 30 sn sürer (`MockAuthRepository.lockDuration`, tek sabit); süre dolunca kilit kalkar ve sayaç sıfırlanır. Geri sayım gösterilmez. Gerçek (Firebase) davranışı sunucuya bağlı olacak.
 - 1.07: "Yeni şifre" ve "Yeni şifreyi tekrar gir" alanlarının her birinin kendi göz ikonu var, bağımsız çalışır. 1.07 için PNG yok; Figma'daki hâl farklıysa (tek ikon vb.) bu sapmadır. Kayıt formunda (1.08) tek şifre alanı var ve kendi göz ikonu zaten var; ikinci alan yok.
 - Ayrı bir "ortak şifre alanı" widget'ı yok; ortak `AppTextField` (obscureText + suffix) kullanıldı, yeni widget yazılmadı.
+
+## Görev 5 · Ayarlar (1.15 – 1.21)
+- PNG yalnızca 1.15b için var (çıkış onayı: mevcut `showConfirmSheet`, PNG'ye uygun, aynen kullanıldı). 1.15, 1.18, 1.19, 1.19a/b, 1.20, 1.21 için PNG yok; en yakın örnek: 5.07 üst barı (koyu `appBar` + geri + başlık) ve Profil'deki menü satırı kartı. Metinler tahmini (ARB).
+- 1.15 satırları: Tema ve dil (bottom sheet), Bildirim ayarları, Topluluklarım (şimdilik ComingSoon, Görev 6'da 1.16), Gizlilik ve destek, Çıkış yap. 1.19: Engellenen hesaplar, Kullanım şartları (1.19a), Gizlilik politikası (1.19b), Yardım ve destek (ComingSoon SnackBar).
+- 1.19a/b, kayıttaki 1.10a/b ile aynı metni (`LegalPage`, `inSettings: true`) Ayarlar iskeletiyle gösterir; metinler örnek içeriktir.
+- 1.18'de 4 anahtar: Mesajlar, Karşılıklar, İade hatırlatmaları, Topluluk duyuruları (hepsi varsayılan açık; mock'ta bellekte tutulur, gerçek bildirim gönderimi yok).
+- 1.20/1.21: engellenenler mock (Mert Y., Kaan D.); "Engeli kaldır" 1.21 onay sheet'ini açar, onaylanınca listeden çıkar ve SnackBar gösterir. "Engelle" eylemi bu görevde yok (sohbet/profil ekranlarında, başka modül).
+- Ayarlar'a giriş: `/settings` rotası hazır; Profil ekranındaki dişli ikonu (`profile_page.dart`, `onPressed: () => context.push('/coming-soon')`) başkasının dosyası olduğu için DEĞİŞTİRİLMEDİ. Profil sahibi bunu `context.push('/settings')` yapmalı.
+
+## Görev 6 · Topluluklar (1.16 – 1.17)
+- PNG yok; düzen için Ayarlar ailesi (`SettingsScaffold`, `SettingsRow`) ve Mesajlar/Profil'deki satır örnekleri kullanıldı. Metinler tahmini (ARB).
+- 1.16 Topluluklarım: üstte arama kutusu, altında üyesi olunan topluluklar, "Davet koduyla katıl" ve "Topluluk oluştur" düğmeleri. Arama yazılınca liste 1.16g sonuçlarına döner (Katıl / Üyesin).
+- Okul topluluğu kayıtta otomatik katılınan topluluktur: listenin başında "Okulun" etiketiyle durur, ayrılma düğmesi yoktur (ayrılınamaz). Figma'da farklıysa bu bilinçli sapmadır.
+- Görünürlük: Açık (aramada çıkar, herkes katılır), Okula özel (aramada yalnızca aynı okulun üyelerine çıkar), Gizli (aramada çıkmaz, yalnızca davet koduyla).
+- 1.16b/1.16c davet kodu ayrı sayfa değil alt sayfa (bottom sheet): hata kodun altında, başarıda aynı sheet "Topluluğa katıldın" özetine döner. Mock kod: `PROJE-24` (Gizli "Proje Ekibi"); büyük/küçük harf ve boşluk önemsiz. Zaten üye olunan topluluğun kodu ayrı bir mesaj verir.
+- 1.16e kurucu işlemleri: kurucu olunan satırda "⋯" düğmesi → sheet (Davet kodunu kopyala, Topluluğu sil). 1.16f silme onayı ve 1.17 ayrılma onayı mevcut `showConfirmSheet` ile.
+- Oluşturulan her topluluğa mock davet kodu (`BV-xxxx`) üretilir; üyeler listesi/üye çıkarma bu görevde yok.
+- Mock topluluklar: Yıldız Yurt Topluluğu (okula özel), Kamp Kulübü, Yoga ve Esneme (açık), Proje Ekibi (gizli). Üye sayıları örnektir.
+- Ayarlar → "Topluluklarım" artık `/communities` rotasına gider.

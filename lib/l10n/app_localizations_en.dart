@@ -838,4 +838,220 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get passwordUpdated =>
       'Your password is updated. You can sign in with it.';
+
+  @override
+  String get myCommunities => 'My communities';
+
+  @override
+  String get notificationSettings => 'Notification settings';
+
+  @override
+  String get privacySupport => 'Privacy and support';
+
+  @override
+  String get notifMessages => 'Messages';
+
+  @override
+  String get notifMessagesDesc => 'Notify me when a new message arrives.';
+
+  @override
+  String get notifResponses => 'Responses';
+
+  @override
+  String get notifResponsesDesc =>
+      'Notify me when someone responds to my listing or need.';
+
+  @override
+  String get notifReminders => 'Return reminders';
+
+  @override
+  String get notifRemindersDesc =>
+      'Notify me when the return day of an item I borrowed is near.';
+
+  @override
+  String get notifAnnouncements => 'Community announcements';
+
+  @override
+  String get notifAnnouncementsDesc =>
+      'Notify me about important news in my community.';
+
+  @override
+  String get blockedAccounts => 'Blocked accounts';
+
+  @override
+  String get helpSupport => 'Help and support';
+
+  @override
+  String get blockedEmpty => 'You haven\'t blocked anyone.';
+
+  @override
+  String get unblock => 'Unblock';
+
+  @override
+  String get unblockTitle => 'Do you want to unblock?';
+
+  @override
+  String unblockLine1(String name) {
+    return '$name can message you again.';
+  }
+
+  @override
+  String get unblockLine2 => 'You\'ll see their listings and needs again.';
+
+  @override
+  String get unblocked => 'Unblocked.';
+
+  @override
+  String get communitiesSearchHint => 'Search communities';
+
+  @override
+  String get communitiesMine => 'My communities';
+
+  @override
+  String get communitiesResults => 'Search results';
+
+  @override
+  String get communitiesNoResults => 'No community matches this search.';
+
+  @override
+  String communityMembers(int count) {
+    return '$count members';
+  }
+
+  @override
+  String get communitySchoolBadge => 'Your school';
+
+  @override
+  String get communityFounderBadge => 'Founder';
+
+  @override
+  String get communityJoin => 'Join';
+
+  @override
+  String get communityMember => 'Member';
+
+  @override
+  String get communityJoined => 'You joined the community.';
+
+  @override
+  String get communityLeave => 'Leave';
+
+  @override
+  String get joinWithCode => 'Join with invite code';
+
+  @override
+  String get createCommunity => 'Create community';
+
+  @override
+  String get inviteCodeTitle => 'Join with invite code';
+
+  @override
+  String get inviteCodeHint => 'Invite code';
+
+  @override
+  String get inviteCodeBody =>
+      'Enter the code you got from the community\'s founder.';
+
+  @override
+  String get inviteCodeInvalid =>
+      'This code isn\'t valid. Check it and try again.';
+
+  @override
+  String get inviteCodeAlready => 'You\'re already a member of this community.';
+
+  @override
+  String get inviteCodeSuccessTitle => 'You joined the community';
+
+  @override
+  String inviteCodeSuccessBody(String name) {
+    return 'You joined $name.';
+  }
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get createCommunityTitle => 'Create community';
+
+  @override
+  String get communityNameLabel => 'Community name';
+
+  @override
+  String get communityNameHint => 'E.g. Camping Club';
+
+  @override
+  String get communityNameError =>
+      'The community name must be at least 3 characters.';
+
+  @override
+  String get communityDescLabel => 'Description (optional)';
+
+  @override
+  String get communityDescHint => 'What is this community for?';
+
+  @override
+  String get communityVisibilityLabel => 'Visibility';
+
+  @override
+  String get visibilityOpen => 'Open';
+
+  @override
+  String get visibilityOpenDesc => 'Shows up in search, anyone can join.';
+
+  @override
+  String get visibilitySchool => 'School only';
+
+  @override
+  String get visibilitySchoolDesc =>
+      'Shows up in search only for school members, and only they can join.';
+
+  @override
+  String get visibilitySecret => 'Secret';
+
+  @override
+  String get visibilitySecretDesc =>
+      'Doesn\'t show up in search; joined only with an invite code.';
+
+  @override
+  String get communityCreated => 'Community created.';
+
+  @override
+  String get founderActionsTitle => 'Community actions';
+
+  @override
+  String get copyInviteCode => 'Copy invite code';
+
+  @override
+  String get inviteCodeCopied => 'Invite code copied.';
+
+  @override
+  String get deleteCommunity => 'Delete community';
+
+  @override
+  String get deleteCommunityTitle => 'Do you want to delete the community?';
+
+  @override
+  String deleteCommunityLine1(String name) {
+    return '$name and its memberships will be deleted permanently.';
+  }
+
+  @override
+  String get deleteCommunityLine2 => 'This can\'t be undone.';
+
+  @override
+  String get communityDeleted => 'Community deleted.';
+
+  @override
+  String get leaveCommunityTitle => 'Do you want to leave the community?';
+
+  @override
+  String leaveCommunityLine1(String name) {
+    return 'If you leave $name, you won\'t see your listings and needs there.';
+  }
+
+  @override
+  String get leaveCommunityLine2 => 'You can join again later.';
+
+  @override
+  String get communityLeft => 'You left the community.';
 }

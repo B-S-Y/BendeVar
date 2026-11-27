@@ -75,7 +75,7 @@ class ProfilePage extends StatelessWidget {
                     icon: LucideIcons.settings,
                     tooltip: l.settings,
                     color: c.onAppBar,
-                    onPressed: () => context.push('/coming-soon'),
+                    onPressed: () => context.push('/settings'),
                   ),
                 ],
               ),

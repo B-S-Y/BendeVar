@@ -2,7 +2,9 @@
 /// yerine DI'da (lib/app/di.dart) tek satırla takılır.
 library;
 
+import '../models/community_models.dart';
 import '../models/models.dart';
+import '../models/settings_models.dart';
 
 /// Giriş hatası türleri (1.03b, 1.03c, 1.04).
 enum AuthFailure {
@@ -67,6 +69,31 @@ abstract class CommunityRepository {
 
   /// Varsa katılır, yoksa ilk kayıtta topluluğu açar.
   Future<Community> joinOrCreate(String schoolId);
+
+  /// Üyesi olunan topluluklar (okul topluluğu en üstte, ayrılınamaz).
+  Future<List<CommunityInfo>> myCommunities(Community school);
+
+  /// 1.16g · Ada göre arama. Gizli topluluklar çıkmaz; okula özel olanlar
+  /// yalnızca o okulun üyelerine çıkar.
+  Future<List<CommunityInfo>> search(String query);
+
+  Future<CommunityInfo> join(String id);
+
+  /// 1.16b/1.16c · Davet koduyla katılır; geçersizse [CommunityException].
+  Future<CommunityInfo> joinByCode(String code);
+
+  /// 1.16d · Topluluk açar; açan kişi kurucu olur.
+  Future<CommunityInfo> create({
+    required String name,
+    required String description,
+    required CommunityVisibility visibility,
+  });
+
+  /// 1.17 · Topluluktan ayrılır.
+  Future<void> leave(String id);
+
+  /// 1.16f · Kurucu topluluğu siler.
+  Future<void> delete(String id);
 }
 
 abstract class ListingRepository {
@@ -97,4 +124,12 @@ abstract class UserRepository {
   Future<List<Loan>> loans(LoanDirection direction);
   Future<List<PendingItem>> pending();
   Future<int> count(LoanDirection direction);
+}
+
+/// Ayarlar: bildirim tercihleri ve engellenen hesaplar.
+abstract class SettingsRepository {
+  Future<NotificationPrefs> notificationPrefs();
+  Future<void> saveNotificationPrefs(NotificationPrefs prefs);
+  Future<List<BlockedUser>> blockedUsers();
+  Future<void> unblock(String id);
 }

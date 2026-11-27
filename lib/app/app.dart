@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../core/theme/app_theme.dart';
 import '../features/auth/viewmodel/auth_view_model.dart';
+import '../features/auth/viewmodel/community_view_model.dart';
+import '../features/auth/viewmodel/settings_view_model.dart';
 import '../features/home/viewmodel/home_view_model.dart';
 import '../features/messages/viewmodel/messages_view_models.dart';
 import '../features/profile/viewmodel/profile_view_models.dart';
@@ -40,6 +42,12 @@ class _BendeVarAppState extends State<BendeVarApp> {
     widget.deps.notifications,
   );
   late final ProfileViewModel _profile = ProfileViewModel(widget.deps.users);
+  late final SettingsViewModel _settings = SettingsViewModel(
+    widget.deps.settings,
+  );
+  late final CommunityViewModel _communities = CommunityViewModel(
+    widget.deps.communities,
+  );
   late final GoRouter _router = buildRouter(widget.deps, _auth);
 
   @override
@@ -50,6 +58,8 @@ class _BendeVarAppState extends State<BendeVarApp> {
     _messages.dispose();
     _notifications.dispose();
     _profile.dispose();
+    _settings.dispose();
+    _communities.dispose();
     super.dispose();
   }
 
@@ -64,6 +74,8 @@ class _BendeVarAppState extends State<BendeVarApp> {
         ChangeNotifierProvider.value(value: _messages),
         ChangeNotifierProvider.value(value: _notifications),
         ChangeNotifierProvider.value(value: _profile),
+        ChangeNotifierProvider.value(value: _settings),
+        ChangeNotifierProvider.value(value: _communities),
       ],
       child: Consumer2<ThemeController, LocaleController>(
         builder: (context, theme, locale, _) => MaterialApp.router(

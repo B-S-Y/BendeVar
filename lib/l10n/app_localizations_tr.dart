@@ -824,4 +824,219 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get passwordUpdated =>
       'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.';
+
+  @override
+  String get myCommunities => 'Topluluklarım';
+
+  @override
+  String get notificationSettings => 'Bildirim ayarları';
+
+  @override
+  String get privacySupport => 'Gizlilik ve destek';
+
+  @override
+  String get notifMessages => 'Mesajlar';
+
+  @override
+  String get notifMessagesDesc => 'Yeni bir mesaj geldiğinde haber ver.';
+
+  @override
+  String get notifResponses => 'Karşılıklar';
+
+  @override
+  String get notifResponsesDesc =>
+      'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.';
+
+  @override
+  String get notifReminders => 'İade hatırlatmaları';
+
+  @override
+  String get notifRemindersDesc =>
+      'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.';
+
+  @override
+  String get notifAnnouncements => 'Topluluk duyuruları';
+
+  @override
+  String get notifAnnouncementsDesc =>
+      'Topluluğunla ilgili önemli gelişmeleri haber ver.';
+
+  @override
+  String get blockedAccounts => 'Engellenen hesaplar';
+
+  @override
+  String get helpSupport => 'Yardım ve destek';
+
+  @override
+  String get blockedEmpty => 'Engellediğin hesap yok.';
+
+  @override
+  String get unblock => 'Engeli kaldır';
+
+  @override
+  String get unblockTitle => 'Engeli kaldırmak istiyor musun?';
+
+  @override
+  String unblockLine1(String name) {
+    return '$name sana yeniden mesaj gönderebilir.';
+  }
+
+  @override
+  String get unblockLine2 =>
+      'Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.';
+
+  @override
+  String get unblocked => 'Engel kaldırıldı.';
+
+  @override
+  String get communitiesSearchHint => 'Topluluk ara';
+
+  @override
+  String get communitiesMine => 'Topluluklarım';
+
+  @override
+  String get communitiesResults => 'Arama sonuçları';
+
+  @override
+  String get communitiesNoResults => 'Bu aramaya uygun topluluk bulunamadı.';
+
+  @override
+  String communityMembers(int count) {
+    return '$count üye';
+  }
+
+  @override
+  String get communitySchoolBadge => 'Okulun';
+
+  @override
+  String get communityFounderBadge => 'Kurucu';
+
+  @override
+  String get communityJoin => 'Katıl';
+
+  @override
+  String get communityMember => 'Üyesin';
+
+  @override
+  String get communityJoined => 'Topluluğa katıldın.';
+
+  @override
+  String get communityLeave => 'Ayrıl';
+
+  @override
+  String get joinWithCode => 'Davet koduyla katıl';
+
+  @override
+  String get createCommunity => 'Topluluk oluştur';
+
+  @override
+  String get inviteCodeTitle => 'Davet koduyla katıl';
+
+  @override
+  String get inviteCodeHint => 'Davet kodu';
+
+  @override
+  String get inviteCodeBody => 'Topluluğun kurucusundan aldığın kodu gir.';
+
+  @override
+  String get inviteCodeInvalid =>
+      'Bu kod geçerli değil. Kodu kontrol edip tekrar dene.';
+
+  @override
+  String get inviteCodeAlready => 'Bu topluluğun zaten üyesisin.';
+
+  @override
+  String get inviteCodeSuccessTitle => 'Topluluğa katıldın';
+
+  @override
+  String inviteCodeSuccessBody(String name) {
+    return '$name topluluğuna katıldın.';
+  }
+
+  @override
+  String get done => 'Tamam';
+
+  @override
+  String get createCommunityTitle => 'Topluluk oluştur';
+
+  @override
+  String get communityNameLabel => 'Topluluk adı';
+
+  @override
+  String get communityNameHint => 'Örn. Kamp Kulübü';
+
+  @override
+  String get communityNameError => 'Topluluk adı en az 3 karakter olmalı.';
+
+  @override
+  String get communityDescLabel => 'Açıklama (isteğe bağlı)';
+
+  @override
+  String get communityDescHint => 'Bu topluluk ne için?';
+
+  @override
+  String get communityVisibilityLabel => 'Görünürlük';
+
+  @override
+  String get visibilityOpen => 'Açık';
+
+  @override
+  String get visibilityOpenDesc => 'Aramada çıkar, herkes katılabilir.';
+
+  @override
+  String get visibilitySchool => 'Okula özel';
+
+  @override
+  String get visibilitySchoolDesc =>
+      'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.';
+
+  @override
+  String get visibilitySecret => 'Gizli';
+
+  @override
+  String get visibilitySecretDesc =>
+      'Aramada çıkmaz; yalnızca davet koduyla katılınır.';
+
+  @override
+  String get communityCreated => 'Topluluk oluşturuldu.';
+
+  @override
+  String get founderActionsTitle => 'Topluluk işlemleri';
+
+  @override
+  String get copyInviteCode => 'Davet kodunu kopyala';
+
+  @override
+  String get inviteCodeCopied => 'Davet kodu kopyalandı.';
+
+  @override
+  String get deleteCommunity => 'Topluluğu sil';
+
+  @override
+  String get deleteCommunityTitle => 'Topluluğu silmek istiyor musun?';
+
+  @override
+  String deleteCommunityLine1(String name) {
+    return '$name topluluğu ve üyelikler kalıcı olarak silinir.';
+  }
+
+  @override
+  String get deleteCommunityLine2 => 'Bu işlem geri alınamaz.';
+
+  @override
+  String get communityDeleted => 'Topluluk silindi.';
+
+  @override
+  String get leaveCommunityTitle => 'Topluluktan ayrılmak istiyor musun?';
+
+  @override
+  String leaveCommunityLine1(String name) {
+    return '$name topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.';
+  }
+
+  @override
+  String get leaveCommunityLine2 => 'İstersen sonra yeniden katılabilirsin.';
+
+  @override
+  String get communityLeft => 'Topluluktan ayrıldın.';
 }

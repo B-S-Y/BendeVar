@@ -1621,6 +1621,402 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.'**
   String get passwordUpdated;
+
+  /// No description provided for @myCommunities.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluklarım'**
+  String get myCommunities;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim ayarları'**
+  String get notificationSettings;
+
+  /// No description provided for @privacySupport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik ve destek'**
+  String get privacySupport;
+
+  /// No description provided for @notifMessages.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mesajlar'**
+  String get notifMessages;
+
+  /// No description provided for @notifMessagesDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bir mesaj geldiğinde haber ver.'**
+  String get notifMessagesDesc;
+
+  /// No description provided for @notifResponses.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılıklar'**
+  String get notifResponses;
+
+  /// No description provided for @notifResponsesDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.'**
+  String get notifResponsesDesc;
+
+  /// No description provided for @notifReminders.
+  ///
+  /// In tr, this message translates to:
+  /// **'İade hatırlatmaları'**
+  String get notifReminders;
+
+  /// No description provided for @notifRemindersDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.'**
+  String get notifRemindersDesc;
+
+  /// No description provided for @notifAnnouncements.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk duyuruları'**
+  String get notifAnnouncements;
+
+  /// No description provided for @notifAnnouncementsDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğunla ilgili önemli gelişmeleri haber ver.'**
+  String get notifAnnouncementsDesc;
+
+  /// No description provided for @blockedAccounts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engellenen hesaplar'**
+  String get blockedAccounts;
+
+  /// No description provided for @helpSupport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım ve destek'**
+  String get helpSupport;
+
+  /// No description provided for @blockedEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engellediğin hesap yok.'**
+  String get blockedEmpty;
+
+  /// No description provided for @unblock.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engeli kaldır'**
+  String get unblock;
+
+  /// No description provided for @unblockTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engeli kaldırmak istiyor musun?'**
+  String get unblockTitle;
+
+  /// No description provided for @unblockLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} sana yeniden mesaj gönderebilir.'**
+  String unblockLine1(String name);
+
+  /// No description provided for @unblockLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.'**
+  String get unblockLine2;
+
+  /// No description provided for @unblocked.
+  ///
+  /// In tr, this message translates to:
+  /// **'Engel kaldırıldı.'**
+  String get unblocked;
+
+  /// No description provided for @communitiesSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk ara'**
+  String get communitiesSearchHint;
+
+  /// No description provided for @communitiesMine.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluklarım'**
+  String get communitiesMine;
+
+  /// No description provided for @communitiesResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arama sonuçları'**
+  String get communitiesResults;
+
+  /// No description provided for @communitiesNoResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aramaya uygun topluluk bulunamadı.'**
+  String get communitiesNoResults;
+
+  /// No description provided for @communityMembers.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} üye'**
+  String communityMembers(int count);
+
+  /// No description provided for @communitySchoolBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okulun'**
+  String get communitySchoolBadge;
+
+  /// No description provided for @communityFounderBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurucu'**
+  String get communityFounderBadge;
+
+  /// No description provided for @communityJoin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katıl'**
+  String get communityJoin;
+
+  /// No description provided for @communityMember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üyesin'**
+  String get communityMember;
+
+  /// No description provided for @communityJoined.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğa katıldın.'**
+  String get communityJoined;
+
+  /// No description provided for @communityLeave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayrıl'**
+  String get communityLeave;
+
+  /// No description provided for @joinWithCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet koduyla katıl'**
+  String get joinWithCode;
+
+  /// No description provided for @createCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluştur'**
+  String get createCommunity;
+
+  /// No description provided for @inviteCodeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet koduyla katıl'**
+  String get inviteCodeTitle;
+
+  /// No description provided for @inviteCodeHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu'**
+  String get inviteCodeHint;
+
+  /// No description provided for @inviteCodeBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun kurucusundan aldığın kodu gir.'**
+  String get inviteCodeBody;
+
+  /// No description provided for @inviteCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kod geçerli değil. Kodu kontrol edip tekrar dene.'**
+  String get inviteCodeInvalid;
+
+  /// No description provided for @inviteCodeAlready.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu topluluğun zaten üyesisin.'**
+  String get inviteCodeAlready;
+
+  /// No description provided for @inviteCodeSuccessTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğa katıldın'**
+  String get inviteCodeSuccessTitle;
+
+  /// No description provided for @inviteCodeSuccessBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğuna katıldın.'**
+  String inviteCodeSuccessBody(String name);
+
+  /// No description provided for @done.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get done;
+
+  /// No description provided for @createCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluştur'**
+  String get createCommunityTitle;
+
+  /// No description provided for @communityNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk adı'**
+  String get communityNameLabel;
+
+  /// No description provided for @communityNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn. Kamp Kulübü'**
+  String get communityNameHint;
+
+  /// No description provided for @communityNameError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk adı en az 3 karakter olmalı.'**
+  String get communityNameError;
+
+  /// No description provided for @communityDescLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıklama (isteğe bağlı)'**
+  String get communityDescLabel;
+
+  /// No description provided for @communityDescHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu topluluk ne için?'**
+  String get communityDescHint;
+
+  /// No description provided for @communityVisibilityLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünürlük'**
+  String get communityVisibilityLabel;
+
+  /// No description provided for @visibilityOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get visibilityOpen;
+
+  /// No description provided for @visibilityOpenDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada çıkar, herkes katılabilir.'**
+  String get visibilityOpenDesc;
+
+  /// No description provided for @visibilitySchool.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okula özel'**
+  String get visibilitySchool;
+
+  /// No description provided for @visibilitySchoolDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.'**
+  String get visibilitySchoolDesc;
+
+  /// No description provided for @visibilitySecret.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizli'**
+  String get visibilitySecret;
+
+  /// No description provided for @visibilitySecretDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramada çıkmaz; yalnızca davet koduyla katılınır.'**
+  String get visibilitySecretDesc;
+
+  /// No description provided for @communityCreated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk oluşturuldu.'**
+  String get communityCreated;
+
+  /// No description provided for @founderActionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk işlemleri'**
+  String get founderActionsTitle;
+
+  /// No description provided for @copyInviteCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodunu kopyala'**
+  String get copyInviteCode;
+
+  /// No description provided for @inviteCodeCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu kopyalandı.'**
+  String get inviteCodeCopied;
+
+  /// No description provided for @deleteCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğu sil'**
+  String get deleteCommunity;
+
+  /// No description provided for @deleteCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğu silmek istiyor musun?'**
+  String get deleteCommunityTitle;
+
+  /// No description provided for @deleteCommunityLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğu ve üyelikler kalıcı olarak silinir.'**
+  String deleteCommunityLine1(String name);
+
+  /// No description provided for @deleteCommunityLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem geri alınamaz.'**
+  String get deleteCommunityLine2;
+
+  /// No description provided for @communityDeleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk silindi.'**
+  String get communityDeleted;
+
+  /// No description provided for @leaveCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluktan ayrılmak istiyor musun?'**
+  String get leaveCommunityTitle;
+
+  /// No description provided for @leaveCommunityLine1.
+  ///
+  /// In tr, this message translates to:
+  /// **'{name} topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.'**
+  String leaveCommunityLine1(String name);
+
+  /// No description provided for @leaveCommunityLine2.
+  ///
+  /// In tr, this message translates to:
+  /// **'İstersen sonra yeniden katılabilirsin.'**
+  String get leaveCommunityLine2;
+
+  /// No description provided for @communityLeft.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluktan ayrıldın.'**
+  String get communityLeft;
 }
 
 class _AppLocalizationsDelegate

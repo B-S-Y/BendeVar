@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import '../models/community_models.dart';
 import '../models/models.dart';
+import '../models/settings_models.dart';
 import '../repositories/repositories.dart';
 import 'mock_data.dart';
 
@@ -202,6 +204,41 @@ class MockCommunityRepository implements CommunityRepository {
 
   final Map<String, Community> _bySchool;
 
+  /// Tüm topluluklar (okul toplulukları ilk girişte eklenir).
+  final Map<String, CommunityInfo> _all = {
+    'yurt': const CommunityInfo(
+      id: 'yurt',
+      name: 'Yıldız Yurt Topluluğu',
+      description: 'Yurtta kalanlar için ödünç alma ve verme.',
+      memberCount: 86,
+      visibility: CommunityVisibility.schoolOnly,
+      schoolId: 'ytu',
+    ),
+    'kamp': const CommunityInfo(
+      id: 'kamp',
+      name: 'Kamp Kulübü',
+      description: 'Kamp malzemelerini paylaşan herkes.',
+      memberCount: 42,
+      visibility: CommunityVisibility.open,
+    ),
+    'yoga': const CommunityInfo(
+      id: 'yoga',
+      name: 'Yoga ve Esneme',
+      memberCount: 18,
+      visibility: CommunityVisibility.open,
+    ),
+    'proje': const CommunityInfo(
+      id: 'proje',
+      name: 'Proje Ekibi',
+      memberCount: 6,
+      visibility: CommunityVisibility.secret,
+      inviteCode: 'PROJE-24',
+    ),
+  };
+
+  String _schoolId = '';
+  int _seq = 0;
+
   @override
   Future<Community?> findBySchool(String schoolId) async => _bySchool[schoolId];
 
@@ -212,6 +249,108 @@ class MockCommunityRepository implements CommunityRepository {
       final name = schoolId[0].toUpperCase() + schoolId.substring(1);
       return Community(id: schoolId, name: name, shortName: name);
     });
+  }
+
+  @override
+  Future<List<CommunityInfo>> myCommunities(Community school) async {
+    await Future<void>.delayed(_latency);
+    _schoolId = school.id;
+    _all.putIfAbsent(
+      school.id,
+      () => CommunityInfo(
+        id: school.id,
+        name: school.name,
+        memberCount: 1240,
+        visibility: CommunityVisibility.schoolOnly,
+        schoolId: school.id,
+        isSchool: true,
+        joined: true,
+      ),
+    );
+    final mine = _all.values.where((c) => c.joined).toList();
+    mine.sort((a, b) => a.isSchool == b.isSchool ? 0 : (a.isSchool ? -1 : 1));
+    return mine;
+  }
+
+  bool _visibleToMe(CommunityInfo c) =>
+      c.visibility == CommunityVisibility.open ||
+      (c.visibility == CommunityVisibility.schoolOnly &&
+          c.schoolId == _schoolId);
+
+  @override
+  Future<List<CommunityInfo>> search(String query) async {
+    await Future<void>.delayed(_latency);
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return const [];
+    return _all.values
+        .where((c) => _visibleToMe(c) && c.name.toLowerCase().contains(q))
+        .toList();
+  }
+
+  @override
+  Future<CommunityInfo> join(String id) async {
+    await Future<void>.delayed(_latency);
+    final c = _all[id]!;
+    if (c.joined) return c;
+    return _all[id] = c.copyWith(joined: true, memberCount: c.memberCount + 1);
+  }
+
+  @override
+  Future<CommunityInfo> joinByCode(String code) async {
+    await Future<void>.delayed(_latency);
+    final key = code.trim().toLowerCase();
+    final found = _all.values.where(
+      (c) => c.inviteCode != null && c.inviteCode!.toLowerCase() == key,
+    );
+    if (key.isEmpty || found.isEmpty) {
+      throw const CommunityException(CommunityFailure.invalidCode);
+    }
+    final c = found.first;
+    if (c.joined) {
+      throw const CommunityException(CommunityFailure.alreadyMember);
+    }
+    return _all[c.id] = c.copyWith(
+      joined: true,
+      memberCount: c.memberCount + 1,
+    );
+  }
+
+  @override
+  Future<CommunityInfo> create({
+    required String name,
+    required String description,
+    required CommunityVisibility visibility,
+  }) async {
+    await Future<void>.delayed(_latency);
+    _seq++;
+    final id = 'c$_seq';
+    final info = CommunityInfo(
+      id: id,
+      name: name.trim(),
+      description: description.trim(),
+      memberCount: 1,
+      visibility: visibility,
+      schoolId: visibility == CommunityVisibility.schoolOnly ? _schoolId : null,
+      isFounder: true,
+      joined: true,
+      inviteCode: 'BV-${1000 + _seq * 7}',
+    );
+    _all[id] = info;
+    return info;
+  }
+
+  @override
+  Future<void> leave(String id) async {
+    await Future<void>.delayed(_latency);
+    final c = _all[id];
+    if (c == null || c.isSchool) return;
+    _all[id] = c.copyWith(joined: false, memberCount: c.memberCount - 1);
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    await Future<void>.delayed(_latency);
+    _all.remove(id);
   }
 }
 
@@ -381,5 +520,46 @@ class MockUserRepository implements UserRepository {
         when: DateTime(DateTime.now().year, 11, 21, 14),
       ),
     ];
+  }
+}
+
+class MockSettingsRepository implements SettingsRepository {
+  NotificationPrefs _prefs = const NotificationPrefs();
+  final List<BlockedUser> _blocked = [
+    const BlockedUser(
+      id: 'u-mert',
+      name: 'Mert Y.',
+      initials: 'MY',
+      communityName: 'Yıldız Teknik Üniversitesi',
+    ),
+    const BlockedUser(
+      id: 'u-kaan',
+      name: 'Kaan D.',
+      initials: 'KD',
+      communityName: 'Yıldız Teknik Üniversitesi',
+    ),
+  ];
+
+  @override
+  Future<NotificationPrefs> notificationPrefs() async {
+    await Future<void>.delayed(_latency);
+    return _prefs;
+  }
+
+  @override
+  Future<void> saveNotificationPrefs(NotificationPrefs prefs) async {
+    _prefs = prefs;
+  }
+
+  @override
+  Future<List<BlockedUser>> blockedUsers() async {
+    await Future<void>.delayed(_latency);
+    return List.unmodifiable(_blocked);
+  }
+
+  @override
+  Future<void> unblock(String id) async {
+    await Future<void>.delayed(_latency);
+    _blocked.removeWhere((b) => b.id == id);
   }
 }

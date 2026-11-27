@@ -7,6 +7,8 @@ import '../data/models/models.dart';
 import '../features/auth/view/legal_page.dart';
 import '../features/auth/view/login_page.dart';
 import '../features/auth/view/password_reset_pages.dart';
+import '../features/auth/view/community_pages.dart';
+import '../features/auth/view/settings_pages.dart';
 import '../features/auth/view/signup_expired_page.dart';
 import '../features/auth/view/signup_name_page.dart';
 import '../features/auth/view/signup_page.dart';
@@ -91,6 +93,48 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
         builder: (_, _) => const LegalPage(kind: LegalKind.privacy),
       ),
       GoRoute(path: '/coming-soon', builder: (_, _) => const ComingSoonPage()),
+      GoRoute(
+        path: '/settings',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const NotificationSettingsPage(),
+      ),
+      GoRoute(
+        path: '/settings/privacy',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const PrivacySupportPage(),
+      ),
+      GoRoute(
+        path: '/settings/terms',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) =>
+            const LegalPage(kind: LegalKind.terms, inSettings: true),
+      ),
+      GoRoute(
+        path: '/settings/privacy-policy',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) =>
+            const LegalPage(kind: LegalKind.privacy, inSettings: true),
+      ),
+      GoRoute(
+        path: '/communities',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const CommunitiesPage(),
+      ),
+      GoRoute(
+        path: '/communities/create',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const CreateCommunityPage(),
+      ),
+      GoRoute(
+        path: '/settings/blocked',
+        parentNavigatorKey: rootKey,
+        builder: (_, _) => const BlockedAccountsPage(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) =>
             AppShell(shell: shell, branchKeys: branchKeys),

@@ -1039,4 +1039,8 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get communityLeft => 'Topluluktan ayrıldın.';
+
+  @override
+  String get emailAsciiHint =>
+      'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.';
 }

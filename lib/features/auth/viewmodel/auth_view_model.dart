@@ -48,6 +48,11 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  int _errorSeq = 0;
+
+  /// Her başarısız giriş denemesinde artar (alan titremesi için).
+  int get errorSeq => _errorSeq;
+
   void toggleObscure() {
     _obscure = !_obscure;
     notifyListeners();
@@ -58,6 +63,7 @@ class AuthViewModel extends ChangeNotifier {
     _showErrors = true;
     if (Validators.email(_email) != null ||
         Validators.password(_password) != null) {
+      _errorSeq++;
       notifyListeners();
       return false;
     }
@@ -69,6 +75,7 @@ class AuthViewModel extends ChangeNotifier {
       return true;
     } on AuthException catch (e) {
       _failure = e.failure;
+      _errorSeq++;
       return false;
     } finally {
       _loading = false;

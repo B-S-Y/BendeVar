@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_motion.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/validators.dart';
@@ -56,14 +57,48 @@ class LoginHeader extends StatelessWidget {
 }
 
 /// 1.02 gövde: başlık, e-posta, şifre, "Şifremi unuttum".
-class LoginBody extends StatelessWidget {
+class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
+
+  @override
+  State<LoginBody> createState() => _LoginBodyState();
+}
+
+class _LoginBodyState extends State<LoginBody> {
+  final ScrollController _scroll = ScrollController();
+  AuthFailure? _lastFailure;
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /// Hata kutusu açılınca form en üste döner; başlık yarım kesik kalmaz.
+  void _revealTop(AuthFailure? failure) {
+    if (failure == _lastFailure) return;
+    _lastFailure = failure;
+    if (failure == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scroll.hasClients || _scroll.offset == 0) return;
+      if (AppMotion.reduce(context)) {
+        _scroll.jumpTo(0);
+      } else {
+        _scroll.animateTo(
+          0,
+          duration: AppMotion.page,
+          curve: AppMotion.standard,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final l = AppLocalizations.of(context);
     final vm = context.watch<AuthViewModel>();
+    _revealTop(vm.failure);
 
     final emailError = vm.failure == AuthFailure.accountNotFound
         ? l.errorAccountNotFound
@@ -84,6 +119,7 @@ class LoginBody extends StatelessWidget {
     }
 
     return SingleChildScrollView(
+      controller: _scroll,
       padding: const EdgeInsets.symmetric(horizontal: _formSide),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,6 +140,7 @@ class LoginBody extends StatelessWidget {
             textInputAction: TextInputAction.next,
             onChanged: vm.setEmail,
             errorText: emailError,
+            errorSignal: vm.errorSeq,
           ),
           const SizedBox(height: AppSpacing.xl),
           AppTextField(
@@ -115,6 +152,7 @@ class LoginBody extends StatelessWidget {
             onChanged: vm.setPassword,
             onSubmitted: (_) => vm.canSubmit ? submit() : null,
             errorText: passwordError,
+            errorSignal: vm.errorSeq,
             suffix: IconButton(
               onPressed: vm.toggleObscure,
               tooltip: vm.obscure ? l.showPassword : l.hidePassword,

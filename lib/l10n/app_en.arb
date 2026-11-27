@@ -429,5 +429,6 @@
   "leaveCommunityLine1": "If you leave {name}, you won't see your listings and needs there.",
   "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
   "leaveCommunityLine2": "You can join again later.",
-  "communityLeft": "You left the community."
+  "communityLeft": "You left the community.",
+  "emailAsciiHint": "Email addresses don't use Turkish characters or capital letters, so we fixed it automatically."
 }

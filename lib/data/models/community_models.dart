@@ -39,7 +39,8 @@ class CommunityInfo {
   final bool isFounder;
   final bool joined;
 
-  /// Üyelerin paylaşabildiği davet kodu.
+  /// Davet kodu: yalnızca gizli topluluklarda (açık: herkes katılır, okula
+  /// özel: aynı okulun üyeleri katılır; ikisinde kod yok).
   final String? inviteCode;
 
   /// "Yıldız Teknik" → "YT".

@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
       title: l.settings,
       child: ListView(
         padding: _listPadding,
-        children: [
+        children: staggerRows([
           SettingsRow(
             icon: LucideIcons.sunMoon,
             label: l.themeAndLanguage,
@@ -77,7 +77,7 @@ class SettingsPage extends StatelessWidget {
             destructive: true,
             onTap: logout,
           ),
-        ],
+        ]),
       ),
     );
   }
@@ -134,7 +134,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
       title: l.notificationSettings,
       child: ListView(
         padding: _listPadding,
-        children: [
+        children: staggerRows([
           toggle(
             key: const Key('notif-messages'),
             icon: LucideIcons.messageCircle,
@@ -167,7 +167,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             value: p.announcements,
             onChanged: (v) => vm.setPrefs(p.copyWith(announcements: v)),
           ),
-        ],
+        ]),
       ),
     );
   }
@@ -184,7 +184,7 @@ class PrivacySupportPage extends StatelessWidget {
       title: l.privacySupport,
       child: ListView(
         padding: _listPadding,
-        children: [
+        children: staggerRows([
           SettingsRow(
             icon: LucideIcons.userX,
             label: l.blockedAccounts,
@@ -205,7 +205,7 @@ class PrivacySupportPage extends StatelessWidget {
             label: l.helpSupport,
             onTap: () => showComingSoonSnack(context),
           ),
-        ],
+        ]),
       ),
     );
   }

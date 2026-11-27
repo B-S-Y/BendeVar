@@ -94,3 +94,27 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Oluşturulan her topluluğa mock davet kodu (`BV-xxxx`) üretilir; üyeler listesi/üye çıkarma bu görevde yok.
 - Mock topluluklar: Yıldız Yurt Topluluğu (okula özel), Kamp Kulübü, Yoga ve Esneme (açık), Proje Ekibi (gizli). Üye sayıları örnektir.
 - Ayarlar → "Topluluklarım" artık `/communities` rotasına gider.
+
+## Düzeltme turu · A (giriş ve şifre)
+- A1–A3 Görev 4 düzeltmesinde zaten yapılmıştı (kilit kutusunda "Şifremi sıfırla" yok, kilit 30 sn tek sabit, 1.07'de bağımsız göz ikonları; kayıt formunda tek şifre alanı var). Kod değişmedi.
+- A4: hata kutusu (kilit, doğrulanmamış hesap) açılınca giriş formu en üste kayar; başlık kesik kalmaz.
+- A5: e-postada ilk Türkçe karakter/büyük harf dönüşümünde alanın altında 4 sn süren ipucu (`emailAsciiHint`); ortak `InstitutionEmailField` içinde, giriş ve kayıtta aynı; alan başına yalnızca bir kez. Süreler `AppMotion` token'larında (`lib/core/theme/app_motion.dart`).
+
+## Düzeltme turu · B (Ayarlar ve Profil)
+- B1: Profil'deki dişli ikonu zaten `/settings`'e bağlıydı (commit 648deda; `profile_page.dart` tek satır). Ayarlar'da ComingSoon'a/yakında mesajına giden tek satır: "Yardım ve destek" (Figma'da hedef ekran yok, SnackBar). "Topluluklarım" Görev 6'da 1.16'ya bağlandı.
+- B2: Tema ve dil sheet'i zaten tek ortak widget'tı (`showThemeLanguageSheet`, `lib/core/widgets/sheets.dart`); Profil ve Ayarlar ikisi de onu çağırıyor, kopya yok. Kod değişmedi.
+
+## Düzeltme turu · C (Topluluklar)
+- C1: Topluluklarım'a her girişte arama temizlenir (`CommunityViewModel.resetSearch`, sessiz; ekran kurulurken çağrılır), tüm topluluklar görünür.
+- C2: Davet kodu yalnızca Gizli topluluklarda. Açık: kod yok, herkes doğrudan katılır. Okula özel: kod yok, yalnızca aynı okulun üyeleri aramada görür ve doğrudan katılır. Gizli: kod var, aramada çıkmaz, yalnızca kodla bulunur. Kurucu sheet'inde "Davet kodunu kopyala" yalnızca gizlide görünür. "Kapalı" türü yok. Mock: oluşturulan açık/okula özel topluluklara kod üretilmez.
+
+## Düzeltme turu · D (animasyon ve his)
+- Tüm süre, eğri ve ölçüler `lib/core/theme/app_motion.dart` token'larında; renk eklenmedi, yeni paket yok. "Animasyonları azalt" açıkken (MediaQuery.disableAnimations) hiçbiri oynamaz.
+- D1: ortak sayfa geçişi `AppPageTransitionsBuilder` (hafif yana kayma + solma), `go_router` sayfaları `MaterialPage` olduğu için tek noktadan tema (`pageTransitionsTheme`) üzerinden TÜM rotalara uygulanır; rota başına ayrı tanım yok. Giriş/Kayıt/Karşılama aynı panelde (`AuthStage`) kendi animasyonuyla değiştiği için rota geçişi yoktur; geçiş Kayıt→Gönderildi→Ad, Şifre sıfırlama adımları ve Ayarlar rotalarında görünür. Alt menü sekmeleri (indexedStack) geçişsizdir.
+- D2: `PressScale` ortak widget'ı (scale 0,97) `PrimaryButton/SecondaryButton/DangerButton` ve `AppIconButton`'a bağlandı. `TextLinkButton`'a eklenmedi (metin bağlantısı).
+- D3: `ShakeOnError`, ortak `AppTextField` içinde; hata metni belirince/değişince titrer. Giriş formunda aynı hata tekrar gelse de titremesi için deneme sayacı (`AuthViewModel.errorSeq`, `errorSignal`) kullanıldı. Kayıt/şifre sıfırlama alanlarında yalnızca hata ilk belirince/değişince titrer.
+- D4: YAPILMADI/değişmedi: 1.06 (sıfırlama maili gönderildi) ve 1.09 (kayıt bağlantısı gönderildi) zaten aynı `EnvelopeAnimation` (açılan zarf + tik rozeti) kullanıyor. "Kayıt tamamlandı" adlı ayrı bir ekran yok (1.10 adını girince doğrudan Ana Sayfa'ya gidiliyor); Figma'da böyle bir ekran varsa söylenmeli.
+- D5: `AppEntrance` (sıralı yukarı kayma + solma, bir kez): Topluluklarım listesi/arama sonuçları, Ayarlar (1.15), Bildirim ayarları (1.18) ve Gizlilik ve destek (1.19) satırları. Engellenen hesaplar listesine eklenmedi.
+- D6 (GERİ ALINDI, bkz. aşağıdaki not): `AppColors.lerp` tüm renkleri `Color.lerp` ile geçiriyor (eskiden yarıda sıçrıyordu); `MaterialApp.themeAnimationDuration` = `AppMotion.theme`, azaltılınca sıfır.
+
+- D6 geri alındı: tema geçişi çok yavaş hissedildiği için `AppColors.lerp` ve `themeAnimationDuration` D6 öncesi hâline döndü (varsayılan MaterialApp tema geçişi). D1, D2, D3, D5 aynen duruyor.

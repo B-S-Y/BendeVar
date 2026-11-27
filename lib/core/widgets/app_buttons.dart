@@ -4,6 +4,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import 'press_scale.dart';
 
 enum _Kind { primary, secondary, danger }
 
@@ -109,10 +110,13 @@ class _AppButton extends StatelessWidget {
             ],
           );
 
-    return ElevatedButton(
-      onPressed: enabled ? onPressed : null,
-      style: style,
-      child: child,
+    return PressScale(
+      enabled: enabled,
+      child: ElevatedButton(
+        onPressed: enabled ? onPressed : null,
+        style: style,
+        child: child,
+      ),
     );
   }
 }
@@ -262,14 +266,21 @@ class AppIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onPressed,
-      tooltip: tooltip,
-      constraints: const BoxConstraints(
-        minWidth: AppSizes.tapTarget,
-        minHeight: AppSizes.tapTarget,
+    return PressScale(
+      enabled: onPressed != null,
+      child: IconButton(
+        onPressed: onPressed,
+        tooltip: tooltip,
+        constraints: const BoxConstraints(
+          minWidth: AppSizes.tapTarget,
+          minHeight: AppSizes.tapTarget,
+        ),
+        icon: Icon(
+          icon,
+          size: size,
+          color: color ?? context.colors.textPrimary,
+        ),
       ),
-      icon: Icon(icon, size: size, color: color ?? context.colors.textPrimary),
     );
   }
 }

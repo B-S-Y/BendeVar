@@ -1054,4 +1054,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get communityLeft => 'You left the community.';
+
+  @override
+  String get emailAsciiHint =>
+      'Email addresses don\'t use Turkish characters or capital letters, so we fixed it automatically.';
 }

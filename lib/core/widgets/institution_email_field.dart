@@ -1,7 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 
+import 'dart:async';
+
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+
 import '../../l10n/app_localizations.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_motion.dart';
+import '../theme/app_spacing.dart';
+import '../theme/app_typography.dart';
 import 'app_text_field.dart';
 
 /// Kurum e-postası denetleyicisi: kullanıcı `ad.soyad@` yazınca `.edu.tr`
@@ -37,6 +44,16 @@ class InstitutionEmailController extends TextEditingController {
     return b.toString();
   }
 
+  /// İlk ASCII/küçük harf çevirisinde bir kez true olur (kısa ipucu için).
+  final ValueNotifier<bool> conversionHint = ValueNotifier(false);
+  bool _hintUsed = false;
+
+  @override
+  void dispose() {
+    conversionHint.dispose();
+    super.dispose();
+  }
+
   /// Kurum dışı bir e-posta yapıştırıldı: olduğu gibi bırakılır (hata gösterilir).
   bool _foreign = false;
   bool get isForeign => _foreign;
@@ -48,7 +65,12 @@ class InstitutionEmailController extends TextEditingController {
 
   TextEditingValue _normalize(TextEditingValue old, TextEditingValue now) {
     // Boşluk e-postada olmaz.
-    var text = toAscii(now.text.replaceAll(RegExp(r'\s'), ''));
+    final raw = now.text.replaceAll(RegExp(r'\s'), '');
+    var text = toAscii(raw);
+    if (!_hintUsed && text != raw) {
+      _hintUsed = true;
+      conversionHint.value = true;
+    }
     var cursor = now.selection.isValid
         ? now.selection.baseOffset.clamp(0, text.length)
         : text.length;
@@ -127,6 +149,7 @@ class InstitutionEmailField extends StatefulWidget {
     this.onSubmitted,
     this.textInputAction,
     this.label,
+    this.errorSignal,
   });
 
   final Key? fieldKey;
@@ -138,6 +161,7 @@ class InstitutionEmailField extends StatefulWidget {
 
   /// Verilmezse "Kurum e-postası".
   final String? label;
+  final Object? errorSignal;
 
   @override
   State<InstitutionEmailField> createState() => _InstitutionEmailFieldState();
@@ -147,8 +171,28 @@ class _InstitutionEmailFieldState extends State<InstitutionEmailField> {
   late final InstitutionEmailController _own = InstitutionEmailController();
   InstitutionEmailController get _ctrl => widget.controller ?? _own;
 
+  bool _showHint = false;
+  Timer? _hintTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl.conversionHint.addListener(_onConversion);
+  }
+
+  void _onConversion() {
+    if (!_ctrl.conversionHint.value) return;
+    _hintTimer?.cancel();
+    setState(() => _showHint = true);
+    _hintTimer = Timer(AppMotion.hintVisible, () {
+      if (mounted) setState(() => _showHint = false);
+    });
+  }
+
   @override
   void dispose() {
+    _hintTimer?.cancel();
+    _ctrl.conversionHint.removeListener(_onConversion);
     _own.dispose();
     super.dispose();
   }
@@ -156,11 +200,13 @@ class _InstitutionEmailFieldState extends State<InstitutionEmailField> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final c = context.colors;
+    final fade = AppMotion.reduce(context) ? Duration.zero : AppMotion.hintFade;
     return ListenableBuilder(
       listenable: _ctrl,
       builder: (context, _) {
         // '@' yazılmadan önce ipucu "ad.soyad@okul", sonra alan dolu.
-        return AppTextField(
+        final field = AppTextField(
           fieldKey: widget.fieldKey,
           controller: _ctrl,
           label: widget.label ?? l.emailLabel,
@@ -170,8 +216,70 @@ class _InstitutionEmailFieldState extends State<InstitutionEmailField> {
           onChanged: widget.onChanged,
           onSubmitted: widget.onSubmitted,
           errorText: widget.errorText,
+          errorSignal: widget.errorSignal,
+        );
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            field,
+            _MaybeAnimatedSize(
+              animate: fade != Duration.zero,
+              duration: fade,
+              child: AnimatedOpacity(
+                duration: fade,
+                opacity: _showHint ? 1 : 0,
+                child: _showHint
+                    ? Padding(
+                        key: const Key('email-convert-hint'),
+                        padding: const EdgeInsets.only(top: AppSpacing.sm),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              LucideIcons.info,
+                              size: AppSizes.iconField,
+                              color: c.textSecondary,
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            Expanded(
+                              child: Text(
+                                l.emailAsciiHint,
+                                style: AppTypography.caption.copyWith(
+                                  color: c.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(width: double.infinity),
+              ),
+            ),
+          ],
         );
       },
     );
   }
+}
+
+/// Animasyonlar azaltıldıysa boyut animasyonu hiç kurulmaz.
+class _MaybeAnimatedSize extends StatelessWidget {
+  const _MaybeAnimatedSize({
+    required this.animate,
+    required this.duration,
+    required this.child,
+  });
+
+  final bool animate;
+  final Duration duration;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => animate
+      ? AnimatedSize(
+          duration: duration,
+          alignment: Alignment.topCenter,
+          child: child,
+        )
+      : child;
 }

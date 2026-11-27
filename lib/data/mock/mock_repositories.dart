@@ -333,7 +333,11 @@ class MockCommunityRepository implements CommunityRepository {
       schoolId: visibility == CommunityVisibility.schoolOnly ? _schoolId : null,
       isFounder: true,
       joined: true,
-      inviteCode: 'BV-${1000 + _seq * 7}',
+      // Davet kodu yalnızca gizli topluluklarda var; açık ve okula özel
+      // topluluklara kodsuz katılınır.
+      inviteCode: visibility == CommunityVisibility.secret
+          ? 'BV-${1000 + _seq * 7}'
+          : null,
     );
     _all[id] = info;
     return info;

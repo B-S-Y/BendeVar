@@ -36,3 +36,8 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Profil dişli ikonu artık /settings (1.15) rotasına gidiyor (profile_page.dart tek satır). Topluluklarım satırı Görev 6'ya kadar ComingSoon.
 
 - Görev 6 (Topluluklar 1.16–1.17) bitti: `CommunityRepository` genişletildi (arama, katıl, kod, oluştur, ayrıl, sil; mock bellekte), `CommunityViewModel`, `community_pages.dart` (1.16/1.16g/1.16b-c/1.16d/1.16e/1.16f/1.17), rotalar `/communities`, `/communities/create`. Testler: `test/community_test.dart`.
+- Düzeltme turu A: giriş kutusu en üste kayar (A4), e-posta ASCII ipucu (A5); A1-A3 önceden yapılmıştı. Testler: test/polish_test.dart.
+- Düzeltme turu B: kod değişikliği gerekmedi (B1, B2 önceden yapılmıştı); notlar DEVIATIONS.md'de.
+- Düzeltme turu C: arama girişte sıfırlanır, davet kodu yalnızca gizli topluluklarda; testler community_test.dart.
+- Düzeltme turu D: hareket token'ları (app_motion.dart), ortak sayfa geçişi, düğme basılma, alan titremesi, liste girişi, yumuşak tema geçişi. D4 için ayrı 'kayıt tamamlandı' ekranı yok (zarf+tik 1.06/1.09'da var). Testler: test/motion_test.dart.
+- D6 geri alındı (tema geçişi eski hâlinde); D1/D2/D3/D5 duruyor.

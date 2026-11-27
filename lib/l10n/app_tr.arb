@@ -429,5 +429,6 @@
   "leaveCommunityLine1": "{name} topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.",
   "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
   "leaveCommunityLine2": "İstersen sonra yeniden katılabilirsin.",
-  "communityLeft": "Topluluktan ayrıldın."
+  "communityLeft": "Topluluktan ayrıldın.",
+  "emailAsciiHint": "E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik."
 }

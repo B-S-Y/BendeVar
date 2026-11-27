@@ -5,6 +5,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import 'shake_on_error.dart';
 
 /// Etiketli giriş alanı: yükseklik 50, köşe 10, kenar `fieldBorder`.
 /// Hata = renk + ikon + açıklayıcı cümle.
@@ -26,6 +27,7 @@ class AppTextField extends StatelessWidget {
     this.onSubmitted,
     this.initialValue,
     this.fieldKey,
+    this.errorSignal,
   });
 
   final String? label;
@@ -44,8 +46,16 @@ class AppTextField extends StatelessWidget {
   final String? initialValue;
   final Key? fieldKey;
 
+  /// Aynı hata metni tekrar geldiğinde de titremesi için (örn. deneme sayacı).
+  final Object? errorSignal;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => ShakeOnError(
+    trigger: errorText == null ? null : Object.hash(errorText, errorSignal),
+    child: _buildField(context),
+  );
+
+  Widget _buildField(BuildContext context) {
     final c = context.colors;
     final hasError = errorText != null;
 

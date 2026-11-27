@@ -75,6 +75,90 @@ void main() {
     });
   });
 
+  group('C: davet kodu ve arama sıfırlama', () {
+    test('kod yalnızca gizli topluluklarda', () async {
+      final vm = CommunityViewModel(MockCommunityRepository());
+      await vm.load(mockCommunity);
+      for (final v in CommunityVisibility.values) {
+        final c = await vm.create(
+          name: 'Deneme ${v.name}',
+          description: '',
+          visibility: v,
+        );
+        expect(
+          c.inviteCode != null,
+          v == CommunityVisibility.secret,
+          reason: v.name,
+        );
+      }
+      // Seed: açık ve okula özel topluluklarda kod yok, gizlide var.
+      final repo = MockCommunityRepository();
+      await repo.myCommunities(mockCommunity);
+      for (final q in ['kamp', 'yoga', 'yurt']) {
+        for (final r in await repo.search(q)) {
+          expect(r.inviteCode, isNull, reason: r.name);
+        }
+      }
+      expect(
+        (await repo.joinByCode('PROJE-24')).visibility,
+        CommunityVisibility.secret,
+      );
+    });
+
+    test('açık ve okula özel topluluğa kodsuz doğrudan katılınır', () async {
+      final vm = CommunityViewModel(MockCommunityRepository());
+      await vm.load(mockCommunity);
+      await vm.join('kamp'); // açık
+      await vm.join('yurt'); // okula özel, aynı okul
+      expect(vm.mine.map((c) => c.id), containsAll(['kamp', 'yurt']));
+    });
+
+    test('resetSearch aramayı ve sonuçları temizler', () async {
+      final vm = CommunityViewModel(MockCommunityRepository());
+      await vm.load(mockCommunity);
+      await vm.setQuery('kamp');
+      expect(vm.results, isNotEmpty);
+      vm.resetSearch();
+      expect(vm.query, isEmpty);
+      expect(vm.isSearch, isFalse);
+      expect(vm.results, isEmpty);
+    });
+  });
+
+  testWidgets('C1: ekrana yeniden girince arama temizlenir', (tester) async {
+    await pumpApp(tester);
+    await signIn(tester);
+    Future<void> settle() async {
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+    }
+
+    await tester.tap(find.byIcon(LucideIcons.user));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Ayarlar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Topluluklarım'));
+    await settle();
+    await tester.enterText(find.byKey(const Key('community-search')), 'kamp');
+    await settle();
+    expect(find.byKey(const Key('result-kamp')), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Geri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Topluluklarım'));
+    await settle();
+    expect(find.byKey(const Key('result-kamp')), findsNothing);
+    expect(find.byKey(const Key('mine-ytu')), findsOneWidget);
+    final field = tester.widget<TextField>(
+      find.descendant(
+        of: find.byKey(const Key('community-search')),
+        matching: find.byType(TextField),
+      ),
+    );
+    expect(field.controller?.text ?? '', isEmpty);
+  });
+
   testWidgets('Topluluklar akışı: ara-katıl, ayrıl, kod, oluştur, sil', (
     tester,
   ) async {

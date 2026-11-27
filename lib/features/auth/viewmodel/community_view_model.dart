@@ -32,6 +32,15 @@ class CommunityViewModel extends ChangeNotifier {
   CommunityFailure? get codeFailure => _codeFailure;
   bool get busy => _busy;
 
+  /// Ekrana her girişte arama temizlenir, tüm topluluklar görünür. Sessiz:
+  /// ekran kurulurken (build sırasında) çağrılır.
+  void resetSearch() {
+    _query = '';
+    _results = const [];
+    _searching = false;
+    _searchSeq++;
+  }
+
   Future<void> load(Community school) async {
     _mine = await _repo.myCommunities(school);
     _loaded = true;

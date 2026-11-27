@@ -2017,6 +2017,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Topluluktan ayrıldın.'**
   String get communityLeft;
+
+  /// No description provided for @emailAsciiHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.'**
+  String get emailAsciiHint;
 }
 
 class _AppLocalizationsDelegate

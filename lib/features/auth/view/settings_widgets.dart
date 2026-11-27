@@ -7,6 +7,7 @@ import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
+import '../../../core/widgets/app_entrance.dart';
 import '../../../l10n/app_localizations.dart';
 
 /// Ayarlar ailesi (1.15, 1.18, 1.19, 1.19a/b, 1.20) ortak sayfa iskeleti:
@@ -142,3 +143,8 @@ class SettingsRow extends StatelessWidget {
     );
   }
 }
+
+/// Satırları sırayla yukarı kayarak gelecek şekilde sarar.
+List<Widget> staggerRows(List<Widget> rows) => [
+  for (final (i, r) in rows.indexed) AppEntrance(index: i, child: r),
+];

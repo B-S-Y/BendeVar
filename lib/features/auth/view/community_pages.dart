@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
+import '../../../core/widgets/app_entrance.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/sheets.dart';
 import '../../../core/widgets/small_widgets.dart';
@@ -53,7 +54,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
   void initState() {
     super.initState();
     final school = context.read<AuthViewModel>().user?.community;
-    final vm = context.read<CommunityViewModel>();
+    final vm = context.read<CommunityViewModel>()..resetSearch();
     if (school != null) vm.load(school);
   }
 
@@ -145,24 +146,27 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SectionLabel(l.communitiesResults),
-                for (final r in vm.results)
-                  _CommunityRow(
-                    key: Key('result-${r.id}'),
-                    community: r,
-                    trailing: r.joined
-                        ? Text(
-                            l.communityMember,
-                            style: AppTypography.captionStrong.copyWith(
-                              color: c.textSecondary,
+                for (final (i, r) in vm.results.indexed)
+                  AppEntrance(
+                    index: i,
+                    child: _CommunityRow(
+                      key: Key('result-${r.id}'),
+                      community: r,
+                      trailing: r.joined
+                          ? Text(
+                              l.communityMember,
+                              style: AppTypography.captionStrong.copyWith(
+                                color: c.textSecondary,
+                              ),
+                            )
+                          : PrimaryButton(
+                              key: Key('join-${r.id}'),
+                              label: l.communityJoin,
+                              small: true,
+                              expand: false,
+                              onPressed: () => _joinFromSearch(r),
                             ),
-                          )
-                        : PrimaryButton(
-                            key: Key('join-${r.id}'),
-                            label: l.communityJoin,
-                            small: true,
-                            expand: false,
-                            onPressed: () => _joinFromSearch(r),
-                          ),
+                    ),
                   ),
               ],
             );
@@ -171,32 +175,35 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(l.communitiesMine),
-          for (final m in vm.mine)
-            _CommunityRow(
-              key: Key('mine-${m.id}'),
-              community: m,
-              trailing: m.isSchool
-                  ? Text(
-                      l.communitySchoolBadge,
-                      style: AppTypography.captionStrong.copyWith(
+          for (final (i, m) in vm.mine.indexed)
+            AppEntrance(
+              index: i,
+              child: _CommunityRow(
+                key: Key('mine-${m.id}'),
+                community: m,
+                trailing: m.isSchool
+                    ? Text(
+                        l.communitySchoolBadge,
+                        style: AppTypography.captionStrong.copyWith(
+                          color: c.textSecondary,
+                        ),
+                      )
+                    : m.isFounder
+                    ? AppIconButton(
+                        key: Key('founder-${m.id}'),
+                        icon: LucideIcons.ellipsis,
+                        tooltip: l.founderActionsTitle,
                         color: c.textSecondary,
+                        onPressed: () => _founderActions(m),
+                      )
+                    : SecondaryButton(
+                        key: Key('leave-${m.id}'),
+                        label: l.communityLeave,
+                        small: true,
+                        expand: false,
+                        onPressed: () => _leave(m),
                       ),
-                    )
-                  : m.isFounder
-                  ? AppIconButton(
-                      key: Key('founder-${m.id}'),
-                      icon: LucideIcons.ellipsis,
-                      tooltip: l.founderActionsTitle,
-                      color: c.textSecondary,
-                      onPressed: () => _founderActions(m),
-                    )
-                  : SecondaryButton(
-                      key: Key('leave-${m.id}'),
-                      label: l.communityLeave,
-                      small: true,
-                      expand: false,
-                      onPressed: () => _leave(m),
-                    ),
+              ),
             ),
           const SizedBox(height: AppSpacing.xxl),
           SecondaryButton(
@@ -322,12 +329,14 @@ class _FounderSheet extends StatelessWidget {
               ),
             ],
             const SizedBox(height: AppSpacing.sm),
-            SettingsRow(
-              key: const Key('founder-copy'),
-              icon: LucideIcons.copy,
-              label: l.copyInviteCode,
-              onTap: () => Navigator.pop(context, _FounderAction.copyCode),
-            ),
+            // Davet kodu yalnızca gizli topluluklarda var.
+            if (community.inviteCode != null)
+              SettingsRow(
+                key: const Key('founder-copy'),
+                icon: LucideIcons.copy,
+                label: l.copyInviteCode,
+                onTap: () => Navigator.pop(context, _FounderAction.copyCode),
+              ),
             SettingsRow(
               key: const Key('founder-delete'),
               icon: LucideIcons.trash2,

@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import 'app_colors.dart';
+import 'app_page_transitions.dart';
 import 'app_radius.dart';
 import 'app_shadows.dart';
 import 'app_spacing.dart';
@@ -46,6 +47,12 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         titleTextStyle: AppTypography.appBar.copyWith(color: c.onAppBar),
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: AppPageTransitionsBuilder(),
+          TargetPlatform.iOS: AppPageTransitionsBuilder(),
+        },
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: c.card,

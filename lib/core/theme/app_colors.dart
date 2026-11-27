@@ -254,6 +254,9 @@ class AppColors extends ThemeExtension<AppColors> {
   }
 }
 
+/// Metin bağlantısı basılıyken vurgu renginin opaklığı.
+const double kLinkPressedAlpha = 0.7;
+
 extension AppColorsContext on BuildContext {
   AppColors get colors => Theme.of(this).extension<AppColors>()!;
 }

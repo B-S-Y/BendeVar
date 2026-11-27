@@ -10,7 +10,10 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('AuthViewModel giriş hataları', () {
     AuthViewModel make(String email, String pw) =>
-        AuthViewModel(MockAuthRepository())
+        AuthViewModel(
+            MockAuthRepository(),
+            communities: MockCommunityRepository(),
+          )
           ..setEmail(email)
           ..setPassword(pw);
 
@@ -62,9 +65,13 @@ void main() {
       '1.03c: kilit 30 sn sürer, sonra kalkar ve sayaç sıfırlanır',
       () async {
         var now = DateTime(2026, 1, 1, 12);
-        final vm = AuthViewModel(MockAuthRepository(now: () => now))
-          ..setEmail('elif@std.yildiz.edu.tr')
-          ..setPassword('yanlis');
+        final vm =
+            AuthViewModel(
+                MockAuthRepository(now: () => now),
+                communities: MockCommunityRepository(),
+              )
+              ..setEmail('elif@std.yildiz.edu.tr')
+              ..setPassword('yanlis');
         for (var i = 0; i < 3; i++) {
           await vm.signIn();
         }
@@ -101,7 +108,10 @@ void main() {
 
   group('AuthViewModel', () {
     test('iki alan dolmadan gönderilemez', () {
-      final vm = AuthViewModel(MockAuthRepository());
+      final vm = AuthViewModel(
+        MockAuthRepository(),
+        communities: MockCommunityRepository(),
+      );
       expect(vm.canSubmit, isFalse);
       vm.setEmail('ad@okul.edu.tr');
       expect(vm.canSubmit, isFalse);
@@ -110,18 +120,26 @@ void main() {
     });
 
     test('.edu.tr olmayan e-posta ile giriş başarısız', () async {
-      final vm = AuthViewModel(MockAuthRepository())
-        ..setEmail('ad@gmail.com')
-        ..setPassword('123');
+      final vm =
+          AuthViewModel(
+              MockAuthRepository(),
+              communities: MockCommunityRepository(),
+            )
+            ..setEmail('ad@gmail.com')
+            ..setPassword('123');
       expect(await vm.signIn(), isFalse);
       expect(vm.isSignedIn, isFalse);
       expect(vm.emailError, isNotNull);
     });
 
     test('geçerli bilgilerle giriş ve çıkış', () async {
-      final vm = AuthViewModel(MockAuthRepository())
-        ..setEmail('eda@std.yildiz.edu.tr')
-        ..setPassword('sifre123');
+      final vm =
+          AuthViewModel(
+              MockAuthRepository(),
+              communities: MockCommunityRepository(),
+            )
+            ..setEmail('eda@std.yildiz.edu.tr')
+            ..setPassword('sifre123');
       expect(await vm.signIn(), isTrue);
       expect(vm.isSignedIn, isTrue);
       await vm.signOut();

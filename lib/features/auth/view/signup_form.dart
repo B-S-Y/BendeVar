@@ -96,7 +96,7 @@ class SignupBody extends StatelessWidget {
             l.signupTitle,
             style: AppTypography.title1.copyWith(color: c.textPrimary),
           ),
-          const SizedBox(height: AppSpacing.xs + 2),
+          const SizedBox(height: AppSpacing.titleGap),
           Text(
             l.signupSubtitle,
             style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
@@ -138,7 +138,7 @@ class SignupBody extends StatelessWidget {
             ),
           ),
           if (passwordError == null) ...[
-            const SizedBox(height: AppSpacing.sm - 2),
+            const SizedBox(height: AppSpacing.hintGap),
             Text(
               l.signupPasswordRule,
               style: AppTypography.label.copyWith(
@@ -196,7 +196,7 @@ class _SchoolCard extends StatelessWidget {
               color: c.primary,
             ),
           ),
-          const SizedBox(width: AppSpacing.md - 2),
+          const SizedBox(width: AppSpacing.compactGap),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -33,6 +33,23 @@ class _SplashPageState extends State<SplashPage>
     duration: AppMotion.splash,
   );
   late final AuthViewModel _auth = context.read<AuthViewModel>();
+  // Bir kez kurulur, dispose'da bırakılır.
+  late final CurvedAnimation _logoT = CurvedAnimation(
+    parent: _ctrl,
+    curve: const Interval(
+      0,
+      AppMotion.splashLogoEnd,
+      curve: AppMotion.standard,
+    ),
+  );
+  late final CurvedAnimation _textT = CurvedAnimation(
+    parent: _ctrl,
+    curve: const Interval(
+      AppMotion.splashTextStart,
+      AppMotion.splashTextEnd,
+      curve: AppMotion.standard,
+    ),
+  );
   bool _animated = false;
   bool _left = false;
 
@@ -61,6 +78,8 @@ class _SplashPageState extends State<SplashPage>
   @override
   void dispose() {
     _auth.removeListener(_decide);
+    _logoT.dispose();
+    _textT.dispose();
     _ctrl.dispose();
     super.dispose();
   }
@@ -92,12 +111,8 @@ class _SplashPageState extends State<SplashPage>
       (a) => a.restored && a.isSignedIn,
     );
 
-    Animation<double> slice(double from, double to) => CurvedAnimation(
-      parent: _ctrl,
-      curve: Interval(from, to, curve: AppMotion.standard),
-    );
-    final logoT = slice(0, AppMotion.splashLogoEnd);
-    final textT = slice(AppMotion.splashTextStart, AppMotion.splashTextEnd);
+    final logoT = _logoT;
+    final textT = _textT;
 
     return Scaffold(
       backgroundColor: c.hero,

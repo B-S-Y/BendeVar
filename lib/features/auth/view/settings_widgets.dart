@@ -148,3 +148,75 @@ class SettingsRow extends StatelessWidget {
 List<Widget> staggerRows(List<Widget> rows) => [
   for (final (i, r) in rows.indexed) AppEntrance(index: i, child: r),
 ];
+
+/// Liste sayfası kenar boşluğu; alttaki sistem çubuğu payı eklenir (son satır
+/// gezinme çubuğunun altında kalmasın).
+EdgeInsets settingsListPadding(BuildContext context) => EdgeInsets.fromLTRB(
+  AppSpacing.screen,
+  AppSpacing.sm,
+  AppSpacing.screen,
+  AppSpacing.xxl + MediaQuery.paddingOf(context).bottom,
+);
+
+/// Yükleniyor göstergesi.
+class SettingsLoading extends StatelessWidget {
+  const SettingsLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(AppSpacing.xxl),
+    child: Center(
+      child: CircularProgressIndicator(
+        key: const Key('settings-loading'),
+        color: context.colors.primary,
+      ),
+    ),
+  );
+}
+
+/// Yüklenemedi: kısa açıklama + "Tekrar dene".
+class SettingsError extends StatelessWidget {
+  const SettingsError({super.key, required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final l = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.xxl),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            l.loadFailed,
+            textAlign: TextAlign.center,
+            style: AppTypography.body.copyWith(color: c.textSecondary),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          SecondaryButton(
+            key: const Key('retry'),
+            label: l.retry,
+            expand: false,
+            onPressed: onRetry,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// İşlem başarısız: kısa SnackBar + "Tekrar dene".
+void showActionFailed(
+  ScaffoldMessengerState messenger,
+  AppLocalizations l,
+  VoidCallback retry,
+) {
+  messenger.showSnackBar(
+    SnackBar(
+      content: Text(l.actionFailed),
+      action: SnackBarAction(label: l.retry, onPressed: retry),
+    ),
+  );
+}

@@ -19,13 +19,6 @@ import '../viewmodel/auth_view_model.dart';
 import '../viewmodel/community_view_model.dart';
 import 'settings_widgets.dart';
 
-const EdgeInsets _pagePadding = EdgeInsets.fromLTRB(
-  AppSpacing.screen,
-  AppSpacing.sm,
-  AppSpacing.screen,
-  AppSpacing.xxl,
-);
-
 String _visibilityLabel(AppLocalizations l, CommunityVisibility v) =>
     switch (v) {
       CommunityVisibility.open => l.visibilityOpen,
@@ -53,15 +46,13 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
   @override
   void initState() {
     super.initState();
-    final school = context.read<AuthViewModel>().user?.community;
+    final user = context.read<AuthViewModel>().user;
     final vm = context.read<CommunityViewModel>()..resetSearch();
-    if (school != null) vm.load(school);
+    if (user != null) vm.load(user);
   }
 
   Future<void> _leave(CommunityInfo c) async {
     final l = AppLocalizations.of(context);
-    final vm = context.read<CommunityViewModel>();
-    final messenger = ScaffoldMessenger.of(context);
     // 1.17 · Topluluktan ayrıl onayı.
     final ok = await showConfirmSheet(
       context,
@@ -71,13 +62,21 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
       confirmLabel: l.communityLeave,
     );
     if (!ok || !mounted) return;
-    await vm.leave(c.id);
-    messenger.showSnackBar(SnackBar(content: Text(l.communityLeft)));
+    await _doLeave(c);
+  }
+
+  Future<void> _doLeave(CommunityInfo c) async {
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (await context.read<CommunityViewModel>().leave(c.id)) {
+      messenger.showSnackBar(SnackBar(content: Text(l.communityLeft)));
+    } else {
+      showActionFailed(messenger, l, () => _doLeave(c));
+    }
   }
 
   Future<void> _founderActions(CommunityInfo c) async {
     final l = AppLocalizations.of(context);
-    final vm = context.read<CommunityViewModel>();
     final messenger = ScaffoldMessenger.of(context);
     // 1.16e · Kurucu işlemleri.
     final action = await showModalBottomSheet<_FounderAction>(
@@ -102,16 +101,28 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
           destructive: true,
         );
         if (!ok || !mounted) return;
-        await vm.delete(c.id);
-        messenger.showSnackBar(SnackBar(content: Text(l.communityDeleted)));
+        await _doDelete(c);
+    }
+  }
+
+  Future<void> _doDelete(CommunityInfo c) async {
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (await context.read<CommunityViewModel>().delete(c.id)) {
+      messenger.showSnackBar(SnackBar(content: Text(l.communityDeleted)));
+    } else {
+      showActionFailed(messenger, l, () => _doDelete(c));
     }
   }
 
   Future<void> _joinFromSearch(CommunityInfo c) async {
     final l = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
-    await context.read<CommunityViewModel>().join(c.id);
-    messenger.showSnackBar(SnackBar(content: Text(l.communityJoined)));
+    if (await context.read<CommunityViewModel>().join(c.id)) {
+      messenger.showSnackBar(SnackBar(content: Text(l.communityJoined)));
+    } else {
+      showActionFailed(messenger, l, () => _joinFromSearch(c));
+    }
   }
 
   Future<void> _inviteCode() => showModalBottomSheet<void>(
@@ -129,10 +140,14 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
 
     Widget body;
     if (!vm.loaded) {
-      body = const SizedBox.shrink();
+      body = vm.loadFailed
+          ? SettingsError(onRetry: vm.retryLoad)
+          : const SettingsLoading();
     } else if (vm.isSearch) {
-      body = vm.searching && vm.results.isEmpty
-          ? const SizedBox.shrink()
+      body = vm.searchFailed
+          ? SettingsError(onRetry: () => vm.setQuery(vm.query))
+          : vm.searching && vm.results.isEmpty
+          ? const SettingsLoading()
           : vm.results.isEmpty
           ? Padding(
               padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -226,7 +241,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
     return SettingsScaffold(
       title: l.myCommunities,
       child: ListView(
-        padding: _pagePadding,
+        padding: settingsListPadding(context),
         children: [
           AppTextField(
             fieldKey: const Key('community-search'),
@@ -384,6 +399,7 @@ class _InviteCodeSheetState extends State<_InviteCodeSheet> {
     final error = switch (failure) {
       CommunityFailure.invalidCode => l.inviteCodeInvalid,
       CommunityFailure.alreadyMember => l.inviteCodeAlready,
+      CommunityFailure.unknown => l.actionFailed,
       null => null,
     };
     final joined = _joined;
@@ -493,11 +509,16 @@ class _CreateCommunityPageState extends State<CreateCommunityPage> {
     final l = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final router = GoRouter.of(context);
-    await context.read<CommunityViewModel>().create(
+    final created = await context.read<CommunityViewModel>().create(
       name: _name.text,
       description: _desc.text,
       visibility: _visibility,
     );
+    if (!mounted) return;
+    if (created == null) {
+      showActionFailed(messenger, l, _create);
+      return;
+    }
     router.pop();
     messenger.showSnackBar(SnackBar(content: Text(l.communityCreated)));
   }
@@ -511,7 +532,7 @@ class _CreateCommunityPageState extends State<CreateCommunityPage> {
     return SettingsScaffold(
       title: l.createCommunityTitle,
       child: ListView(
-        padding: _pagePadding,
+        padding: settingsListPadding(context),
         children: [
           AppTextField(
             fieldKey: const Key('community-name'),

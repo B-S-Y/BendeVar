@@ -38,9 +38,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get emailLabel => 'Kurum e-postası';
 
   @override
-  String get emailHint => 'ad.soyad@okul.edu.tr';
-
-  @override
   String get passwordLabel => 'Şifre';
 
   @override
@@ -1055,4 +1052,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rememberMe => 'Beni hatırla';
+
+  @override
+  String get loadFailed => 'Yüklenemedi. Bağlantını kontrol edip tekrar dene.';
+
+  @override
+  String get actionFailed => 'İşlem tamamlanamadı.';
+
+  @override
+  String get retry => 'Tekrar dene';
+
+  @override
+  String stepSemantics(String label, int step, int total) {
+    return '$label ($step/$total)';
+  }
 }

@@ -56,7 +56,9 @@ class _EnvelopeAnimationState extends State<EnvelopeAnimation>
     with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 2080),
+    duration: Duration(
+      milliseconds: (EnvelopeAnimation.totalSeconds * 1000).round(),
+    ),
   );
   bool _started = false;
 

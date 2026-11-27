@@ -128,7 +128,7 @@ class AppTextField extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 1),
+                padding: const EdgeInsets.only(top: AppSizes.errorIconNudge),
                 child: Icon(
                   LucideIcons.circleAlert,
                   size: AppSizes.iconField,

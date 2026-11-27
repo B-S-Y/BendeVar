@@ -152,12 +152,6 @@ abstract class AppLocalizations {
   /// **'Kurum e-postası'**
   String get emailLabel;
 
-  /// No description provided for @emailHint.
-  ///
-  /// In tr, this message translates to:
-  /// **'ad.soyad@okul.edu.tr'**
-  String get emailHint;
-
   /// No description provided for @passwordLabel.
   ///
   /// In tr, this message translates to:
@@ -2041,6 +2035,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Beni hatırla'**
   String get rememberMe;
+
+  /// No description provided for @loadFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüklenemedi. Bağlantını kontrol edip tekrar dene.'**
+  String get loadFailed;
+
+  /// No description provided for @actionFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlem tamamlanamadı.'**
+  String get actionFailed;
+
+  /// No description provided for @retry.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar dene'**
+  String get retry;
+
+  /// No description provided for @stepSemantics.
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} ({step}/{total})'**
+  String stepSemantics(String label, int step, int total);
 }
 
 class _AppLocalizationsDelegate

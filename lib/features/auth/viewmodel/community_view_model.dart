@@ -19,6 +19,8 @@ class CommunityViewModel extends ChangeNotifier {
   int _searchSeq = 0;
   CommunityFailure? _codeFailure;
   bool _busy = false;
+  bool _loadFailed = false;
+  bool _searchFailed = false;
 
   /// En az bu kadar karakterli ad kabul edilir.
   static const int minNameLength = 3;
@@ -32,29 +34,66 @@ class CommunityViewModel extends ChangeNotifier {
   CommunityFailure? get codeFailure => _codeFailure;
   bool get busy => _busy;
 
+  /// Liste yüklenemedi ("Tekrar dene" gösterilir).
+  bool get loadFailed => _loadFailed;
+
+  /// Arama yapılamadı.
+  bool get searchFailed => _searchFailed;
+
   /// Ekrana her girişte arama temizlenir, tüm topluluklar görünür. Sessiz:
   /// ekran kurulurken (build sırasında) çağrılır.
   void resetSearch() {
     _query = '';
     _results = const [];
     _searching = false;
+    _searchFailed = false;
     _searchSeq++;
   }
 
-  Future<void> load(Community school) async {
-    _mine = await _repo.myCommunities(school);
-    _loaded = true;
-    notifyListeners();
+  AppUser? _user;
+
+  /// [user]'ın toplulukları (okul topluluğu en üstte).
+  Future<void> load(AppUser user) async {
+    _user = user;
+    _loadFailed = false;
+    try {
+      _mine = await _repo.myCommunities(
+        userId: user.id,
+        school: user.community,
+      );
+      _loaded = true;
+    } catch (_) {
+      _loadFailed = true;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  /// "Tekrar dene".
+  Future<void> retryLoad() async {
+    final user = _user;
+    if (user == null) return;
+    _loadFailed = false;
+    notifyListeners(); // hata → yükleniyor
+    await load(user);
   }
 
   Future<void> _reload() async {
-    // myCommunities okul bilgisini hatırlar; okul her zaman listede.
-    final school = _mine.where((c) => c.isSchool);
-    if (school.isEmpty) return;
-    final s = school.first;
-    _mine = await _repo.myCommunities(
-      Community(id: s.id, name: s.name, shortName: s.name),
-    );
+    final user = _user;
+    if (user == null) return;
+    _mine = await _repo.myCommunities(userId: user.id, school: user.community);
+  }
+
+  /// Çıkışta / kullanıcı değişince: önceki kullanıcının verisi kalmasın.
+  void reset() {
+    _user = null;
+    _mine = const [];
+    _loaded = false;
+    _loadFailed = false;
+    _codeFailure = null;
+    _busy = false;
+    resetSearch();
+    notifyListeners();
   }
 
   /// 1.16g · Arama kutusu değişti.
@@ -68,19 +107,33 @@ class CommunityViewModel extends ChangeNotifier {
       return;
     }
     _searching = true;
+    _searchFailed = false;
     notifyListeners();
-    final found = await _repo.search(value);
-    if (seq != _searchSeq) return; // eski sonuç
-    _results = found;
+    try {
+      final found = await _repo.search(value);
+      if (seq != _searchSeq) return; // eski sonuç
+      _results = found;
+    } catch (_) {
+      if (seq != _searchSeq) return;
+      _results = const [];
+      _searchFailed = true;
+    }
     _searching = false;
     notifyListeners();
   }
 
-  Future<void> join(String id) async {
-    await _repo.join(id);
-    await _reload();
-    if (isSearch) _results = await _repo.search(_query);
-    notifyListeners();
+  /// Başarılıysa true.
+  Future<bool> join(String id) async {
+    try {
+      await _repo.join(id);
+      await _reload();
+      if (isSearch) _results = await _repo.search(_query);
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
   }
 
   void clearCodeFailure() {
@@ -101,6 +154,9 @@ class CommunityViewModel extends ChangeNotifier {
     } on CommunityException catch (e) {
       _codeFailure = e.failure;
       return null;
+    } catch (_) {
+      _codeFailure = CommunityFailure.unknown;
+      return null;
     } finally {
       _busy = false;
       notifyListeners();
@@ -109,7 +165,8 @@ class CommunityViewModel extends ChangeNotifier {
 
   static bool validName(String name) => name.trim().length >= minNameLength;
 
-  Future<CommunityInfo> create({
+  /// Başarısızsa null.
+  Future<CommunityInfo?> create({
     required String name,
     required String description,
     required CommunityVisibility visibility,
@@ -124,23 +181,37 @@ class CommunityViewModel extends ChangeNotifier {
       );
       await _reload();
       return info;
+    } catch (_) {
+      return null;
     } finally {
       _busy = false;
       notifyListeners();
     }
   }
 
-  /// 1.17 · Ayrıl.
-  Future<void> leave(String id) async {
-    await _repo.leave(id);
-    _mine = _mine.where((c) => c.id != id).toList();
-    notifyListeners();
+  /// 1.17 · Ayrıl. Başarılıysa true.
+  Future<bool> leave(String id) async {
+    try {
+      await _repo.leave(id);
+      _mine = _mine.where((c) => c.id != id).toList();
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
   }
 
-  /// 1.16f · Sil (kurucu).
-  Future<void> delete(String id) async {
-    await _repo.delete(id);
-    _mine = _mine.where((c) => c.id != id).toList();
-    notifyListeners();
+  /// 1.16f · Sil (kurucu). Başarılıysa true.
+  Future<bool> delete(String id) async {
+    try {
+      await _repo.delete(id);
+      _mine = _mine.where((c) => c.id != id).toList();
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
   }
 }

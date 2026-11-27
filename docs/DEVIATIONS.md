@@ -26,6 +26,8 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 | appBarFieldFill / appBarFieldBorder | #1C2540 / #2A3552 | Üst bar içi alan |
 | scrim | siyah %70 | Alt sayfa arka perdesi |
 | unreadTint | #18233F | Okunmamış satır zemini |
+| heroTop | #050A18 | Karşılama/giriş zemini gradyanının üstü (1.01; açıkta #06112B) |
+| envelopeFront | #6F94DB | 1.09/1.06 zarf ön yüzü (açıkta #163066) |
 
 ## 1.01 Karşılama animasyonu (ANIMASYON_1.01.md)
 - Toplam süre 3,52 sn: belge "≈3,5 sn" diyor ama son öğe (panel içeriği) 3,52'de bitiyor; Interval 1'i aşmasın diye controller 3,52 sn.
@@ -145,3 +147,20 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Oturum yok: bekletmeden Karşılama'ya geçilir (tam 3,5 sn karşılama animasyonu orada, değişmedi); logo/ad hiç görünmez. Oturum var: ~1,2 sn (`AppMotion.splash`) karşılama zemini (`AuthBackdrop`, durağan yıldızlar), ortada `AppLogo` küçük büyümeyle (%80→%100), altında "Bende Var"; halka/parçacık/panel yok. Sonra giriş sonrası geçişle (`fadeToHome`: açılış solar, Ana Sayfa %96→%100) Ana Sayfa.
 - Kontrol 1,2 sn'den uzun sürerse oturum bilinince hemen geçilir. "Animasyonları azalt" açıksa açılış atlanır, doğrudan Ana Sayfa.
 - Redirect aynı: oturum yok → Karşılama (`/splash` herkese açık rota); oturum var → Ana Sayfa. Karşılama'ya geçiş ortak kayma+solma sayfa geçişini kullanır.
+
+## Kontrol turu düzeltmeleri · davranış
+- `CommunityRepository.myCommunities(userId:, school:)`: mock üyelikleri ve kurucuları kullanıcı kimliğine göre tutar; aynı oturumda başka hesapla girişte önceki kullanıcının toplulukları görünmez. `CommunityViewModel.load(AppUser)`.
+- Çıkışta / kullanıcı değişince `SettingsViewModel.reset()` ve `CommunityViewModel.reset()` (app.dart, AuthViewModel dinleyicisi). Başkasının `ProfileViewModel`'i (`lib/features/profile/viewmodel/profile_view_models.dart`, yapıcıda bir kez `_load`) değiştirilmedi; çıkıştan sonra başka hesapla girince eski sayılar kalabilir, sahibine bildirilmeli.
+- Oturum açıkken giriş öncesi sayfalar (`/welcome`, `/login`, `/signup`, `/signup/sent`, `/signup/expired`, `/forgot`, `/forgot/sent`, `/forgot/new`) Ana Sayfa'ya yönlenir. `/signup/name`, `/signup/done`, `/splash` ve yasal metinler hariç.
+- `restore()` hata verirse oturumsuz devam eder (açılış kapısı takılmaz). Çıkışta "Beni hatırla" kutusu sıfırlanır.
+
+## Kontrol turu düzeltmeleri · yükleniyor, hata, güvenli alan
+- Topluluklarım ve Engellenen hesaplar yüklenirken gösterge (`SettingsLoading`); 1.18'de ayarlar yüklenene kadar anahtarlar gösterilmez.
+- Yükleme hatasında kısa metin ("Yüklenemedi. Bağlantını kontrol edip tekrar dene.") + "Tekrar dene" (`SettingsError`). İşlem hatasında (katıl, ayrıl, sil, oluştur, engeli kaldır, bildirim kaydı) SnackBar "İşlem tamamlanamadı." + "Tekrar dene"; bildirim anahtarı kaydedilemezse eski değere döner. Davet kodunda beklenmeyen hata `CommunityFailure.unknown` ile aynı kısa metni gösterir.
+- Ayarlar ve Topluluklar liste boşluklarına alt sistem çubuğu payı (`MediaQuery.paddingOf(context).bottom`) eklendi (`settingsListPadding`).
+- Hata ve "Tekrar dene" tasarımı Figma'da yok; en yakın örnek boş liste metni + ikincil düğme.
+
+## Okul kimliği sınırı ve okula özel topluluk
+- Okul kimliği = e-postanın SONUNDAKİ `.edu.tr`'den önceki son kelime (`Validators.schoolId`): `boun.edu.tr` → `boun`, `std.bogazici.edu.tr` → `bogazici`, `ogr.msgsu.edu.tr` → `msgsu`. Yerel kısımdaki rakam kimliği etkilemez. `.edu.tr` sonekten başka yerde geçerse (`boun.edu.tr.com`, `boun.edu.trx`), okul adı yoksa (`@edu.tr`), boşluk ya da çift `@` varsa kimlik yoktur (null). Aynı okulun alt alan adları (`std.`, `ogr.`) aynı kimliğe düşer.
+- Sınır notu: yalnızca `.edu.tr` sonekli adresler kabul edilir; `.edu` ya da `.ac.uk` gibi kurum alanları bu MVP'de desteklenmez.
+- Okula özel topluluğa yalnızca aynı okulun üyeleri katılır: arama başka okula göstermez ve doğrudan katılma isteği de (`MockCommunityRepository.join`) reddedilir.

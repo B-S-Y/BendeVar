@@ -76,4 +76,34 @@ void main() {
     expect(Validators.schoolId('a@gmail.com'), isNull);
     expect(Validators.schoolId('a@.edu.tr'), isNull);
   });
+
+  test(
+    'Validators.schoolId: boun, std.bogazici, ogr.msgsu, rakamlı e-posta',
+    () {
+      expect(Validators.schoolId('ali@boun.edu.tr'), 'boun');
+      expect(Validators.schoolId('ali@std.bogazici.edu.tr'), 'bogazici');
+      expect(Validators.schoolId('ayse@ogr.msgsu.edu.tr'), 'msgsu');
+      // Rakamlı e-posta: yerel kısımdaki rakam okul kimliğini etkilemez.
+      expect(Validators.schoolId('ali123@boun.edu.tr'), 'boun');
+      expect(Validators.schoolId('2021.ali@ogr.msgsu.edu.tr'), 'msgsu');
+      // Büyük harf/boşluk: kimlik küçük harfe çevrilir.
+      expect(Validators.schoolId(' ALI@BOUN.EDU.TR '), 'boun');
+    },
+  );
+
+  test('Validators.schoolId: .edu.tr sınırı (yalnızca sonek sayılır)', () {
+    // .edu.tr e-postanın SONUNDA olmalı; ortada/yanında geçmesi yetmez.
+    expect(Validators.schoolId('a@boun.edu.tr.com'), isNull);
+    expect(Validators.schoolId('a@boun.edu.trx'), isNull);
+    expect(Validators.schoolId('a@bounedu.tr'), isNull);
+    expect(Validators.schoolId('a@edu.tr'), isNull); // okul kimliği yok
+    expect(Validators.schoolId('a@boun.edu'), isNull);
+    expect(Validators.schoolId('a@@boun.edu.tr'), isNull);
+    expect(Validators.schoolId('a b@boun.edu.tr'), isNull);
+    // Aynı okulun alt alan adları aynı kimliğe düşer.
+    expect(
+      Validators.schoolId('a@std.bogazici.edu.tr'),
+      Validators.schoolId('b@bogazici.edu.tr'),
+    );
+  });
 }

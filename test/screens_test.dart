@@ -44,7 +44,10 @@ void main() {
     // Bu testte animasyonlar açık (yıldız/leke sürekli döner, settle beklenmez).
     tester.platformDispatcher.accessibilityFeaturesTestValue =
         const FakeAccessibilityFeatures();
-    final vm = AuthViewModel(MockAuthRepository());
+    final vm = AuthViewModel(
+      MockAuthRepository(),
+      communities: MockCommunityRepository(),
+    );
     await tester.pumpWidget(
       ChangeNotifierProvider.value(value: vm, child: wrap(const AuthStage())),
     );
@@ -81,7 +84,10 @@ void main() {
       tester.view.viewPadding = const FakeViewPadding(bottom: 96, top: 96);
       tester.platformDispatcher.textScaleFactorTestValue = scale;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-      final vm = AuthViewModel(MockAuthRepository());
+      final vm = AuthViewModel(
+        MockAuthRepository(),
+        communities: MockCommunityRepository(),
+      );
       await tester.pumpWidget(
         ChangeNotifierProvider.value(value: vm, child: wrap(const AuthStage())),
       );
@@ -117,7 +123,10 @@ void main() {
     tester,
   ) async {
     useAndroidScreen(tester);
-    final vm = AuthViewModel(MockAuthRepository());
+    final vm = AuthViewModel(
+      MockAuthRepository(),
+      communities: MockCommunityRepository(),
+    );
     await tester.pumpWidget(
       ChangeNotifierProvider.value(value: vm, child: wrap(const LoginPage())),
     );
@@ -153,7 +162,10 @@ void main() {
     tester,
   ) async {
     useAndroidScreen(tester);
-    final vm = AuthViewModel(MockAuthRepository());
+    final vm = AuthViewModel(
+      MockAuthRepository(),
+      communities: MockCommunityRepository(),
+    );
     await tester.pumpWidget(
       ChangeNotifierProvider.value(value: vm, child: wrap(const LoginPage())),
     );

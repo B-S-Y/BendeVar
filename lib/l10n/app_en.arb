@@ -9,7 +9,6 @@
   "loginTitle": "Welcome back",
   "loginSubtitle": "Continue with your institutional email and password.",
   "emailLabel": "Institutional email",
-  "emailHint": "name.surname@school.edu.tr",
   "passwordLabel": "Password",
   "passwordHint": "Enter your password",
   "forgotPassword": "Forgot my password",
@@ -374,7 +373,13 @@
   "unblock": "Unblock",
   "unblockTitle": "Do you want to unblock?",
   "unblockLine1": "{name} can message you again.",
-  "@unblockLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@unblockLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "unblockLine2": "You'll see their listings and needs again.",
   "unblocked": "Unblocked.",
   "communitiesSearchHint": "Search communities",
@@ -382,7 +387,13 @@
   "communitiesResults": "Search results",
   "communitiesNoResults": "No community matches this search.",
   "communityMembers": "{count} members",
-  "@communityMembers": {"placeholders": {"count": {"type": "int"}}},
+  "@communityMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "communitySchoolBadge": "Your school",
   "communityFounderBadge": "Founder",
   "communityJoin": "Join",
@@ -398,7 +409,13 @@
   "inviteCodeAlready": "You're already a member of this community.",
   "inviteCodeSuccessTitle": "You joined the community",
   "inviteCodeSuccessBody": "You joined {name}.",
-  "@inviteCodeSuccessBody": {"placeholders": {"name": {"type": "String"}}},
+  "@inviteCodeSuccessBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "done": "Done",
   "createCommunityTitle": "Create community",
   "communityNameLabel": "Community name",
@@ -420,20 +437,61 @@
   "deleteCommunity": "Delete community",
   "deleteCommunityTitle": "Do you want to delete the community?",
   "deleteCommunityLine1": "{name} and its memberships will be deleted permanently.",
-  "@deleteCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@deleteCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deleteCommunityLine2": "This can't be undone.",
   "communityDeleted": "Community deleted.",
   "leaveCommunityTitle": "Do you want to leave the community?",
   "leaveCommunityLine1": "If you leave {name}, you won't see your listings and needs there.",
-  "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@leaveCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "leaveCommunityLine2": "You can join again later.",
   "communityLeft": "You left the community.",
   "emailAsciiHint": "Email addresses don't use Turkish characters or capital letters, so we fixed it automatically.",
   "doneTitle": "Welcome, {name}!",
-  "@doneTitle": {"placeholders": {"name": {"type": "String"}}},
+  "@doneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "doneSubtitle": "You joined the {community} community.",
-  "@doneSubtitle": {"placeholders": {"community": {"type": "String"}}},
+  "@doneSubtitle": {
+    "placeholders": {
+      "community": {
+        "type": "String"
+      }
+    }
+  },
   "doneSlogan": "Whatever you need, in your community. Share what you have, find what you need.",
   "doneStart": "Get started",
-  "rememberMe": "Remember me"
+  "rememberMe": "Remember me",
+  "loadFailed": "Couldn't load. Check your connection and try again.",
+  "actionFailed": "That didn't work.",
+  "retry": "Try again",
+  "stepSemantics": "{label} (step {step} of {total})",
+  "@stepSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

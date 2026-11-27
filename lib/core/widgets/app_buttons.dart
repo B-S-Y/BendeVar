@@ -90,7 +90,10 @@ class _AppButton extends StatelessWidget {
         ? SizedBox(
             width: AppSizes.iconRow,
             height: AppSizes.iconRow,
-            child: CircularProgressIndicator(strokeWidth: 2, color: fg),
+            child: CircularProgressIndicator(
+              strokeWidth: AppSizes.spinnerStroke,
+              color: fg,
+            ),
           )
         : Row(
             mainAxisSize: MainAxisSize.min,
@@ -232,7 +235,7 @@ class TextLinkButton extends StatelessWidget {
           ).copyWith(
             foregroundColor: WidgetStateProperty.resolveWith(
               (s) => s.contains(WidgetState.pressed)
-                  ? c.accent.withValues(alpha: 0.7)
+                  ? c.accent.withValues(alpha: kLinkPressedAlpha)
                   : c.accent,
             ),
           ),

@@ -23,7 +23,7 @@ class SignupStepper extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final labels = [l.stepAccount, l.stepVerify, l.stepName];
     return Semantics(
-      label: '${labels[step - 1]} ($step/3)',
+      label: l.stepSemantics(labels[step - 1], step, labels.length),
       child: ExcludeSemantics(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
@@ -47,7 +47,7 @@ class SignupStepper extends StatelessWidget {
                         color: i < step
                             ? context.colors.primary
                             : context.colors.silver,
-                        borderRadius: BorderRadius.circular(1),
+                        borderRadius: BorderRadius.circular(_line / 2),
                       ),
                     ),
                   ),
@@ -112,7 +112,7 @@ class _Step extends StatelessWidget {
         // Büyük yazı boyutunda yalnızca geçerli adımın etiketi (taşma olmasın).
         if (current ||
             MediaQuery.textScalerOf(context).scale(1) <= _maxScale) ...[
-          const SizedBox(width: AppSpacing.sm - 1),
+          const SizedBox(width: AppSpacing.brandGap),
           Text(
             label,
             style: AppTypography.label.copyWith(

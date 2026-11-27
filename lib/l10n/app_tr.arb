@@ -9,7 +9,6 @@
   "loginTitle": "Tekrar hoş geldin",
   "loginSubtitle": "Kurum e-postan ve şifrenle devam et.",
   "emailLabel": "Kurum e-postası",
-  "emailHint": "ad.soyad@okul.edu.tr",
   "passwordLabel": "Şifre",
   "passwordHint": "Şifreni gir",
   "forgotPassword": "Şifremi unuttum",
@@ -374,7 +373,13 @@
   "unblock": "Engeli kaldır",
   "unblockTitle": "Engeli kaldırmak istiyor musun?",
   "unblockLine1": "{name} sana yeniden mesaj gönderebilir.",
-  "@unblockLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@unblockLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "unblockLine2": "Onun ilanlarını ve ihtiyaçlarını yeniden görürsün.",
   "unblocked": "Engel kaldırıldı.",
   "communitiesSearchHint": "Topluluk ara",
@@ -382,7 +387,13 @@
   "communitiesResults": "Arama sonuçları",
   "communitiesNoResults": "Bu aramaya uygun topluluk bulunamadı.",
   "communityMembers": "{count} üye",
-  "@communityMembers": {"placeholders": {"count": {"type": "int"}}},
+  "@communityMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "communitySchoolBadge": "Okulun",
   "communityFounderBadge": "Kurucu",
   "communityJoin": "Katıl",
@@ -398,7 +409,13 @@
   "inviteCodeAlready": "Bu topluluğun zaten üyesisin.",
   "inviteCodeSuccessTitle": "Topluluğa katıldın",
   "inviteCodeSuccessBody": "{name} topluluğuna katıldın.",
-  "@inviteCodeSuccessBody": {"placeholders": {"name": {"type": "String"}}},
+  "@inviteCodeSuccessBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "done": "Tamam",
   "createCommunityTitle": "Topluluk oluştur",
   "communityNameLabel": "Topluluk adı",
@@ -420,20 +437,61 @@
   "deleteCommunity": "Topluluğu sil",
   "deleteCommunityTitle": "Topluluğu silmek istiyor musun?",
   "deleteCommunityLine1": "{name} topluluğu ve üyelikler kalıcı olarak silinir.",
-  "@deleteCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@deleteCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deleteCommunityLine2": "Bu işlem geri alınamaz.",
   "communityDeleted": "Topluluk silindi.",
   "leaveCommunityTitle": "Topluluktan ayrılmak istiyor musun?",
   "leaveCommunityLine1": "{name} topluluğundan ayrılırsan ilanlarını ve ihtiyaçlarını orada göremezsin.",
-  "@leaveCommunityLine1": {"placeholders": {"name": {"type": "String"}}},
+  "@leaveCommunityLine1": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "leaveCommunityLine2": "İstersen sonra yeniden katılabilirsin.",
   "communityLeft": "Topluluktan ayrıldın.",
   "emailAsciiHint": "E-posta adreslerinde Türkçe karakter ve büyük harf kullanılmaz, otomatik düzelttik.",
   "doneTitle": "Hoş geldin, {name}!",
-  "@doneTitle": {"placeholders": {"name": {"type": "String"}}},
+  "@doneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "doneSubtitle": "{community} topluluğuna katıldın.",
-  "@doneSubtitle": {"placeholders": {"community": {"type": "String"}}},
+  "@doneSubtitle": {
+    "placeholders": {
+      "community": {
+        "type": "String"
+      }
+    }
+  },
   "doneSlogan": "İhtiyacın topluluğunda. Elinde olanı paylaş, ihtiyacın olanı bul.",
   "doneStart": "Başla",
-  "rememberMe": "Beni hatırla"
+  "rememberMe": "Beni hatırla",
+  "loadFailed": "Yüklenemedi. Bağlantını kontrol edip tekrar dene.",
+  "actionFailed": "İşlem tamamlanamadı.",
+  "retry": "Tekrar dene",
+  "stepSemantics": "{label} ({step}/{total})",
+  "@stepSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

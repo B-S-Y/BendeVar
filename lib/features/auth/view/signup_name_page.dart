@@ -75,7 +75,7 @@ class _SignupNamePageState extends State<SignupNamePage> {
               l.nameTitle,
               style: AppTypography.title1.copyWith(color: c.textPrimary),
             ),
-            const SizedBox(height: AppSpacing.xs + 2),
+            const SizedBox(height: AppSpacing.titleGap),
             Text(
               l.nameSubtitle,
               style: AppTypography.bodySmall.copyWith(color: c.textSecondary),

@@ -60,12 +60,15 @@ class _SignupDonePageState extends State<SignupDonePage>
 
   @override
   void dispose() {
+    _checkT.dispose();
+    _titleT.dispose();
+    _subtitleT.dispose();
     _ctrl.dispose();
     _ambient.dispose();
     super.dispose();
   }
 
-  Animation<double> _slice(double start, double length, Curve curve) =>
+  CurvedAnimation _slice(double start, double length, Curve curve) =>
       CurvedAnimation(
         parent: _ctrl,
         curve: Interval(
@@ -74,6 +77,23 @@ class _SignupDonePageState extends State<SignupDonePage>
           curve: curve,
         ),
       );
+
+  // Bir kez kurulur, dispose'da bırakılır (her build'de yeniden değil).
+  late final CurvedAnimation _checkT = _slice(
+    0,
+    DoneMotion.check,
+    Curves.linear,
+  );
+  late final CurvedAnimation _titleT = _slice(
+    DoneMotion.titleStart,
+    DoneMotion.itemLength,
+    AppMotion.standard,
+  );
+  late final CurvedAnimation _subtitleT = _slice(
+    DoneMotion.subtitleStart,
+    DoneMotion.itemLength,
+    AppMotion.standard,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -123,20 +143,10 @@ class _SignupDonePageState extends State<SignupDonePage>
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SuccessCheck(
-                            animation: _slice(
-                              0,
-                              DoneMotion.check,
-                              Curves.linear,
-                            ),
-                          ),
+                          SuccessCheck(animation: _checkT),
                           const SizedBox(height: AppSpacing.xxl),
                           rise(
-                            _slice(
-                              DoneMotion.titleStart,
-                              DoneMotion.itemLength,
-                              AppMotion.standard,
-                            ),
+                            _titleT,
                             Text(
                               l.doneTitle(user.name),
                               key: const Key('done-title'),
@@ -148,11 +158,7 @@ class _SignupDonePageState extends State<SignupDonePage>
                           ),
                           const SizedBox(height: AppSpacing.md),
                           rise(
-                            _slice(
-                              DoneMotion.subtitleStart,
-                              DoneMotion.itemLength,
-                              AppMotion.standard,
-                            ),
+                            _subtitleT,
                             Text(
                               l.doneSubtitle(user.community),
                               key: const Key('done-subtitle'),

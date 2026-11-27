@@ -36,3 +36,13 @@ STIL_STANDARTLARI.md'de olmayan, ekranlardan ölçülen değerler (PNG 2x → dp
 | Logo 104, "Bende Var" 34/-0,4, ad boşluğu 14, slogan boşluğu 8 | ANIMASYON_1.01.md | Karşılama logo grubu |
 | Süre/eğri/gecikme sabitleri | ANIMASYON_1.01.md | `auth_motion.dart` |
 | envelopeFront #163066 (koyu: geçici #6F94DB) | 1.09 mockup | Zarf ön yüzü; diğer zarf renkleri mevcut rollerden (primary, accent, card, infoBg, onBadge) |
+| Başlık → alt başlık 6 (`AppSpacing.titleGap`) | 1.08/1.09 mockup (Kayit2_1.09_mockup.html), 1.05, 1.07, 1.10 | Mockup'taki 6 dp; görünüm aynı kalsın diye 4'lük ızgaraya yuvarlanmadı |
+| Alan → kural metni 6 (`AppSpacing.hintGap`) | 1.08 mockup, 1.07 | Şifre kuralı alana yakın durur |
+| Durum hapı dikey iç boşluk 6, köşe 20 (`AppSpacing.pillPadV`, `AppRadius.pill`) | 1.09 mockup ("Bekleniyor") | Hap biçimi |
+| Sıkı satır aralığı 10 (`AppSpacing.compactGap`) | 1.09 mockup alt bağlantılar, 1.06, 1.08 şartlar kutusu | Mockup ölçüsü |
+| "Gönderildi" dikey yığını 14 (`AppSpacing.sentGap`) | 1.09 mockup, 1.06 | Zarf, başlık, e-posta, açıklama arası |
+| Logo → "Bende Var" 7, adım noktası → etiket 7 (`AppSpacing.brandGap`) | 1.09 mockup (şerit, adım göstergesi) | Mockup ölçüsü |
+| Yükleniyor halkası çizgisi 2 (`AppSizes.spinnerStroke`) | Ortak düğmeler | Düğme yüksekliğine oranlı ince halka |
+| Hata ikonu dikey kaydırma 1 (`AppSizes.errorIconNudge`) | Ortak alan (hata satırı) | İkonu metnin ilk satırıyla hizalar |
+| Bağlantı basılı opaklığı %70 (`kLinkPressedAlpha`) | Ortak metin bağlantısı | Basılı geri bildirimi |
+| Zarf animasyonu 2,08 sn (`EnvelopeAnimation.totalSeconds`) | ANIMASYON_1.01.md (1.09) | Süre tek sabitten |

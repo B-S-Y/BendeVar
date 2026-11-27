@@ -49,21 +49,28 @@ class CommunityInfo {
     return words.take(2).map((w) => w[0].toUpperCase()).join();
   }
 
-  CommunityInfo copyWith({bool? joined, int? memberCount}) => CommunityInfo(
-    id: id,
-    name: name,
-    description: description,
-    memberCount: memberCount ?? this.memberCount,
-    visibility: visibility,
-    schoolId: schoolId,
-    isSchool: isSchool,
-    isFounder: isFounder,
-    joined: joined ?? this.joined,
-    inviteCode: inviteCode,
-  );
+  CommunityInfo copyWith({bool? joined, int? memberCount, bool? isFounder}) =>
+      CommunityInfo(
+        id: id,
+        name: name,
+        description: description,
+        memberCount: memberCount ?? this.memberCount,
+        visibility: visibility,
+        schoolId: schoolId,
+        isSchool: isSchool,
+        isFounder: isFounder ?? this.isFounder,
+        joined: joined ?? this.joined,
+        inviteCode: inviteCode,
+      );
 }
 
-enum CommunityFailure { invalidCode, alreadyMember }
+enum CommunityFailure {
+  invalidCode,
+  alreadyMember,
+
+  /// Beklenmeyen hata (bağlantı vb.).
+  unknown,
+}
 
 class CommunityException implements Exception {
   const CommunityException(this.failure);

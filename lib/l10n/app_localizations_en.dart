@@ -39,9 +39,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailLabel => 'Institutional email';
 
   @override
-  String get emailHint => 'name.surname@school.edu.tr';
-
-  @override
   String get passwordLabel => 'Password';
 
   @override
@@ -1070,4 +1067,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rememberMe => 'Remember me';
+
+  @override
+  String get loadFailed =>
+      'Couldn\'t load. Check your connection and try again.';
+
+  @override
+  String get actionFailed => 'That didn\'t work.';
+
+  @override
+  String get retry => 'Try again';
+
+  @override
+  String stepSemantics(String label, int step, int total) {
+    return '$label (step $step of $total)';
+  }
 }

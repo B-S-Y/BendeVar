@@ -16,13 +16,6 @@ import '../viewmodel/auth_view_model.dart';
 import '../viewmodel/settings_view_model.dart';
 import 'settings_widgets.dart';
 
-const EdgeInsets _listPadding = EdgeInsets.fromLTRB(
-  AppSpacing.screen,
-  AppSpacing.sm,
-  AppSpacing.screen,
-  AppSpacing.xxl,
-);
-
 /// 1.15 · Ayarlar. Tema/dil satırı bottom sheet açar; çıkış 1.15b onayını açar.
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -49,7 +42,7 @@ class SettingsPage extends StatelessWidget {
     return SettingsScaffold(
       title: l.settings,
       child: ListView(
-        padding: _listPadding,
+        padding: settingsListPadding(context),
         children: staggerRows([
           SettingsRow(
             icon: LucideIcons.sunMoon,
@@ -130,10 +123,27 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
       ),
     );
 
+    // Ayarlar yüklenene kadar anahtarlar gösterilmez.
+    if (!vm.loadedPrefs) {
+      return SettingsScaffold(
+        title: l.notificationSettings,
+        child: vm.prefsFailed
+            ? SettingsError(onRetry: vm.retryPrefs)
+            : const SettingsLoading(),
+      );
+    }
+
+    Future<void> save(NotificationPrefs next) async {
+      final messenger = ScaffoldMessenger.of(context);
+      if (!await vm.setPrefs(next)) {
+        showActionFailed(messenger, l, () => save(next));
+      }
+    }
+
     return SettingsScaffold(
       title: l.notificationSettings,
       child: ListView(
-        padding: _listPadding,
+        padding: settingsListPadding(context),
         children: staggerRows([
           toggle(
             key: const Key('notif-messages'),
@@ -141,7 +151,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             label: l.notifMessages,
             description: l.notifMessagesDesc,
             value: p.messages,
-            onChanged: (v) => vm.setPrefs(p.copyWith(messages: v)),
+            onChanged: (v) => save(p.copyWith(messages: v)),
           ),
           toggle(
             key: const Key('notif-responses'),
@@ -149,7 +159,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             label: l.notifResponses,
             description: l.notifResponsesDesc,
             value: p.responses,
-            onChanged: (v) => vm.setPrefs(p.copyWith(responses: v)),
+            onChanged: (v) => save(p.copyWith(responses: v)),
           ),
           toggle(
             key: const Key('notif-reminders'),
@@ -157,7 +167,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             label: l.notifReminders,
             description: l.notifRemindersDesc,
             value: p.reminders,
-            onChanged: (v) => vm.setPrefs(p.copyWith(reminders: v)),
+            onChanged: (v) => save(p.copyWith(reminders: v)),
           ),
           toggle(
             key: const Key('notif-announcements'),
@@ -165,7 +175,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             label: l.notifAnnouncements,
             description: l.notifAnnouncementsDesc,
             value: p.announcements,
-            onChanged: (v) => vm.setPrefs(p.copyWith(announcements: v)),
+            onChanged: (v) => save(p.copyWith(announcements: v)),
           ),
         ]),
       ),
@@ -183,7 +193,7 @@ class PrivacySupportPage extends StatelessWidget {
     return SettingsScaffold(
       title: l.privacySupport,
       child: ListView(
-        padding: _listPadding,
+        padding: settingsListPadding(context),
         children: staggerRows([
           SettingsRow(
             icon: LucideIcons.userX,
@@ -228,8 +238,6 @@ class _BlockedAccountsPageState extends State<BlockedAccountsPage> {
 
   Future<void> _unblock(BlockedUser user) async {
     final l = AppLocalizations.of(context);
-    final vm = context.read<SettingsViewModel>();
-    final messenger = ScaffoldMessenger.of(context);
     // 1.21 · Engeli kaldır onayı.
     final ok = await showConfirmSheet(
       context,
@@ -239,8 +247,18 @@ class _BlockedAccountsPageState extends State<BlockedAccountsPage> {
       confirmLabel: l.unblock,
     );
     if (!ok || !mounted) return;
-    await vm.unblock(user.id);
-    messenger.showSnackBar(SnackBar(content: Text(l.unblocked)));
+    await _doUnblock(user);
+  }
+
+  Future<void> _doUnblock(BlockedUser user) async {
+    final l = AppLocalizations.of(context);
+    final vm = context.read<SettingsViewModel>();
+    final messenger = ScaffoldMessenger.of(context);
+    if (await vm.unblock(user.id)) {
+      messenger.showSnackBar(SnackBar(content: Text(l.unblocked)));
+    } else {
+      showActionFailed(messenger, l, () => _doUnblock(user));
+    }
   }
 
   @override
@@ -252,7 +270,9 @@ class _BlockedAccountsPageState extends State<BlockedAccountsPage> {
     return SettingsScaffold(
       title: l.blockedAccounts,
       child: !vm.loadedBlocked
-          ? const SizedBox.shrink()
+          ? (vm.blockedFailed
+                ? SettingsError(onRetry: vm.retryBlocked)
+                : const SettingsLoading())
           : vm.blocked.isEmpty
           ? Center(
               child: Padding(
@@ -265,7 +285,7 @@ class _BlockedAccountsPageState extends State<BlockedAccountsPage> {
               ),
             )
           : ListView(
-              padding: _listPadding,
+              padding: settingsListPadding(context),
               children: [
                 for (final u in vm.blocked)
                   Padding(

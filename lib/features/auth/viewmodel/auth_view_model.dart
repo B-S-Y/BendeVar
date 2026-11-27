@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/utils/validators.dart';
-import '../../../data/mock/mock_repositories.dart';
 import '../../../data/models/models.dart';
 import '../../../data/repositories/repositories.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  AuthViewModel(this._repo, {CommunityRepository? communities})
-    : _communities = communities ?? MockCommunityRepository(),
-      _user = _repo.currentUser;
+  AuthViewModel(this._repo, {required this._communities})
+    : _user = _repo.currentUser;
 
   final AuthRepository _repo;
   final CommunityRepository _communities;
@@ -55,10 +53,15 @@ class AuthViewModel extends ChangeNotifier {
 
   /// Açılış kapısı (SplashPage) için: kalıcı oturumu geri yükler.
   Future<void> restore() async {
-    final user = await _repo.restoreSession();
-    if (user != null) _user = user;
-    _restored = true;
-    notifyListeners();
+    try {
+      final user = await _repo.restoreSession();
+      if (user != null) _user = user;
+    } catch (_) {
+      // Okunamadı: oturumsuz devam (Karşılama). Açılış kapısı takılmaz.
+    } finally {
+      _restored = true;
+      notifyListeners();
+    }
   }
 
   /// Açılış → Ana Sayfa geçişi giriş sonrası geçişle aynı olsun (sessiz).
@@ -422,6 +425,7 @@ class AuthViewModel extends ChangeNotifier {
     await _repo.signOut();
     _user = null;
     _fadeToHome = false;
+    _remember = false;
     _email = '';
     _password = '';
     _showErrors = false;

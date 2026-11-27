@@ -14,8 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'test_helpers.dart';
 
-AuthViewModel _vm({Duration verifyAfter = Duration.zero}) =>
-    AuthViewModel(MockAuthRepository(verifyAfter: verifyAfter));
+AuthViewModel _vm({Duration verifyAfter = Duration.zero}) => AuthViewModel(
+  MockAuthRepository(verifyAfter: verifyAfter),
+  communities: MockCommunityRepository(),
+);
 
 void main() {
   setUpAll(initTestEnv);
@@ -79,8 +81,10 @@ void main() {
     );
 
     test('süresi dolan bağlantı expired verir', () async {
-      final vm = AuthViewModel(MockAuthRepository(verifyAfter: Duration.zero))
-        ..setResetEmail('suredoldu@yildiz.edu.tr');
+      final vm = AuthViewModel(
+        MockAuthRepository(verifyAfter: Duration.zero),
+        communities: MockCommunityRepository(),
+      )..setResetEmail('suredoldu@yildiz.edu.tr');
       // Hesap yok → pending; kayıtlı hesapla denemek için kayıt aç.
       vm
         ..setSignupEmail('suredoldu@yildiz.edu.tr')

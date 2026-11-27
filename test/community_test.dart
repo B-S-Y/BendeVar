@@ -11,18 +11,22 @@ import 'package:provider/provider.dart';
 
 import 'test_helpers.dart';
 
+final _marmaraUser = mockAccounts
+    .firstWhere((a) => a.user.community.id == mockMarmara.id)
+    .user;
+
 void main() {
   setUpAll(initTestEnv);
 
   group('CommunityViewModel', () {
     test('okul topluluğu en üstte ve ayrılınamaz', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
+      await vm.load(mockUser);
       expect(vm.mine.map((c) => c.id), ['ytu']);
       expect(vm.mine.first.isSchool, isTrue);
       await vm.leave('yildiz'); // listeden düşer ama repo okulu bırakmaz
       final again = CommunityViewModel(MockCommunityRepository());
-      await again.load(mockCommunity);
+      await again.load(mockUser);
       expect(again.mine, isNotEmpty);
     });
 
@@ -31,14 +35,14 @@ void main() {
       () async {
         final repo = MockCommunityRepository();
         final vm = CommunityViewModel(repo);
-        await vm.load(mockCommunity); // yildiz
+        await vm.load(mockUser); // yildiz
         await vm.setQuery('proje');
         expect(vm.results, isEmpty);
         await vm.setQuery('yurt');
         expect(vm.results.map((c) => c.id), ['yurt']);
 
         final other = CommunityViewModel(MockCommunityRepository());
-        await other.load(mockMarmara);
+        await other.load(_marmaraUser);
         await other.setQuery('yurt');
         expect(other.results, isEmpty);
       },
@@ -46,7 +50,7 @@ void main() {
 
     test('davet kodu: geçersiz, geçerli, tekrar', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
+      await vm.load(mockUser);
       expect(await vm.joinByCode('yanlis'), isNull);
       expect(vm.codeFailure, CommunityFailure.invalidCode);
       final info = await vm.joinByCode(' proje-24 ');
@@ -59,12 +63,12 @@ void main() {
 
     test('oluştur → kurucu, sil → listeden çıkar', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
-      final c = await vm.create(
+      await vm.load(mockUser);
+      final c = (await vm.create(
         name: 'Okuma Grubu',
         description: '',
         visibility: CommunityVisibility.secret,
-      );
+      ))!;
       expect(c.isFounder, isTrue);
       expect(c.inviteCode, isNotNull);
       expect(vm.mine.map((m) => m.id), contains(c.id));
@@ -75,16 +79,36 @@ void main() {
     });
   });
 
+  group('Okula özel topluluk', () {
+    test('başka okulun üyesi doğrudan istese de katılamaz', () async {
+      final repo = MockCommunityRepository();
+      final marmara = CommunityViewModel(repo);
+      await marmara.load(_marmaraUser);
+      expect(await marmara.join('yurt'), isFalse); // 'yurt' YTÜ'ye özel
+      expect(marmara.mine.map((c) => c.id), isNot(contains('yurt')));
+    });
+
+    test('aynı okulun üyesi katılır; açık topluluğa herkes katılır', () async {
+      final repo = MockCommunityRepository();
+      final ytu = CommunityViewModel(repo);
+      await ytu.load(mockUser);
+      expect(await ytu.join('yurt'), isTrue);
+      final marmara = CommunityViewModel(repo);
+      await marmara.load(_marmaraUser);
+      expect(await marmara.join('kamp'), isTrue);
+    });
+  });
+
   group('C: davet kodu ve arama sıfırlama', () {
     test('kod yalnızca gizli topluluklarda', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
+      await vm.load(mockUser);
       for (final v in CommunityVisibility.values) {
-        final c = await vm.create(
+        final c = (await vm.create(
           name: 'Deneme ${v.name}',
           description: '',
           visibility: v,
-        );
+        ))!;
         expect(
           c.inviteCode != null,
           v == CommunityVisibility.secret,
@@ -93,7 +117,7 @@ void main() {
       }
       // Seed: açık ve okula özel topluluklarda kod yok, gizlide var.
       final repo = MockCommunityRepository();
-      await repo.myCommunities(mockCommunity);
+      await repo.myCommunities(userId: mockUser.id, school: mockCommunity);
       for (final q in ['kamp', 'yoga', 'yurt']) {
         for (final r in await repo.search(q)) {
           expect(r.inviteCode, isNull, reason: r.name);
@@ -107,7 +131,7 @@ void main() {
 
     test('açık ve okula özel topluluğa kodsuz doğrudan katılınır', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
+      await vm.load(mockUser);
       await vm.join('kamp'); // açık
       await vm.join('yurt'); // okula özel, aynı okul
       expect(vm.mine.map((c) => c.id), containsAll(['kamp', 'yurt']));
@@ -115,7 +139,7 @@ void main() {
 
     test('resetSearch aramayı ve sonuçları temizler', () async {
       final vm = CommunityViewModel(MockCommunityRepository());
-      await vm.load(mockCommunity);
+      await vm.load(mockUser);
       await vm.setQuery('kamp');
       expect(vm.results, isNotEmpty);
       vm.resetSearch();
@@ -264,13 +288,16 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       for (final page in const [CommunitiesPage(), CreateCommunityPage()]) {
         final vm = CommunityViewModel(MockCommunityRepository());
-        vm.load(mockCommunity);
+        vm.load(mockUser);
         await tester.pumpWidget(
           MultiProvider(
             providers: [
               ChangeNotifierProvider.value(value: vm),
               ChangeNotifierProvider(
-                create: (_) => AuthViewModel(MockAuthRepository()),
+                create: (_) => AuthViewModel(
+                  MockAuthRepository(),
+                  communities: MockCommunityRepository(),
+                ),
               ),
             ],
             child: wrap(page),

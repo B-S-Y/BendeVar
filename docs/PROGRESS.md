@@ -46,3 +46,7 @@ flutter create (minSdk 23), Inter TTF, logo, açık+koyu tema token'ları, Theme
 - Beni hatırla: AppCheckbox, signIn(remember), restoreSession (main.dart); testler test/remember_test.dart.
 - Giriş → Ana Sayfa solma/büyüme geçişi (router.dart _authEntryPage/_shellPage); test/login_transition_test.dart.
 - Kısa açılış kapısı (/splash, SplashPage): Beni hatırla açılışında logo animasyonu + solma ile Ana Sayfa; testler test/splash_test.dart.
+- Kontrol turu commit 1: kullanıcıya göre topluluk üyeliği, restore try/finally, DI zorunlu, redirect, çıkışta VM sıfırlama, CurvedAnimation dispose; test/fixes_test.dart.
+- Kontrol turu commit 2: yükleniyor/hata/Tekrar dene, alt güvenli alan; test/error_states_test.dart.
+- Kontrol turu commit 3: emailHint silindi, adım etiketi ARB'de, sihirli sayılar token'da (DESIGN_TOKENS_EK.md), koyu tema tablosu tamamlandı, nameFromEmail testi, IDE/derleme dosyaları git takibinden çıktı.
+- Okul kimliği testleri (boun, std.bogazici, ogr.msgsu, rakamlı, .edu.tr sınırı) ve okula özel doğrudan katılma denetimi.

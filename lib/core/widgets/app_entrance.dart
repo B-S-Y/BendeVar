@@ -25,7 +25,7 @@ class _AppEntranceState extends State<AppEntrance>
     vsync: this,
     duration: _delay + AppMotion.listItem,
   );
-  late final Animation<double> _t = CurvedAnimation(
+  late final CurvedAnimation _t = CurvedAnimation(
     parent: _c,
     curve: Interval(
       _delay.inMicroseconds / (_delay + AppMotion.listItem).inMicroseconds,
@@ -49,6 +49,7 @@ class _AppEntranceState extends State<AppEntrance>
 
   @override
   void dispose() {
+    _t.dispose();
     _c.dispose();
     super.dispose();
   }

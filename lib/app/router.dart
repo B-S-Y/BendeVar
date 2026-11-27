@@ -102,6 +102,20 @@ Page<void> _shellPage(GoRouterState state, Widget child, AuthViewModel auth) {
   );
 }
 
+/// Oturum açıkken anlamsız olan giriş öncesi sayfalar → Ana Sayfa.
+/// (`/signup/name` ve `/signup/done` dahil değil: kayıt orada tamamlanıp oturum
+/// açılır; `/splash` kendi kararını verir; yasal metinler herkese açık.)
+const Set<String> _preLoginRoutes = {
+  '/welcome',
+  '/login',
+  '/signup',
+  '/signup/sent',
+  '/signup/expired',
+  '/forgot',
+  '/forgot/sent',
+  '/forgot/new',
+};
+
 /// Uygulama yönlendirmesi. Giriş yoksa Karşılama'ya yönlenir.
 GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -120,10 +134,7 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
       final path = state.uri.path;
       final isPublic = _publicRoutes.contains(path);
       if (!auth.isSignedIn && !isPublic) return '/welcome';
-      if (auth.isSignedIn &&
-          (path == '/welcome' || path == '/login' || path == '/signup')) {
-        return '/home';
-      }
+      if (auth.isSignedIn && _preLoginRoutes.contains(path)) return '/home';
       return null;
     },
     routes: [

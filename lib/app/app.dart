@@ -55,10 +55,25 @@ class _BendeVarAppState extends State<BendeVarApp> {
     super.initState();
     // Oturum kontrolü açılış kapısında (SplashPage) beklenir.
     _auth.restore();
+    _lastUserId = _auth.user?.id;
+    _auth.addListener(_onAuthChanged);
+  }
+
+  String? _lastUserId;
+
+  /// Çıkış yapınca ya da başka kullanıcı girince kullanıcıya ait ekran verisi
+  /// sıfırlanır (ayarlar, topluluklar); ekranlar açılınca yeniden yükler.
+  void _onAuthChanged() {
+    final id = _auth.user?.id;
+    if (id == _lastUserId) return;
+    _lastUserId = id;
+    _settings.reset();
+    _communities.reset();
   }
 
   @override
   void dispose() {
+    _auth.removeListener(_onAuthChanged);
     _router.dispose();
     _auth.dispose();
     _home.dispose();

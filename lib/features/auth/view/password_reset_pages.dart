@@ -83,7 +83,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               l.forgotTitle,
               style: AppTypography.title1.copyWith(color: c.textPrimary),
             ),
-            const SizedBox(height: AppSpacing.xs + 2),
+            const SizedBox(height: AppSpacing.titleGap),
             Text(
               l.forgotSubtitle,
               style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
@@ -188,7 +188,7 @@ class _ResetSentPageState extends State<ResetSentPage>
             label: l.openMailApp,
             onPressed: () => context.push('/coming-soon'),
           ),
-          const SizedBox(height: AppSpacing.md - 2),
+          const SizedBox(height: AppSpacing.compactGap),
           SecondaryButton(
             label: l.clickedLink,
             onPressed: () => _check(manual: true),
@@ -229,19 +229,19 @@ class _ResetSentPageState extends State<ResetSentPage>
             mainAxisSize: MainAxisSize.min,
             children: [
               const EnvelopeAnimation(),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.sentTitle,
                 textAlign: TextAlign.center,
                 style: AppTypography.title1.copyWith(color: c.textPrimary),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.resetSentSubtitle,
                 textAlign: TextAlign.center,
                 style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 vm.resetEmail,
                 textAlign: TextAlign.center,
@@ -250,7 +250,7 @@ class _ResetSentPageState extends State<ResetSentPage>
                   color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.resetSentInstruction,
                 textAlign: TextAlign.center,
@@ -318,7 +318,7 @@ class ResetNewPasswordPage extends StatelessWidget {
               l.newPasswordTitle,
               style: AppTypography.title1.copyWith(color: c.textPrimary),
             ),
-            const SizedBox(height: AppSpacing.xs + 2),
+            const SizedBox(height: AppSpacing.titleGap),
             Text(
               l.newPasswordSubtitle,
               style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
@@ -335,7 +335,7 @@ class ResetNewPasswordPage extends StatelessWidget {
               suffix: eye(hidden: vm.newObscure, onToggle: vm.toggleNewObscure),
             ),
             if (error == null) ...[
-              const SizedBox(height: AppSpacing.sm - 2),
+              const SizedBox(height: AppSpacing.hintGap),
               Text(
                 l.signupPasswordRule,
                 style: AppTypography.label.copyWith(

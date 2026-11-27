@@ -92,7 +92,7 @@ class _AuthShellState extends State<AuthShell>
                 size: AuthMotion.logoSmall,
                 tile: AppColors.logoSourceTile,
               ),
-              const SizedBox(height: AppSpacing.sm - 1),
+              const SizedBox(height: AppSpacing.brandGap),
               Text(
                 l.brandName,
                 style: AppTypography.title2.copyWith(color: c.onHero),

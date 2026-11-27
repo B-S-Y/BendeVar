@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
@@ -102,7 +103,7 @@ class _SignupSentPageState extends State<SignupSentPage>
             label: l.openMailApp,
             onPressed: () => context.push('/coming-soon'),
           ),
-          const SizedBox(height: AppSpacing.md - 2),
+          const SizedBox(height: AppSpacing.compactGap),
           SecondaryButton(
             label: l.clickedLink,
             onPressed: () => _check(manual: true),
@@ -144,19 +145,19 @@ class _SignupSentPageState extends State<SignupSentPage>
             mainAxisSize: MainAxisSize.min,
             children: [
               const EnvelopeAnimation(),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.sentTitle,
                 textAlign: TextAlign.center,
                 style: AppTypography.title1.copyWith(color: c.textPrimary),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.sentSubtitle,
                 textAlign: TextAlign.center,
                 style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 vm.signupEmail,
                 textAlign: TextAlign.center,
@@ -165,7 +166,7 @@ class _SignupSentPageState extends State<SignupSentPage>
                   color: c.textPrimary,
                 ),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Text(
                 l.sentInstruction,
                 textAlign: TextAlign.center,
@@ -175,14 +176,14 @@ class _SignupSentPageState extends State<SignupSentPage>
                   color: c.textSecondary,
                 ),
               ),
-              const SizedBox(height: AppSpacing.md + 2),
+              const SizedBox(height: AppSpacing.sentGap),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.md,
-                  vertical: AppSpacing.sm - 2,
+                  vertical: AppSpacing.pillPadV,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: AppRadius.pillR,
                   border: Border.all(color: c.silver),
                 ),
                 child: Row(

@@ -279,8 +279,24 @@ class MockCommunityRepository implements CommunityRepository {
     ),
   };
 
+  /// Geçerli kullanıcı (myCommunities ile belirlenir) ve okulu.
+  String _userId = '';
   String _schoolId = '';
   int _seq = 0;
+
+  /// Kullanıcı kimliği → üye olduğu topluluklar. Katalogdaki `joined` /
+  /// `isFounder` alanları kullanılmaz; her kullanıcı için buradan hesaplanır.
+  final Map<String, Set<String>> _members = {};
+
+  /// Topluluk → kurucu kullanıcı.
+  final Map<String, String> _founders = {};
+
+  Set<String> get _mine => _members.putIfAbsent(_userId, () => <String>{});
+
+  CommunityInfo _view(CommunityInfo c) => c.copyWith(
+    joined: _mine.contains(c.id),
+    isFounder: _founders[c.id] == _userId,
+  );
 
   @override
   Future<Community?> findBySchool(String schoolId) async => _bySchool[schoolId];
@@ -295,8 +311,12 @@ class MockCommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<List<CommunityInfo>> myCommunities(Community school) async {
+  Future<List<CommunityInfo>> myCommunities({
+    required String userId,
+    required Community school,
+  }) async {
     await Future<void>.delayed(_latency);
+    _userId = userId;
     _schoolId = school.id;
     _all.putIfAbsent(
       school.id,
@@ -307,12 +327,13 @@ class MockCommunityRepository implements CommunityRepository {
         visibility: CommunityVisibility.schoolOnly,
         schoolId: school.id,
         isSchool: true,
-        joined: true,
       ),
     );
-    final mine = _all.values.where((c) => c.joined).toList();
-    mine.sort((a, b) => a.isSchool == b.isSchool ? 0 : (a.isSchool ? -1 : 1));
-    return mine;
+    _mine.add(school.id); // okul topluluğuna otomatik üye
+    final mine = _all.values.where((c) => _mine.contains(c.id)).map(_view);
+    final list = mine.toList()
+      ..sort((a, b) => a.isSchool == b.isSchool ? 0 : (a.isSchool ? -1 : 1));
+    return list;
   }
 
   bool _visibleToMe(CommunityInfo c) =>
@@ -327,15 +348,28 @@ class MockCommunityRepository implements CommunityRepository {
     if (q.isEmpty) return const [];
     return _all.values
         .where((c) => _visibleToMe(c) && c.name.toLowerCase().contains(q))
+        .map(_view)
         .toList();
+  }
+
+  CommunityInfo _add(CommunityInfo c) {
+    _mine.add(c.id);
+    _all[c.id] = c.copyWith(memberCount: c.memberCount + 1);
+    return _view(_all[c.id]!);
   }
 
   @override
   Future<CommunityInfo> join(String id) async {
     await Future<void>.delayed(_latency);
     final c = _all[id]!;
-    if (c.joined) return c;
-    return _all[id] = c.copyWith(joined: true, memberCount: c.memberCount + 1);
+    if (_mine.contains(id)) return _view(c);
+    // Okula özel topluluğa yalnızca aynı okulun üyeleri katılır (arama gizlese
+    // de doğrudan istek burada da reddedilir).
+    if (c.visibility == CommunityVisibility.schoolOnly &&
+        c.schoolId != _schoolId) {
+      throw const CommunityException(CommunityFailure.unknown);
+    }
+    return _add(c);
   }
 
   @override
@@ -349,13 +383,10 @@ class MockCommunityRepository implements CommunityRepository {
       throw const CommunityException(CommunityFailure.invalidCode);
     }
     final c = found.first;
-    if (c.joined) {
+    if (_mine.contains(c.id)) {
       throw const CommunityException(CommunityFailure.alreadyMember);
     }
-    return _all[c.id] = c.copyWith(
-      joined: true,
-      memberCount: c.memberCount + 1,
-    );
+    return _add(c);
   }
 
   @override
@@ -367,37 +398,40 @@ class MockCommunityRepository implements CommunityRepository {
     await Future<void>.delayed(_latency);
     _seq++;
     final id = 'c$_seq';
-    final info = CommunityInfo(
+    _all[id] = CommunityInfo(
       id: id,
       name: name.trim(),
       description: description.trim(),
       memberCount: 1,
       visibility: visibility,
       schoolId: visibility == CommunityVisibility.schoolOnly ? _schoolId : null,
-      isFounder: true,
-      joined: true,
       // Davet kodu yalnızca gizli topluluklarda var; açık ve okula özel
       // topluluklara kodsuz katılınır.
       inviteCode: visibility == CommunityVisibility.secret
           ? 'BV-${1000 + _seq * 7}'
           : null,
     );
-    _all[id] = info;
-    return info;
+    _founders[id] = _userId;
+    _mine.add(id);
+    return _view(_all[id]!);
   }
 
   @override
   Future<void> leave(String id) async {
     await Future<void>.delayed(_latency);
     final c = _all[id];
-    if (c == null || c.isSchool) return;
-    _all[id] = c.copyWith(joined: false, memberCount: c.memberCount - 1);
+    if (c == null || c.isSchool || !_mine.remove(id)) return;
+    _all[id] = c.copyWith(memberCount: c.memberCount - 1);
   }
 
   @override
   Future<void> delete(String id) async {
     await Future<void>.delayed(_latency);
     _all.remove(id);
+    _founders.remove(id);
+    for (final set in _members.values) {
+      set.remove(id);
+    }
   }
 }
 

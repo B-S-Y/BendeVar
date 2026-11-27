@@ -81,7 +81,12 @@ abstract class CommunityRepository {
   Future<Community> joinOrCreate(String schoolId);
 
   /// Üyesi olunan topluluklar (okul topluluğu en üstte, ayrılınamaz).
-  Future<List<CommunityInfo>> myCommunities(Community school);
+  /// [userId] kullanıcısının üyelikleri; okul topluluğuna otomatik üyedir.
+  /// Sonraki arama/katılma/oluşturma çağrıları bu kullanıcı için yapılır.
+  Future<List<CommunityInfo>> myCommunities({
+    required String userId,
+    required Community school,
+  });
 
   /// 1.16g · Ada göre arama. Gizli topluluklar çıkmaz; okula özel olanlar
   /// yalnızca o okulun üyelerine çıkar.

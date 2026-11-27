@@ -2,6 +2,41 @@
 
 Kurallar: `CLAUDE.md`. Sapmalar: `docs/DEVIATIONS.md`. Ek token'lar: `docs/DESIGN_TOKENS_EK.md`.
 
+## Devir notu (Eda · 1.xx modülü) — yeni oturum önce bunu okusun
+
+**Durum**
+- Branch `eda/giris-kayit-ayarlar`; PR #1 açık: https://github.com/B-S-Y/BendeVar/pull/1 (main'e).
+- 11 konu bazlı commit. 218 test geçiyor, `flutter analyze` temiz.
+- Merge ekibin onayını bekliyor, merge edilmedi.
+
+**Bitenler (1.xx modülünün tamamı)**
+- Karşılama (açılış animasyonu), giriş (kurum e-postası, hata kutuları, 30 sn kilit).
+- Kayıt 3 adım + okul kartı + zarf amblemi + kayıt tamamlandı ekranı; şifre sıfırlama.
+- Ayarlar, Engellenenler (ilk seviyede), Yardım ve destek, tema/dil.
+- Topluluklar: arama (Türkçe duyarlı), 6 haneli davet kodu + önizleme, oluşturma, kurucu işlemleri, ayrılma.
+- Beni hatırla + kısa açılış; kısaltılmış metinler; hata yalnızca gönderimde.
+- Kullanıcıya göre state (topluluk üyelikleri, engellenenler, bildirim tercihleri hesaplar arası sızmaz).
+
+**Bekleyenler**
+1. Kayıtta okul adını otomatik göstermek için 187 üniversitelik JSON (`assets/data`) + alias eşlemesi (şimdilik mock'ta küçük liste: `mockKnownSchools`).
+2. Onboarding (tanıtım ekranı).
+3. `Firebase*Repository`'ler (DI'da tek satırla takılabilir kurulu, `lib/app/di.dart`).
+4. PR'ın merge'ü ve ekip entegrasyonu.
+5. README'de kendi kısmı.
+
+**Başkasının modülünde bilinenler (dokunma)**
+- `ProfileViewModel` çıkışta sıfırlanmıyor (`lib/features/profile/viewmodel/profile_view_models.dart`, Sudem).
+- home / profile / notifications / chat'te sabit alpha ve süre değerleri.
+- `material_ui` paketi CLAUDE.md'deki izinli paket listesinde yok (ekip kararı gerekli).
+
+**Not**
+- Eski 60 commit'lik geçmiş yalnızca yerel `yedek/giris-kayit-ayarlar-oncesi` branch'inde (push edilmedi).
+
+**Çalışma kuralları (Eda)**
+- Sade Türkçe ister; belirsiz işte önce sorar.
+- Push ve merge'ü kendisi yapar; asistan push etmez.
+- Her iş ayrı commit, test + `flutter analyze` geçmeli; sapmalar `docs/DEVIATIONS.md`'ye.
+
 ## Faz 1: Kaynak kontrolü — [x]
 Tüm dosyalar vardı (zip'ler açıldı). Ek ölçüler ve eksik koyu roller belgelendi.
 

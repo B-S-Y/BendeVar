@@ -20,8 +20,8 @@
  {
   "id": "adu",
   "aliases": [],
-  "name_en": "Adnan Menderes University",
-  "name_tr": "Adnan Menderes Üniversitesi"
+  "name_en": "Aydin Adnan Menderes University",
+  "name_tr": "Aydın Adnan Menderes Üniversitesi"
  },
  {
   "id": "agri",
@@ -44,8 +44,8 @@
  {
   "id": "ahievran",
   "aliases": [],
-  "name_en": "Ahi Evran University",
-  "name_tr": "Ahi Evran Üniversitesi"
+  "name_en": "Kirsehir Ahi Evran University",
+  "name_tr": "Kırşehir Ahi Evran Üniversitesi"
  },
  {
   "id": "akdeniz",
@@ -298,8 +298,8 @@
  {
   "id": "bozok",
   "aliases": [],
-  "name_en": "Bozok University",
-  "name_tr": "Bozok Üniversitesi"
+  "name_en": "Yozgat Bozok University",
+  "name_tr": "Yozgat Bozok Üniversitesi"
  },
  {
   "id": "btu",
@@ -360,8 +360,8 @@
   "aliases": [
    "dpu"
   ],
-  "name_en": "Dumlupinar University",
-  "name_tr": "Dumlupınar Üniversitesi"
+  "name_en": "Kutahya Dumlupinar University",
+  "name_tr": "Kütahya Dumlupınar Üniversitesi"
  },
  {
   "id": "duzce",
@@ -474,8 +474,8 @@
  {
   "id": "gop",
   "aliases": [],
-  "name_en": "Gaziosmanpasa University",
-  "name_tr": "Gaziosmanpaşa Üniversitesi"
+  "name_en": "Tokat Gaziosmanpasa University",
+  "name_tr": "Tokat Gaziosmanpaşa Üniversitesi"
  },
  {
   "id": "gsu",
@@ -544,8 +544,8 @@
  {
   "id": "ibu",
   "aliases": [],
-  "name_en": "Abant Izzet Baysal University",
-  "name_tr": "Abant İzzet Baysal Üniversitesi"
+  "name_en": "Bolu Abant Izzet Baysal University",
+  "name_tr": "Bolu Abant İzzet Baysal Üniversitesi"
  },
  {
   "id": "idu",
@@ -780,8 +780,8 @@
  {
   "id": "mehmetakif",
   "aliases": [],
-  "name_en": "Mehmet Akif Ersoy University",
-  "name_tr": "Mehmet Akif Ersoy Üniversitesi"
+  "name_en": "Burdur Mehmet Akif Ersoy University",
+  "name_tr": "Burdur Mehmet Akif Ersoy Üniversitesi"
  },
  {
   "id": "mersin",
@@ -1057,8 +1057,8 @@
  {
   "id": "uludag",
   "aliases": [],
-  "name_en": "Uludag University",
-  "name_tr": "Uludağ Üniversitesi"
+  "name_en": "Bursa Uludag University",
+  "name_tr": "Bursa Uludağ Üniversitesi"
  },
  {
   "id": "usak",

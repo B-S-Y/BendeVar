@@ -73,6 +73,14 @@ class AuthMotion {
   static const double homePadBottom = 34;
   static const double headerRow = 56;
 
+  /// Giriş ↔ kayıt formu değişirken geçiş süresi.
+  static const Duration formSwitch = Duration(milliseconds: 250);
+
+  /// 1.09/1.10/1.12/yasal sayfalar: küçük logo ve panel yerleşimi.
+  static const double logoSmall = 56;
+  static const double logoSmallTop = 30;
+  static const double shellGap = 28;
+
   /// Açık panelin üstünde logo grubuna bırakılan en az boşluk.
   static const double panelTopReserve = 130;
 

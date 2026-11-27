@@ -4,10 +4,58 @@ library;
 
 import '../models/models.dart';
 
+/// Giriş hatası türleri (1.03b, 1.03c, 1.04).
+enum AuthFailure {
+  accountNotFound,
+  wrongPassword,
+  tooManyAttempts,
+  notVerified,
+  emailInUse,
+}
+
+/// Doğrulama bağlantısı durumu (1.09 → 1.10 / 1.12).
+enum VerificationStatus { pending, verified, expired }
+
+class AuthException implements Exception {
+  const AuthException(this.failure);
+  final AuthFailure failure;
+
+  @override
+  String toString() => 'AuthException($failure)';
+}
+
 abstract class AuthRepository {
   AppUser? get currentUser;
+
+  /// Başarısızlıkta [AuthException] fırlatır.
   Future<AppUser> signIn(String email, String password);
   Future<void> signOut();
+
+  /// Doğrulama bağlantısını (yeniden) gönderir.
+  Future<void> sendVerification(String email);
+
+  /// Kayıt (1.08): hesabı açar ve doğrulama bağlantısını gönderir.
+  /// E-posta kayıtlıysa [AuthFailure.emailInUse] fırlatır.
+  Future<void> signUp(String email, String password);
+
+  /// Bağlantıya tıklandı mı? (Firebase: kullanıcıyı yenile, `emailVerified`.)
+  Future<VerificationStatus> checkVerification(String email);
+
+  /// Ad Soyad (1.10) ile kaydı bitirir ve oturumu açar.
+  Future<AppUser> completeSignUp({
+    required String email,
+    required String displayName,
+    required Community community,
+  });
+}
+
+/// Topluluklar. Okul kimliği = `.edu.tr`'den önceki son kelime.
+abstract class CommunityRepository {
+  /// Okul kimliğine ait topluluk; yoksa null.
+  Future<Community?> findBySchool(String schoolId);
+
+  /// Varsa katılır, yoksa ilk kayıtta topluluğu açar.
+  Future<Community> joinOrCreate(String schoolId);
 }
 
 abstract class ListingRepository {

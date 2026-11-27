@@ -327,3 +327,68 @@ List<Loan> seedLoans() => [
     date: DateTime(DateTime.now().year, 10, 12),
   ),
 ];
+
+// ── Giriş için mock hesaplar (sadece bunlar giriş yapabilir) ──
+
+const Community mockMarmara = Community(
+  id: 'marmara',
+  name: 'Marmara Üniversitesi',
+  shortName: 'MÜ',
+);
+
+/// Mock kayıtlı hesap. Hepsinin şifresi [mockPassword].
+class MockAccount {
+  const MockAccount({
+    required this.email,
+    required this.user,
+    this.verified = true,
+    this.password = mockPassword,
+  });
+
+  final String email;
+  final String password;
+  final bool verified;
+  final AppUser user;
+}
+
+const String mockPassword = 'sifre123';
+
+AppUser _teamUser(String id, String short, Community community) => AppUser(
+  id: id,
+  displayName: short,
+  shortName: short,
+  email: '',
+  community: community,
+  department: '',
+  bio: '',
+  rating: 0,
+  transactions: 0,
+  onTimeRate: 0,
+);
+
+/// Ekip test hesapları + farklı okuldan bir hesap. Elif, mevcut [mockUser]
+/// verisiyle açılır (profil/ödünç mock'ları ona bağlı).
+final List<MockAccount> mockAccounts = [
+  MockAccount(
+    email: 'eda@std.yildiz.edu.tr',
+    user: _teamUser('u-eda', 'Eda H.', mockCommunity),
+  ),
+  MockAccount(
+    email: 'emine@yildiz.edu.tr',
+    user: _teamUser('u-emine', 'Emine B.', mockCommunity),
+  ),
+  const MockAccount(email: 'elif@std.yildiz.edu.tr', user: mockUser),
+  MockAccount(
+    email: 'sudem@yildiz.edu.tr',
+    verified: false, // doğrulanmamış hesap (1.04)
+    user: _teamUser('u-sudem', 'Sudem Y.', mockCommunity),
+  ),
+  MockAccount(
+    email: 'sena@std.yildiz.edu.tr',
+    user: _teamUser('u-sena', 'Sena G.', mockCommunity),
+  ),
+  MockAccount(
+    email: 'test@std.marmara.edu.tr',
+    user: _teamUser('u-test', 'Test M.', mockMarmara),
+  ),
+];

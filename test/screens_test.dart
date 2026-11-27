@@ -113,6 +113,42 @@ void main() {
     });
   }
 
+  testWidgets('Giriş hataları: yanlış şifre, doğrulanmamış hesap', (
+    tester,
+  ) async {
+    useAndroidScreen(tester);
+    final vm = AuthViewModel(MockAuthRepository());
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(value: vm, child: wrap(const LoginPage())),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('email-field')),
+      'elif@std.yildiz.edu.tr',
+    );
+    await tester.enterText(find.byKey(const Key('password-field')), 'x');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Giriş yap'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.text('Şifre yanlış. Tekrar dene.'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('email-field')),
+      'sudem@yildiz.edu.tr',
+    );
+    await tester.enterText(find.byKey(const Key('password-field')), 'sifre123');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Giriş yap'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('doğrulanmamış'), findsOneWidget);
+    await tester.tap(find.text('Bağlantıyı tekrar gönder'));
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
+    expect(find.text('Doğrulama bağlantısı gönderildi.'), findsOneWidget);
+  });
+
   testWidgets('Giriş: düğme pasif, .edu.tr olmayan e-posta hata gösterir', (
     tester,
   ) async {

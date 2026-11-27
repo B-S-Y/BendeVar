@@ -1,24 +1,33 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/utils/validators.dart';
+import '../../../data/mock/mock_repositories.dart';
 import '../../../data/models/models.dart';
 import '../../../data/repositories/repositories.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  AuthViewModel(this._repo) : _user = _repo.currentUser;
+  AuthViewModel(this._repo, {CommunityRepository? communities})
+    : _communities = communities ?? MockCommunityRepository(),
+      _user = _repo.currentUser;
 
   final AuthRepository _repo;
+  final CommunityRepository _communities;
   AppUser? _user;
   String _email = '';
   String _password = '';
   bool _showErrors = false;
   bool _loading = false;
   bool _obscure = true;
+  AuthFailure? _failure;
 
   AppUser? get user => _user;
   bool get isSignedIn => _user != null;
   bool get loading => _loading;
   bool get obscure => _obscure;
+
+  /// Son giriş denemesinin hatası (1.03b/c, 1.04); girdi değişince temizlenir.
+  AuthFailure? get failure => _failure;
+  String get email => _email;
 
   /// Düğme, iki alan da doluyken etkinleşir.
   bool get canSubmit => _email.trim().isNotEmpty && _password.isNotEmpty;
@@ -29,11 +38,13 @@ class AuthViewModel extends ChangeNotifier {
 
   void setEmail(String v) {
     _email = v;
+    _failure = null;
     notifyListeners();
   }
 
   void setPassword(String v) {
     _password = v;
+    _failure = null;
     notifyListeners();
   }
 
@@ -51,11 +62,182 @@ class AuthViewModel extends ChangeNotifier {
       return false;
     }
     _loading = true;
+    _failure = null;
     notifyListeners();
-    _user = await _repo.signIn(_email.trim(), _password);
-    _loading = false;
+    try {
+      _user = await _repo.signIn(_email.trim(), _password);
+      return true;
+    } on AuthException catch (e) {
+      _failure = e.failure;
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  /// 1.04: doğrulama bağlantısını yeniden gönderir.
+  Future<void> resendVerification() => _repo.sendVerification(_email.trim());
+
+  // ───────────────────────── Kayıt (1.08 – 1.12) ─────────────────────────
+
+  /// 1.09'daki "Tekrar gönder" bekleme süresi (sn).
+  static const int resendCooldownSeconds = 45;
+
+  String _signupEmail = '';
+  String _signupPassword = '';
+  bool _signupObscure = true;
+  bool _termsAccepted = false;
+  bool _signupShowErrors = false;
+  bool _signupLoading = false;
+  AuthFailure? _signupFailure;
+  Community? _schoolCommunity;
+  bool _schoolLookedUp = false;
+  DateTime? _linkSentAt;
+  bool _completing = false;
+  int _lookupToken = 0;
+
+  String get signupEmail => _signupEmail;
+  String get signupPassword => _signupPassword;
+  bool get signupObscure => _signupObscure;
+  bool get termsAccepted => _termsAccepted;
+  bool get signupLoading => _signupLoading;
+  bool get completing => _completing;
+
+  /// 1.08'de e-posta hatası (1.08a: kurum dışı e-posta).
+  EmailError? get signupEmailError =>
+      _signupShowErrors ? Validators.email(_signupEmail) : null;
+  NewPasswordError? get signupPasswordError =>
+      _signupShowErrors ? Validators.newPassword(_signupPassword) : null;
+  bool get termsError => _signupShowErrors && !_termsAccepted;
+
+  /// Kayıt hatası (şimdilik yalnızca [AuthFailure.emailInUse]).
+  AuthFailure? get signupFailure => _signupFailure;
+
+  /// E-postadaki okulun topluluğu; okul geçerliyse ve topluluk yoksa null,
+  /// [schoolLookedUp] true (ilk kayıtta açılır).
+  Community? get schoolCommunity => _schoolCommunity;
+  bool get schoolLookedUp => _schoolLookedUp;
+
+  /// Geçerli kurum e-postası girildi mi? (Okul kartını gösterir.)
+  bool get signupEmailValid => Validators.email(_signupEmail) == null;
+
+  void setSignupEmail(String v) {
+    _signupEmail = v;
+    _signupFailure = null;
+    _lookupSchool();
     notifyListeners();
-    return true;
+  }
+
+  void setSignupPassword(String v) {
+    _signupPassword = v;
+    notifyListeners();
+  }
+
+  void toggleSignupObscure() {
+    _signupObscure = !_signupObscure;
+    notifyListeners();
+  }
+
+  void setTermsAccepted(bool v) {
+    _termsAccepted = v;
+    notifyListeners();
+  }
+
+  Future<void> _lookupSchool() async {
+    final token = ++_lookupToken;
+    final id = Validators.schoolId(_signupEmail);
+    if (id == null) {
+      _schoolCommunity = null;
+      _schoolLookedUp = false;
+      return;
+    }
+    final found = await _communities.findBySchool(id);
+    if (token != _lookupToken) return;
+    _schoolCommunity = found;
+    _schoolLookedUp = true;
+    notifyListeners();
+  }
+
+  /// 1.08 → hesabı açar, doğrulama bağlantısı gönderilir. Başarılıysa true.
+  Future<bool> signUp() async {
+    _signupShowErrors = true;
+    if (Validators.email(_signupEmail) != null ||
+        Validators.newPassword(_signupPassword) != null ||
+        !_termsAccepted) {
+      notifyListeners();
+      return false;
+    }
+    _signupLoading = true;
+    _signupFailure = null;
+    notifyListeners();
+    try {
+      await _repo.signUp(_signupEmail.trim(), _signupPassword);
+      _linkSentAt = DateTime.now();
+      return true;
+    } on AuthException catch (e) {
+      _signupFailure = e.failure;
+      return false;
+    } finally {
+      _signupLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// 1.09 "Tekrar gönder" için kalan saniye (0 = gönderilebilir).
+  int resendRemaining([DateTime? now]) {
+    final sent = _linkSentAt;
+    if (sent == null) return 0;
+    final left =
+        resendCooldownSeconds -
+        (now ?? DateTime.now()).difference(sent).inSeconds;
+    return left < 0 ? 0 : left;
+  }
+
+  Future<void> resendLink() async {
+    await _repo.sendVerification(_signupEmail.trim());
+    _linkSentAt = DateTime.now();
+    notifyListeners();
+  }
+
+  /// Bağlantıya tıklandı mı? (Uygulama öne dönünce ve "Bağlantıya tıkladım".)
+  Future<VerificationStatus> checkVerification() =>
+      _repo.checkVerification(_signupEmail.trim());
+
+  /// 1.10'daki hazır ad (e-postadan çıkarılır, düzenlenebilir).
+  String get suggestedName => Validators.nameFromEmail(_signupEmail);
+
+  /// 1.10 → okul topluluğuna katılır (yoksa açar), kaydı bitirir.
+  Future<bool> completeSignUp(String displayName) async {
+    if (Validators.requiredText(displayName) != null) return false;
+    final id = Validators.schoolId(_signupEmail);
+    if (id == null) return false;
+    _completing = true;
+    notifyListeners();
+    try {
+      final community = await _communities.joinOrCreate(id);
+      _user = await _repo.completeSignUp(
+        email: _signupEmail.trim(),
+        displayName: displayName,
+        community: community,
+      );
+      return true;
+    } finally {
+      _completing = false;
+      notifyListeners();
+    }
+  }
+
+  void resetSignup() {
+    _signupEmail = '';
+    _signupPassword = '';
+    _termsAccepted = false;
+    _signupShowErrors = false;
+    _signupFailure = null;
+    _schoolCommunity = null;
+    _schoolLookedUp = false;
+    _linkSentAt = null;
+    notifyListeners();
   }
 
   Future<void> signOut() async {
@@ -64,6 +246,7 @@ class AuthViewModel extends ChangeNotifier {
     _email = '';
     _password = '';
     _showErrors = false;
+    _failure = null;
     _obscure = true;
     notifyListeners();
   }

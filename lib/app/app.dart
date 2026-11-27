@@ -30,7 +30,10 @@ class BendeVarApp extends StatefulWidget {
 }
 
 class _BendeVarAppState extends State<BendeVarApp> {
-  late final AuthViewModel _auth = AuthViewModel(widget.deps.auth);
+  late final AuthViewModel _auth = AuthViewModel(
+    widget.deps.auth,
+    communities: widget.deps.communities,
+  );
   late final HomeViewModel _home = HomeViewModel(widget.deps.listings);
   late final MessagesViewModel _messages = MessagesViewModel(widget.deps.chats);
   late final NotificationsViewModel _notifications = NotificationsViewModel(

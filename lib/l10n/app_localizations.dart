@@ -236,6 +236,54 @@ abstract class AppLocalizations {
   /// **'Şifreni gir.'**
   String get errorPasswordEmpty;
 
+  /// No description provided for @emailHintShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'ad.soyad@okul'**
+  String get emailHintShort;
+
+  /// No description provided for @errorAccountNotFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-postayla kayıtlı bir hesap bulamadık. E-postanı kontrol et ya da kayıt ol.'**
+  String get errorAccountNotFound;
+
+  /// No description provided for @errorPasswordWrong.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre yanlış. Tekrar dene.'**
+  String get errorPasswordWrong;
+
+  /// No description provided for @errorTooManyAttempts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene ya da şifreni sıfırla.'**
+  String get errorTooManyAttempts;
+
+  /// No description provided for @resetPasswordAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifremi sıfırla'**
+  String get resetPasswordAction;
+
+  /// No description provided for @errorNotVerified.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın henüz doğrulanmamış. E-postana gönderdiğimiz bağlantıya tıkla.'**
+  String get errorNotVerified;
+
+  /// No description provided for @resendVerification.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı tekrar gönder'**
+  String get resendVerification;
+
+  /// No description provided for @verificationSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bağlantısı gönderildi.'**
+  String get verificationSent;
+
   /// No description provided for @navHome.
   ///
   /// In tr, this message translates to:
@@ -1231,6 +1279,264 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Dün'**
   String get timeYesterday;
+
+  /// No description provided for @signupTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul e-postanla başla'**
+  String get signupTitle;
+
+  /// No description provided for @signupSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun e-posta uzantısından bulunur. Sana bir doğrulama bağlantısı göndereceğiz.'**
+  String get signupSubtitle;
+
+  /// No description provided for @signupExit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıttan çık'**
+  String get signupExit;
+
+  /// No description provided for @stepAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get stepAccount;
+
+  /// No description provided for @stepVerify.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama'**
+  String get stepVerify;
+
+  /// No description provided for @stepName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adın'**
+  String get stepName;
+
+  /// No description provided for @signupJoinCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul topluluğuna katılacaksın'**
+  String get signupJoinCommunity;
+
+  /// No description provided for @signupNewCommunity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun ilk kayıtla açılacak'**
+  String get signupNewCommunity;
+
+  /// No description provided for @signupPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre belirle'**
+  String get signupPasswordHint;
+
+  /// No description provided for @signupPasswordRule.
+  ///
+  /// In tr, this message translates to:
+  /// **'En az 8 karakter, en az bir harf ve bir rakam.'**
+  String get signupPasswordRule;
+
+  /// No description provided for @errorPasswordWeak.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifren en az 8 karakter olmalı, en az bir harf ve bir rakam içermeli.'**
+  String get errorPasswordWeak;
+
+  /// No description provided for @errorTermsRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için şartları kabul etmelisin.'**
+  String get errorTermsRequired;
+
+  /// No description provided for @errorEmailInUse.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-posta zaten kayıtlı. Giriş yapmayı dene.'**
+  String get errorEmailInUse;
+
+  /// No description provided for @termsLead.
+  ///
+  /// In tr, this message translates to:
+  /// **''**
+  String get termsLead;
+
+  /// No description provided for @termsLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım şartlarını'**
+  String get termsLink;
+
+  /// No description provided for @termsMid.
+  ///
+  /// In tr, this message translates to:
+  /// **' ve '**
+  String get termsMid;
+
+  /// No description provided for @privacyLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'gizlilik politikasını'**
+  String get privacyLink;
+
+  /// No description provided for @termsTail.
+  ///
+  /// In tr, this message translates to:
+  /// **' okudum, kabul ediyorum.'**
+  String get termsTail;
+
+  /// No description provided for @haveAccount.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın var mı?'**
+  String get haveAccount;
+
+  /// No description provided for @sentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı gönderdik'**
+  String get sentTitle;
+
+  /// No description provided for @sentSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bağlantısını şu adrese gönderdik:'**
+  String get sentSubtitle;
+
+  /// No description provided for @sentInstruction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okul e-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.'**
+  String get sentInstruction;
+
+  /// No description provided for @sentWaiting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bekleniyor'**
+  String get sentWaiting;
+
+  /// No description provided for @openMailApp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mail uygulamasını aç'**
+  String get openMailApp;
+
+  /// No description provided for @clickedLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıya tıkladım'**
+  String get clickedLink;
+
+  /// No description provided for @resendIn.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar gönder ({time})'**
+  String resendIn(String time);
+
+  /// No description provided for @resendLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar gönder'**
+  String get resendLink;
+
+  /// No description provided for @fixEmail.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postayı düzelt'**
+  String get fixEmail;
+
+  /// No description provided for @notVerifiedYet.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postan henüz doğrulanmadı. Bağlantıya tıkladığından emin ol.'**
+  String get notVerifiedYet;
+
+  /// No description provided for @linkResent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı tekrar gönderildi.'**
+  String get linkResent;
+
+  /// No description provided for @nameTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adın ne?'**
+  String get nameTitle;
+
+  /// No description provided for @nameSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer kullanıcılar seni bu adla görecek. Gerekirse düzenleyebilirsin.'**
+  String get nameSubtitle;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad'**
+  String get nameLabel;
+
+  /// No description provided for @nameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adını ve soyadını yaz'**
+  String get nameHint;
+
+  /// No description provided for @errorNameEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adını gir.'**
+  String get errorNameEmpty;
+
+  /// No description provided for @finish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamla'**
+  String get finish;
+
+  /// No description provided for @expiredTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantının süresi doldu'**
+  String get expiredTitle;
+
+  /// No description provided for @expiredBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama bağlantısı 24 saat geçerliydi. Sana yeni bir bağlantı gönderebiliriz.'**
+  String get expiredBody;
+
+  /// No description provided for @sendNewLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bağlantı gönder'**
+  String get sendNewLink;
+
+  /// No description provided for @legalTermsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım şartları'**
+  String get legalTermsTitle;
+
+  /// No description provided for @legalPrivacyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik politikası'**
+  String get legalPrivacyTitle;
+
+  /// No description provided for @legalTermsBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.'**
+  String get legalTermsBody;
+
+  /// No description provided for @legalPrivacyBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.'**
+  String get legalPrivacyBody;
 }
 
 class _AppLocalizationsDelegate

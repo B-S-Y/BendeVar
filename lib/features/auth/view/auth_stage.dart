@@ -3,27 +3,31 @@ import 'dart:math' as math;
 
 import 'package:flutter/scheduler.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
 import '../../../core/widgets/app_logo.dart';
+import '../../../core/widgets/institution_email_field.dart';
 import '../../../l10n/app_localizations.dart';
 import 'auth_backdrop.dart';
 import 'auth_burst.dart';
 import 'auth_motion.dart';
+import '../viewmodel/auth_view_model.dart';
 import 'login_form.dart';
+import 'signup_form.dart';
+import 'signup_stepper.dart';
 
-enum AuthMode { home, login }
+enum AuthMode { home, login, signup }
 
 /// 1.01 Karşılama + 1.02 Giriş: yıldızlı üst şerit ve alt panel tek sahnede.
 /// "Giriş yap"a basınca aynı panel büyüyüp forma dönüşür (ANIMASYON_1.01.md).
 class AuthStage extends StatefulWidget {
   const AuthStage({super.key, this.initialMode = AuthMode.home});
 
-  /// [AuthMode.login] ile açılırsa açılış animasyonu atlanır.
+  /// [AuthMode.login] / [AuthMode.signup] ile açılırsa açılış animasyonu atlanır.
   final AuthMode initialMode;
 
   @override
@@ -45,6 +49,10 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
   );
 
   bool _loginOpen = false;
+
+  /// Panel açıkken gösterilen form (giriş / kayıt).
+  AuthMode _form = AuthMode.login;
+  late final InstitutionEmailController _signupEmail;
   Ticker? _introTicker;
   Timer? _introDelay;
 
@@ -53,7 +61,11 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    if (widget.initialMode == AuthMode.login) {
+    _signupEmail = InstitutionEmailController(
+      text: context.read<AuthViewModel>().signupEmail,
+    );
+    if (widget.initialMode != AuthMode.home) {
+      _form = widget.initialMode;
       _intro.value = 1;
       _mode.value = 1;
       _loginOpen = true;
@@ -111,6 +123,7 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _signupEmail.dispose();
     _introDelay?.cancel();
     _introTicker?.dispose();
     _intro.dispose();
@@ -119,8 +132,11 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _openLogin() {
-    setState(() => _loginOpen = true);
+  void _openForm(AuthMode form) {
+    setState(() {
+      _form = form;
+      _loginOpen = true;
+    });
     if (reduceMotion(context)) {
       _mode.value = 1;
     } else {
@@ -435,11 +451,14 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                PrimaryButton(label: l.login, onPressed: _openLogin),
+                PrimaryButton(
+                  label: l.login,
+                  onPressed: () => _openForm(AuthMode.login),
+                ),
                 const SizedBox(height: AppSpacing.md),
                 SecondaryButton(
                   label: l.signup,
-                  onPressed: () => context.push('/coming-soon'),
+                  onPressed: () => _openForm(AuthMode.signup),
                 ),
               ],
             ),
@@ -449,7 +468,12 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
     );
   }
 
-  /// Giriş formu: öğeler sırayla (0,25 / 0,30 / 0,36 sn gecikmeyle) gelir.
+  void _switchForm(AuthMode form) {
+    FocusScope.of(context).unfocus();
+    setState(() => _form = form);
+  }
+
+  /// Giriş / kayıt formu: öğeler sırayla (0,25 / 0,30 / 0,36 sn gecikmeyle) gelir.
   Widget _loginContent(BuildContext context, double m) {
     double fade(int i) => delayed(
       m,
@@ -497,12 +521,42 @@ class _AuthStageState extends State<AuthStage> with TickerProviderStateMixin {
           opacity: wrapperFade,
           child: Transform.translate(
             offset: Offset(0, wrapperRise),
-            child: Column(
-              children: [
-                item(0, LoginHeader(onBack: _closeLogin)),
-                Expanded(child: item(1, const LoginBody())),
-                item(2, const LoginFooter()),
-              ],
+            child: AnimatedSwitcher(
+              duration: reduceMotion(context)
+                  ? Duration.zero
+                  : AuthMotion.formSwitch,
+              child: KeyedSubtree(
+                key: ValueKey(_form),
+                child: Column(
+                  children: _form == AuthMode.signup
+                      ? [
+                          item(0, SignupHeader(onExit: _closeLogin)),
+                          item(1, const SignupStepper(step: 1)),
+                          Expanded(
+                            child: item(
+                              2,
+                              SignupBody(emailController: _signupEmail),
+                            ),
+                          ),
+                          item(
+                            3,
+                            SignupFooter(
+                              onLogin: () => _switchForm(AuthMode.login),
+                            ),
+                          ),
+                        ]
+                      : [
+                          item(0, LoginHeader(onBack: _closeLogin)),
+                          Expanded(child: item(1, const LoginBody())),
+                          item(
+                            2,
+                            LoginFooter(
+                              onSignup: () => _switchForm(AuthMode.signup),
+                            ),
+                          ),
+                        ],
+                ),
+              ),
             ),
           ),
         ),

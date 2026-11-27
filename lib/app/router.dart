@@ -4,7 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../core/widgets/coming_soon_page.dart';
 import '../data/models/models.dart';
+import '../features/auth/view/legal_page.dart';
 import '../features/auth/view/login_page.dart';
+import '../features/auth/view/signup_expired_page.dart';
+import '../features/auth/view/signup_name_page.dart';
+import '../features/auth/view/signup_page.dart';
+import '../features/auth/view/signup_sent_page.dart';
 import '../features/auth/view/welcome_page.dart';
 import '../features/auth/viewmodel/auth_view_model.dart';
 import '../features/create_listing/view/create_listing_page.dart';
@@ -23,7 +28,17 @@ import '../features/profile/viewmodel/profile_view_models.dart';
 import 'app_shell.dart';
 import 'di.dart';
 
-const Set<String> _publicRoutes = {'/welcome', '/login', '/coming-soon'};
+const Set<String> _publicRoutes = {
+  '/welcome',
+  '/login',
+  '/signup',
+  '/signup/sent',
+  '/signup/name',
+  '/signup/expired',
+  '/legal/terms',
+  '/legal/privacy',
+  '/coming-soon',
+};
 
 /// Uygulama yönlendirmesi. Giriş yoksa Karşılama'ya yönlenir.
 GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
@@ -41,7 +56,8 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
       final path = state.uri.path;
       final isPublic = _publicRoutes.contains(path);
       if (!auth.isSignedIn && !isPublic) return '/welcome';
-      if (auth.isSignedIn && (path == '/welcome' || path == '/login')) {
+      if (auth.isSignedIn &&
+          (path == '/welcome' || path == '/login' || path == '/signup')) {
         return '/home';
       }
       return null;
@@ -49,6 +65,21 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
     routes: [
       GoRoute(path: '/welcome', builder: (_, _) => const WelcomePage()),
       GoRoute(path: '/login', builder: (_, _) => const LoginPage()),
+      GoRoute(path: '/signup', builder: (_, _) => const SignupPage()),
+      GoRoute(path: '/signup/sent', builder: (_, _) => const SignupSentPage()),
+      GoRoute(path: '/signup/name', builder: (_, _) => const SignupNamePage()),
+      GoRoute(
+        path: '/signup/expired',
+        builder: (_, _) => const SignupExpiredPage(),
+      ),
+      GoRoute(
+        path: '/legal/terms',
+        builder: (_, _) => const LegalPage(kind: LegalKind.terms),
+      ),
+      GoRoute(
+        path: '/legal/privacy',
+        builder: (_, _) => const LegalPage(kind: LegalKind.privacy),
+      ),
       GoRoute(path: '/coming-soon', builder: (_, _) => const ComingSoonPage()),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) =>

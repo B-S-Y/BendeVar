@@ -9,9 +9,12 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/app_buttons.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/institution_email_field.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../data/repositories/repositories.dart';
 import '../viewmodel/auth_view_model.dart';
 import 'auth_motion.dart';
+import 'auth_notice.dart';
 
 const double _formSide = AppSpacing.screen + AppSpacing.xs;
 
@@ -62,12 +65,16 @@ class LoginBody extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final vm = context.watch<AuthViewModel>();
 
-    final emailError = switch (vm.emailError) {
-      EmailError.empty => l.errorEmailEmpty,
-      EmailError.notEdu => l.errorEmailNotEdu,
-      null => null,
-    };
-    final passwordError = vm.passwordError == null
+    final emailError = vm.failure == AuthFailure.accountNotFound
+        ? l.errorAccountNotFound
+        : switch (vm.emailError) {
+            EmailError.empty => l.errorEmailEmpty,
+            EmailError.notEdu => l.errorEmailNotEdu,
+            null => null,
+          };
+    final passwordError = vm.failure == AuthFailure.wrongPassword
+        ? l.errorPasswordWrong
+        : vm.passwordError == null
         ? null
         : l.errorPasswordEmpty;
 
@@ -92,11 +99,8 @@ class LoginBody extends StatelessWidget {
             style: AppTypography.bodySmall.copyWith(color: c.textSecondary),
           ),
           const SizedBox(height: AppSpacing.xl),
-          AppTextField(
+          InstitutionEmailField(
             fieldKey: const Key('email-field'),
-            label: l.emailLabel,
-            hint: l.emailHint,
-            keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             onChanged: vm.setEmail,
             errorText: emailError,
@@ -121,6 +125,31 @@ class LoginBody extends StatelessWidget {
               ),
             ),
           ),
+          if (vm.failure == AuthFailure.tooManyAttempts) ...[
+            const SizedBox(height: AppSpacing.lg),
+            AuthNotice(
+              icon: LucideIcons.circleAlert,
+              message: l.errorTooManyAttempts,
+              actionLabel: l.resetPasswordAction,
+              onAction: () => context.push('/coming-soon'),
+            ),
+          ],
+          if (vm.failure == AuthFailure.notVerified) ...[
+            const SizedBox(height: AppSpacing.lg),
+            AuthNotice(
+              icon: LucideIcons.mail,
+              warning: true,
+              message: l.errorNotVerified,
+              actionLabel: l.resendVerification,
+              onAction: () async {
+                final messenger = ScaffoldMessenger.of(context);
+                await vm.resendVerification();
+                messenger.showSnackBar(
+                  SnackBar(content: Text(l.verificationSent)),
+                );
+              },
+            ),
+          ],
           const SizedBox(height: AppSpacing.sm),
           Align(
             alignment: Alignment.centerRight,
@@ -137,7 +166,10 @@ class LoginBody extends StatelessWidget {
 
 /// 1.02 alt: "Giriş yap" düğmesi ve "Hesabın yok mu? Kayıt ol".
 class LoginFooter extends StatelessWidget {
-  const LoginFooter({super.key});
+  const LoginFooter({super.key, required this.onSignup});
+
+  /// "Kayıt ol": aynı panelde kayıt formuna geçer.
+  final VoidCallback onSignup;
 
   @override
   Widget build(BuildContext context) {
@@ -176,10 +208,7 @@ class LoginFooter extends StatelessWidget {
                   ),
                 ),
               ),
-              TextLinkButton(
-                label: l.signup,
-                onPressed: () => context.push('/coming-soon'),
-              ),
+              TextLinkButton(label: l.signup, onPressed: onSignup),
             ],
           ),
         ],

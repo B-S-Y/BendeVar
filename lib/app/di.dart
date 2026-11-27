@@ -10,15 +10,18 @@ class AppDependencies {
     ChatRepository? chats,
     NotificationRepository? notifications,
     UserRepository? users,
+    CommunityRepository? communities,
   }) : auth = auth ?? MockAuthRepository(),
        listings = listings ?? MockListingRepository(),
        chats = chats ?? MockChatRepository(),
        notifications = notifications ?? MockNotificationRepository(),
-       users = users ?? MockUserRepository();
+       users = users ?? MockUserRepository(),
+       communities = communities ?? MockCommunityRepository();
 
   final AuthRepository auth;
   final ListingRepository listings;
   final ChatRepository chats;
   final NotificationRepository notifications;
   final UserRepository users;
+  final CommunityRepository communities;
 }

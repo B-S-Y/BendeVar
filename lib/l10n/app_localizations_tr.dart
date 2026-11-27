@@ -81,6 +81,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get errorPasswordEmpty => 'Şifreni gir.';
 
   @override
+  String get emailHintShort => 'ad.soyad@okul';
+
+  @override
+  String get errorAccountNotFound =>
+      'Bu e-postayla kayıtlı bir hesap bulamadık. E-postanı kontrol et ya da kayıt ol.';
+
+  @override
+  String get errorPasswordWrong => 'Şifre yanlış. Tekrar dene.';
+
+  @override
+  String get errorTooManyAttempts =>
+      'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene ya da şifreni sıfırla.';
+
+  @override
+  String get resetPasswordAction => 'Şifremi sıfırla';
+
+  @override
+  String get errorNotVerified =>
+      'Hesabın henüz doğrulanmamış. E-postana gönderdiğimiz bağlantıya tıkla.';
+
+  @override
+  String get resendVerification => 'Bağlantıyı tekrar gönder';
+
+  @override
+  String get verificationSent => 'Doğrulama bağlantısı gönderildi.';
+
+  @override
   String get navHome => 'Ana sayfa';
 
   @override
@@ -610,4 +637,144 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get timeYesterday => 'Dün';
+
+  @override
+  String get signupTitle => 'Okul e-postanla başla';
+
+  @override
+  String get signupSubtitle =>
+      'Topluluğun e-posta uzantısından bulunur. Sana bir doğrulama bağlantısı göndereceğiz.';
+
+  @override
+  String get signupExit => 'Kayıttan çık';
+
+  @override
+  String get stepAccount => 'Hesap';
+
+  @override
+  String get stepVerify => 'Doğrulama';
+
+  @override
+  String get stepName => 'Adın';
+
+  @override
+  String get signupJoinCommunity => 'Okul topluluğuna katılacaksın';
+
+  @override
+  String get signupNewCommunity => 'Topluluğun ilk kayıtla açılacak';
+
+  @override
+  String get signupPasswordHint => 'Şifre belirle';
+
+  @override
+  String get signupPasswordRule =>
+      'En az 8 karakter, en az bir harf ve bir rakam.';
+
+  @override
+  String get errorPasswordWeak =>
+      'Şifren en az 8 karakter olmalı, en az bir harf ve bir rakam içermeli.';
+
+  @override
+  String get errorTermsRequired => 'Devam etmek için şartları kabul etmelisin.';
+
+  @override
+  String get errorEmailInUse => 'Bu e-posta zaten kayıtlı. Giriş yapmayı dene.';
+
+  @override
+  String get termsLead => '';
+
+  @override
+  String get termsLink => 'Kullanım şartlarını';
+
+  @override
+  String get termsMid => ' ve ';
+
+  @override
+  String get privacyLink => 'gizlilik politikasını';
+
+  @override
+  String get termsTail => ' okudum, kabul ediyorum.';
+
+  @override
+  String get haveAccount => 'Hesabın var mı?';
+
+  @override
+  String get sentTitle => 'Bağlantıyı gönderdik';
+
+  @override
+  String get sentSubtitle => 'Doğrulama bağlantısını şu adrese gönderdik:';
+
+  @override
+  String get sentInstruction =>
+      'Okul e-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.';
+
+  @override
+  String get sentWaiting => 'Doğrulama bekleniyor';
+
+  @override
+  String get openMailApp => 'Mail uygulamasını aç';
+
+  @override
+  String get clickedLink => 'Bağlantıya tıkladım';
+
+  @override
+  String resendIn(String time) {
+    return 'Tekrar gönder ($time)';
+  }
+
+  @override
+  String get resendLink => 'Tekrar gönder';
+
+  @override
+  String get fixEmail => 'E-postayı düzelt';
+
+  @override
+  String get notVerifiedYet =>
+      'E-postan henüz doğrulanmadı. Bağlantıya tıkladığından emin ol.';
+
+  @override
+  String get linkResent => 'Bağlantı tekrar gönderildi.';
+
+  @override
+  String get nameTitle => 'Adın ne?';
+
+  @override
+  String get nameSubtitle =>
+      'Diğer kullanıcılar seni bu adla görecek. Gerekirse düzenleyebilirsin.';
+
+  @override
+  String get nameLabel => 'Ad Soyad';
+
+  @override
+  String get nameHint => 'Adını ve soyadını yaz';
+
+  @override
+  String get errorNameEmpty => 'Adını gir.';
+
+  @override
+  String get finish => 'Tamamla';
+
+  @override
+  String get expiredTitle => 'Bağlantının süresi doldu';
+
+  @override
+  String get expiredBody =>
+      'Doğrulama bağlantısı 24 saat geçerliydi. Sana yeni bir bağlantı gönderebiliriz.';
+
+  @override
+  String get sendNewLink => 'Yeni bağlantı gönder';
+
+  @override
+  String get legalTermsTitle => 'Kullanım şartları';
+
+  @override
+  String get legalPrivacyTitle => 'Gizlilik politikası';
+
+  @override
+  String get legalTermsBody =>
+      'Bende Var, aynı okulda ya da yurtta bulunan kişilerin birbirinin ihtiyacını ödünç alıp vererek karşıladığı bir topluluk uygulamasıdır.\n\n1. Hesap\nKurum e-postanla kayıt olursun ve okulunun topluluğuna katılırsın. Hesabının güvenliğinden sen sorumlusun.\n\n2. İlan ve ihtiyaç\nİlanlar eşyanı ödünç vermek, ihtiyaçlar ise bir eşya aramak içindir. Paylaştığın bilgilerin doğru olması gerekir.\n\n3. Ödünç alma ve verme\nTaraflar teslim yeri, süre ve koşullar üzerinde mesajlaşarak anlaşır. Uygulamada ödeme alınmaz. Eşyayı zamanında ve aldığın durumda iade etmek ödünç alan kişinin sorumluluğundadır.\n\n4. Davranış\nDiğer kullanıcılara saygılı davranırsın. Yasa dışı, tehlikeli ya da başkalarına ait eşyaları paylaşamazsın.\n\n5. Hesabın kapatılması\nBu şartları ihlal eden hesaplar kapatılabilir.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.';
+
+  @override
+  String get legalPrivacyBody =>
+      'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.';
 }

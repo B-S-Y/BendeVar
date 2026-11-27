@@ -6,8 +6,32 @@ import 'mock_data.dart';
 
 const Duration _latency = Duration(milliseconds: 250);
 
+class _PendingSignUp {
+  _PendingSignUp(this.password, this.sentAt);
+  final String password;
+  DateTime sentAt;
+}
+
 class MockAuthRepository implements AuthRepository {
+  MockAuthRepository({
+    List<MockAccount>? accounts,
+    this.verifyAfter = const Duration(seconds: 8),
+  }) : _accounts = List.of(accounts ?? mockAccounts);
+
+  final List<MockAccount> _accounts;
+  final Map<String, _PendingSignUp> _pending = {};
   AppUser? _user;
+  final Map<String, int> _failures = {};
+
+  /// Bu kadar yanlış şifreden sonra hesap geçici kilitlenir (uygulama
+  /// yeniden açılana kadar).
+  static const int maxFailures = 3;
+
+  /// Kayıtta doğrulama bağlantısına "tıklanması" bu süre sonra taklit edilir.
+  final Duration verifyAfter;
+
+  /// Bu önekle başlayan e-postalarda bağlantı süresi dolar (1.12).
+  static const String expiredPrefix = 'suredoldu';
 
   @override
   AppUser? get currentUser => _user;
@@ -15,14 +39,118 @@ class MockAuthRepository implements AuthRepository {
   @override
   Future<AppUser> signIn(String email, String password) async {
     await Future<void>.delayed(_latency);
-    _user = mockUser;
-    return mockUser;
+    final key = email.trim().toLowerCase();
+    final pending = _pending[key];
+    final account = _accounts.where((a) => a.email == key).firstOrNull;
+    if (account == null && pending == null) {
+      throw const AuthException(AuthFailure.accountNotFound);
+    }
+    if ((_failures[key] ?? 0) >= maxFailures) {
+      throw const AuthException(AuthFailure.tooManyAttempts);
+    }
+    final expected = account?.password ?? pending!.password;
+    if (password != expected) {
+      _failures[key] = (_failures[key] ?? 0) + 1;
+      throw const AuthException(AuthFailure.wrongPassword);
+    }
+    _failures.remove(key);
+    // Gerçekte: giriş olur, sonra e-posta doğrulaması denetlenir (1.04).
+    if (account == null || !account.verified) {
+      throw const AuthException(AuthFailure.notVerified);
+    }
+    _user = account.user;
+    return account.user;
   }
 
   @override
   Future<void> signOut() async {
     await Future<void>.delayed(_latency);
     _user = null;
+  }
+
+  @override
+  Future<void> sendVerification(String email) async {
+    await Future<void>.delayed(_latency);
+    _pending[email.trim().toLowerCase()]?.sentAt = DateTime.now();
+  }
+
+  @override
+  Future<void> signUp(String email, String password) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    if (_accounts.any((a) => a.email == key) || _pending.containsKey(key)) {
+      throw const AuthException(AuthFailure.emailInUse);
+    }
+    _pending[key] = _PendingSignUp(password, DateTime.now());
+  }
+
+  @override
+  Future<VerificationStatus> checkVerification(String email) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final pending = _pending[key];
+    if (pending == null) return VerificationStatus.verified;
+    if (DateTime.now().difference(pending.sentAt) < verifyAfter) {
+      return VerificationStatus.pending;
+    }
+    return key.startsWith(expiredPrefix)
+        ? VerificationStatus.expired
+        : VerificationStatus.verified;
+  }
+
+  @override
+  Future<AppUser> completeSignUp({
+    required String email,
+    required String displayName,
+    required Community community,
+  }) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final pending = _pending.remove(key);
+    final parts = displayName.trim().split(RegExp(r'\s+'));
+    final short = parts.length > 1
+        ? '${parts.first} ${parts.last[0].toUpperCase()}.'
+        : parts.first;
+    final user = AppUser(
+      id: 'u-${key.split('@').first}',
+      displayName: displayName.trim(),
+      shortName: short,
+      email: key,
+      community: community,
+      department: '',
+      bio: '',
+      rating: 0,
+      transactions: 0,
+      onTimeRate: 0,
+    );
+    _accounts.add(
+      MockAccount(
+        email: key,
+        password: pending?.password ?? mockPassword,
+        user: user,
+      ),
+    );
+    _user = user;
+    return user;
+  }
+}
+
+class MockCommunityRepository implements CommunityRepository {
+  MockCommunityRepository()
+    : _bySchool = {'yildiz': mockCommunity, 'marmara': mockMarmara};
+
+  final Map<String, Community> _bySchool;
+
+  @override
+  Future<Community?> findBySchool(String schoolId) async => _bySchool[schoolId];
+
+  @override
+  Future<Community> joinOrCreate(String schoolId) async {
+    await Future<void>.delayed(_latency);
+    return _bySchool.putIfAbsent(schoolId, () {
+      final name = schoolId[0].toUpperCase() + schoolId.substring(1);
+      return Community(id: schoolId, name: name, shortName: name);
+    });
   }
 }
 

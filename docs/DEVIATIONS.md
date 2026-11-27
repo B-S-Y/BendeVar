@@ -45,3 +45,20 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 ## 1.01 soğuk açılış ve çentik düzeltmesi
 - Açılış animasyonu artık ilk kare + 250 ms sonra başlar; tek karede en fazla 50 ms ilerler (soğuk açılışta ilk karelerin ağırlığı animasyonu yutuyordu). "Animasyonları azalt" kararı başlangıçta yeniden okunur; ilk karede geçici true görünürse animasyon baştan oynar.
 - Logo grubu üst safe area + 12 dp altına iner (`logoTopGap`); açık panelin üst payı da buna göre artar. Tasarım uzayındaki 30 dp, çentiksiz ekranda aynı kalır.
+
+## Görev 2 · Giriş (1.02) hataları
+- 1.03a/b/c ve 1.04 için PNG yok; en yakın örnek 1.02 düzeni. Hata metinleri (ARB) ve görünüm tahmini: 1.03a mevcut alan hatası (kurum dışı e-posta), 1.03b şifre alanı altında kırmızı hata, 1.03c kırmızı kutu + "Şifremi sıfırla" (ComingSoon, Görev 4'te 1.05'e bağlanacak), 1.04 sarı kutu + "Bağlantıyı tekrar gönder" (SnackBar). Figma metinleri gelince ARB güncellenecek.
+- Mock giriş (güncel): yalnızca kayıtlı mock hesaplar girebilir (`mockAccounts`, `mock_data.dart` sonu). Kayıtsız e-posta → "hesap bulunamadı" (1.03 ailesinden e-posta alanı hatası, PNG yok, metin tahmini); yanlış şifre → 1.03b; hesap başına 3 yanlıştan sonra 1.03c (uygulama yeniden açılana kadar); doğrulanmamış hesap (Sudem) doğru şifreyle bile ana sayfaya geçmez, 1.04 sarı kutusu gösterilir (PNG yok, en yakın örnek).
+- E-posta alanı Türkçe karakterleri yazarken ASCII'ye çevirir (ı→i, ğ→g, ü→u, ş→s, ö→o, ç→c, İ→i) ve küçültür. Neden: kurum e-postaları ASCII'dir; Türkçe klavyede yazan kullanıcıya hata göstermek yerine düzeltmek daha az sürtünme, harf sayısı değişmediği için imleç yerinde kalır.
+- E-posta alanı: `.edu.tr` alanın içinde sabit sonek (metin rengi ikincil); kurum dışı e-posta yapıştırılırsa olduğu gibi kalır ve 1.03a hatası verir. İpucu "ad.soyad@okul" (@ yazılmadan önce).
+
+## Görev 3 · Kayıt (1.08 – 1.12)
+- PNG yok (yalnızca design/Kayit2_1.09_mockup.html ve Main_1.01_mockup.html'deki 1.08/1.09 taslakları var): 1.08 ve 1.08a karşılama panelinde (ANIMASYON_1.01.md "Giriş/Kayıt geçişi"), 1.09 mockup'a göre; 1.10, 1.12, 1.10a/b için en yakın örnek (aynı yıldızlı şerit + panel düzeni, `AuthShell`). 1.08a = kurum dışı e-posta hatası (giriş 1.03a ile aynı metin).
+- 1.10a/b (ve 1.19a/b) yasal metinler örnek içeriktir, nihai hukuki metin değildir (ARB: `legalTermsBody`, `legalPrivacyBody`); satış/şirket geçmez, ödeme alınmadığı belirtilir. Gerçek metin gelince ARB güncellenecek.
+- 1.12 (süresi doldu) görseli tahmini: sarı yuvarlak içinde saat ikonu + başlık + açıklama + "Yeni bağlantı gönder".
+- "Mail uygulamasını aç" ComingSoon'a gider (url_launcher eklenmedi; "gereksiz paket yok").
+- Doğrulama kontrolü: uygulama öne dönünce (`didChangeAppLifecycleState.resumed`) ve "Bağlantıya tıkladım" ile.
+- Mock doğrulama: kayıttan 8 sn sonra bağlantıya "tıklanmış" sayılır; e-postası `suredoldu` ile başlayanda bağlantı süresi dolar (1.12). Yeni okul (örn. `@std.bogazici.edu.tr`) ilk kayıtta topluluk açar (ad: okul kimliğinin baş harfi büyük hâli, örn. "Bogazici").
+- Kullanıcı adının kısaltması ("Ad S.") ad-soyaddan üretilir; tek kelimeyse olduğu gibi.
+- Büyük yazı boyutunda (>1.15×) adım göstergesinde yalnızca geçerli adımın etiketi görünür (taşmasın diye).
+- Adım göstergesindeki geçerli adım halkası `infoBg` ile çizildi (mockup #D6E2FA, `infoBg` #E3EEFB'ye yakın).

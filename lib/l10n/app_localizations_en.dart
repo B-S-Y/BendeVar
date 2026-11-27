@@ -82,6 +82,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorPasswordEmpty => 'Enter your password.';
 
   @override
+  String get emailHintShort => 'name.surname@school';
+
+  @override
+  String get errorAccountNotFound =>
+      'We couldn\'t find an account with this email. Check it or sign up.';
+
+  @override
+  String get errorPasswordWrong => 'Wrong password. Try again.';
+
+  @override
+  String get errorTooManyAttempts =>
+      'Too many failed attempts. Wait a bit and try again, or reset your password.';
+
+  @override
+  String get resetPasswordAction => 'Reset my password';
+
+  @override
+  String get errorNotVerified =>
+      'Your account isn\'t verified yet. Tap the link we emailed you.';
+
+  @override
+  String get resendVerification => 'Resend the link';
+
+  @override
+  String get verificationSent => 'Verification link sent.';
+
+  @override
   String get navHome => 'Home';
 
   @override
@@ -623,4 +650,146 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timeYesterday => 'Yesterday';
+
+  @override
+  String get signupTitle => 'Start with your school email';
+
+  @override
+  String get signupSubtitle =>
+      'We find your community from your email domain. We\'ll send you a verification link.';
+
+  @override
+  String get signupExit => 'Leave sign-up';
+
+  @override
+  String get stepAccount => 'Account';
+
+  @override
+  String get stepVerify => 'Verification';
+
+  @override
+  String get stepName => 'Your name';
+
+  @override
+  String get signupJoinCommunity => 'You\'ll join your school community';
+
+  @override
+  String get signupNewCommunity =>
+      'Your community will be opened with this first sign-up';
+
+  @override
+  String get signupPasswordHint => 'Create a password';
+
+  @override
+  String get signupPasswordRule =>
+      'At least 8 characters, with at least one letter and one digit.';
+
+  @override
+  String get errorPasswordWeak =>
+      'Your password needs at least 8 characters, one letter and one digit.';
+
+  @override
+  String get errorTermsRequired => 'Accept the terms to continue.';
+
+  @override
+  String get errorEmailInUse =>
+      'This email is already registered. Try signing in.';
+
+  @override
+  String get termsLead => 'I have read and accept the ';
+
+  @override
+  String get termsLink => 'Terms of Use';
+
+  @override
+  String get termsMid => ' and ';
+
+  @override
+  String get privacyLink => 'Privacy Policy';
+
+  @override
+  String get termsTail => '.';
+
+  @override
+  String get haveAccount => 'Already have an account?';
+
+  @override
+  String get sentTitle => 'We sent the link';
+
+  @override
+  String get sentSubtitle => 'We sent the verification link to this address:';
+
+  @override
+  String get sentInstruction =>
+      'Tap the link in your school email, then come back and press \"I tapped the link\". The link is valid for 24 hours.';
+
+  @override
+  String get sentWaiting => 'Waiting for verification';
+
+  @override
+  String get openMailApp => 'Open mail app';
+
+  @override
+  String get clickedLink => 'I tapped the link';
+
+  @override
+  String resendIn(String time) {
+    return 'Resend ($time)';
+  }
+
+  @override
+  String get resendLink => 'Resend';
+
+  @override
+  String get fixEmail => 'Fix the email';
+
+  @override
+  String get notVerifiedYet =>
+      'Your email isn\'t verified yet. Make sure you tapped the link.';
+
+  @override
+  String get linkResent => 'Link sent again.';
+
+  @override
+  String get nameTitle => 'What\'s your name?';
+
+  @override
+  String get nameSubtitle =>
+      'Other users will see you with this name. You can edit it.';
+
+  @override
+  String get nameLabel => 'Full name';
+
+  @override
+  String get nameHint => 'Enter your first and last name';
+
+  @override
+  String get errorNameEmpty => 'Enter your name.';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get expiredTitle => 'The link has expired';
+
+  @override
+  String get expiredBody =>
+      'The verification link was valid for 24 hours. We can send you a new one.';
+
+  @override
+  String get sendNewLink => 'Send a new link';
+
+  @override
+  String get legalTermsTitle => 'Terms of Use';
+
+  @override
+  String get legalPrivacyTitle => 'Privacy Policy';
+
+  @override
+  String get legalTermsBody =>
+      'Bende Var is a community app where people in the same school or dorm meet each other\'s needs by lending and borrowing.\n\n1. Account\nYou sign up with your institutional email and join your school\'s community. You are responsible for your account\'s security.\n\n2. Listings and needs\nListings are for lending your items, needs are for looking for an item. The information you share must be accurate.\n\n3. Borrowing and lending\nThe parties agree on the handover place, duration and conditions by messaging. No payments are taken in the app. The borrower is responsible for returning the item on time and in the condition received.\n\n4. Conduct\nYou treat other users with respect. You may not share illegal, dangerous or other people\'s items.\n\n5. Closing accounts\nAccounts that violate these terms may be closed.\n\nThis text is a placeholder and not the final legal text.';
+
+  @override
+  String get legalPrivacyBody =>
+      'This policy explains what information Bende Var uses and why.\n\n1. Information we collect\nYour institutional email address, your name, the listings and needs you share, your messages and ratings.\n\n2. How we use it\nTo match you with your school\'s community, run borrowing and lending, send return reminders and improve the app.\n\n3. Sharing\nYour name and listings are visible only to users in your community. We don\'t sell your information to third parties.\n\n4. Retention and deletion\nYour personal information is deleted when you close your account.\n\n5. Your rights\nYou can ask to access, correct or delete your information.\n\nThis text is a placeholder and not the final legal text.';
 }

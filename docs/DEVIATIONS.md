@@ -62,3 +62,16 @@ Hepsi `lib/core/theme/app_colors.dart` içinde `// TODO(koyu-tema): belgede yok,
 - Kullanıcı adının kısaltması ("Ad S.") ad-soyaddan üretilir; tek kelimeyse olduğu gibi.
 - Büyük yazı boyutunda (>1.15×) adım göstergesinde yalnızca geçerli adımın etiketi görünür (taşmasın diye).
 - Adım göstergesindeki geçerli adım halkası `infoBg` ile çizildi (mockup #D6E2FA, `infoBg` #E3EEFB'ye yakın).
+
+## Görev 4 · Şifre sıfırlama (1.05 – 1.07)
+- PNG yok; 1.05/1.06/1.07 en yakın örnekle (aynı şerit + panel düzeni, `AuthShell`; 1.06 zarf animasyonu 1.09 ile aynı widget). Metinler tahmini (ARB).
+- 1.07: yeni şifre + "Şifreyi tekrar gir" iki alan (kayıttaki şifre kuralı: en az 8 karakter, harf + rakam). Kayıttan sonra "Girişe" döner, SnackBar "Şifren güncellendi".
+- Güvenlik: kayıtsız e-posta için de "bağlantı gönderildi" görünür (hesap var mı açıklanmaz); mock'ta o durumda bağlantı hiç "tıklanmaz".
+- Mock: bağlantı 8 sn sonra "tıklanmış" sayılır; `suredoldu...` e-postasında süre dolar (SnackBar; 1.12 yalnızca kayıt için). Şifre sıfırlanınca eski şifre geçmez ve 1.03c kilidi açılır.
+- Girişteki "Şifremi unuttum" ve 1.03c "Şifremi sıfırla" artık 1.05'e gider; girişte yazılan e-posta 1.05'te hazır gelir.
+
+## Giriş kilidi ve şifre alanları (düzeltme)
+- 1.03c kutusundan "Şifremi sıfırla" bağlantısı kaldırıldı: gereksiz tekrar olduğu için (şifre sıfırlamaya giden tek yol formdaki "Şifremi unuttum"). 1.03c için PNG yok; Figma'da bu buton varsa bu bilinçli bir sapmadır. Kutu metni: "Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene."
+- Kilit (3 yanlış şifre) artık 30 sn sürer (`MockAuthRepository.lockDuration`, tek sabit); süre dolunca kilit kalkar ve sayaç sıfırlanır. Geri sayım gösterilmez. Gerçek (Firebase) davranışı sunucuya bağlı olacak.
+- 1.07: "Yeni şifre" ve "Yeni şifreyi tekrar gir" alanlarının her birinin kendi göz ikonu var, bağımsız çalışır. 1.07 için PNG yok; Figma'daki hâl farklıysa (tek ikon vb.) bu sapmadır. Kayıt formunda (1.08) tek şifre alanı var ve kendi göz ikonu zaten var; ikinci alan yok.
+- Ayrı bir "ortak şifre alanı" widget'ı yok; ortak `AppTextField` (obscureText + suffix) kullanıldı, yeni widget yazılmadı.

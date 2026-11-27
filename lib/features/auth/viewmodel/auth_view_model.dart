@@ -240,6 +240,135 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ───────────────────── Şifre sıfırlama (1.05 – 1.07) ─────────────────────
+
+  String _resetEmail = '';
+  bool _resetShowErrors = false;
+  bool _resetLoading = false;
+  DateTime? _resetSentAt;
+  String _newPassword = '';
+  String _confirmPassword = '';
+  bool _newObscure = true;
+  bool _confirmObscure = true;
+  bool _newShowErrors = false;
+  bool _savingPassword = false;
+
+  String get resetEmail => _resetEmail;
+  bool get resetLoading => _resetLoading;
+  bool get newObscure => _newObscure;
+  bool get confirmObscure => _confirmObscure;
+  bool get savingPassword => _savingPassword;
+
+  EmailError? get resetEmailError =>
+      _resetShowErrors ? Validators.email(_resetEmail) : null;
+  NewPasswordError? get newPasswordError =>
+      _newShowErrors ? Validators.newPassword(_newPassword) : null;
+  bool get passwordMismatch =>
+      _newShowErrors &&
+      Validators.newPassword(_newPassword) == null &&
+      _newPassword != _confirmPassword;
+
+  /// 1.05'e girişte yazılan e-posta hazır gelir. (Sayfa kurulurken çağrılır;
+  /// bu yüzden dinleyicilere haber vermez.)
+  void startReset() {
+    if (_resetEmail.isEmpty) _resetEmail = _email;
+    _resetShowErrors = false;
+  }
+
+  void setResetEmail(String v) {
+    _resetEmail = v;
+    notifyListeners();
+  }
+
+  /// 1.05 → bağlantı gönderilir. Başarılıysa true.
+  Future<bool> sendReset() async {
+    _resetShowErrors = true;
+    if (Validators.email(_resetEmail) != null) {
+      notifyListeners();
+      return false;
+    }
+    _resetLoading = true;
+    notifyListeners();
+    try {
+      await _repo.requestPasswordReset(_resetEmail.trim());
+      _resetSentAt = DateTime.now();
+      return true;
+    } finally {
+      _resetLoading = false;
+      notifyListeners();
+    }
+  }
+
+  int resetResendRemaining([DateTime? now]) {
+    final sent = _resetSentAt;
+    if (sent == null) return 0;
+    final left =
+        resendCooldownSeconds -
+        (now ?? DateTime.now()).difference(sent).inSeconds;
+    return left < 0 ? 0 : left;
+  }
+
+  Future<void> resendReset() async {
+    await _repo.requestPasswordReset(_resetEmail.trim());
+    _resetSentAt = DateTime.now();
+    notifyListeners();
+  }
+
+  Future<VerificationStatus> checkReset() =>
+      _repo.checkPasswordReset(_resetEmail.trim());
+
+  void setNewPassword(String v) {
+    _newPassword = v;
+    notifyListeners();
+  }
+
+  void setConfirmPassword(String v) {
+    _confirmPassword = v;
+    notifyListeners();
+  }
+
+  void toggleNewObscure() {
+    _newObscure = !_newObscure;
+    notifyListeners();
+  }
+
+  void toggleConfirmObscure() {
+    _confirmObscure = !_confirmObscure;
+    notifyListeners();
+  }
+
+  /// 1.07 → yeni şifreyi kaydeder. Başarılıysa true.
+  Future<bool> savePassword() async {
+    _newShowErrors = true;
+    if (Validators.newPassword(_newPassword) != null ||
+        _newPassword != _confirmPassword) {
+      notifyListeners();
+      return false;
+    }
+    _savingPassword = true;
+    notifyListeners();
+    try {
+      await _repo.confirmPasswordReset(_resetEmail.trim(), _newPassword);
+      return true;
+    } finally {
+      _savingPassword = false;
+      notifyListeners();
+    }
+  }
+
+  void resetPasswordFlow() {
+    _resetEmail = '';
+    _resetShowErrors = false;
+    _resetSentAt = null;
+    _newPassword = '';
+    _confirmPassword = '';
+    _newShowErrors = false;
+    _newObscure = true;
+    _confirmObscure = true;
+    _failure = null;
+    notifyListeners();
+  }
+
   Future<void> signOut() async {
     await _repo.signOut();
     _user = null;

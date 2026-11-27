@@ -6,6 +6,7 @@ import '../core/widgets/coming_soon_page.dart';
 import '../data/models/models.dart';
 import '../features/auth/view/legal_page.dart';
 import '../features/auth/view/login_page.dart';
+import '../features/auth/view/password_reset_pages.dart';
 import '../features/auth/view/signup_expired_page.dart';
 import '../features/auth/view/signup_name_page.dart';
 import '../features/auth/view/signup_page.dart';
@@ -35,6 +36,9 @@ const Set<String> _publicRoutes = {
   '/signup/sent',
   '/signup/name',
   '/signup/expired',
+  '/forgot',
+  '/forgot/sent',
+  '/forgot/new',
   '/legal/terms',
   '/legal/privacy',
   '/coming-soon',
@@ -71,6 +75,12 @@ GoRouter buildRouter(AppDependencies deps, AuthViewModel auth) {
       GoRoute(
         path: '/signup/expired',
         builder: (_, _) => const SignupExpiredPage(),
+      ),
+      GoRoute(path: '/forgot', builder: (_, _) => const ForgotPasswordPage()),
+      GoRoute(path: '/forgot/sent', builder: (_, _) => const ResetSentPage()),
+      GoRoute(
+        path: '/forgot/new',
+        builder: (_, _) => const ResetNewPasswordPage(),
       ),
       GoRoute(
         path: '/legal/terms',

@@ -58,6 +58,39 @@ void main() {
       }
     });
 
+    test(
+      '1.03c: kilit 30 sn sürer, sonra kalkar ve sayaç sıfırlanır',
+      () async {
+        var now = DateTime(2026, 1, 1, 12);
+        final vm = AuthViewModel(MockAuthRepository(now: () => now))
+          ..setEmail('elif@std.yildiz.edu.tr')
+          ..setPassword('yanlis');
+        for (var i = 0; i < 3; i++) {
+          await vm.signIn();
+        }
+        expect(vm.failure, AuthFailure.wrongPassword);
+        await vm.signIn();
+        expect(vm.failure, AuthFailure.tooManyAttempts);
+
+        // Süre dolmadan doğru şifre de kabul edilmez.
+        now = now.add(
+          MockAuthRepository.lockDuration - const Duration(seconds: 1),
+        );
+        vm.setPassword('sifre123');
+        expect(await vm.signIn(), isFalse);
+        expect(vm.failure, AuthFailure.tooManyAttempts);
+
+        // Süre dolunca kilit kalkar; sayaç sıfırlandığı için yanlış şifre yine
+        // wrongPassword verir (hemen kilitlenmez).
+        now = now.add(const Duration(seconds: 2));
+        vm.setPassword('yanlis');
+        expect(await vm.signIn(), isFalse);
+        expect(vm.failure, AuthFailure.wrongPassword);
+        vm.setPassword('sifre123');
+        expect(await vm.signIn(), isTrue);
+      },
+    );
+
     test('1.04: doğrulanmamış hesap notVerified verir', () async {
       final vm = make('sudem@yildiz.edu.tr', 'sifre123');
       expect(await vm.signIn(), isFalse);

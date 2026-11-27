@@ -41,6 +41,17 @@ abstract class AuthRepository {
   /// Bağlantıya tıklandı mı? (Firebase: kullanıcıyı yenile, `emailVerified`.)
   Future<VerificationStatus> checkVerification(String email);
 
+  /// Şifre sıfırlama bağlantısı gönderir (1.05). Hesap var mı yok mu
+  /// açıklanmaz (güvenlik): her geçerli e-posta için başarılı döner.
+  Future<void> requestPasswordReset(String email);
+
+  /// Sıfırlama bağlantısına tıklandı mı? (1.06; Firebase'de bağlantı uygulamayı
+  /// açar ve kod doğrulanır.)
+  Future<VerificationStatus> checkPasswordReset(String email);
+
+  /// Yeni şifreyi kaydeder (1.07).
+  Future<void> confirmPasswordReset(String email, String newPassword);
+
   /// Ad Soyad (1.10) ile kaydı bitirir ve oturumu açar.
   Future<AppUser> completeSignUp({
     required String email,

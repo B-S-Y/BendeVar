@@ -92,10 +92,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorTooManyAttempts =>
-      'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene ya da şifreni sıfırla.';
-
-  @override
-  String get resetPasswordAction => 'Şifremi sıfırla';
+      'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene.';
 
   @override
   String get errorNotVerified =>
@@ -777,4 +774,54 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get legalPrivacyBody =>
       'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.';
+
+  @override
+  String get forgotTitle => 'Şifreni mi unuttun?';
+
+  @override
+  String get forgotSubtitle =>
+      'Kurum e-postanı yaz, şifreni yenilemen için sana bir bağlantı gönderelim.';
+
+  @override
+  String get sendResetLink => 'Bağlantı gönder';
+
+  @override
+  String get resetSentSubtitle =>
+      'Şifre yenileme bağlantısını şu adrese gönderdik:';
+
+  @override
+  String get resetSentInstruction =>
+      'E-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.';
+
+  @override
+  String get resetExpired =>
+      'Bağlantının süresi doldu. Yeni bir bağlantı iste.';
+
+  @override
+  String get newPasswordTitle => 'Yeni şifre belirle';
+
+  @override
+  String get newPasswordSubtitle => 'Hesabın için yeni bir şifre seç.';
+
+  @override
+  String get newPasswordLabel => 'Yeni şifre';
+
+  @override
+  String get newPasswordHint => 'Yeni şifreni gir';
+
+  @override
+  String get confirmPasswordLabel => 'Yeni şifreyi tekrar gir';
+
+  @override
+  String get confirmPasswordHint => 'Şifreni tekrar yaz';
+
+  @override
+  String get errorPasswordMismatch => 'Şifreler eşleşmiyor.';
+
+  @override
+  String get savePassword => 'Şifreyi kaydet';
+
+  @override
+  String get passwordUpdated =>
+      'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.';
 }

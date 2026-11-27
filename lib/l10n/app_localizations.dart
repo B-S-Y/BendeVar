@@ -257,14 +257,8 @@ abstract class AppLocalizations {
   /// No description provided for @errorTooManyAttempts.
   ///
   /// In tr, this message translates to:
-  /// **'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene ya da şifreni sıfırla.'**
+  /// **'Çok fazla hatalı deneme yaptın. Biraz bekleyip tekrar dene.'**
   String get errorTooManyAttempts;
-
-  /// No description provided for @resetPasswordAction.
-  ///
-  /// In tr, this message translates to:
-  /// **'Şifremi sıfırla'**
-  String get resetPasswordAction;
 
   /// No description provided for @errorNotVerified.
   ///
@@ -1537,6 +1531,96 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu politika, Bende Var\'ın hangi bilgileri neden kullandığını açıklar.\n\n1. Topladığımız bilgiler\nKurum e-posta adresin, adın, paylaştığın ilanlar ve ihtiyaçlar, mesajların ve puanlamaların.\n\n2. Bilgileri nasıl kullanırız\nSeni okulunun topluluğuyla eşleştirmek, ödünç alma ve verme süreçlerini yürütmek, iade hatırlatmaları göndermek ve uygulamayı geliştirmek için kullanırız.\n\n3. Paylaşım\nAdın ve ilanların yalnızca topluluğundaki kullanıcılara görünür. Bilgilerini üçüncü kişilere satmayız.\n\n4. Saklama ve silme\nHesabını kapattığında kişisel bilgilerin silinir.\n\n5. Haklar\nBilgilerine erişmeyi, düzeltmeyi ve silmeyi isteyebilirsin.\n\nBu metin örnek amaçlıdır ve nihai hukuki metin değildir.'**
   String get legalPrivacyBody;
+
+  /// No description provided for @forgotTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreni mi unuttun?'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurum e-postanı yaz, şifreni yenilemen için sana bir bağlantı gönderelim.'**
+  String get forgotSubtitle;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantı gönder'**
+  String get sendResetLink;
+
+  /// No description provided for @resetSentSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre yenileme bağlantısını şu adrese gönderdik:'**
+  String get resetSentSubtitle;
+
+  /// No description provided for @resetSentInstruction.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-postandaki bağlantıya tıkla, sonra buraya dön ve \"Bağlantıya tıkladım\" düğmesine bas. Bağlantı 24 saat geçerlidir.'**
+  String get resetSentInstruction;
+
+  /// No description provided for @resetExpired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantının süresi doldu. Yeni bir bağlantı iste.'**
+  String get resetExpired;
+
+  /// No description provided for @newPasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre belirle'**
+  String get newPasswordTitle;
+
+  /// No description provided for @newPasswordSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın için yeni bir şifre seç.'**
+  String get newPasswordSubtitle;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre'**
+  String get newPasswordLabel;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifreni gir'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifreyi tekrar gir'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @confirmPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreni tekrar yaz'**
+  String get confirmPasswordHint;
+
+  /// No description provided for @errorPasswordMismatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor.'**
+  String get errorPasswordMismatch;
+
+  /// No description provided for @savePassword.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreyi kaydet'**
+  String get savePassword;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifren güncellendi. Yeni şifrenle giriş yapabilirsin.'**
+  String get passwordUpdated;
 }
 
 class _AppLocalizationsDelegate

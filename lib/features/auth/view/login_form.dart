@@ -130,8 +130,6 @@ class LoginBody extends StatelessWidget {
             AuthNotice(
               icon: LucideIcons.circleAlert,
               message: l.errorTooManyAttempts,
-              actionLabel: l.resetPasswordAction,
-              onAction: () => context.push('/coming-soon'),
             ),
           ],
           if (vm.failure == AuthFailure.notVerified) ...[
@@ -155,7 +153,7 @@ class LoginBody extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: TextLinkButton(
               label: l.forgotPassword,
-              onPressed: () => context.push('/coming-soon'),
+              onPressed: () => context.push('/forgot'),
             ),
           ),
         ],

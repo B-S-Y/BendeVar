@@ -16,16 +16,26 @@ class MockAuthRepository implements AuthRepository {
   MockAuthRepository({
     List<MockAccount>? accounts,
     this.verifyAfter = const Duration(seconds: 8),
-  }) : _accounts = List.of(accounts ?? mockAccounts);
+    DateTime Function()? now,
+  }) : _accounts = List.of(accounts ?? mockAccounts),
+       _now = now ?? DateTime.now;
+
+  /// Saat (testte sahte saat verilebilir).
+  final DateTime Function() _now;
 
   final List<MockAccount> _accounts;
   final Map<String, _PendingSignUp> _pending = {};
+  final Map<String, DateTime> _resets = {};
   AppUser? _user;
   final Map<String, int> _failures = {};
+  final Map<String, DateTime> _lockedUntil = {};
 
-  /// Bu kadar yanlış şifreden sonra hesap geçici kilitlenir (uygulama
-  /// yeniden açılana kadar).
+  /// Bu kadar yanlış şifreden sonra hesap geçici kilitlenir.
   static const int maxFailures = 3;
+
+  /// Kilit süresi (tek sabit). Dolunca kilit kalkar, yanlış deneme sayacı
+  /// sıfırlanır. Arayüzde geri sayım gösterilmez.
+  static const Duration lockDuration = Duration(seconds: 30);
 
   /// Kayıtta doğrulama bağlantısına "tıklanması" bu süre sonra taklit edilir.
   final Duration verifyAfter;
@@ -45,15 +55,24 @@ class MockAuthRepository implements AuthRepository {
     if (account == null && pending == null) {
       throw const AuthException(AuthFailure.accountNotFound);
     }
-    if ((_failures[key] ?? 0) >= maxFailures) {
-      throw const AuthException(AuthFailure.tooManyAttempts);
+    final lockedUntil = _lockedUntil[key];
+    if (lockedUntil != null) {
+      if (_now().isBefore(lockedUntil)) {
+        throw const AuthException(AuthFailure.tooManyAttempts);
+      }
+      // Süre doldu: kilit kalkar, sayaç sıfırlanır.
+      _lockedUntil.remove(key);
+      _failures.remove(key);
     }
     final expected = account?.password ?? pending!.password;
     if (password != expected) {
-      _failures[key] = (_failures[key] ?? 0) + 1;
+      final count = (_failures[key] ?? 0) + 1;
+      _failures[key] = count;
+      if (count >= maxFailures) _lockedUntil[key] = _now().add(lockDuration);
       throw const AuthException(AuthFailure.wrongPassword);
     }
     _failures.remove(key);
+    _lockedUntil.remove(key);
     // Gerçekte: giriş olur, sonra e-posta doğrulaması denetlenir (1.04).
     if (account == null || !account.verified) {
       throw const AuthException(AuthFailure.notVerified);
@@ -96,6 +115,48 @@ class MockAuthRepository implements AuthRepository {
     return key.startsWith(expiredPrefix)
         ? VerificationStatus.expired
         : VerificationStatus.verified;
+  }
+
+  @override
+  Future<void> requestPasswordReset(String email) async {
+    await Future<void>.delayed(_latency);
+    _resets[email.trim().toLowerCase()] = DateTime.now();
+  }
+
+  @override
+  Future<VerificationStatus> checkPasswordReset(String email) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final sent = _resets[key];
+    // Kayıtsız e-postaya bağlantı gitmez: hiç "tıklanmaz" (hesap sızdırılmaz).
+    final known =
+        _accounts.any((a) => a.email == key) || _pending.containsKey(key);
+    if (sent == null || !known) return VerificationStatus.pending;
+    if (DateTime.now().difference(sent) < verifyAfter) {
+      return VerificationStatus.pending;
+    }
+    return key.startsWith(expiredPrefix)
+        ? VerificationStatus.expired
+        : VerificationStatus.verified;
+  }
+
+  @override
+  Future<void> confirmPasswordReset(String email, String newPassword) async {
+    await Future<void>.delayed(_latency);
+    final key = email.trim().toLowerCase();
+    final i = _accounts.indexWhere((a) => a.email == key);
+    if (i >= 0) {
+      final a = _accounts[i];
+      _accounts[i] = MockAccount(
+        email: a.email,
+        user: a.user,
+        verified: a.verified,
+        password: newPassword,
+      );
+    }
+    _failures.remove(key); // kilit de açılır
+    _lockedUntil.remove(key);
+    _resets.remove(key);
   }
 
   @override

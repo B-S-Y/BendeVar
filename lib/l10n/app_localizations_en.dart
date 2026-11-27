@@ -93,10 +93,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorTooManyAttempts =>
-      'Too many failed attempts. Wait a bit and try again, or reset your password.';
-
-  @override
-  String get resetPasswordAction => 'Reset my password';
+      'Too many failed attempts. Wait a bit and try again.';
 
   @override
   String get errorNotVerified =>
@@ -792,4 +789,53 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get legalPrivacyBody =>
       'This policy explains what information Bende Var uses and why.\n\n1. Information we collect\nYour institutional email address, your name, the listings and needs you share, your messages and ratings.\n\n2. How we use it\nTo match you with your school\'s community, run borrowing and lending, send return reminders and improve the app.\n\n3. Sharing\nYour name and listings are visible only to users in your community. We don\'t sell your information to third parties.\n\n4. Retention and deletion\nYour personal information is deleted when you close your account.\n\n5. Your rights\nYou can ask to access, correct or delete your information.\n\nThis text is a placeholder and not the final legal text.';
+
+  @override
+  String get forgotTitle => 'Forgot your password?';
+
+  @override
+  String get forgotSubtitle =>
+      'Enter your institutional email and we\'ll send you a link to reset your password.';
+
+  @override
+  String get sendResetLink => 'Send link';
+
+  @override
+  String get resetSentSubtitle =>
+      'We sent the password reset link to this address:';
+
+  @override
+  String get resetSentInstruction =>
+      'Tap the link in your email, then come back and press \"I tapped the link\". The link is valid for 24 hours.';
+
+  @override
+  String get resetExpired => 'The link has expired. Request a new one.';
+
+  @override
+  String get newPasswordTitle => 'Set a new password';
+
+  @override
+  String get newPasswordSubtitle => 'Choose a new password for your account.';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get newPasswordHint => 'Enter your new password';
+
+  @override
+  String get confirmPasswordLabel => 'Repeat the new password';
+
+  @override
+  String get confirmPasswordHint => 'Type your password again';
+
+  @override
+  String get errorPasswordMismatch => 'Passwords don\'t match.';
+
+  @override
+  String get savePassword => 'Save password';
+
+  @override
+  String get passwordUpdated =>
+      'Your password is updated. You can sign in with it.';
 }

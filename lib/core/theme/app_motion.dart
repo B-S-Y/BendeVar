@@ -74,6 +74,9 @@ abstract final class AppMotion {
   /// Sheet içinde bölüm girip çıkması (kurucu işlemleri: davet kodu, açıklama).
   static const Duration sheetContent = Duration(milliseconds: 220);
 
+  /// Segment kontrolünde seçili dolgunun kayması.
+  static const Duration segment = Duration(milliseconds: 200);
+
   static const Curve standard = Curves.easeOutCubic;
 
   static bool reduce(BuildContext context) =>

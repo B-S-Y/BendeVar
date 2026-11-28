@@ -50,4 +50,4 @@ STIL_STANDARTLARI.md'de olmayan, ekranlardan ölçülen değerler (PNG 2x → dp
 | Simge ızgarası: 6 sütun, 8 aralık, kutu yüksekliği 52 (`AppSizes.buttonHeight`) | 1.16d "Simge" | 6×2 düzen; kutu yüksekliği düğme yüksekliğiyle aynı (dokunma ≥ 48) |
 | Topluluk simge kutusu 48 (`AppSizes.avatar`), köşe 12, açık mavi `infoBg`, simge 22 lacivert | 1.16 satırları, 1.16e başlığı | Çerçevedeki simge kutusu |
 | Sheet içi bölüm geçişi 220 ms (`AppMotion.sheetContent`), eğri `AppMotion.standard` | 1.16e kurucu işlemleri (davet kodu bölümü, açıklama) | Kısa, sıçramayan boyut/solma geçişi; sayfa geçişinden (280) biraz kısa |
-
+| Segment kontrolü: dış çerçeve 1, iç boşluk 4 (`AppSpacing.xs`), segment yüksekliği 48 (`AppSizes.tapTarget`), iç köşe = dış köşe − iç boşluk, kayma 200 ms (`AppMotion.segment`) | 1.16e "Kim görebilir?" | Tek kaplı segment; seçili dolgu kabın içinde eş merkezli köşeyle durur |

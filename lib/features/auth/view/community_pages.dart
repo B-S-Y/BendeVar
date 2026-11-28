@@ -13,6 +13,7 @@ import '../../../core/utils/community_icons.dart';
 import '../../../core/widgets/app_buttons.dart';
 import '../../../core/widgets/app_entrance.dart';
 import '../../../core/widgets/app_radio.dart';
+import '../../../core/widgets/app_segmented_control.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/community_icon_tile.dart';
 import '../../../core/widgets/sheets.dart';
@@ -601,9 +602,17 @@ class FounderSheetState extends State<FounderSheet> {
               style: AppTypography.label.copyWith(color: c.textPrimary),
             ),
             const SizedBox(height: AppSpacing.sm),
-            _VisibilitySegments(
+            AppSegmentedControl<CommunityVisibility>(
               value: draft,
               onChanged: (v) => setState(() => _draft = v),
+              segments: [
+                for (final v in CommunityVisibility.values)
+                  AppSegment(
+                    value: v,
+                    label: _visibilityLabel(l, v),
+                    key: Key('segment-${v.name}'),
+                  ),
+              ],
             ),
             const SizedBox(height: AppSpacing.sm),
             ConstrainedBox(
@@ -632,67 +641,6 @@ class FounderSheetState extends State<FounderSheet> {
               label: l.deleteCommunity,
               onPressed: () => Navigator.pop(context, _FounderAction.delete),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Üçlü seçici (1.16e): Açık / Okula özel / Gizli.
-class _VisibilitySegments extends StatelessWidget {
-  const _VisibilitySegments({required this.value, required this.onChanged});
-
-  final CommunityVisibility value;
-  final ValueChanged<CommunityVisibility> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    final l = AppLocalizations.of(context);
-    return ClipRRect(
-      borderRadius: AppRadius.buttonR,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: c.card,
-          border: Border.all(color: c.primary, width: AppSizes.borderWidth),
-          borderRadius: AppRadius.buttonR,
-        ),
-        child: Row(
-          children: [
-            for (final v in CommunityVisibility.values)
-              Expanded(
-                child: Semantics(
-                  button: true,
-                  selected: v == value,
-                  child: Material(
-                    color: v == value ? c.primary : c.card,
-                    child: InkWell(
-                      key: Key('segment-${v.name}'),
-                      onTap: () => onChanged(v),
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: AppSizes.buttonHeight,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.xs,
-                          ),
-                          child: Center(
-                            child: Text(
-                              _visibilityLabel(l, v),
-                              textAlign: TextAlign.center,
-                              style: AppTypography.bodyStrong.copyWith(
-                                color: v == value ? c.onPrimary : c.textPrimary,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

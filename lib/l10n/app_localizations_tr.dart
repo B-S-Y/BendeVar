@@ -55,6 +55,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get close => 'Kapat';
 
   @override
+  String get save => 'Kaydet';
+
+  @override
   String get cancel => 'Vazgeç';
 
   @override
@@ -985,6 +988,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get inviteCodeLabel => 'Davet kodu';
+
+  @override
+  String get inviteCodeAfterSave => 'Kaydedince davet kodu oluşturulur.';
 
   @override
   String get inviteCopyAction => 'Kopyala';

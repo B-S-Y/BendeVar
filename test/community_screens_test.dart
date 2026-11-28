@@ -3,6 +3,7 @@ import 'package:bende_var/data/mock/mock_data.dart';
 import 'package:bende_var/data/mock/mock_repositories.dart';
 import 'package:bende_var/data/models/community_models.dart';
 import 'package:bende_var/data/models/settings_models.dart';
+import 'package:bende_var/features/auth/view/community_pages.dart';
 import 'package:bende_var/features/auth/view/settings_pages.dart';
 import 'package:bende_var/features/auth/viewmodel/community_view_model.dart';
 import 'package:bende_var/features/auth/viewmodel/settings_view_model.dart';
@@ -210,27 +211,51 @@ void main() {
       expect(vm.isNew(kamp), isFalse);
     });
 
-    test(
-      'oluşturan kişide rozet yok; ayrılıp dönünce yeniden damgalanır',
-      () async {
-        var clock = DateTime(2026, 11, 28, 10);
-        final repo = MockCommunityRepository(now: () => clock);
-        final vm = CommunityViewModel(repo, now: () => clock);
-        await vm.load(mockUser);
-        final c = (await vm.create(
-          name: 'Okuma Grubu',
-          description: '',
-          visibility: CommunityVisibility.open,
-        ))!;
-        expect(vm.isNew(vm.mine.firstWhere((m) => m.id == c.id)), isFalse);
+    test('yeni oluşturulan topluluk rozet alır, 24 saat sonra almaz; ayrılıp dönünce yeniden damgalanır', () async {
+      var clock = DateTime(2026, 11, 28, 10);
+      final repo = MockCommunityRepository(now: () => clock);
+      final vm = CommunityViewModel(repo, now: () => clock);
+      await vm.load(mockUser);
+      final c = (await vm.create(
+        name: 'Okuma Grubu',
+        description: '',
+        visibility: CommunityVisibility.open,
+      ))!;
+      CommunityInfo mine(String id) => vm.mine.firstWhere((m) => m.id == id);
+      expect(c.joinedAt, clock);
+      expect(vm.isNew(mine(c.id)), isTrue);
+      clock = clock.add(const Duration(hours: 23, minutes: 59));
+      expect(vm.isNew(mine(c.id)), isTrue);
+      clock = clock.add(const Duration(minutes: 1));
+      expect(vm.isNew(mine(c.id)), isFalse);
 
-        await vm.join('kamp');
-        await vm.leave('kamp');
-        clock = clock.add(const Duration(days: 3));
-        await vm.join('kamp');
-        expect(vm.isNew(vm.mine.firstWhere((m) => m.id == 'kamp')), isTrue);
-      },
-    );
+      await vm.join('kamp');
+      await vm.leave('kamp');
+      clock = clock.add(const Duration(days: 3));
+      await vm.join('kamp');
+      expect(vm.isNew(mine('kamp')), isTrue);
+    });
+
+    test('vurgu: oluşturma ve davet koduyla katılmada set, aramadan '
+        'katılmada yok, temizlenir', () async {
+      final vm = CommunityViewModel(MockCommunityRepository());
+      await vm.load(mockUser);
+      expect(vm.highlightedId, isNull);
+      await vm.join('kamp');
+      expect(vm.highlightedId, isNull);
+      final c = (await vm.create(
+        name: 'Okuma Grubu',
+        description: '',
+        visibility: CommunityVisibility.open,
+      ))!;
+      expect(vm.highlightedId, c.id);
+      vm.clearHighlight();
+      expect(vm.highlightedId, isNull);
+      await vm.joinByCode('482913');
+      expect(vm.highlightedId, 'proje');
+      vm.reset();
+      expect(vm.highlightedId, isNull);
+    });
 
     test('demo: 3 saat önce katılınmış topluluk rozetli başlar', () async {
       final clock = DateTime(2026, 11, 28, 10);
@@ -382,8 +407,30 @@ void main() {
     // Demo: 3 saat önce katılınan topluluk "Yeni" rozetli; okul ve kurucuda yok.
     expect(find.byKey(const Key('new-yoga')), findsOneWidget);
     expect(find.byKey(const Key('new-yildiz')), findsNothing);
-    expect(find.byKey(const Key('new-c1')), findsNothing);
-    expect(find.text('Yeni'), findsOneWidget);
+    // Oluşturulan topluluk da rozetli ve (bu ekranda kalındığı için) mavi çerçeveli.
+    expect(find.byKey(const Key('new-c1')), findsOneWidget);
+    expect(find.text('Yeni'), findsNWidgets(2));
+    expect(find.byKey(const Key('highlight-row-frame')), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('highlight-row-frame')),
+        matching: find.byKey(const Key('founder-c1')),
+      ),
+      findsOneWidget,
+    );
+
+    // Ekrandan çıkıp girince vurgu kalkar, rozet 24 saat durur.
+    await tester.tap(find.byTooltip('Geri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Topluluklarım'));
+    await _settle(tester);
+    expect(find.byKey(const Key('highlight-row-frame')), findsNothing);
+    expect(find.byKey(const Key('row-frame-c1')), findsOneWidget);
+    expect(find.byKey(const Key('new-c1')), findsOneWidget);
+    expect(find.byKey(const Key('new-yoga')), findsOneWidget);
+    // Okul satırı koyu çerçeveli, diğerleri aynı kart iskeletinde.
+    expect(find.byKey(const Key('school-row-frame')), findsOneWidget);
+    expect(find.byKey(const Key('row-frame-yoga')), findsOneWidget);
   });
 
   testWidgets('1.16e: Paylaş panoya davet metnini kopyalar', (tester) async {
@@ -427,40 +474,166 @@ void main() {
     expect(find.text('Davet kodu kopyalandı.'), findsOneWidget);
   });
 
-  testWidgets('1.16e: görünürlük değişince kaydedilir, satır güncellenir', (
-    tester,
-  ) async {
-    await pumpApp(tester);
-    await signIn(tester);
-    await _openCommunities(tester);
+  /// Okuma Grubu adlı topluluğu verilen türde oluşturur (ekran: Topluluklarım).
+  Future<void> createCommunity(WidgetTester tester, String visibility) async {
     await _tapKey(tester, 'create-community');
     await tester.enterText(
       find.byKey(const Key('community-name')),
       'Okuma Grubu',
     );
     await _settle(tester);
-    await _tapKey(tester, 'visibility-secret');
+    await _tapKey(tester, 'visibility-$visibility');
     await _tapKey(tester, 'create-submit');
-    expect(find.textContaining('Gizli'), findsOneWidget);
+    // "Topluluk oluşturuldu." SnackBar'ı kapansın.
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+  }
 
-    await _tapKey(tester, 'founder-c1');
-    expect(find.byKey(const Key('founder-code-card')), findsOneWidget);
-    expect(
-      find.text('Gizli: aramada çıkmaz, sadece davet koduyla girilir.'),
-      findsOneWidget,
-    );
-    await _tapKey(tester, 'segment-schoolOnly');
-    expect(
-      find.text(
-        'Okula özel: sadece okulundaki kişiler adıyla arayıp katılabilir.',
-      ),
-      findsOneWidget,
-    );
-    expect(find.byKey(const Key('founder-code-card')), findsNothing);
-    await _tapKey(tester, 'founder-close');
+  testWidgets(
+    '1.16e: görünürlük taslaktır; Kaydet kaydeder, kapatınca kaybolur',
+    (tester) async {
+      await pumpApp(tester);
+      await signIn(tester);
+      await _openCommunities(tester);
+      await createCommunity(tester, 'secret');
+      expect(find.textContaining('Gizli'), findsOneWidget);
 
-    // Satırdaki bilgi güncel.
-    expect(find.textContaining('Okula özel'), findsOneWidget);
-    expect(find.textContaining('Gizli'), findsNothing);
-  });
+      // Değişiklik yokken ana düğme Kapat.
+      await _tapKey(tester, 'founder-c1');
+      expect(find.byKey(const Key('founder-code-card')), findsOneWidget);
+      expect(find.byKey(const Key('founder-close')), findsOneWidget);
+      expect(find.byKey(const Key('founder-save')), findsNothing);
+
+      // Taslak değişince Kaydet; eski tür geri seçilince yine Kapat.
+      await _tapKey(tester, 'segment-schoolOnly');
+      expect(find.byKey(const Key('founder-save')), findsOneWidget);
+      expect(find.text('Kaydet'), findsOneWidget);
+      expect(
+        find.text(
+          'Okula özel: sadece okulundaki kişiler adıyla arayıp katılabilir.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.byKey(const Key('founder-code-card')), findsNothing);
+      await _tapKey(tester, 'segment-secret');
+      expect(find.byKey(const Key('founder-close')), findsOneWidget);
+      expect(find.byKey(const Key('founder-code-card')), findsOneWidget);
+
+      // Kaydetmeden kapatınca (sheet dışına dokun) hiçbir şey değişmez.
+      await _tapKey(tester, 'segment-open');
+      await tester.tapAt(const Offset(10, 10));
+      await _settle(tester);
+      expect(find.textContaining('Gizli'), findsOneWidget);
+      await _tapKey(tester, 'founder-c1');
+      expect(find.byKey(const Key('founder-code-card')), findsOneWidget);
+
+      // Kaydet: sheet kapanır, satır güncellenir.
+      await _tapKey(tester, 'segment-schoolOnly');
+      await _tapKey(tester, 'founder-save');
+      expect(find.byKey(const Key('founder-save')), findsNothing);
+      expect(find.textContaining('Okula özel'), findsOneWidget);
+      expect(find.textContaining('Gizli'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    '1.16e: gizliye geçiş kod yer tutucusu gösterir, Kaydet kod üretir',
+    (tester) async {
+      await pumpApp(tester);
+      await signIn(tester);
+      await _openCommunities(tester);
+      await createCommunity(tester, 'open');
+
+      await _tapKey(tester, 'founder-c1');
+      expect(find.byKey(const Key('founder-code-card')), findsNothing);
+      await _tapKey(tester, 'segment-secret');
+      expect(find.text('Kaydedince davet kodu oluşturulur.'), findsOneWidget);
+      expect(find.byKey(const Key('founder-code')), findsNothing);
+      await _tapKey(tester, 'founder-save');
+
+      await _tapKey(tester, 'founder-c1');
+      final code = tester
+          .widget<Text>(find.byKey(const Key('founder-code')))
+          .data!;
+      expect(code, matches(RegExp(r'^\d{6}$')));
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('mine-c1')),
+          matching: find.textContaining('Gizli'),
+        ),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets(
+    '1.16e: seçenek değişince sheet sıçramaz, yumuşak büyür/küçülür',
+    (tester) async {
+      // Animasyonlar açık (useAndroidScreen azaltılmış hareket ister, burada yok).
+      tester.view.physicalSize = const Size(824, 1834);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      final vm = CommunityViewModel(MockCommunityRepository());
+      // Mock gecikmesi gerçek zaman ister: sahte saat dışında çalıştır.
+      final c = (await tester.runAsync(() async {
+        await vm.load(mockUser);
+        return vm.create(
+          name: 'Okuma Grubu',
+          description: '',
+          visibility: CommunityVisibility.secret,
+        );
+      }))!;
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: vm,
+          child: wrap(
+            Builder(
+              builder: (context) => Center(
+                child: ElevatedButton(
+                  key: const Key('open-sheet'),
+                  onPressed: () => showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (_) => FounderSheet(communityId: c.id),
+                  ),
+                  child: const Text('aç'),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byKey(const Key('open-sheet')));
+      await tester.pumpAndSettle();
+
+      double top() => tester.getTopLeft(find.byType(BottomSheet)).dy;
+      final topSecret = top();
+      final sizeSecret = tester.getSize(
+        find.byKey(const Key('founder-code-size')),
+      );
+
+      // Gizli → Açık: kod bölümü kapanır; sheet bir anda değil, adım adım iner.
+      await tester.tap(find.byKey(const Key('segment-open')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 110));
+      final topMid = top();
+      final sizeMid = tester.getSize(
+        find.byKey(const Key('founder-code-size')),
+      );
+      expect(sizeMid.height, lessThan(sizeSecret.height));
+      expect(sizeMid.height, greaterThan(0));
+      expect(topMid, greaterThan(topSecret));
+      await tester.pumpAndSettle();
+      final topOpen = top();
+      expect(topOpen, greaterThan(topMid));
+
+      // Açık → Okula özel: açıklama 1 ↔ 2 satır olsa da sheet yerinde kalır.
+      await tester.tap(find.byKey(const Key('segment-schoolOnly')));
+      await tester.pumpAndSettle();
+      expect(top(), topOpen);
+      await tester.tap(find.byKey(const Key('segment-open')));
+      await tester.pumpAndSettle();
+      expect(top(), topOpen);
+    },
+  );
 }

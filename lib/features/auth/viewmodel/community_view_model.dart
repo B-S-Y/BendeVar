@@ -15,6 +15,15 @@ class CommunityViewModel extends ChangeNotifier {
   /// Zaman kaynağı ("Yeni" rozeti; testte sahte saat verilir).
   final DateTime Function() _now;
 
+  /// 1.16 · Az önce oluşturulan ya da davet koduyla katılınan topluluk: satırı
+  /// mavi çerçeveyle vurgulanır. Ekran yeniden açılınca ([clearHighlight]) ya
+  /// da çıkış/yeniden başlatmada temizlenir; "Yeni" rozeti bundan bağımsızdır.
+  String? get highlightedId => _highlightedId;
+  String? _highlightedId;
+
+  /// Sessiz: ekran kurulurken çağrılır.
+  void clearHighlight() => _highlightedId = null;
+
   /// 1.16 · "Yeni" rozeti: katılalı 24 saatten az mı?
   bool isNew(CommunityInfo c) => c.isNew(_now());
 
@@ -99,6 +108,7 @@ class CommunityViewModel extends ChangeNotifier {
     _loadFailed = false;
     _codeFailure = null;
     _busy = false;
+    _highlightedId = null;
     resetSearch();
     notifyListeners();
   }
@@ -177,6 +187,7 @@ class CommunityViewModel extends ChangeNotifier {
     try {
       final info = await _repo.joinByCode(code);
       await _reload();
+      _highlightedId = info.id;
       return info;
     } on CommunityException catch (e) {
       _codeFailure = e.failure;
@@ -259,6 +270,7 @@ class CommunityViewModel extends ChangeNotifier {
         iconKey: iconKey,
       );
       await _reload();
+      _highlightedId = info.id;
       return info;
     } catch (_) {
       return null;

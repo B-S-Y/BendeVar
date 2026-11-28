@@ -71,6 +71,9 @@ abstract final class AppMotion {
   static const Duration hintVisible = Duration(seconds: 4);
   static const Duration hintFade = Duration(milliseconds: 200);
 
+  /// Sheet içinde bölüm girip çıkması (kurucu işlemleri: davet kodu, açıklama).
+  static const Duration sheetContent = Duration(milliseconds: 220);
+
   static const Curve standard = Curves.easeOutCubic;
 
   static bool reduce(BuildContext context) =>

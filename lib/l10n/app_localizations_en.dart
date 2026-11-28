@@ -55,6 +55,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
+  String get save => 'Save';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
@@ -998,6 +1001,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inviteCodeLabel => 'Invite code';
+
+  @override
+  String get inviteCodeAfterSave => 'The invite code is created when you save.';
 
   @override
   String get inviteCopyAction => 'Copy';

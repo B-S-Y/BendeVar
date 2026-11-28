@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_motion.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
@@ -58,7 +59,9 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
   void initState() {
     super.initState();
     final user = context.read<AuthViewModel>().user;
-    final vm = context.read<CommunityViewModel>()..resetSearch();
+    final vm = context.read<CommunityViewModel>()
+      ..resetSearch()
+      ..clearHighlight();
     if (user != null) vm.load(user);
   }
 
@@ -94,7 +97,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
       context: context,
       useRootNavigator: true,
       isScrollControlled: true,
-      builder: (_) => _FounderSheet(communityId: c.id),
+      builder: (_) => FounderSheet(communityId: c.id),
     );
     if (action == null || !mounted) return;
     // Görünürlük sheet'te değişmiş olabilir: güncel kayıt.
@@ -221,6 +224,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
                 key: Key('mine-${m.id}'),
                 community: m,
                 isNew: vm.isNew(m),
+                highlighted: vm.highlightedId == m.id,
                 trailing: m.isSchool
                     ? null
                     : m.isFounder
@@ -289,6 +293,7 @@ class _CommunityRow extends StatelessWidget {
     required this.community,
     this.trailing,
     this.isNew = false,
+    this.highlighted = false,
   });
 
   final CommunityInfo community;
@@ -296,6 +301,9 @@ class _CommunityRow extends StatelessWidget {
 
   /// Katılalı 24 saatten az: "Yeni" rozeti ve vurgulu çerçeve.
   final bool isNew;
+
+  /// Az önce oluşturuldu / davet koduyla katılındı: mavi çerçeve.
+  final bool highlighted;
 
   @override
   Widget build(BuildContext context) {
@@ -349,25 +357,38 @@ class _CommunityRow extends StatelessWidget {
         ],
       ],
     );
-    final framed = community.isSchool || isNew;
+    // Tek kart iskeleti: okul topluluğu koyu, diğerleri ince nötr çerçeve;
+    // mavi yalnızca [highlighted].
+    final Color border;
+    final double width;
+    if (community.isSchool) {
+      border = c.secondaryBorder;
+      width = AppSizes.borderStrong;
+    } else if (highlighted) {
+      border = c.accent;
+      width = AppSizes.borderStrong;
+    } else {
+      border = c.cardBorder;
+      width = AppSizes.borderWidth;
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      child: framed
-          ? Container(
-              key: Key(
-                community.isSchool ? 'school-row-frame' : 'new-row-frame',
-              ),
-              padding: const EdgeInsets.all(AppSpacing.md),
-              decoration: BoxDecoration(
-                borderRadius: AppRadius.cardLargeR,
-                border: Border.all(
-                  color: community.isSchool ? c.secondaryBorder : c.accent,
-                  width: AppSizes.borderStrong,
-                ),
-              ),
-              child: row,
-            )
-          : row,
+      child: Container(
+        key: Key(
+          community.isSchool
+              ? 'school-row-frame'
+              : highlighted
+              ? 'highlight-row-frame'
+              : 'row-frame-${community.id}',
+        ),
+        padding: const EdgeInsets.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: c.card,
+          borderRadius: AppRadius.cardLargeR,
+          border: Border.all(color: border, width: width),
+        ),
+        child: row,
+      ),
     );
   }
 }
@@ -375,79 +396,80 @@ class _CommunityRow extends StatelessWidget {
 enum _FounderAction { copyCode, share, delete }
 
 /// 1.16e · Kurucu işlemleri: davet kodu (Kopyala, Paylaş), "Kim görebilir?"
-/// (değişince hemen kaydedilir), Kapat, Topluluğu sil. Davet kodu yalnızca
+/// (sheet içinde taslak; yalnızca Kaydet'e basınca kaydedilir), ana düğme
+/// (değişiklik varsa Kaydet, yoksa Kapat), Topluluğu sil. Davet kodu yalnızca
 /// gizli topluluklarda vardır.
-class _FounderSheet extends StatelessWidget {
-  const _FounderSheet({required this.communityId});
+@visibleForTesting
+class FounderSheet extends StatefulWidget {
+  const FounderSheet({required this.communityId});
 
   final String communityId;
+
+  @override
+  State<FounderSheet> createState() => FounderSheetState();
+}
+
+class FounderSheetState extends State<FounderSheet> {
+  CommunityVisibility? _draft;
+  bool _saving = false;
+
+  CommunityInfo? _saved(CommunityViewModel vm) =>
+      vm.mine.where((m) => m.id == widget.communityId).firstOrNull;
+
+  Future<void> _save(CommunityInfo saved) async {
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final nav = Navigator.of(context);
+    final vm = context.read<CommunityViewModel>();
+    final draft = _draft ?? saved.visibility;
+    setState(() => _saving = true);
+    final ok = await vm.setVisibility(saved.id, draft);
+    if (!mounted) return;
+    if (ok) {
+      nav.pop();
+    } else {
+      setState(() => _saving = false);
+      showActionFailed(messenger, l, () => _save(saved));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final l = AppLocalizations.of(context);
     final vm = context.watch<CommunityViewModel>();
-    final community = vm.mine.where((m) => m.id == communityId).firstOrNull;
+    final community = _saved(vm);
     if (community == null) return const SizedBox.shrink();
+    final draft = _draft ?? community.visibility;
+    final dirty = draft != community.visibility;
     final code = community.inviteCode;
+    // "Animasyonları azalt" açıkken geçişsiz (süre 0 AnimatedSize'da yerleşim
+    // sırasında yeniden yerleşim tetikler).
+    final reduce = AppMotion.reduce(context);
+    const motion = AppMotion.sheetContent;
 
-    Future<void> setVisibility(CommunityVisibility v) async {
-      if (v == community.visibility) return;
-      final messenger = ScaffoldMessenger.of(context);
-      if (!await vm.setVisibility(community.id, v)) {
-        showActionFailed(messenger, l, () => setVisibility(v));
-      }
-    }
-
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.screen,
-          0,
-          AppSpacing.screen,
-          AppSpacing.lg,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SheetHandle(),
-            Row(
-              children: [
-                CommunityIconTile(iconKey: community.iconKey),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l.founderActionsTitle,
-                        style: AppTypography.title2.copyWith(
-                          color: c.textPrimary,
-                        ),
-                      ),
-                      Text(
-                        community.name,
-                        style: AppTypography.body.copyWith(
-                          color: c.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (code != null) ...[
-              const SizedBox(height: AppSpacing.lg),
-              Container(
-                key: const Key('founder-code-card'),
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                decoration: BoxDecoration(
-                  color: c.card,
-                  borderRadius: AppRadius.cardLargeR,
-                  border: Border.all(color: c.cardBorder),
-                ),
-                child: Column(
+    // Davet kodu bölümü: taslak gizliyse; kayıtlı kod yoksa yer tutucu.
+    Widget codeSection = const SizedBox.shrink(key: Key('founder-code-none'));
+    if (draft == CommunityVisibility.secret) {
+      codeSection = Padding(
+        key: Key(code != null ? 'founder-code-section' : 'founder-code-later'),
+        padding: const EdgeInsets.only(top: AppSpacing.lg),
+        child: Container(
+          key: code != null ? const Key('founder-code-card') : null,
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: c.card,
+            borderRadius: AppRadius.cardLargeR,
+            border: Border.all(color: c.cardBorder),
+          ),
+          child: code == null
+              ? Text(
+                  l.inviteCodeAfterSave,
+                  key: const Key('founder-code-pending'),
+                  style: AppTypography.body.copyWith(color: c.textSecondary),
+                )
+              : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -499,8 +521,80 @@ class _FounderSheet extends StatelessWidget {
                     ),
                   ],
                 ),
+        ),
+      );
+    }
+
+    // Açıklama en az 2 satır yer tutar: 1 ya da 2 satırda sheet oynamaz.
+    final hintStyle = AppTypography.caption.copyWith(color: c.textSecondary);
+    final hintText = Align(
+      key: ValueKey(draft),
+      alignment: Alignment.topLeft,
+      child: Text(
+        _visibilityHint(l, draft),
+        key: const Key('founder-visibility-hint'),
+        style: hintStyle,
+      ),
+    );
+    final hintLine = MediaQuery.textScalerOf(context)
+        .scale(hintStyle.fontSize! * hintStyle.height!);
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.screen,
+          0,
+          AppSpacing.screen,
+          AppSpacing.lg,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SheetHandle(),
+            Row(
+              children: [
+                CommunityIconTile(iconKey: community.iconKey),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.founderActionsTitle,
+                        style: AppTypography.title2.copyWith(
+                          color: c.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        community.name,
+                        style: AppTypography.body.copyWith(
+                          color: c.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            if (reduce)
+              codeSection
+            else
+              AnimatedSize(
+                key: const Key('founder-code-size'),
+                duration: motion,
+                curve: AppMotion.standard,
+                alignment: Alignment.topCenter,
+                child: AnimatedSwitcher(
+                  duration: motion,
+                  switchInCurve: AppMotion.standard,
+                  // Çıkan bölüm yerleşimde sayılmaz: yükseklik AnimatedSize ile
+                  // hemen yumuşakça küçülür.
+                  layoutBuilder: (current, previous) =>
+                      current ?? const SizedBox.shrink(),
+                  child: codeSection,
+                ),
               ),
-            ],
             const SizedBox(height: AppSpacing.lg),
             Text(
               l.communityVisibilityLabel,
@@ -508,21 +602,30 @@ class _FounderSheet extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             _VisibilitySegments(
-              value: community.visibility,
-              onChanged: setVisibility,
+              value: draft,
+              onChanged: (v) => setState(() => _draft = v),
             ),
             const SizedBox(height: AppSpacing.sm),
-            Text(
-              _visibilityHint(l, community.visibility),
-              key: const Key('founder-visibility-hint'),
-              style: AppTypography.caption.copyWith(color: c.textSecondary),
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: hintLine * 2),
+              child: reduce
+                  ? hintText
+                  : AnimatedSwitcher(duration: motion, child: hintText),
             ),
             const SizedBox(height: AppSpacing.lg),
-            PrimaryButton(
-              key: const Key('founder-close'),
-              label: l.close,
-              onPressed: () => Navigator.pop(context),
-            ),
+            if (dirty)
+              PrimaryButton(
+                key: const Key('founder-save'),
+                label: l.save,
+                loading: _saving,
+                onPressed: _saving ? null : () => _save(community),
+              )
+            else
+              PrimaryButton(
+                key: const Key('founder-close'),
+                label: l.close,
+                onPressed: () => Navigator.pop(context),
+              ),
             const SizedBox(height: AppSpacing.md),
             DangerButton(
               key: const Key('founder-delete'),

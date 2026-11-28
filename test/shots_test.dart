@@ -15,7 +15,9 @@ void main() {
 
   Future<void> shot(WidgetTester tester, String name) async {
     await tester.runAsync(() async {
-      final boundary = tester.renderObject<RenderRepaintBoundary>(find.byType(RepaintBoundary).first);
+      final boundary = tester.renderObject<RenderRepaintBoundary>(
+        find.byType(RepaintBoundary).first,
+      );
       final image = await boundary.toImage(pixelRatio: 1);
       final data = await image.toByteData(format: ui.ImageByteFormat.png);
       File('tool_shots/$name.png').writeAsBytesSync(data!.buffer.asUint8List());

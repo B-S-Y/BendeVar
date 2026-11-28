@@ -498,6 +498,8 @@ class MockCommunityRepository implements CommunityRepository {
     );
     _founders[id] = _userId;
     _mine.add(id);
+    // Oluşturan da "katılmış" sayılır: "Yeni" rozeti 24 saat görünür.
+    _joinedAt.putIfAbsent(_userId, () => {})[id] = _now();
     return _view(_all[id]!);
   }
 

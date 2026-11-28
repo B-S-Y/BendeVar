@@ -188,6 +188,12 @@ abstract class AppLocalizations {
   /// **'Kapat'**
   String get close;
 
+  /// No description provided for @save.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get save;
+
   /// No description provided for @cancel.
   ///
   /// In tr, this message translates to:
@@ -1939,6 +1945,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Davet kodu'**
   String get inviteCodeLabel;
+
+  /// No description provided for @inviteCodeAfterSave.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedince davet kodu oluşturulur.'**
+  String get inviteCodeAfterSave;
 
   /// No description provided for @inviteCopyAction.
   ///

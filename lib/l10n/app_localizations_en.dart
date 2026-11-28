@@ -801,31 +801,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacySupport => 'Privacy and support';
 
   @override
-  String get notifMessages => 'Messages';
+  String get notifMessages => 'New messages';
 
   @override
-  String get notifMessagesDesc => 'Notify me when a new message arrives.';
+  String get notifMessagesDesc => 'When you get a message';
 
   @override
-  String get notifResponses => 'Responses';
+  String get notifResponses => 'New responses';
 
   @override
-  String get notifResponsesDesc =>
-      'Notify me when someone responds to my listing or need.';
+  String get notifResponsesDesc => 'When someone says “I have it” on your need';
 
   @override
-  String get notifReminders => 'Return reminders';
+  String get notifReminders => 'Return reminder';
 
   @override
   String get notifRemindersDesc =>
-      'Notify me when the return day of an item I borrowed is near.';
+      'When the return day of an item you borrowed or lent is near';
 
   @override
-  String get notifAnnouncements => 'Community announcements';
+  String get notifRemindWhen => 'When should we remind you?';
 
   @override
-  String get notifAnnouncementsDesc =>
-      'Notify me about important news in my community.';
+  String get notifRemindTwoDays => '2 days before the return day';
+
+  @override
+  String get notifRemindDayBefore => '1 day before and on the return day';
+
+  @override
+  String get notifRemindDayOf => 'Only on the return day';
 
   @override
   String get blockedAccounts => 'Blocked';
@@ -878,6 +882,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get communityFounderBadge => 'Founder';
+
+  @override
+  String get communityNewBadge => 'New';
 
   @override
   String get communityJoin => 'Join';
@@ -935,45 +942,76 @@ class AppLocalizationsEn extends AppLocalizations {
       'The community name must be at least 3 characters.';
 
   @override
-  String get communityDescLabel => 'Description (optional)';
+  String get communityNameAvailable => 'This name is available.';
 
   @override
-  String get communityDescHint => 'What is this community for?';
+  String get communityNameTaken => 'This name is already in use.';
 
   @override
-  String get communityVisibilityLabel => 'Visibility';
+  String get communityIconLabel => 'Icon';
+
+  @override
+  String get communityCreateSubmit => 'Create';
+
+  @override
+  String get communityVisibilityLabel => 'Who can see it?';
 
   @override
   String get visibilityOpen => 'Open';
 
   @override
-  String get visibilityOpenDesc => 'Shows up in search, anyone can join.';
+  String get visibilityOpenDesc => 'Anyone can find it by name and join.';
 
   @override
   String get visibilitySchool => 'School only';
 
   @override
   String get visibilitySchoolDesc =>
-      'Shows up in search only for school members, and only they can join.';
+      'Only people at your school can find it by name and join.';
 
   @override
   String get visibilitySecret => 'Secret';
 
   @override
   String get visibilitySecretDesc =>
-      'Doesn\'t show up in search; joined only with an invite code.';
+      'Doesn\'t show up in search. Join with an invite code only.';
+
+  @override
+  String get visibilityOpenHint => 'Open: anyone can find it by name and join.';
+
+  @override
+  String get visibilitySchoolHint =>
+      'School only: only people at your school can find it by name and join.';
+
+  @override
+  String get visibilitySecretHint =>
+      'Secret: doesn\'t show up in search, join with an invite code only.';
 
   @override
   String get communityCreated => 'Community created.';
 
   @override
-  String get founderActionsTitle => 'Community actions';
-
-  @override
-  String get copyInviteCode => 'Copy invite code';
+  String get founderActionsTitle => 'Founder actions';
 
   @override
   String get inviteCodeCopied => 'Invite code copied.';
+
+  @override
+  String get inviteCodeLabel => 'Invite code';
+
+  @override
+  String get inviteCopyAction => 'Copy';
+
+  @override
+  String get inviteShareAction => 'Share';
+
+  @override
+  String get inviteShareCopied => 'Invite text copied.';
+
+  @override
+  String inviteShareText(String name, String code) {
+    return 'Join “$name”! In the Bende Var app, open “Join with invite code” and enter $code.';
+  }
 
   @override
   String get deleteCommunity => 'Delete community';

@@ -1,27 +1,43 @@
+/// İade hatırlatması ne zaman gelsin (1.18).
+enum ReminderTiming {
+  /// İade gününden 2 gün önce.
+  twoDaysBefore,
+
+  /// 1 gün önce ve iade günü.
+  dayBeforeAndDay,
+
+  /// Yalnızca iade günü.
+  dayOf,
+}
+
 /// Bildirim tercihleri (1.18). Hepsi varsayılan açık.
 class NotificationPrefs {
   const NotificationPrefs({
     this.messages = true,
     this.responses = true,
     this.reminders = true,
-    this.announcements = true,
+    this.reminderTiming = ReminderTiming.dayBeforeAndDay,
   });
 
   final bool messages;
+
+  /// İlanına ya da ihtiyacına gelen karşılıklar.
   final bool responses;
   final bool reminders;
-  final bool announcements;
+
+  /// [reminders] açıkken geçerli.
+  final ReminderTiming reminderTiming;
 
   NotificationPrefs copyWith({
     bool? messages,
     bool? responses,
     bool? reminders,
-    bool? announcements,
+    ReminderTiming? reminderTiming,
   }) => NotificationPrefs(
     messages: messages ?? this.messages,
     responses: responses ?? this.responses,
     reminders: reminders ?? this.reminders,
-    announcements: announcements ?? this.announcements,
+    reminderTiming: reminderTiming ?? this.reminderTiming,
   );
 }
 

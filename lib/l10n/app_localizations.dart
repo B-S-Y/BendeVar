@@ -1583,50 +1583,62 @@ abstract class AppLocalizations {
   /// No description provided for @notifMessages.
   ///
   /// In tr, this message translates to:
-  /// **'Mesajlar'**
+  /// **'Yeni mesajlar'**
   String get notifMessages;
 
   /// No description provided for @notifMessagesDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni bir mesaj geldiğinde haber ver.'**
+  /// **'Sana mesaj geldiğinde'**
   String get notifMessagesDesc;
 
   /// No description provided for @notifResponses.
   ///
   /// In tr, this message translates to:
-  /// **'Karşılıklar'**
+  /// **'Yeni karşılıklar'**
   String get notifResponses;
 
   /// No description provided for @notifResponsesDesc.
   ///
   /// In tr, this message translates to:
-  /// **'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.'**
+  /// **'İhtiyacına biri “Bende var” dediğinde'**
   String get notifResponsesDesc;
 
   /// No description provided for @notifReminders.
   ///
   /// In tr, this message translates to:
-  /// **'İade hatırlatmaları'**
+  /// **'İade hatırlatması'**
   String get notifReminders;
 
   /// No description provided for @notifRemindersDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.'**
+  /// **'Ödünç aldığın ya da verdiğin eşyanın iade günü yaklaşınca'**
   String get notifRemindersDesc;
 
-  /// No description provided for @notifAnnouncements.
+  /// No description provided for @notifRemindWhen.
   ///
   /// In tr, this message translates to:
-  /// **'Topluluk duyuruları'**
-  String get notifAnnouncements;
+  /// **'Ne zaman hatırlatalım?'**
+  String get notifRemindWhen;
 
-  /// No description provided for @notifAnnouncementsDesc.
+  /// No description provided for @notifRemindTwoDays.
   ///
   /// In tr, this message translates to:
-  /// **'Topluluğunla ilgili önemli gelişmeleri haber ver.'**
-  String get notifAnnouncementsDesc;
+  /// **'İade gününden 2 gün önce'**
+  String get notifRemindTwoDays;
+
+  /// No description provided for @notifRemindDayBefore.
+  ///
+  /// In tr, this message translates to:
+  /// **'1 gün önce ve iade günü'**
+  String get notifRemindDayBefore;
+
+  /// No description provided for @notifRemindDayOf.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca iade günü'**
+  String get notifRemindDayOf;
 
   /// No description provided for @blockedAccounts.
   ///
@@ -1711,6 +1723,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kurucu'**
   String get communityFounderBadge;
+
+  /// No description provided for @communityNewBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni'**
+  String get communityNewBadge;
 
   /// No description provided for @communityJoin.
   ///
@@ -1814,22 +1832,34 @@ abstract class AppLocalizations {
   /// **'Topluluk adı en az 3 karakter olmalı.'**
   String get communityNameError;
 
-  /// No description provided for @communityDescLabel.
+  /// No description provided for @communityNameAvailable.
   ///
   /// In tr, this message translates to:
-  /// **'Açıklama (isteğe bağlı)'**
-  String get communityDescLabel;
+  /// **'Bu ad kullanılabilir.'**
+  String get communityNameAvailable;
 
-  /// No description provided for @communityDescHint.
+  /// No description provided for @communityNameTaken.
   ///
   /// In tr, this message translates to:
-  /// **'Bu topluluk ne için?'**
-  String get communityDescHint;
+  /// **'Bu ad zaten kullanılıyor.'**
+  String get communityNameTaken;
+
+  /// No description provided for @communityIconLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Simge'**
+  String get communityIconLabel;
+
+  /// No description provided for @communityCreateSubmit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oluştur'**
+  String get communityCreateSubmit;
 
   /// No description provided for @communityVisibilityLabel.
   ///
   /// In tr, this message translates to:
-  /// **'Görünürlük'**
+  /// **'Kim görebilir?'**
   String get communityVisibilityLabel;
 
   /// No description provided for @visibilityOpen.
@@ -1841,7 +1871,7 @@ abstract class AppLocalizations {
   /// No description provided for @visibilityOpenDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Aramada çıkar, herkes katılabilir.'**
+  /// **'Herkes adıyla arayıp katılabilir.'**
   String get visibilityOpenDesc;
 
   /// No description provided for @visibilitySchool.
@@ -1853,7 +1883,7 @@ abstract class AppLocalizations {
   /// No description provided for @visibilitySchoolDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.'**
+  /// **'Sadece okulundaki kişiler adıyla arayıp katılabilir.'**
   String get visibilitySchoolDesc;
 
   /// No description provided for @visibilitySecret.
@@ -1865,8 +1895,26 @@ abstract class AppLocalizations {
   /// No description provided for @visibilitySecretDesc.
   ///
   /// In tr, this message translates to:
-  /// **'Aramada çıkmaz; yalnızca davet koduyla katılınır.'**
+  /// **'Aramada çıkmaz. Sadece davet koduyla girilir.'**
   String get visibilitySecretDesc;
+
+  /// No description provided for @visibilityOpenHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık: herkes adıyla arayıp katılabilir.'**
+  String get visibilityOpenHint;
+
+  /// No description provided for @visibilitySchoolHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okula özel: sadece okulundaki kişiler adıyla arayıp katılabilir.'**
+  String get visibilitySchoolHint;
+
+  /// No description provided for @visibilitySecretHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizli: aramada çıkmaz, sadece davet koduyla girilir.'**
+  String get visibilitySecretHint;
 
   /// No description provided for @communityCreated.
   ///
@@ -1877,20 +1925,44 @@ abstract class AppLocalizations {
   /// No description provided for @founderActionsTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Topluluk işlemleri'**
+  /// **'Kurucu işlemleri'**
   String get founderActionsTitle;
-
-  /// No description provided for @copyInviteCode.
-  ///
-  /// In tr, this message translates to:
-  /// **'Davet kodunu kopyala'**
-  String get copyInviteCode;
 
   /// No description provided for @inviteCodeCopied.
   ///
   /// In tr, this message translates to:
   /// **'Davet kodu kopyalandı.'**
   String get inviteCodeCopied;
+
+  /// No description provided for @inviteCodeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet kodu'**
+  String get inviteCodeLabel;
+
+  /// No description provided for @inviteCopyAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kopyala'**
+  String get inviteCopyAction;
+
+  /// No description provided for @inviteShareAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaş'**
+  String get inviteShareAction;
+
+  /// No description provided for @inviteShareCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet metni kopyalandı.'**
+  String get inviteShareCopied;
+
+  /// No description provided for @inviteShareText.
+  ///
+  /// In tr, this message translates to:
+  /// **'“{name}” topluluğuna katıl! Bende Var uygulamasında “Davet koduyla katıl” bölümüne {code} kodunu gir.'**
+  String inviteShareText(String name, String code);
 
   /// No description provided for @deleteCommunity.
   ///

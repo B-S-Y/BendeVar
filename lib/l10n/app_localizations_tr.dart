@@ -788,31 +788,35 @@ class AppLocalizationsTr extends AppLocalizations {
   String get privacySupport => 'Gizlilik ve destek';
 
   @override
-  String get notifMessages => 'Mesajlar';
+  String get notifMessages => 'Yeni mesajlar';
 
   @override
-  String get notifMessagesDesc => 'Yeni bir mesaj geldiğinde haber ver.';
+  String get notifMessagesDesc => 'Sana mesaj geldiğinde';
 
   @override
-  String get notifResponses => 'Karşılıklar';
+  String get notifResponses => 'Yeni karşılıklar';
 
   @override
-  String get notifResponsesDesc =>
-      'İlanına ya da ihtiyacına karşılık geldiğinde haber ver.';
+  String get notifResponsesDesc => 'İhtiyacına biri “Bende var” dediğinde';
 
   @override
-  String get notifReminders => 'İade hatırlatmaları';
+  String get notifReminders => 'İade hatırlatması';
 
   @override
   String get notifRemindersDesc =>
-      'Ödünç aldığın eşyanın iade günü yaklaşınca haber ver.';
+      'Ödünç aldığın ya da verdiğin eşyanın iade günü yaklaşınca';
 
   @override
-  String get notifAnnouncements => 'Topluluk duyuruları';
+  String get notifRemindWhen => 'Ne zaman hatırlatalım?';
 
   @override
-  String get notifAnnouncementsDesc =>
-      'Topluluğunla ilgili önemli gelişmeleri haber ver.';
+  String get notifRemindTwoDays => 'İade gününden 2 gün önce';
+
+  @override
+  String get notifRemindDayBefore => '1 gün önce ve iade günü';
+
+  @override
+  String get notifRemindDayOf => 'Yalnızca iade günü';
 
   @override
   String get blockedAccounts => 'Engellenenler';
@@ -866,6 +870,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get communityFounderBadge => 'Kurucu';
+
+  @override
+  String get communityNewBadge => 'Yeni';
 
   @override
   String get communityJoin => 'Katıl';
@@ -922,45 +929,76 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityNameError => 'Topluluk adı en az 3 karakter olmalı.';
 
   @override
-  String get communityDescLabel => 'Açıklama (isteğe bağlı)';
+  String get communityNameAvailable => 'Bu ad kullanılabilir.';
 
   @override
-  String get communityDescHint => 'Bu topluluk ne için?';
+  String get communityNameTaken => 'Bu ad zaten kullanılıyor.';
 
   @override
-  String get communityVisibilityLabel => 'Görünürlük';
+  String get communityIconLabel => 'Simge';
+
+  @override
+  String get communityCreateSubmit => 'Oluştur';
+
+  @override
+  String get communityVisibilityLabel => 'Kim görebilir?';
 
   @override
   String get visibilityOpen => 'Açık';
 
   @override
-  String get visibilityOpenDesc => 'Aramada çıkar, herkes katılabilir.';
+  String get visibilityOpenDesc => 'Herkes adıyla arayıp katılabilir.';
 
   @override
   String get visibilitySchool => 'Okula özel';
 
   @override
   String get visibilitySchoolDesc =>
-      'Aramada yalnızca okul üyelerine çıkar, yalnızca onlar katılabilir.';
+      'Sadece okulundaki kişiler adıyla arayıp katılabilir.';
 
   @override
   String get visibilitySecret => 'Gizli';
 
   @override
   String get visibilitySecretDesc =>
-      'Aramada çıkmaz; yalnızca davet koduyla katılınır.';
+      'Aramada çıkmaz. Sadece davet koduyla girilir.';
+
+  @override
+  String get visibilityOpenHint => 'Açık: herkes adıyla arayıp katılabilir.';
+
+  @override
+  String get visibilitySchoolHint =>
+      'Okula özel: sadece okulundaki kişiler adıyla arayıp katılabilir.';
+
+  @override
+  String get visibilitySecretHint =>
+      'Gizli: aramada çıkmaz, sadece davet koduyla girilir.';
 
   @override
   String get communityCreated => 'Topluluk oluşturuldu.';
 
   @override
-  String get founderActionsTitle => 'Topluluk işlemleri';
-
-  @override
-  String get copyInviteCode => 'Davet kodunu kopyala';
+  String get founderActionsTitle => 'Kurucu işlemleri';
 
   @override
   String get inviteCodeCopied => 'Davet kodu kopyalandı.';
+
+  @override
+  String get inviteCodeLabel => 'Davet kodu';
+
+  @override
+  String get inviteCopyAction => 'Kopyala';
+
+  @override
+  String get inviteShareAction => 'Paylaş';
+
+  @override
+  String get inviteShareCopied => 'Davet metni kopyalandı.';
+
+  @override
+  String inviteShareText(String name, String code) {
+    return '“$name” topluluğuna katıl! Bende Var uygulamasında “Davet koduyla katıl” bölümüne $code kodunu gir.';
+  }
 
   @override
   String get deleteCommunity => 'Topluluğu sil';

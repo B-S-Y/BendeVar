@@ -7,9 +7,16 @@ import '../../../data/repositories/repositories.dart';
 /// Topluluklarım (1.16 – 1.17): liste, arama, davet kodu, oluşturma, ayrılma,
 /// silme.
 class CommunityViewModel extends ChangeNotifier {
-  CommunityViewModel(this._repo);
+  CommunityViewModel(this._repo, {DateTime Function()? now})
+    : _now = now ?? DateTime.now;
 
   final CommunityRepository _repo;
+
+  /// Zaman kaynağı ("Yeni" rozeti; testte sahte saat verilir).
+  final DateTime Function() _now;
+
+  /// 1.16 · "Yeni" rozeti: katılalı 24 saatten az mı?
+  bool isNew(CommunityInfo c) => c.isNew(_now());
 
   List<CommunityInfo> _mine = const [];
   List<CommunityInfo> _results = const [];
@@ -185,19 +192,71 @@ class CommunityViewModel extends ChangeNotifier {
 
   static bool validName(String name) => name.trim().length >= minNameLength;
 
+  /// 1.16d · Ad denetimi: null = denetlenmedi (boş/kısa), true = kullanılabilir,
+  /// false = aynı adlı topluluk var.
+  bool? get nameAvailable => _nameAvailable;
+  bool? _nameAvailable;
+  int _nameSeq = 0;
+
+  /// Ad değişince çağrılır; eski yanıtlar yok sayılır.
+  Future<void> checkName(String name) async {
+    final seq = ++_nameSeq;
+    if (!validName(name)) {
+      if (_nameAvailable != null) {
+        _nameAvailable = null;
+        notifyListeners();
+      }
+      return;
+    }
+    bool? result;
+    try {
+      result = await _repo.isNameAvailable(name);
+    } catch (_) {
+      result = null; // denetlenemedi: engelleme, oluşturmada tekrar denenir
+    }
+    if (seq != _nameSeq) return;
+    _nameAvailable = result;
+    notifyListeners();
+  }
+
+  /// Form açılınca önceki denetimi bırakır (sessiz).
+  void resetNameCheck() {
+    _nameSeq++;
+    _nameAvailable = null;
+  }
+
+  /// 1.16e · Kurucu görünürlüğü değiştirir. Başarısızsa false.
+  Future<bool> setVisibility(String id, CommunityVisibility next) async {
+    try {
+      await _repo.setVisibility(id, next);
+      await _reload();
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      notifyListeners();
+    }
+  }
+
   /// Başarısızsa null.
   Future<CommunityInfo?> create({
     required String name,
     required String description,
     required CommunityVisibility visibility,
+    String iconKey = kDefaultCommunityIcon,
   }) async {
     _busy = true;
     notifyListeners();
     try {
+      if (!await _repo.isNameAvailable(name)) {
+        _nameAvailable = false;
+        return null;
+      }
       final info = await _repo.create(
         name: name,
         description: description,
         visibility: visibility,
+        iconKey: iconKey,
       );
       await _reload();
       return info;

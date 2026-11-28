@@ -245,8 +245,21 @@ class MockAuthRepository implements AuthRepository {
 }
 
 class MockCommunityRepository implements CommunityRepository {
-  MockCommunityRepository({Future<SchoolDirectory> Function()? loadSchools})
-    : _loadSchools = loadSchools ?? SchoolDirectory.loadShared;
+  MockCommunityRepository({
+    Future<SchoolDirectory> Function()? loadSchools,
+    DateTime Function()? now,
+    this.seedDemoMembership = false,
+  }) : _loadSchools = loadSchools ?? SchoolDirectory.loadShared,
+       _now = now ?? DateTime.now;
+
+  /// Zaman kaynağı (katılma zamanı damgası; testte sahte saat verilir).
+  final DateTime Function() _now;
+
+  /// true: her yeni kullanıcı demo için "3 saat önce" [_demoCommunityId]
+  /// topluluğuna katılmış başlar ("Yeni" rozeti görünsün).
+  final bool seedDemoMembership;
+  static const String _demoCommunityId = 'yoga';
+  static const Duration _demoJoinedAgo = Duration(hours: 3);
 
   /// Okul rehberi (JSON, bir kez yüklenir).
   final Future<SchoolDirectory> Function() _loadSchools;
@@ -265,6 +278,7 @@ class MockCommunityRepository implements CommunityRepository {
   final Map<String, CommunityInfo> _all = {
     'yurt': const CommunityInfo(
       id: 'yurt',
+      iconKey: 'house',
       name: 'Yıldız Yurt Topluluğu',
       description: 'Yurtta kalanlar için ödünç alma ve verme.',
       memberCount: 86,
@@ -273,6 +287,7 @@ class MockCommunityRepository implements CommunityRepository {
     ),
     'kamp': const CommunityInfo(
       id: 'kamp',
+      iconKey: 'bike',
       name: 'Kamp Kulübü',
       description: 'Kamp malzemelerini paylaşan herkes.',
       memberCount: 42,
@@ -280,24 +295,28 @@ class MockCommunityRepository implements CommunityRepository {
     ),
     'yoga': const CommunityInfo(
       id: 'yoga',
+      iconKey: 'users',
       name: 'Yoga ve Esneme',
       memberCount: 18,
       visibility: CommunityVisibility.open,
     ),
     'istanbul': const CommunityInfo(
       id: 'istanbul',
+      iconKey: 'coffee',
       name: 'İstanbul Gezginleri',
       memberCount: 27,
       visibility: CommunityVisibility.open,
     ),
     'acik': const CommunityInfo(
       id: 'acik',
+      iconKey: 'trophy',
       name: 'Açık Hava Sporları',
       memberCount: 33,
       visibility: CommunityVisibility.open,
     ),
     'proje': const CommunityInfo(
       id: 'proje',
+      iconKey: 'laptop',
       name: 'Proje Ekibi',
       memberCount: 6,
       visibility: CommunityVisibility.secret,
@@ -319,9 +338,13 @@ class MockCommunityRepository implements CommunityRepository {
 
   Set<String> get _mine => _members.putIfAbsent(_userId, () => <String>{});
 
+  /// Kullanıcı kimliği → topluluk → katılma zamanı.
+  final Map<String, Map<String, DateTime>> _joinedAt = {};
+
   CommunityInfo _view(CommunityInfo c) => c.copyWith(
     joined: _mine.contains(c.id),
     isFounder: _founders[c.id] == _userId,
+    joinedAt: _joinedAt[_userId]?[c.id],
   );
 
   @override
@@ -359,8 +382,16 @@ class MockCommunityRepository implements CommunityRepository {
         visibility: CommunityVisibility.schoolOnly,
         schoolId: school.id,
         isSchool: true,
+        iconKey: kSchoolCommunityIcon,
       ),
     );
+    if (!_members.containsKey(userId)) {
+      _members[userId] = <String>{}; // ilk görülen kullanıcı
+      if (seedDemoMembership) {
+        _mine.add(_demoCommunityId);
+        _joinedAt[userId] = {_demoCommunityId: _now().subtract(_demoJoinedAgo)};
+      }
+    }
     _mine.add(school.id); // okul topluluğuna otomatik üye
     final mine = _all.values.where((c) => _mine.contains(c.id)).map(_view);
     final list = mine.toList()
@@ -385,6 +416,7 @@ class MockCommunityRepository implements CommunityRepository {
 
   CommunityInfo _add(CommunityInfo c) {
     _mine.add(c.id);
+    _joinedAt.putIfAbsent(_userId, () => {})[c.id] = _now();
     _all[c.id] = c.copyWith(memberCount: c.memberCount + 1);
     return _view(_all[c.id]!);
   }
@@ -447,12 +479,14 @@ class MockCommunityRepository implements CommunityRepository {
     required String name,
     required String description,
     required CommunityVisibility visibility,
+    String iconKey = kDefaultCommunityIcon,
   }) async {
     await Future<void>.delayed(_latency);
     _seq++;
     final id = 'c$_seq';
     _all[id] = CommunityInfo(
       id: id,
+      iconKey: iconKey,
       name: name.trim(),
       description: description.trim(),
       memberCount: 1,
@@ -468,10 +502,37 @@ class MockCommunityRepository implements CommunityRepository {
   }
 
   @override
+  Future<bool> isNameAvailable(String name) async {
+    final key = TextSearch.normalize(name.trim());
+    return !_all.values.any((c) => TextSearch.normalize(c.name.trim()) == key);
+  }
+
+  @override
+  Future<CommunityInfo> setVisibility(
+    String id,
+    CommunityVisibility next,
+  ) async {
+    await Future<void>.delayed(_latency);
+    final c = _all[id];
+    if (c == null || c.isSchool || _founders[id] != _userId) {
+      throw const CommunityException(CommunityFailure.unknown);
+    }
+    _all[id] = c.withVisibility(
+      next,
+      inviteCode: next == CommunityVisibility.secret
+          ? (c.inviteCode ?? _newCode())
+          : null,
+      schoolId: next == CommunityVisibility.schoolOnly ? _schoolId : null,
+    );
+    return _view(_all[id]!);
+  }
+
+  @override
   Future<void> leave(String id) async {
     await Future<void>.delayed(_latency);
     final c = _all[id];
     if (c == null || c.isSchool || !_mine.remove(id)) return;
+    _joinedAt[_userId]?.remove(id);
     _all[id] = c.copyWith(memberCount: c.memberCount - 1);
   }
 
@@ -482,6 +543,9 @@ class MockCommunityRepository implements CommunityRepository {
     _founders.remove(id);
     for (final set in _members.values) {
       set.remove(id);
+    }
+    for (final times in _joinedAt.values) {
+      times.remove(id);
     }
   }
 }

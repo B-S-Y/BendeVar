@@ -33,6 +33,7 @@ class AppTextField extends StatelessWidget {
     this.maxLength,
     this.focusNode,
     this.enabled = true,
+    this.successText,
   });
 
   final String? label;
@@ -64,6 +65,10 @@ class AppTextField extends StatelessWidget {
 
   /// false: alan pasif (yazılamaz).
   final bool enabled;
+
+  /// Hata yokken alanın altında onay işaretiyle gösterilen kısa not (örn. "Bu
+  /// ad kullanılabilir."). Hata varsa gösterilmez.
+  final String? successText;
 
   @override
   Widget build(BuildContext context) => ShakeOnError(
@@ -162,6 +167,29 @@ class AppTextField extends StatelessWidget {
                 child: Text(
                   errorText!,
                   style: AppTypography.label.copyWith(color: c.errorFg),
+                ),
+              ),
+            ],
+          ),
+        ] else if (successText != null) ...[
+          const SizedBox(height: AppSpacing.sm),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: AppSizes.errorIconNudge),
+                child: Icon(
+                  LucideIcons.check,
+                  size: AppSizes.iconField,
+                  color: c.textSecondary,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Text(
+                  successText!,
+                  key: const Key('field-success'),
+                  style: AppTypography.label.copyWith(color: c.textSecondary),
                 ),
               ),
             ],

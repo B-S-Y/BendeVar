@@ -365,7 +365,9 @@ void main() {
 
     // 1.16e kurucu işlemleri → 1.16f sil.
     await tapKey('founder-c1');
-    expect(find.text('Davet kodunu kopyala'), findsOneWidget);
+    expect(find.text('Kurucu işlemleri'), findsOneWidget);
+    expect(find.text('Kopyala'), findsOneWidget);
+    expect(find.text('Paylaş'), findsOneWidget);
     await tapKey('founder-delete');
     expect(find.text('Topluluğu silmek istiyor musun?'), findsOneWidget);
     await tester.tap(find.text('Topluluğu sil').last);

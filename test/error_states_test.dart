@@ -137,7 +137,7 @@ void main() {
       expect(find.byType(Switch), findsNothing);
       expect(find.byKey(const Key('settings-loading')), findsOneWidget);
       await tester.pump(const Duration(seconds: 1));
-      expect(find.byType(Switch), findsNWidgets(4));
+      expect(find.byType(Switch), findsNWidgets(3));
 
       repo.failSave = true;
       await tester.tap(find.byKey(const Key('notif-messages')));

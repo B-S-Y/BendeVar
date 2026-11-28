@@ -17,7 +17,8 @@ class AppDependencies {
        chats = chats ?? MockChatRepository(),
        notifications = notifications ?? MockNotificationRepository(),
        users = users ?? MockUserRepository(),
-       communities = communities ?? MockCommunityRepository(),
+       communities =
+           communities ?? MockCommunityRepository(seedDemoMembership: true),
        settings = settings ?? MockSettingsRepository();
 
   final AuthRepository auth;

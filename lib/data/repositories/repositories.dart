@@ -106,7 +106,16 @@ abstract class CommunityRepository {
     required String name,
     required String description,
     required CommunityVisibility visibility,
+    String iconKey,
   });
+
+  /// 1.16d · Bu ada sahip başka topluluk yoksa true (büyük/küçük harf ve Türkçe
+  /// karakterden bağımsız).
+  Future<bool> isNameAvailable(String name);
+
+  /// 1.16e · Kurucu görünürlüğü değiştirir. Davet kodu yalnızca gizli türde
+  /// bulunur: gizliye geçince üretilir, başka türe geçince silinir.
+  Future<CommunityInfo> setVisibility(String id, CommunityVisibility next);
 
   /// 1.17 · Topluluktan ayrılır.
   Future<void> leave(String id);

@@ -72,6 +72,8 @@ class AppSizes {
   static const double chipHeight = 40;
   static const double statusCircle = 96;
   static const double badge = 18;
+  static const double radio = 24;
+  static const double radioDot = 12;
   static const double dot = 8;
   static const double headerHeight = 96;
 }

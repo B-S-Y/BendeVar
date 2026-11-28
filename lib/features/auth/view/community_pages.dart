@@ -8,9 +8,12 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/community_icons.dart';
 import '../../../core/widgets/app_buttons.dart';
 import '../../../core/widgets/app_entrance.dart';
+import '../../../core/widgets/app_radio.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/community_icon_tile.dart';
 import '../../../core/widgets/sheets.dart';
 import '../../../core/widgets/small_widgets.dart';
 import '../../../data/models/community_models.dart';
@@ -32,6 +35,13 @@ String _visibilityDesc(AppLocalizations l, CommunityVisibility v) =>
       CommunityVisibility.open => l.visibilityOpenDesc,
       CommunityVisibility.schoolOnly => l.visibilitySchoolDesc,
       CommunityVisibility.secret => l.visibilitySecretDesc,
+    };
+
+String _visibilityHint(AppLocalizations l, CommunityVisibility v) =>
+    switch (v) {
+      CommunityVisibility.open => l.visibilityOpenHint,
+      CommunityVisibility.schoolOnly => l.visibilitySchoolHint,
+      CommunityVisibility.secret => l.visibilitySecretHint,
     };
 
 /// 1.16 · Topluluklarım (arama yazılınca 1.16g sonuçları). 1.16b/c davet kodu
@@ -84,13 +94,26 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
       context: context,
       useRootNavigator: true,
       isScrollControlled: true,
-      builder: (_) => _FounderSheet(community: c),
+      builder: (_) => _FounderSheet(communityId: c.id),
     );
     if (action == null || !mounted) return;
+    // Görünürlük sheet'te değişmiş olabilir: güncel kayıt.
+    final current = context.read<CommunityViewModel>().mine.firstWhere(
+      (m) => m.id == c.id,
+      orElse: () => c,
+    );
     switch (action) {
       case _FounderAction.copyCode:
-        await Clipboard.setData(ClipboardData(text: c.inviteCode ?? ''));
+        await Clipboard.setData(ClipboardData(text: current.inviteCode ?? ''));
         messenger.showSnackBar(SnackBar(content: Text(l.inviteCodeCopied)));
+      case _FounderAction.share:
+        // Paylaşım paketi yok: hazır davet metni panoya kopyalanır.
+        await Clipboard.setData(
+          ClipboardData(
+            text: l.inviteShareText(current.name, current.inviteCode ?? ''),
+          ),
+        );
+        messenger.showSnackBar(SnackBar(content: Text(l.inviteShareCopied)));
       case _FounderAction.delete:
         // 1.16f · Silme onayı.
         final ok = await showConfirmSheet(
@@ -197,6 +220,7 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
               child: _CommunityRow(
                 key: Key('mine-${m.id}'),
                 community: m,
+                isNew: vm.isNew(m),
                 trailing: m.isSchool
                     ? null
                     : m.isFounder
@@ -257,12 +281,21 @@ class _CommunitiesPageState extends State<CommunitiesPage> {
   }
 }
 
-/// Topluluk satırı: baş harfli avatar, ad, "üye · görünürlük", sağda eylem.
+/// Topluluk satırı: seçilen simge, ad (+ "Yeni" rozeti), "üye · görünürlük",
+/// sağda eylem.
 class _CommunityRow extends StatelessWidget {
-  const _CommunityRow({super.key, required this.community, this.trailing});
+  const _CommunityRow({
+    super.key,
+    required this.community,
+    this.trailing,
+    this.isNew = false,
+  });
 
   final CommunityInfo community;
   final Widget? trailing;
+
+  /// Katılalı 24 saatten az: "Yeni" rozeti ve vurgulu çerçeve.
+  final bool isNew;
 
   @override
   Widget build(BuildContext context) {
@@ -276,15 +309,32 @@ class _CommunityRow extends StatelessWidget {
     ].join(' · ');
     final row = Row(
       children: [
-        AppAvatar(initials: community.initials, tone: AvatarTone.info),
+        CommunityIconTile(iconKey: community.iconKey),
         const SizedBox(width: AppSpacing.md),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                community.name,
-                style: AppTypography.bodyStrong.copyWith(color: c.textPrimary),
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      community.name,
+                      style: AppTypography.bodyStrong.copyWith(
+                        color: c.textPrimary,
+                      ),
+                    ),
+                  ),
+                  if (isNew) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    StatusPill(
+                      key: Key('new-${community.id}'),
+                      label: l.communityNewBadge,
+                      fg: c.onPrimary,
+                      bg: c.accent,
+                    ),
+                  ],
+                ],
               ),
               Text(
                 info,
@@ -299,16 +349,19 @@ class _CommunityRow extends StatelessWidget {
         ],
       ],
     );
+    final framed = community.isSchool || isNew;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      child: community.isSchool
+      child: framed
           ? Container(
-              key: const Key('school-row-frame'),
+              key: Key(
+                community.isSchool ? 'school-row-frame' : 'new-row-frame',
+              ),
               padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 borderRadius: AppRadius.cardLargeR,
                 border: Border.all(
-                  color: c.secondaryBorder,
+                  color: community.isSchool ? c.secondaryBorder : c.accent,
                   width: AppSizes.borderStrong,
                 ),
               ),
@@ -319,20 +372,35 @@ class _CommunityRow extends StatelessWidget {
   }
 }
 
-enum _FounderAction { copyCode, delete }
+enum _FounderAction { copyCode, share, delete }
 
-/// 1.16e · Kurucu işlemleri.
+/// 1.16e · Kurucu işlemleri: davet kodu (Kopyala, Paylaş), "Kim görebilir?"
+/// (değişince hemen kaydedilir), Kapat, Topluluğu sil. Davet kodu yalnızca
+/// gizli topluluklarda vardır.
 class _FounderSheet extends StatelessWidget {
-  const _FounderSheet({required this.community});
+  const _FounderSheet({required this.communityId});
 
-  final CommunityInfo community;
+  final String communityId;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final l = AppLocalizations.of(context);
+    final vm = context.watch<CommunityViewModel>();
+    final community = vm.mine.where((m) => m.id == communityId).firstOrNull;
+    if (community == null) return const SizedBox.shrink();
+    final code = community.inviteCode;
+
+    Future<void> setVisibility(CommunityVisibility v) async {
+      if (v == community.visibility) return;
+      final messenger = ScaffoldMessenger.of(context);
+      if (!await vm.setVisibility(community.id, v)) {
+        showActionFailed(messenger, l, () => setVisibility(v));
+      }
+    }
+
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(
           AppSpacing.screen,
           0,
@@ -344,33 +412,184 @@ class _FounderSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SheetHandle(),
-            Text(
-              community.name,
-              style: AppTypography.title2.copyWith(color: c.textPrimary),
+            Row(
+              children: [
+                CommunityIconTile(iconKey: community.iconKey),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l.founderActionsTitle,
+                        style: AppTypography.title2.copyWith(
+                          color: c.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        community.name,
+                        style: AppTypography.body.copyWith(
+                          color: c.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            if (community.inviteCode != null) ...[
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                community.inviteCode!,
-                style: AppTypography.body.copyWith(color: c.textSecondary),
+            if (code != null) ...[
+              const SizedBox(height: AppSpacing.lg),
+              Container(
+                key: const Key('founder-code-card'),
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: c.card,
+                  borderRadius: AppRadius.cardLargeR,
+                  border: Border.all(color: c.cardBorder),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.inviteCodeLabel,
+                      style: AppTypography.body.copyWith(
+                        color: c.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: AppSpacing.sm,
+                      runSpacing: AppSpacing.sm,
+                      children: [
+                        Text(
+                          code,
+                          key: const Key('founder-code'),
+                          style: AppTypography.title1.copyWith(
+                            color: c.textPrimary,
+                            letterSpacing: AppSpacing.xs,
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SecondaryButton(
+                              key: const Key('founder-copy'),
+                              label: l.inviteCopyAction,
+                              small: true,
+                              expand: false,
+                              onPressed: () => Navigator.pop(
+                                context,
+                                _FounderAction.copyCode,
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            SecondaryButton(
+                              key: const Key('founder-share'),
+                              label: l.inviteShareAction,
+                              small: true,
+                              expand: false,
+                              onPressed: () =>
+                                  Navigator.pop(context, _FounderAction.share),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
-            const SizedBox(height: AppSpacing.sm),
-            // Davet kodu yalnızca gizli topluluklarda var.
-            if (community.inviteCode != null)
-              SettingsRow(
-                key: const Key('founder-copy'),
-                icon: LucideIcons.copy,
-                label: l.copyInviteCode,
-                onTap: () => Navigator.pop(context, _FounderAction.copyCode),
-              ),
-            SettingsRow(
-              key: const Key('founder-delete'),
-              icon: LucideIcons.trash2,
-              label: l.deleteCommunity,
-              destructive: true,
-              onTap: () => Navigator.pop(context, _FounderAction.delete),
+            const SizedBox(height: AppSpacing.lg),
+            Text(
+              l.communityVisibilityLabel,
+              style: AppTypography.label.copyWith(color: c.textPrimary),
             ),
+            const SizedBox(height: AppSpacing.sm),
+            _VisibilitySegments(
+              value: community.visibility,
+              onChanged: setVisibility,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              _visibilityHint(l, community.visibility),
+              key: const Key('founder-visibility-hint'),
+              style: AppTypography.caption.copyWith(color: c.textSecondary),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            PrimaryButton(
+              key: const Key('founder-close'),
+              label: l.close,
+              onPressed: () => Navigator.pop(context),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DangerButton(
+              key: const Key('founder-delete'),
+              label: l.deleteCommunity,
+              onPressed: () => Navigator.pop(context, _FounderAction.delete),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Üçlü seçici (1.16e): Açık / Okula özel / Gizli.
+class _VisibilitySegments extends StatelessWidget {
+  const _VisibilitySegments({required this.value, required this.onChanged});
+
+  final CommunityVisibility value;
+  final ValueChanged<CommunityVisibility> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final l = AppLocalizations.of(context);
+    return ClipRRect(
+      borderRadius: AppRadius.buttonR,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: c.card,
+          border: Border.all(color: c.primary, width: AppSizes.borderWidth),
+          borderRadius: AppRadius.buttonR,
+        ),
+        child: Row(
+          children: [
+            for (final v in CommunityVisibility.values)
+              Expanded(
+                child: Semantics(
+                  button: true,
+                  selected: v == value,
+                  child: Material(
+                    color: v == value ? c.primary : c.card,
+                    child: InkWell(
+                      key: Key('segment-${v.name}'),
+                      onTap: () => onChanged(v),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minHeight: AppSizes.buttonHeight,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.xs,
+                          ),
+                          child: Center(
+                            child: Text(
+                              _visibilityLabel(l, v),
+                              textAlign: TextAlign.center,
+                              style: AppTypography.bodyStrong.copyWith(
+                                color: v == value ? c.onPrimary : c.textPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -589,14 +808,19 @@ class CreateCommunityPage extends StatefulWidget {
 
 class _CreateCommunityPageState extends State<CreateCommunityPage> {
   final _name = TextEditingController();
-  final _desc = TextEditingController();
   CommunityVisibility _visibility = CommunityVisibility.open;
+  String _iconKey = kDefaultCommunityIcon;
   bool _showErrors = false;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CommunityViewModel>().resetNameCheck();
+  }
 
   @override
   void dispose() {
     _name.dispose();
-    _desc.dispose();
     super.dispose();
   }
 
@@ -608,14 +832,17 @@ class _CreateCommunityPageState extends State<CreateCommunityPage> {
     final l = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final router = GoRouter.of(context);
-    final created = await context.read<CommunityViewModel>().create(
+    final vm = context.read<CommunityViewModel>();
+    final created = await vm.create(
       name: _name.text,
-      description: _desc.text,
+      description: '',
       visibility: _visibility,
+      iconKey: _iconKey,
     );
     if (!mounted) return;
     if (created == null) {
-      showActionFailed(messenger, l, _create);
+      // Ad kullanımdaysa hata alanın altında zaten görünür.
+      if (vm.nameAvailable != false) showActionFailed(messenger, l, _create);
       return;
     }
     router.pop();
@@ -626,60 +853,218 @@ class _CreateCommunityPageState extends State<CreateCommunityPage> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final l = AppLocalizations.of(context);
-    final busy = context.watch<CommunityViewModel>().busy;
+    final vm = context.watch<CommunityViewModel>();
+    final busy = vm.busy;
+    final taken = vm.nameAvailable == false;
 
     return SettingsScaffold(
       title: l.createCommunityTitle,
-      child: ListView(
-        padding: settingsListPadding(context),
+      child: Column(
         children: [
-          AppTextField(
-            fieldKey: const Key('community-name'),
-            label: l.communityNameLabel,
-            hint: l.communityNameHint,
-            controller: _name,
-            textInputAction: TextInputAction.next,
-            errorText: _showErrors && !CommunityViewModel.validName(_name.text)
-                ? l.communityNameError
-                : null,
-            onChanged: (_) => setState(() {}),
+          Expanded(
+            child: ListView(
+              padding: settingsListPadding(context),
+              children: [
+                AppTextField(
+                  fieldKey: const Key('community-name'),
+                  label: l.communityNameLabel,
+                  hint: l.communityNameHint,
+                  controller: _name,
+                  textInputAction: TextInputAction.done,
+                  errorText: taken
+                      ? l.communityNameTaken
+                      : _showErrors && !CommunityViewModel.validName(_name.text)
+                      ? l.communityNameError
+                      : null,
+                  // Ad boşsa ya da kısaysa gösterilmez.
+                  successText: vm.nameAvailable == true
+                      ? l.communityNameAvailable
+                      : null,
+                  onChanged: (v) {
+                    setState(() {});
+                    vm.checkName(v);
+                  },
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                Text(
+                  l.communityIconLabel,
+                  style: AppTypography.label.copyWith(color: c.textPrimary),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                _IconGrid(
+                  selected: _iconKey,
+                  onSelected: (k) => setState(() => _iconKey = k),
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                Text(
+                  l.communityVisibilityLabel,
+                  style: AppTypography.label.copyWith(color: c.textPrimary),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                for (final v in CommunityVisibility.values)
+                  _VisibilityCard(
+                    key: Key('visibility-${v.name}'),
+                    label: _visibilityLabel(l, v),
+                    description: _visibilityDesc(l, v),
+                    selected: v == _visibility,
+                    onTap: () => setState(() => _visibility = v),
+                  ),
+              ],
+            ),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          AppTextField(
-            fieldKey: const Key('community-desc'),
-            label: l.communityDescLabel,
-            hint: l.communityDescHint,
-            controller: _desc,
-            minLines: 2,
-            maxLines: 4,
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          SectionLabel(l.communityVisibilityLabel),
-          for (final v in CommunityVisibility.values)
-            SettingsRow(
-              key: Key('visibility-${v.name}'),
-              icon: switch (v) {
-                CommunityVisibility.open => LucideIcons.globe,
-                CommunityVisibility.schoolOnly => LucideIcons.graduationCap,
-                CommunityVisibility.secret => LucideIcons.lock,
-              },
-              label: _visibilityLabel(l, v),
-              description: _visibilityDesc(l, v),
-              onTap: () => setState(() => _visibility = v),
-              trailing: Icon(
-                v == _visibility ? LucideIcons.circleCheck : LucideIcons.circle,
-                size: AppSizes.iconAppBar,
-                color: v == _visibility ? c.primary : c.textSecondary,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: c.background,
+              border: Border(top: BorderSide(color: c.divider)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screen,
+                AppSpacing.lg,
+                AppSpacing.screen,
+                AppSpacing.lg + MediaQuery.paddingOf(context).bottom,
+              ),
+              child: PrimaryButton(
+                key: const Key('create-submit'),
+                label: l.communityCreateSubmit,
+                loading: busy,
+                onPressed: busy ? null : _create,
               ),
             ),
-          const SizedBox(height: AppSpacing.xxl),
-          PrimaryButton(
-            key: const Key('create-submit'),
-            label: l.createCommunity,
-            loading: busy,
-            onPressed: busy ? null : _create,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// 6×2 simge ızgarası (1.16d). Seçili: açık mavi dolgu + lacivert çerçeve.
+class _IconGrid extends StatelessWidget {
+  const _IconGrid({required this.selected, required this.onSelected});
+
+  final String selected;
+  final ValueChanged<String> onSelected;
+
+  /// Izgara sütun sayısı (görselde 6×2).
+  static const int columns = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: kCommunityIconKeys.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columns,
+        mainAxisSpacing: AppSpacing.sm,
+        crossAxisSpacing: AppSpacing.sm,
+        mainAxisExtent: AppSizes.buttonHeight,
+      ),
+      itemBuilder: (_, i) {
+        final key = kCommunityIconKeys[i];
+        final on = key == selected;
+        return Semantics(
+          button: true,
+          selected: on,
+          child: Material(
+            color: on ? c.infoBg : c.card,
+            shape: RoundedRectangleBorder(
+              borderRadius: AppRadius.buttonR,
+              side: BorderSide(
+                color: on ? c.primary : c.cardBorder,
+                width: on ? AppSizes.focusRing : AppSizes.borderWidth,
+              ),
+            ),
+            child: InkWell(
+              key: Key('icon-$key'),
+              customBorder: RoundedRectangleBorder(
+                borderRadius: AppRadius.buttonR,
+              ),
+              onTap: () => onSelected(key),
+              child: Center(
+                child: Icon(
+                  communityIcon(key),
+                  size: AppSizes.iconAppBar,
+                  color: c.primary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// "Kim görebilir?" seçeneği: radyo + ad + açıklama. Seçili: kalın lacivert
+/// çerçeve.
+class _VisibilityCard extends StatelessWidget {
+  const _VisibilityCard({
+    super.key,
+    required this.label,
+    required this.description,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final String description;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+      child: Semantics(
+        inMutuallyExclusiveGroup: true,
+        checked: selected,
+        child: Material(
+          color: c.card,
+          shape: RoundedRectangleBorder(
+            borderRadius: AppRadius.cardLargeR,
+            side: BorderSide(
+              color: selected ? c.primary : c.cardBorder,
+              width: selected ? AppSizes.focusRing : AppSizes.borderWidth,
+            ),
+          ),
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: AppRadius.cardLargeR,
+            ),
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Row(
+                children: [
+                  AppRadioDot(selected: selected),
+                  const SizedBox(width: AppSpacing.lg),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: AppTypography.bodyStrong.copyWith(
+                            color: c.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          description,
+                          style: AppTypography.body.copyWith(
+                            color: c.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

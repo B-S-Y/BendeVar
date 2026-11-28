@@ -23,6 +23,8 @@ class CommunityInfo {
     this.isFounder = false,
     this.joined = false,
     this.inviteCode,
+    this.iconKey = kDefaultCommunityIcon,
+    this.joinedAt,
   });
 
   final String id;
@@ -43,26 +45,90 @@ class CommunityInfo {
   /// özel: aynı okulun üyeleri katılır; ikisinde kod yok).
   final String? inviteCode;
 
+  /// Simge anahtarı (1.16d); `core/utils/community_icons.dart` ikona çevirir.
+  final String iconKey;
+
+  /// Bu kullanıcının katılma zamanı (1.16 "Yeni" rozeti). Kuran ve okul
+  /// topluluğu için boş.
+  final DateTime? joinedAt;
+
+  /// Katılalı [kNewBadgeDuration]'dan az geçtiyse true.
+  bool isNew(DateTime now) =>
+      joinedAt != null && now.difference(joinedAt!) < kNewBadgeDuration;
+
   /// "Yıldız Teknik" → "YT".
   String get initials {
     final words = name.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty);
     return words.take(2).map((w) => w[0].toUpperCase()).join();
   }
 
-  CommunityInfo copyWith({bool? joined, int? memberCount, bool? isFounder}) =>
-      CommunityInfo(
-        id: id,
-        name: name,
-        description: description,
-        memberCount: memberCount ?? this.memberCount,
-        visibility: visibility,
-        schoolId: schoolId,
-        isSchool: isSchool,
-        isFounder: isFounder ?? this.isFounder,
-        joined: joined ?? this.joined,
-        inviteCode: inviteCode,
-      );
+  CommunityInfo copyWith({
+    bool? joined,
+    int? memberCount,
+    bool? isFounder,
+    DateTime? joinedAt,
+  }) => CommunityInfo(
+    id: id,
+    name: name,
+    description: description,
+    memberCount: memberCount ?? this.memberCount,
+    visibility: visibility,
+    schoolId: schoolId,
+    isSchool: isSchool,
+    isFounder: isFounder ?? this.isFounder,
+    joined: joined ?? this.joined,
+    inviteCode: inviteCode,
+    iconKey: iconKey,
+    joinedAt: joinedAt ?? this.joinedAt,
+  );
+
+  /// Görünürlüğü değiştirir (1.16e). Davet kodu ve okul bağı yeni türe göre
+  /// verilir; boş geçmek siler.
+  CommunityInfo withVisibility(
+    CommunityVisibility next, {
+    String? inviteCode,
+    String? schoolId,
+  }) => CommunityInfo(
+    id: id,
+    name: name,
+    description: description,
+    memberCount: memberCount,
+    visibility: next,
+    schoolId: schoolId,
+    isSchool: isSchool,
+    isFounder: isFounder,
+    joined: joined,
+    inviteCode: inviteCode,
+    iconKey: iconKey,
+    joinedAt: joinedAt,
+  );
 }
+
+/// 1.16d simge ızgarası: görseldeki sırayla 12 Lucide simgesinin anahtarı
+/// (6×2).
+const List<String> kCommunityIconKeys = [
+  'book-open',
+  'coffee',
+  'house',
+  'laptop',
+  'gamepad-2',
+  'trophy',
+  'music',
+  'palette',
+  'utensils',
+  'bike',
+  'flask-conical',
+  'users',
+];
+
+/// Okul topluluğunun simgesi; seçim ızgarasında yok.
+const String kSchoolCommunityIcon = 'graduation-cap';
+
+/// Simge seçilmediğinde kullanılan anahtar (1.16d listesinin ilk simgesi).
+const String kDefaultCommunityIcon = 'book-open';
+
+/// "Yeni" rozeti, katılımdan sonra bu süre boyunca görünür (1.16).
+const Duration kNewBadgeDuration = Duration(hours: 24);
 
 /// Davet kodu: yalnızca rakam, 6 hane (ön ek yok).
 const int kInviteCodeLength = 6;

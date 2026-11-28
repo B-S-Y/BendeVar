@@ -4,9 +4,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_buttons.dart';
+import '../../../core/widgets/app_radio.dart';
 import '../../../core/widgets/sheets.dart';
 import '../../../core/widgets/small_widgets.dart';
 import '../../../data/models/settings_models.dart';
@@ -105,30 +107,6 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
     final vm = context.watch<SettingsViewModel>();
     final p = vm.prefs;
 
-    Widget toggle({
-      required Key key,
-      required IconData icon,
-      required String label,
-      required String description,
-      required bool value,
-      required ValueChanged<bool> onChanged,
-    }) => SettingsRow(
-      icon: icon,
-      label: label,
-      description: description,
-      onTap: () => onChanged(!value),
-      trailing: Switch(
-        key: key,
-        value: value,
-        onChanged: onChanged,
-        activeTrackColor: c.primary,
-        activeThumbColor: c.onPrimary,
-        inactiveTrackColor: c.silver,
-        inactiveThumbColor: c.card,
-        trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
-      ),
-    );
-
     // Ayarlar yüklenene kadar anahtarlar gösterilmez.
     if (!vm.loadedPrefs) {
       return SettingsScaffold(
@@ -146,44 +124,211 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
       }
     }
 
+    final timings = {
+      ReminderTiming.twoDaysBefore: l.notifRemindTwoDays,
+      ReminderTiming.dayBeforeAndDay: l.notifRemindDayBefore,
+      ReminderTiming.dayOf: l.notifRemindDayOf,
+    };
+
     return SettingsScaffold(
       title: l.notificationSettings,
       child: ListView(
         padding: settingsListPadding(context),
         children: staggerRows([
-          toggle(
-            key: const Key('notif-messages'),
-            icon: LucideIcons.messageCircle,
-            label: l.notifMessages,
-            description: l.notifMessagesDesc,
-            value: p.messages,
-            onChanged: (v) => save(p.copyWith(messages: v)),
-          ),
-          toggle(
-            key: const Key('notif-responses'),
-            icon: LucideIcons.handHelping,
+          _PrefSwitchRow(
+            switchKey: const Key('notif-responses'),
             label: l.notifResponses,
             description: l.notifResponsesDesc,
             value: p.responses,
             onChanged: (v) => save(p.copyWith(responses: v)),
           ),
-          toggle(
-            key: const Key('notif-reminders'),
-            icon: LucideIcons.clockAlert,
+          Divider(color: c.divider, height: AppSizes.borderWidth),
+          _PrefSwitchRow(
+            switchKey: const Key('notif-messages'),
+            label: l.notifMessages,
+            description: l.notifMessagesDesc,
+            value: p.messages,
+            onChanged: (v) => save(p.copyWith(messages: v)),
+          ),
+          Divider(color: c.divider, height: AppSizes.borderWidth),
+          _PrefSwitchRow(
+            switchKey: const Key('notif-reminders'),
             label: l.notifReminders,
             description: l.notifRemindersDesc,
             value: p.reminders,
             onChanged: (v) => save(p.copyWith(reminders: v)),
           ),
-          toggle(
-            key: const Key('notif-announcements'),
-            icon: LucideIcons.megaphone,
-            label: l.notifAnnouncements,
-            description: l.notifAnnouncementsDesc,
-            value: p.announcements,
-            onChanged: (v) => save(p.copyWith(announcements: v)),
-          ),
+          // Hatırlatma zamanı yalnızca iade hatırlatması açıkken.
+          if (p.reminders)
+            _TimingGroup(
+              title: l.notifRemindWhen,
+              children: [
+                for (final e in timings.entries)
+                  _TimingOption(
+                    key: Key('remind-${e.key.name}'),
+                    label: e.value,
+                    selected: p.reminderTiming == e.key,
+                    onTap: () => save(p.copyWith(reminderTiming: e.key)),
+                  ),
+              ],
+            ),
         ]),
+      ),
+    );
+  }
+}
+
+/// Düz anahtar satırı (1.18): başlık, açıklama, sağda anahtar.
+class _PrefSwitchRow extends StatelessWidget {
+  const _PrefSwitchRow({
+    required this.switchKey,
+    required this.label,
+    required this.description,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final Key switchKey;
+  final String label;
+  final String description;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return InkWell(
+      onTap: () => onChanged(!value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: AppTypography.bodyStrong.copyWith(
+                      color: c.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    description,
+                    style: AppTypography.caption.copyWith(
+                      color: c.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Switch(
+              key: switchKey,
+              value: value,
+              onChanged: onChanged,
+              activeTrackColor: c.primary,
+              activeThumbColor: c.onPrimary,
+              inactiveTrackColor: c.silver,
+              inactiveThumbColor: c.card,
+              trackOutlineColor: const WidgetStatePropertyAll(
+                Colors.transparent,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Başlığı çerçevenin üst çizgisine oturan seçenek grubu ("Ne zaman
+/// hatırlatalım?").
+class _TimingGroup extends StatelessWidget {
+  const _TimingGroup({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.md),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(top: AppSpacing.md),
+            padding: const EdgeInsets.only(top: AppSpacing.md),
+            decoration: BoxDecoration(
+              borderRadius: AppRadius.cardLargeR,
+              border: Border.all(color: c.cardBorder),
+            ),
+            child: Column(children: children),
+          ),
+          Positioned(
+            left: AppSpacing.lg,
+            top: 0,
+            child: Container(
+              color: c.background,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+              child: Text(
+                title,
+                key: const Key('remind-title'),
+                style: AppTypography.label.copyWith(color: c.textSecondary),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Radyo seçeneği satırı.
+class _TimingOption extends StatelessWidget {
+  const _TimingOption({
+    super.key,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Semantics(
+      inMutuallyExclusiveGroup: true,
+      checked: selected,
+      child: InkWell(
+        onTap: onTap,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: AppSizes.tapTarget),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                AppRadioDot(selected: selected),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: AppTypography.body.copyWith(color: c.textPrimary),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
